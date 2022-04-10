@@ -1,7 +1,6 @@
 package com.controller;
 
 
-
 import com.respond.employee.EmployeeDB;
 import com.respond.employee.EmployeeLoginRespond;
 import com.respond.employee.IEmployeeDB;
@@ -19,22 +18,23 @@ import java.util.List;
 public class EmployeeDelegationController {
     private IDelegationDB _delegationDB;
     private IEmployeeDB _employeeDB;
-    public EmployeeDelegationController(){
-        _delegationDB=new DelegationDB();
-        _employeeDB=new EmployeeDB();
+
+    public EmployeeDelegationController() {
+        _delegationDB = new DelegationDB();
+        _employeeDB = new EmployeeDB();
     }
 
     @GetMapping("/employee/login/{name}/{password}")
-    public EmployeeLoginRespond getLogin(@PathVariable String name, @PathVariable String password){
+    public EmployeeLoginRespond getLogin(@PathVariable String name, @PathVariable String password) {
         //采取极其不安全的把密码写在url里的方式
-        if(_employeeDB.checkEmployee(name,password)){
-            return new EmployeeLoginRespond(name,password,true);
+        if (_employeeDB.checkEmployee(name, password)) {
+            return new EmployeeLoginRespond(name, password, true);
         }
-        return new EmployeeLoginRespond(name,password,false);
+        return new EmployeeLoginRespond(name, password, false);
     }
 
     @GetMapping("employee/home/delegation/audit")
-    public EmployeeDelegationAuditRespond getAudit(){
+    public EmployeeDelegationAuditRespond getAudit() {
         return new EmployeeDelegationAuditRespond(_delegationDB.getQueuingDelegations());
     }
 }
