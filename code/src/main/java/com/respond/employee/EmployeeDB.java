@@ -3,13 +3,13 @@ package com.respond.employee;
 import java.util.*;
 
 public class EmployeeDB implements IEmployeeDB {
-    private final List<Employee> _employees=new ArrayList<>();
+    private final List<Employee> _employees = new ArrayList<>();
 
     public EmployeeDB() {
-        _employees.add(new Employee("LHK","LHK123"));
-        _employees.add(new Employee("LRB","LRB123"));
-        _employees.add(new Employee("ZLJ","ZLJ123"));
-        _employees.add(new Employee("CNT","CNT123"));
+        _employees.add(new Employee("LHK", "LHK123"));
+        _employees.add(new Employee("LRB", "LRB123"));
+        _employees.add(new Employee("ZLJ", "ZLJ123"));
+        _employees.add(new Employee("CNT", "CNT123"));
     }
 
     @Override
