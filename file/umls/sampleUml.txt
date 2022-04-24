@@ -1,0 +1,94 @@
+@startuml
+actor 用户 as usr
+boundary 用户接口 as usrApi
+database 后端 as db
+boundary 管理员接口 as adminApi
+actor 管理员 as admin
+==上传样品==
+usr->admin:线下提交其他形式的样品
+usr->usrApi:登录
+activate usrApi
+usr->usrApi:上传样品文件\n填写样品运行平台\n填写其他支持性数据
+||45||
+usr->usrApi:确认提交
+usrApi-->usr:上传成功
+usrApi->db:存储文件
+activate db
+destroy usrApi
+note over db:样品被标记为待验收
+db->adminApi:收到新样品
+adminApi->admin:通知管理员\n有样品待验收
+==验收样品==
+loop 验收样品
+    admin->adminApi:登录
+    activate adminApi
+    group 获取样品
+        admin->adminApi:获取样品
+        adminApi->db:请求样品
+        db->adminApi:发送样品
+        adminApi->admin:发送样品
+    end
+    ...线下验收...
+    alt 样品验收完毕
+        admin->adminApi:在网站上确认样品已验收
+        adminApi->db:样品已验收
+    else 样品需要修改
+        admin->adminApi:通知用户样品需要修改
+        adminApi->db:样品需要修改
+        note over db:样品被标记为待修改
+        db->usrApi:通知用户\n有样品待修改
+        usrApi->usr:通知用户\n有样品待修改
+        group 修改样品
+            usr->admin:线下提交其他形式的样品
+            usr->usrApi:登录
+            activate usrApi
+            usr->usrApi:上传样品文件\n填写样品运行平台\n填写其他支持性数据
+            ||45||
+            usr->usrApi:确认提交
+            usrApi-->usr:上传成功
+            usrApi->db:存储文件
+            note over db:样品被标记为待验收
+            destroy usrApi
+        end
+    end
+end
+destroy adminApi
+note over usr,admin:验收成功
+note over db:样品被标记为已接受
+==处置样品==
+||45||
+...执行软件测试...
+||45||
+note over usr,admin:软件测试结束
+...样品保存时间满6年...
+alt 归还样品
+    admin->usr:线下归还非电子形式样品
+    admin->adminApi:登录
+    activate adminApi
+    admin->adminApi:点击归还电子样品
+    adminApi-->admin:二次确认
+    admin-->adminApi:确认归还
+    adminApi->db:归还样品
+    note over db:销毁电子版样品
+    ||45||
+    note over db:样品被标记为已归还
+    db-->adminApi:样品已归还
+    adminApi-->admin:样品已归还
+    destroy adminApi
+else 销毁样品
+    admin->admin:线下销毁非电子形式样品
+    admin->adminApi:登录
+    activate adminApi
+    admin->adminApi:点击销毁电子样品
+    adminApi-->admin:二次确认
+    admin-->adminApi:确认销毁
+    adminApi->db:销毁样品
+    note over db:销毁电子版样品
+    ||45||
+    note over db:样品被标记为已销毁
+    db-->adminApi:样品已销毁
+    adminApi-->admin:样品已销毁
+    destroy adminApi
+end
+destroy db
+@enduml
