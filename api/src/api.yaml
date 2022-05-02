@@ -1,0 +1,200 @@
+openapi: "3.0.1"
+info:
+  title: "NJUTestsSystem"
+  description: ""
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8000
+paths:
+  /login:
+    post:
+      summary: "登录"
+      operationId: login
+      x-apifox-folder: "GatewayApi"
+      x-apifox-status: "developing"
+      deprecated: false
+      description: ""
+      tags:
+        - "GatewayApi"
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: ""
+              type: "object"
+              properties:
+                usrname:
+                  type: "string"
+                password:
+                  type: "string"
+              x-apifox-orders:
+                - "01G1ZQ8K5NRXPVZYKSWHYASMY7"
+              required:
+                - "usrname"
+                - "password"
+              x-apifox-refs:
+                "01G1ZQ8K5NRXPVZYKSWHYASMY7":
+                  $ref: "#/components/schemas/登录"
+                  x-apifox-overrides: {}
+              x-apifox-ignore-properties:
+                - "usrname"
+                - "password"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  token:
+                    type: "string"
+                  usrid:
+                    type: "string"
+                  identity:
+                    type: "string"
+                x-apifox-orders:
+                  - "01G1ZQCPEK6CSXYDP6KPCD746F"
+                required:
+                  - "token"
+                  - "usrid"
+                  - "identity"
+                x-apifox-refs:
+                  "01G1ZQCPEK6CSXYDP6KPCD746F":
+                    $ref: "#/components/schemas/登录成功"
+                    x-apifox-overrides: {}
+                x-apifox-ignore-properties:
+                  - "token"
+                  - "usrid"
+                  - "identity"
+              examples: {}
+        "400":
+          description: "用户名或密码不正确"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties: {}
+                x-apifox-ignore-properties: []
+                x-apifox-orders: []
+              examples: {}
+  /register:
+    post:
+      summary: "用户注册"
+      operationId: usrRegister
+      x-apifox-folder: "GatewayApi"
+      x-apifox-status: "developing"
+      deprecated: false
+      description: ""
+      tags:
+        - "GatewayApi"
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: ""
+              type: "object"
+              properties:
+                usrname:
+                  type: "string"
+                password:
+                  type: "string"
+                email:
+                  type: "string"
+              x-apifox-orders:
+                - "01G1ZQW5JHMY6HX7SBHES45G20"
+              required:
+                - "usrname"
+                - "password"
+                - "email"
+              x-apifox-refs:
+                "01G1ZQW5JHMY6HX7SBHES45G20":
+                  $ref: "#/components/schemas/用户注册"
+                  x-apifox-overrides: {}
+              x-apifox-ignore-properties:
+                - "usrname"
+                - "password"
+                - "email"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties: {}
+                x-apifox-ignore-properties: []
+                x-apifox-orders: []
+              examples: {}
+        "400":
+          description: "失败"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  reason:
+                    type: "string"
+                x-apifox-orders:
+                  - "reason"
+                required:
+                  - "reason"
+                x-apifox-ignore-properties: []
+              examples: {}
+components:
+  schemas:
+    DengLuChengGong:
+      type: "object"
+      properties:
+        token:
+          type: "string"
+        usrid:
+          type: "string"
+        identity:
+          type: "string"
+      x-apifox-orders:
+        - "token"
+        - "usrid"
+        - "identity"
+      required:
+        - "token"
+        - "usrid"
+        - "identity"
+      x-apifox-ignore-properties: []
+      x-apifox-folder: ""
+    DengLu:
+      type: "object"
+      properties:
+        usrname:
+          type: "string"
+        password:
+          type: "string"
+      x-apifox-orders:
+        - "usrname"
+        - "password"
+      required:
+        - "usrname"
+        - "password"
+      x-apifox-ignore-properties: []
+      x-apifox-folder: ""
+    YongHuZhuCe:
+      type: "object"
+      properties:
+        usrname:
+          type: "string"
+        password:
+          type: "string"
+        email:
+          type: "string"
+      x-apifox-orders:
+        - "usrname"
+        - "password"
+        - "email"
+      required:
+        - "usrname"
+        - "password"
+        - "email"
+      x-apifox-ignore-properties: []
+      x-apifox-folder: ""
