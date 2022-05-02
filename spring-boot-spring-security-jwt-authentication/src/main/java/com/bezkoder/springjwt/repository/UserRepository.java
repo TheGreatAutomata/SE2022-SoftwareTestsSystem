@@ -2,6 +2,10 @@ package com.bezkoder.springjwt.repository;
 
 import java.util.Optional;
 
+import com.bezkoder.springjwt.mapper.UserMapper;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +18,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
   Boolean existsByUsername(String username);
 
   Boolean existsByEmail(String email);
+
 }
