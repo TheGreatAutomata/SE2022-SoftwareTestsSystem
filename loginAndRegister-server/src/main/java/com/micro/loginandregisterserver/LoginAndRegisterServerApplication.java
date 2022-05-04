@@ -1,4 +1,4 @@
-package com.example.loginandregisterserver;
+package com.micro.loginandregisterserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

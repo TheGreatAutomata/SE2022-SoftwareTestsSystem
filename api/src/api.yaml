@@ -35,7 +35,7 @@ paths:
                 - "password"
               x-apifox-refs:
                 "01G1ZQ8K5NRXPVZYKSWHYASMY7":
-                  $ref: "#/components/schemas/登录"
+                  $ref: "#/components/schemas/Denglu"
                   x-apifox-overrides: {}
               x-apifox-ignore-properties:
                 - "usrname"
@@ -62,7 +62,7 @@ paths:
                   - "identity"
                 x-apifox-refs:
                   "01G1ZQCPEK6CSXYDP6KPCD746F":
-                    $ref: "#/components/schemas/登录成功"
+                    $ref: "#/components/schemas/DengLuChengGong"
                     x-apifox-overrides: {}
                 x-apifox-ignore-properties:
                   - "token"
@@ -111,7 +111,7 @@ paths:
                 - "email"
               x-apifox-refs:
                 "01G1ZQW5JHMY6HX7SBHES45G20":
-                  $ref: "#/components/schemas/用户注册"
+                  $ref: "#/components/schemas/YongHuZhuCe"
                   x-apifox-overrides: {}
               x-apifox-ignore-properties:
                 - "usrname"

@@ -1,0 +1,20 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: gateway-server
+  cloud:
+    gateway:
+      routes:
+        - id: loginAndRegister-server
+          uri: lb://loginAndRegister-server
+          predicates:
+            - Path=/login
+eureka:
+  instance:
+    hostname: localhost
+  # standalone mode
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8002/eureka/
+
