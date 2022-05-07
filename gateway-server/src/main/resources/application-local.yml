@@ -10,6 +10,16 @@ spring:
           uri: lb://loginAndRegister-server
           predicates:
             - Path=/login
+        - id: delegation-server-post
+          uri: lb://delegation-server
+          predicates:
+            - Path=/delegation,/audit/delegation/{id}
+            - Method=POST
+        - id: delegation-server-get
+          uri: lb://delegation-server
+          predicates:
+            - Path=/delegation/{id},/delegations
+            - Method=GET
 eureka:
   instance:
     hostname: localhost

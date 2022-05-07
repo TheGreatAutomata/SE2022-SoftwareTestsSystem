@@ -8,6 +8,22 @@ servers:
   - url: http://localhost:8000
 paths:
   /delegation:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
     post:
       summary: creat delegation
       operationId: creatDelegation
@@ -25,20 +41,134 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  delegationId:
-                    type: string
+                type: string
         '400':
           description: error
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  errorInfo:
-                    type: string
-
+                type: string
+  /delegation/{id}:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: findDelegation
+      tags:
+        - delegation
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/delegationItem"
+        '404':
+          description: delegation not found
+    delete:
+      operationId: deleteDelegation
+      tags:
+        - delegation
+      responses:
+        '200':
+          description: ok
+        '403':
+          description: bad permission
+        '404':
+          description: delegation not found
+  /delegations:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: listDelegations
+      tags:
+        - delegations
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/delegationItem"
+        '404':
+          description: usr not found
+  /audit/delegation/{id}:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    post:
+      operationId: auditDelegation
+      tags:
+        - delegation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/delegationAuditResult"
+        required: true
+      responses:
+        '200':
+          description: ok
+        '404':
+          description: delegation not found
+        '403':
+          description: bad permission
+        '423':
+          description: has been audited
 components:
   schemas:
     delegationApplicationTable:
@@ -58,6 +188,30 @@ components:
           type: array
           items:
             type: string
+    delegationAuditResult:
+      type: object
+      properties:
+        suggestion:
+          type: string
+        state:
+          type: string
+    delegationItem:
+      type: object
+      properties:
+        usrBelonged:
+          type: string
+        delegationId:
+          type: string
+        state:
+          type: string
+        suggestion:
+          type: string
+        applicationTable:
+          $ref: "#/components/schemas/delegationApplicationTable"
+        functionTable:
+          $ref: "#/components/schemas/delegationFunctionTable"
+        fileList:
+          $ref: "#/components/schemas/delegationFileList"
     creatDelegationRequest:
       type: object
       properties:

@@ -2,7 +2,7 @@ server:
   port: 0
 spring:
   application:
-    name: gateway-server
+    name: delegation-server
 eureka:
   instance:
     hostname: localhost
