@@ -1,200 +1,69 @@
-openapi: "3.0.1"
+openapi: "3.0.3"
 info:
-  title: "NJUTestsSystem"
-  description: ""
-  version: "1.0.0"
+  version: 0.0.1
+  title: Micro
+  license:
+    name: MIT
 servers:
   - url: http://localhost:8000
 paths:
-  /login:
+  /delegation:
     post:
-      summary: "登录"
-      operationId: login
-      x-apifox-folder: "GatewayApi"
-      x-apifox-status: "developing"
-      deprecated: false
-      description: ""
+      summary: creat delegation
+      operationId: creatDelegation
       tags:
-        - "GatewayApi"
-      parameters: []
+        - delegation
       requestBody:
         content:
           application/json:
             schema:
-              title: ""
-              type: "object"
-              properties:
-                usrname:
-                  type: "string"
-                password:
-                  type: "string"
-              x-apifox-orders:
-                - "01G1ZQ8K5NRXPVZYKSWHYASMY7"
-              required:
-                - "usrname"
-                - "password"
-              x-apifox-refs:
-                "01G1ZQ8K5NRXPVZYKSWHYASMY7":
-                  $ref: "#/components/schemas/Denglu"
-                  x-apifox-overrides: {}
-              x-apifox-ignore-properties:
-                - "usrname"
-                - "password"
+              $ref: "#/components/schemas/creatDelegationRequest"
+        required: true
       responses:
-        "200":
-          description: "成功"
+        '201':
+          description: created
           content:
             application/json:
               schema:
-                type: "object"
+                type: object
                 properties:
-                  token:
-                    type: "string"
-                  usrid:
-                    type: "string"
-                  identity:
-                    type: "string"
-                x-apifox-orders:
-                  - "01G1ZQCPEK6CSXYDP6KPCD746F"
-                required:
-                  - "token"
-                  - "usrid"
-                  - "identity"
-                x-apifox-refs:
-                  "01G1ZQCPEK6CSXYDP6KPCD746F":
-                    $ref: "#/components/schemas/DengLuChengGong"
-                    x-apifox-overrides: {}
-                x-apifox-ignore-properties:
-                  - "token"
-                  - "usrid"
-                  - "identity"
-              examples: {}
-        "400":
-          description: "用户名或密码不正确"
+                  delegationId:
+                    type: string
+        '400':
+          description: error
           content:
             application/json:
               schema:
-                type: "object"
-                properties: {}
-                x-apifox-ignore-properties: []
-                x-apifox-orders: []
-              examples: {}
-  /register:
-    post:
-      summary: "用户注册"
-      operationId: usrRegister
-      x-apifox-folder: "GatewayApi"
-      x-apifox-status: "developing"
-      deprecated: false
-      description: ""
-      tags:
-        - "GatewayApi"
-      parameters: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: ""
-              type: "object"
-              properties:
-                usrname:
-                  type: "string"
-                password:
-                  type: "string"
-                email:
-                  type: "string"
-              x-apifox-orders:
-                - "01G1ZQW5JHMY6HX7SBHES45G20"
-              required:
-                - "usrname"
-                - "password"
-                - "email"
-              x-apifox-refs:
-                "01G1ZQW5JHMY6HX7SBHES45G20":
-                  $ref: "#/components/schemas/YongHuZhuCe"
-                  x-apifox-overrides: {}
-              x-apifox-ignore-properties:
-                - "usrname"
-                - "password"
-                - "email"
-      responses:
-        "200":
-          description: "成功"
-          content:
-            application/json:
-              schema:
-                type: "object"
-                properties: {}
-                x-apifox-ignore-properties: []
-                x-apifox-orders: []
-              examples: {}
-        "400":
-          description: "失败"
-          content:
-            application/json:
-              schema:
-                type: "object"
+                type: object
                 properties:
-                  reason:
-                    type: "string"
-                x-apifox-orders:
-                  - "reason"
-                required:
-                  - "reason"
-                x-apifox-ignore-properties: []
-              examples: {}
+                  errorInfo:
+                    type: string
+
 components:
   schemas:
-    DengLuChengGong:
-      type: "object"
+    delegationApplicationTable:
+      type: object
       properties:
-        token:
-          type: "string"
-        usrid:
-          type: "string"
-        identity:
-          type: "string"
-      x-apifox-orders:
-        - "token"
-        - "usrid"
-        - "identity"
-      required:
-        - "token"
-        - "usrid"
-        - "identity"
-      x-apifox-ignore-properties: []
-      x-apifox-folder: ""
-    DengLu:
-      type: "object"
+        name:
+          type: string
+    delegationFunctionTable:
+      type: object
       properties:
-        usrname:
-          type: "string"
-        password:
-          type: "string"
-      x-apifox-orders:
-        - "usrname"
-        - "password"
-      required:
-        - "usrname"
-        - "password"
-      x-apifox-ignore-properties: []
-      x-apifox-folder: ""
-    YongHuZhuCe:
-      type: "object"
+        name:
+          type: string
+    delegationFileList:
+      type: object
       properties:
-        usrname:
-          type: "string"
-        password:
-          type: "string"
-        email:
-          type: "string"
-      x-apifox-orders:
-        - "usrname"
-        - "password"
-        - "email"
-      required:
-        - "usrname"
-        - "password"
-        - "email"
-      x-apifox-ignore-properties: []
-      x-apifox-folder: ""
+        fileName:
+          type: array
+          items:
+            type: string
+    creatDelegationRequest:
+      type: object
+      properties:
+        applicationTable:
+          $ref: "#/components/schemas/delegationApplicationTable"
+        functionTable:
+          $ref: "#/components/schemas/delegationFunctionTable"
+        fileList:
+          $ref: "#/components/schemas/delegationFileList"
