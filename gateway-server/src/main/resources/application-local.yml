@@ -1,5 +1,5 @@
 server:
-  port: 8000
+  port: 32000
 spring:
   application:
     name: gateway-server
@@ -21,10 +21,7 @@ spring:
             - Path=/delegation/{id},/delegations
             - Method=GET
 eureka:
-  instance:
-    hostname: localhost
-  # standalone mode
   client:
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:8002/eureka/
+      defaultZone: http://210.28.133.13:21251/eureka/
 

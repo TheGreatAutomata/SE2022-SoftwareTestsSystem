@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="delegationProcess" name="delegationProcess" isExecutable="true">
+    <startEvent id="sid-5250e2ad-07e5-42d2-b512-54767ad397f0">
+      <extensionElements>
+        <activiti:formProperty id="usrName" name="usrName" type="String"/>
+        <activiti:formProperty id="delegationName" name="delegationName" type="String"/>
+      </extensionElements>
+    </startEvent>
+    <endEvent id="sid-9f6a9a21-aaa7-49b0-8945-9e7aa517a287"/>
+    <sequenceFlow id="sid-3eabbcff-ab81-469e-bede-23ec62b40df8" sourceRef="delegationStore" targetRef="sid-9f6a9a21-aaa7-49b0-8945-9e7aa517a287"/>
+    <serviceTask id="delegationStore" activiti:exclusive="true" activiti:async="true" activiti:delegateExpression="${delegationService.storeDelegation()}" name="delegationStore">
+      <extensionElements>
+        <activiti:field name="Field 1"/>
+      </extensionElements>
+    </serviceTask>
+    <userTask id="tryUsr_1" name="tryUsr_1"/>
+    <sequenceFlow id="sid-ffbe1818-2795-4742-994d-05e621d26845" sourceRef="sid-5250e2ad-07e5-42d2-b512-54767ad397f0" targetRef="tryUsr_1"/>
+    <userTask id="tryUsr_2" name="tryUsr_2"/>
+    <sequenceFlow id="sid-0773926f-bb4f-4bee-be26-33d7fcb2227d" sourceRef="tryUsr_1" targetRef="tryUsr_2"/>
+    <sequenceFlow id="sid-f785cfeb-a30c-41d8-b2b6-e2a2def21899" sourceRef="tryUsr_2" targetRef="delegationStore"/>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_delegation">
+    <bpmndi:BPMNPlane bpmnElement="delegation" id="BPMNPlane_delegation">
+      <bpmndi:BPMNShape id="shape-a3271426-4749-423a-82ff-c0dfcd5d0255" bpmnElement="sid-5250e2ad-07e5-42d2-b512-54767ad397f0">
+        <omgdc:Bounds x="-125.0" y="-25.0" width="30.0" height="30.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape-4bea205f-62bd-4465-b557-5ba7b48cf733" bpmnElement="sid-9f6a9a21-aaa7-49b0-8945-9e7aa517a287">
+        <omgdc:Bounds x="705.0" y="15.000004" width="30.0" height="30.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-61d526cd-acd5-4d08-9cb3-be4482e9c613" bpmnElement="sid-3eabbcff-ab81-469e-bede-23ec62b40df8">
+        <omgdi:waypoint x="540.0" y="155.0"/>
+        <omgdi:waypoint x="705.0" y="22.500004"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-cb3f990b-1675-4bb8-b371-8946f48c83d6" bpmnElement="delegationStore">
+        <omgdc:Bounds x="440.0" y="135.0" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape-ec4f44fc-e052-4ea0-afa8-7d8e3d78df68" bpmnElement="tryUsr_1">
+        <omgdc:Bounds x="-65.0" y="100.00001" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-b18978cc-32f4-4df8-87f9-ab77a685183b" bpmnElement="sid-ffbe1818-2795-4742-994d-05e621d26845">
+        <omgdi:waypoint x="-102.49999" y="5.0"/>
+        <omgdi:waypoint x="-40.0" y="100.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="sid-2298c9f4-96b8-4a39-b65e-4d395d78efa6" bpmnElement="tryUsr_2">
+        <omgdc:Bounds x="85.532295" y="246.69211" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-101ea8f7-d2c9-4d89-8e4b-e02f5d57b045" bpmnElement="sid-0773926f-bb4f-4bee-be26-33d7fcb2227d">
+        <omgdi:waypoint x="10.0" y="180.0"/>
+        <omgdi:waypoint x="85.53229" y="266.6921"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge-9039877c-4b02-4f41-8407-4f808a2227fd" bpmnElement="sid-f785cfeb-a30c-41d8-b2b6-e2a2def21899">
+        <omgdi:waypoint x="160.53229" y="246.69211"/>
+        <omgdi:waypoint x="465.0" y="215.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
