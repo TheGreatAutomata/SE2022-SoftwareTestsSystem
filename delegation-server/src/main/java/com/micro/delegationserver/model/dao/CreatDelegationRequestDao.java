@@ -30,4 +30,11 @@ public class CreatDelegationRequestDao {
         request.setFunctionTable(functionTable);
         return request;
     }
+    public CreatDelegationRequestDatabaseObj Update(CreatDelegationRequest creatDelegationRequest,Long id){
+        CreatDelegationRequestDatabaseObj dbObj=new CreatDelegationRequestDatabaseObj(creatDelegationRequest);
+        dbObj.id=id;
+        delegationApplicationRepository.save(dbObj);
+        return dbObj;
+    }
+
 }
