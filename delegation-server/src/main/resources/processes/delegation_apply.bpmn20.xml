@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="delegation_apply" name="delegation_apply" isExecutable="true">
+    <startEvent id="sid-47c3086c-2c66-4a6d-aef7-7c792121daf6"/>
+    <serviceTask id="sid-64d1a5bc-e16e-400e-b2a2-f28a5105acb8" activiti:exclusive="true" activiti:delegateExpression="${saveApplicationDelegate}" name="Save">
+      <documentation>Save the delegation.</documentation>
+    </serviceTask>
+    <sequenceFlow id="sid-e93436a9-b493-464b-a628-e30b735b04c0" sourceRef="sid-47c3086c-2c66-4a6d-aef7-7c792121daf6" targetRef="sid-64d1a5bc-e16e-400e-b2a2-f28a5105acb8"/>
+    <userTask id="sid-b44f6ab8-fb29-40e5-b3f4-7b8e06da66c0" name="Audit" activiti:assignee="group(employee_market)">
+      <documentation>Audit the application.</documentation>
+    </userTask>
+    <sequenceFlow id="sid-25c6e1c2-420a-4798-8269-653f6e172fef" sourceRef="sid-64d1a5bc-e16e-400e-b2a2-f28a5105acb8" targetRef="sid-b44f6ab8-fb29-40e5-b3f4-7b8e06da66c0"/>
+    <exclusiveGateway id="sid-b1832cb5-debd-4092-b16d-d1ce4fa8b05a"/>
+    <sequenceFlow id="sid-b2b2ac42-91c8-4870-b226-20d6dc048f69" sourceRef="sid-b44f6ab8-fb29-40e5-b3f4-7b8e06da66c0" targetRef="sid-b1832cb5-debd-4092-b16d-d1ce4fa8b05a"/>
+    <serviceTask activiti:type="mail" id="sid-0b73c759-50dd-4e6c-8ee8-704e2d31acdd" name="DeniedInform">
+      <documentation>Inform the user that the application requires further modification.</documentation>
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:string>lejian663@126.com</activiti:string>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string>2379594184@qq.com</activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string>activiti</activiti:string>
+        </activiti:field>
+        <activiti:field name="text">
+          <activiti:string>denied...</activiti:string>
+        </activiti:field>
+        <activiti:field name="charset">
+          <activiti:string>UTF-8</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="sid-b9274986-ad31-400f-8c99-0608c7ca2cc7" sourceRef="sid-b1832cb5-debd-4092-b16d-d1ce4fa8b05a" targetRef="sid-0b73c759-50dd-4e6c-8ee8-704e2d31acdd">
+      <conditionExpression xsi:type="tFormalExpression">${accepted==false}</conditionExpression>
+    </sequenceFlow>
+    <endEvent id="sid-27a8561f-aa06-4162-883f-a0ff55138c34"/>
+    <sequenceFlow id="sid-6e28f248-ed57-4693-8ec6-f4723b2c2dba" sourceRef="sid-0b73c759-50dd-4e6c-8ee8-704e2d31acdd" targetRef="sid-27a8561f-aa06-4162-883f-a0ff55138c34"/>
+    <serviceTask id="sid-4afe06bf-cf01-4971-aab5-d64780b56d08" activiti:exclusive="true" name="AcceptApplication" activiti:expression="${acceptApplicationDelegate}">
+      <documentation>Do something after the application being accepted.</documentation>
+    </serviceTask>
+    <parallelGateway id="sid-1c62fe57-f33d-4db1-a90d-d54bcb0e9249"/>
+    <sequenceFlow id="sid-194dab75-1119-4f21-8d56-fb12072bf2f1" sourceRef="sid-b1832cb5-debd-4092-b16d-d1ce4fa8b05a" targetRef="sid-1c62fe57-f33d-4db1-a90d-d54bcb0e9249">
+      <conditionExpression xsi:type="tFormalExpression">${accepted==true}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-6891fced-eeac-48cd-9768-d8a1a2cb781c" sourceRef="sid-1c62fe57-f33d-4db1-a90d-d54bcb0e9249" targetRef="sid-4afe06bf-cf01-4971-aab5-d64780b56d08">
+      <conditionExpression xsi:type="tFormalExpression"/>
+    </sequenceFlow>
+    <serviceTask activiti:type="mail" id="sid-e027894d-524d-45fb-9742-0067ea254f4a" name="AcceptedInform">
+      <documentation>Inform the user that this application is accepted.</documentation>
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:string>lejian663@126.com</activiti:string>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string>2379594184@qq.com</activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string>Application Info</activiti:string>
+        </activiti:field>
+        <activiti:field name="text">
+          <activiti:string>您的委托已经被接受。</activiti:string>
+        </activiti:field>
+        <activiti:field name="charset">
+          <activiti:string>UTF-8</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <endEvent id="sid-47affab2-0cc3-45f3-a78e-b675f0d06bbf"/>
+    <sequenceFlow id="sid-8f896869-83b0-4c6f-9141-200fa9a37cdd" sourceRef="sid-e027894d-524d-45fb-9742-0067ea254f4a" targetRef="sid-47affab2-0cc3-45f3-a78e-b675f0d06bbf"/>
+    <endEvent id="sid-faee8033-fa6a-4029-aa32-d073ab2db3b2"/>
+    <sequenceFlow id="sid-252ac880-9794-4c8c-b277-17200fcfbbc7" sourceRef="sid-4afe06bf-cf01-4971-aab5-d64780b56d08" targetRef="sid-faee8033-fa6a-4029-aa32-d073ab2db3b2"/>
+    <sequenceFlow id="sid-b4cc3cc6-ad7e-4d95-b9f5-4298fc5a335d" sourceRef="sid-1c62fe57-f33d-4db1-a90d-d54bcb0e9249" targetRef="sid-e027894d-524d-45fb-9742-0067ea254f4a">
+      <conditionExpression xsi:type="tFormalExpression"/>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_delegation_apply">
+    <bpmndi:BPMNPlane bpmnElement="delegation_apply" id="BPMNPlane_delegation_apply">
+      <bpmndi:BPMNShape id="shape-d29da399-81b5-435d-8b6c-b5dfe504e860" bpmnElement="sid-47c3086c-2c66-4a6d-aef7-7c792121daf6">
+        <omgdc:Bounds x="125.0" y="25.0" width="30.0" height="30.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape-77a16fa5-a332-4057-a8fa-fadb8d26582a" bpmnElement="sid-64d1a5bc-e16e-400e-b2a2-f28a5105acb8">
+        <omgdc:Bounds x="290.0" y="0.0" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-aa1732d0-8068-4101-8437-2e2cd030a26b" bpmnElement="sid-e93436a9-b493-464b-a628-e30b735b04c0">
+        <omgdi:waypoint x="155.0" y="40.0"/>
+        <omgdi:waypoint x="290.0" y="40.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-bbb84221-3f64-4a53-8d5c-4d14b76ac616" bpmnElement="sid-b44f6ab8-fb29-40e5-b3f4-7b8e06da66c0">
+        <omgdc:Bounds x="510.0" y="0.0" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-61797450-9cb4-41ee-833b-da1c256dfab5" bpmnElement="sid-25c6e1c2-420a-4798-8269-653f6e172fef">
+        <omgdi:waypoint x="390.0" y="40.0"/>
+        <omgdi:waypoint x="510.0" y="40.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-3b3f8e05-99de-43ee-a104-6bc88a710b06" bpmnElement="sid-b1832cb5-debd-4092-b16d-d1ce4fa8b05a">
+        <omgdc:Bounds x="710.0" y="20.0" width="40.0" height="40.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-238818c6-59d4-492c-82b5-2ec0ff5849ea" bpmnElement="sid-b2b2ac42-91c8-4870-b226-20d6dc048f69">
+        <omgdi:waypoint x="610.0" y="40.0"/>
+        <omgdi:waypoint x="710.0" y="40.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-5eb7fa1e-b897-462f-9eda-d6b380cec49c" bpmnElement="sid-0b73c759-50dd-4e6c-8ee8-704e2d31acdd">
+        <omgdc:Bounds x="679.99994" y="115.0" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-7666f697-cea7-4a56-99f2-1b56e3695e3e" bpmnElement="sid-b9274986-ad31-400f-8c99-0608c7ca2cc7">
+        <omgdi:waypoint x="730.0" y="60.0"/>
+        <omgdi:waypoint x="729.99994" y="115.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-2c8716eb-73de-4a0a-bd02-efa38f708b13" bpmnElement="sid-27a8561f-aa06-4162-883f-a0ff55138c34">
+        <omgdc:Bounds x="1005.0" y="139.99998" width="30.0" height="30.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-2c1fbc73-c258-411a-b1d0-b6d7ba3b1c66" bpmnElement="sid-6e28f248-ed57-4693-8ec6-f4723b2c2dba">
+        <omgdi:waypoint x="779.99994" y="155.0"/>
+        <omgdi:waypoint x="1005.0" y="154.99998"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-1c9d7524-9c81-4304-8b54-6220916add3f" bpmnElement="sid-4afe06bf-cf01-4971-aab5-d64780b56d08">
+        <omgdc:Bounds x="975.0" y="0.0" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape-22b264a7-000d-46b1-948d-ad0d240bb040" bpmnElement="sid-1c62fe57-f33d-4db1-a90d-d54bcb0e9249">
+        <omgdc:Bounds x="850.0" y="20.000002" width="40.0" height="40.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-ab899789-c8a7-475b-99da-f09c210c9b2f" bpmnElement="sid-194dab75-1119-4f21-8d56-fb12072bf2f1">
+        <omgdi:waypoint x="750.0" y="40.0"/>
+        <omgdi:waypoint x="850.0" y="40.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge-2e53d6c3-c0a7-4f31-b96f-c9c16916430a" bpmnElement="sid-6891fced-eeac-48cd-9768-d8a1a2cb781c">
+        <omgdi:waypoint x="890.0" y="40.0"/>
+        <omgdi:waypoint x="975.0" y="40.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-c4f49869-4bec-4077-9883-dde64c491ce2" bpmnElement="sid-e027894d-524d-45fb-9742-0067ea254f4a">
+        <omgdc:Bounds x="820.0" y="-140.0" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape-3f6f8122-ec54-429e-af9f-23aa3c0263e9" bpmnElement="sid-47affab2-0cc3-45f3-a78e-b675f0d06bbf">
+        <omgdc:Bounds x="1145.0" y="-115.0" width="30.0" height="30.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-b7254374-6566-4e15-b78a-d5c923f92ed4" bpmnElement="sid-8f896869-83b0-4c6f-9141-200fa9a37cdd">
+        <omgdi:waypoint x="920.0" y="-100.0"/>
+        <omgdi:waypoint x="1145.0" y="-100.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-a08221c2-6f9d-46e7-938a-9c49d26871f6" bpmnElement="sid-faee8033-fa6a-4029-aa32-d073ab2db3b2">
+        <omgdc:Bounds x="1315.0" y="24.999996" width="30.0" height="30.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-5ee4d549-38a3-4fbd-8cc5-ce73f78e6939" bpmnElement="sid-252ac880-9794-4c8c-b277-17200fcfbbc7">
+        <omgdi:waypoint x="1075.0" y="40.0"/>
+        <omgdi:waypoint x="1315.0" y="39.999996"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge-811b18c9-a8ad-4e1d-857f-5213abadcbb7" bpmnElement="sid-b4cc3cc6-ad7e-4d95-b9f5-4298fc5a335d">
+        <omgdi:waypoint x="870.0" y="20.0"/>
+        <omgdi:waypoint x="870.0" y="-60.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

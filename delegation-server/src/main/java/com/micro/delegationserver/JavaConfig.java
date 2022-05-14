@@ -1,5 +1,6 @@
 package com.micro.delegationserver;
 
+import com.micro.delegationserver.delegate.*;
 import org.activiti.engine.*;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.spring.ProcessEngineFactoryBean;
@@ -10,9 +11,12 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
@@ -43,6 +47,26 @@ public class JavaConfig {
         springProcessEngineConfiguration.setDataSource(dataSource());
         springProcessEngineConfiguration.setTransactionManager(transactionManager());
         springProcessEngineConfiguration.setDatabaseSchemaUpdate("true");
+        Resource[] resources=new Resource[2];
+        resources[0]=new ClassPathResource("processes/delegation.bpmn20.xml");
+        resources[1]=new ClassPathResource("processes/delegation_apply.bpmn20.xml");
+        springProcessEngineConfiguration.setDeploymentResources(resources);
+        springProcessEngineConfiguration.setDeploymentMode("single-resource");
+
+        HashMap<Object,Object> beans=new HashMap<>();
+
+        beans.put("saveApplicationDelegate",saveApplicationDelegate());
+        beans.put("acceptApplicationDelegate",acceptApplicationDelegate());
+
+        springProcessEngineConfiguration.setBeans(beans);
+
+        springProcessEngineConfiguration.setMailServerHost("smtp.qq.com");
+        springProcessEngineConfiguration.setMailServerPort(465);
+        springProcessEngineConfiguration.setMailServerDefaultFrom("2379594184@qq.com");
+        springProcessEngineConfiguration.setMailServerUsername("2379594184@qq.com");
+        springProcessEngineConfiguration.setMailServerPassword("qiijzfyfucxadhha");
+        springProcessEngineConfiguration.setMailServerUseSSL(true);
+
         return springProcessEngineConfiguration;
     }
 
@@ -78,5 +102,14 @@ public class JavaConfig {
     public RepositoryService repositoryService() throws Exception{
         return processEngine().getRepositoryService();
     }
+
+    @Bean
+    public SaveApplicationDelegate saveApplicationDelegate(){
+        return new SaveApplicationDelegate();
+    }
+
+    @Bean
+    public AcceptApplicationDelegate acceptApplicationDelegate() {return new AcceptApplicationDelegate();}
+
 }
 

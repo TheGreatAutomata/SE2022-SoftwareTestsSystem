@@ -1,5 +1,8 @@
 package com.micro.delegationserver.rest;
 
+import com.micro.delegationserver.mapper.CreatDelegationRequestMapper;
+import com.micro.delegationserver.model.CreatDelegationRequest;
+import com.micro.delegationserver.model.Delegation;
 import com.micro.delegationserver.service.DelegationService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
@@ -27,10 +30,13 @@ public class delegationController implements DelegationApi{
     @Autowired
     private TaskService taskService;
 
+    @Autowired
+    CreatDelegationRequestMapper mapper;
+
     @Override
     public ResponseEntity<String> creatDelegation(String usrName, String usrId, String usrRole, CreatDelegationRequestDto creatDelegationRequestDto) {
         //check
-        System.out.println("Number of process instances before: " + runtimeService.createProcessInstanceQuery().count());
+        /*System.out.println("Number of process instances before: " + runtimeService.createProcessInstanceQuery().count());
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("usrName", usrName);
         variables.put("delegationName", usrId);
@@ -42,7 +48,27 @@ public class delegationController implements DelegationApi{
         List<Task> tasks = taskService.createTaskQuery().list();
         //taskService.deleteTask();
         //Map<String, Object> tryVars = taskService.getVariables("10007");
-        System.out.println("Number of process instances after: " + runtimeService.createProcessInstanceQuery().count());
+        System.out.println("Number of process instances after: " + runtimeService.createProcessInstanceQuery().count());*/
+
+        Map<String, Object> variables = new HashMap<String, Object>();
+
+        String delegationName=creatDelegationRequestDto.getApplicationTable().getName();
+        String functionName=creatDelegationRequestDto.getFunctionTable().getName();
+
+        CreatDelegationRequest request=mapper.toCreatDelegationRequest(creatDelegationRequestDto);
+
+        request.setUsrId(usrId);
+        request.setUsrName(usrName);
+
+        Delegation delegation=new Delegation(usrId,usrName,delegationName);
+
+        variables.put("request",request);
+        variables.put("delegation",delegation);
+
+        runtimeService.startProcessInstanceByKey("delegation_apply", variables);
+
         return ResponseEntity.ok(usrId);
     }
+
+
 }
