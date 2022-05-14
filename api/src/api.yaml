@@ -48,6 +48,48 @@ paths:
             application/json:
               schema:
                 type: string
+  /delegation/{id}/file:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: createDelegationFile
+      tags:
+        - delegation
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/createFileRequest"
+      responses:
+        '201':
+          description: created
+        '400':
+          description: cannot created
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: not found delegation
   /delegation/{id}:
     parameters:
       - name: usrName
@@ -221,3 +263,17 @@ components:
           $ref: "#/components/schemas/delegationFunctionTable"
         fileList:
           $ref: "#/components/schemas/delegationFileList"
+    createFileRequest:
+      type: object
+      properties:
+        applicationTable:
+          $ref: "#/components/schemas/delegationApplicationTable"
+        functionTable:
+          $ref: "#/components/schemas/delegationFunctionTable"
+        fileList:
+          $ref: "#/components/schemas/delegationFileList"
+        file:
+          type: array
+          items:
+            type: string
+            format: binary
