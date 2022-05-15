@@ -76,9 +76,15 @@ paths:
         - delegation
       requestBody:
         content:
-          multipart/form-data:
+          multipart/mixed:
             schema:
-              $ref: "#/components/schemas/createFileRequest"
+              properties:
+                # The property name 'file' will be used for all files.
+                file:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
       responses:
         '201':
           description: created
@@ -263,17 +269,3 @@ components:
           $ref: "#/components/schemas/delegationFunctionTable"
         fileList:
           $ref: "#/components/schemas/delegationFileList"
-    createFileRequest:
-      type: object
-      properties:
-        applicationTable:
-          $ref: "#/components/schemas/delegationApplicationTable"
-        functionTable:
-          $ref: "#/components/schemas/delegationFunctionTable"
-        fileList:
-          $ref: "#/components/schemas/delegationFileList"
-        file:
-          type: array
-          items:
-            type: string
-            format: binary

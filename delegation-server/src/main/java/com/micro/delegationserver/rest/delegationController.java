@@ -4,6 +4,7 @@ import com.micro.delegationserver.mapper.CreatDelegationRequestMapper;
 import com.micro.delegationserver.model.CreatDelegationRequest;
 import com.micro.delegationserver.model.Delegation;
 import com.micro.delegationserver.service.DelegationService;
+import com.micro.delegationserver.service.MinioServce;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.activiti.engine.RuntimeService;
@@ -20,6 +21,7 @@ import com.micro.api.DelegationApi;
 import com.micro.dto.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +41,9 @@ public class delegationController implements DelegationApi{
 
     @Autowired
     CreatDelegationRequestMapper mapper;
+
+    @Autowired
+    MinioServce minioServce;
 
     @Override
     public ResponseEntity<String> creatDelegation(String usrName, String usrId, String usrRole, CreatDelegationRequestDto creatDelegationRequestDto) {
@@ -78,14 +83,10 @@ public class delegationController implements DelegationApi{
     }
     @Override
     public ResponseEntity<Void> createDelegationFile(String id, String usrName, String usrId, String usrRole, List<MultipartFile> file) {
-        for (MultipartFile f : file)
+        for(MultipartFile f : file)
         {
-            if(!f.isEmpty())
-            {
-                System.out.println("**TheFileName: "+ f.getOriginalFilename());
-                System.out.println(("**TheFileSize: "+f.getSize()));
-            }
+
         }
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity(HttpStatus.NOT_IMPLEMENTED);
     }
 }
