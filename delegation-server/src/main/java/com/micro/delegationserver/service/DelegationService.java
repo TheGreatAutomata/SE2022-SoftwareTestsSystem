@@ -48,9 +48,9 @@ public class DelegationService {
     }
 
 
-    public Delegation constructFromRequest(CreatDelegationRequest request){
-        return new Delegation(request.getUsrId(),request.getUsrName(),request.getApplicationTable().getName());
-
+    public Delegation constructFromRequest(CreatDelegationRequest request) {
+        return new Delegation(request.getUsrId(), request.getUsrName(), request.getApplicationTable().getName());
+    }
 
     @SneakyThrows
     public boolean creatFile(String delegationId, String fileName, MultipartFile file)

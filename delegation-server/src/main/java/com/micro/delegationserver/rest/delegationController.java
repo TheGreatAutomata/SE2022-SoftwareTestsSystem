@@ -101,6 +101,7 @@ public class delegationController implements DelegationApi{
     //TODO: 处理异常情况，例如没找到委托
     @Override
     public ResponseEntity<Void> updateApplicationTable(String id, DelegationApplicationTableDto delegationApplicationTableDto) {
+
         CreatDelegationRequest request=creatDelegationRequestDao.Get(Long.valueOf(id));
         DelegationApplicationTable applicationTable=delegationApplicationTableMapper.toDelegationApplicationTable(delegationApplicationTableDto);
         request.setApplicationTable(applicationTable);
@@ -129,29 +130,36 @@ public class delegationController implements DelegationApi{
 
     @Override
     public ResponseEntity<Void> updateFuntionTable(String id, DelegationFunctionTableDto delegationFunctionTableDto) {
-        CreatDelegationRequest request=creatDelegationRequestDao.Get(Long.valueOf(id));
-        DelegationFunctionTable functionTable=delegationFunctionTableMapper.toObj(delegationFunctionTableDto);
+        CreatDelegationRequest request = creatDelegationRequestDao.Get(Long.valueOf(id));
+        DelegationFunctionTable functionTable = delegationFunctionTableMapper.toObj(delegationFunctionTableDto);
         request.setFunctionTable(functionTable);
         Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put("request",request);
-        Delegation delegation=delegationService.constructFromRequest(request);
-        variables.put("delegation",delegation);
-        variables.put("applicationId",id);
+        variables.put("request", request);
+        Delegation delegation = delegationService.constructFromRequest(request);
+        variables.put("delegation", delegation);
+        variables.put("applicationId", id);
         runtimeService.startProcessInstanceByKey("delegation_modify", variables);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @SneakyThrows
     @Override
     public ResponseEntity<Void> createDelegationFile(String id, String usrName, String usrId, String usrRole, MultipartFile file1, MultipartFile file2, MultipartFile file3, MultipartFile file4) {
         //usrName暂时作bucketName
         //Optional<Bucket> delegationBucket = minioServce.getBucket(usrName);
-        if(delegationService.creatFile(id, "file1", file1) && delegationService.creatFile(id, "file2", file2) && delegationService.creatFile(id, "file3", file3) && delegationService.creatFile(id, "file4", file4))
-        {
-            return ResponseEntity.status(200).build();
-        }
-        else {
-            return ResponseEntity.status(400).header("errerInfo", "had created").build();
-        }
+        Task task = taskService.createTaskQuery().taskName("FilesUpload").processVariableValueEquals("applicationId",id).singleResult();
+
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("delegationId", "delega"+id);
+        List<MultipartFile> filesList = List.of(file1, file2, file3, file4);
+        variables.put("files", filesList);
+        taskService.complete(task.getId(), variables);
+
+//        if(delegationService.creatFile(id, "file1", file1) && delegationService.creatFile(id, "file2", file2) && delegationService.creatFile(id, "file3", file3) && delegationService.creatFile(id, "file4", file4))
+//        {
+        return ResponseEntity.status(200).build();
+//        }
 
     }
 }
+

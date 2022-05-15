@@ -25,6 +25,7 @@ public class SaveApplicationDelegate implements JavaDelegate {
         System.out.println("Save the application.");
         CreatDelegationRequest request=(CreatDelegationRequest) delegateExecution.getVariable("request");
         CreatDelegationRequestDatabaseObj dbobj = creatDelegationRequestDao.Save(request);
+        String temp = dbobj.id.toString();
         delegateExecution.setVariable("applicationId",dbobj.id.toString());
     }
 }

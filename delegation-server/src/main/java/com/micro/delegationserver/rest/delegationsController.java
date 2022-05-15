@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
+
 @RestController
 public class delegationsController implements DelegationsApi {
 
@@ -22,14 +24,13 @@ public class delegationsController implements DelegationsApi {
     private TaskService taskService;
 
     @Override
-    public ResponseEntity<String> listDelegations(String usrName, String usrId, String usrRole)
+    public ResponseEntity<List<String>> listDelegations(String usrName, String usrId, String usrRole)
     {
         List<Task> tasks = taskService.createTaskQuery()
-                .processVariableValueEquals("usrName", usrName)
                 .list();
         //runtimeService.getProcessInstanceEvents()
         //taskService.createTaskQuery().deploymentId()
-        taskService.complete(tasks.get(0).getId());
-        return ResponseEntity.ok(tasks.get(0).getName());
+        List<String> result = null;
+        return ResponseEntity.ok(result);
     }
 }

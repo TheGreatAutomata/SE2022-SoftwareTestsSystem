@@ -121,6 +121,8 @@ public class JavaConfig {
 
     @Bean
     public UpdateDelegationDelegate updateDelegationDelegate(){return new UpdateDelegationDelegate();}
+    @Bean
+    public SaveFilesDelegate saveFilesDelegate(){return new SaveFilesDelegate();}
 
     @Bean
     public DelegationApplicationTableMapper delegationApplicationTableMapper(){
