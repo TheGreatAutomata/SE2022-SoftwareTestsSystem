@@ -24,13 +24,11 @@ public class auditController implements AuditApi {
 
     @Override
     public ResponseEntity<Void> auditDelegation(String usrName, String usrId, String usrRole, String id, DelegationAuditResultDto delegationAuditResultDto) {
-        System.out.println("Audit...");
-        Task task = taskService.createTaskQuery().taskName("Audit").processVariableValueEquals("applicationId",Long.valueOf(id)).singleResult();
+        System.out.println("Audit..."+id);
+        Task task = taskService.createTaskQuery().taskName("Audit").processVariableValueEquals("applicationId",id).singleResult();
         String state=delegationAuditResultDto.getState();
         boolean accepted= state.equals("Accepted");
 
-        List<Task> tasks=taskService.createTaskQuery().list();
-        System.out.println(tasks);
         Map<String, Object> taskVariables = new HashMap<String, Object>();
         taskVariables.put("accepted", accepted);
         taskService.complete(task.getId(), taskVariables);

@@ -1,6 +1,8 @@
 package com.micro.delegationserver.service;
 
 
+import com.micro.delegationserver.model.CreatDelegationRequest;
+import com.micro.delegationserver.model.Delegation;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
@@ -38,5 +40,9 @@ public class DelegationService {
     @Transactional
     public List<Task> getTasks(String assignee) {
         return taskService.createTaskQuery().taskAssignee(assignee).list();
+    }
+
+    public Delegation constructFromRequest(CreatDelegationRequest request){
+        return new Delegation(request.getUsrId(),request.getUsrName(),request.getApplicationTable().getName());
     }
 }

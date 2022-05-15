@@ -7,6 +7,8 @@ import com.micro.delegationserver.repository.DelegationApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class CreatDelegationRequestDao {
     @Autowired
@@ -18,17 +20,23 @@ public class CreatDelegationRequestDao {
         return dbObj;
     }
     public CreatDelegationRequest Get(Long id){
-        CreatDelegationRequestDatabaseObj dbObj=(CreatDelegationRequestDatabaseObj) delegationApplicationRepository.getById(id);
-        CreatDelegationRequest request=new CreatDelegationRequest();
-        request.setUsrName(dbObj.usrName);
-        request.setUsrId(dbObj.usrId);
-        DelegationApplicationTable applicationTable=new DelegationApplicationTable();
-        applicationTable.setName(dbObj.applicationName);
-        DelegationFunctionTable functionTable=new DelegationFunctionTable();
-        functionTable.setName(dbObj.functionName);
-        request.setApplicationTable(applicationTable);
-        request.setFunctionTable(functionTable);
-        return request;
+        Optional<CreatDelegationRequestDatabaseObj> testObj = delegationApplicationRepository.findById(id);
+        if(testObj.isPresent()){
+            CreatDelegationRequestDatabaseObj dbObj=testObj.get();
+
+            CreatDelegationRequest request=new CreatDelegationRequest();
+            request.setUsrName(dbObj.usrName);
+            request.setUsrId(dbObj.usrId);
+            DelegationApplicationTable applicationTable=new DelegationApplicationTable();
+            applicationTable.setName(dbObj.applicationName);
+
+            DelegationFunctionTable functionTable=new DelegationFunctionTable();
+            functionTable.setName(dbObj.functionName);
+            request.setApplicationTable(applicationTable);
+            request.setFunctionTable(functionTable);
+            return request;
+        }
+        return null;
     }
     public CreatDelegationRequestDatabaseObj Update(CreatDelegationRequest creatDelegationRequest,Long id){
         CreatDelegationRequestDatabaseObj dbObj=new CreatDelegationRequestDatabaseObj(creatDelegationRequest);
