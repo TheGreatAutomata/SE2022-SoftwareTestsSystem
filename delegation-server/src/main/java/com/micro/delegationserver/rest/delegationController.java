@@ -75,7 +75,7 @@ public class delegationController implements DelegationApi{
         request.setUsrId(usrId);
         request.setUsrName(usrName);
 
-        Delegation delegation=new Delegation(usrId,usrName,delegationName);
+        Delegation delegation = new Delegation(usrId,usrName,delegationName);
 
         variables.put("request",request);
         variables.put("delegation",delegation);
