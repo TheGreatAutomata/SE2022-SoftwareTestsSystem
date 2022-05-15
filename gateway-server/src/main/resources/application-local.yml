@@ -6,10 +6,10 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: loginAndRegister-server
-          uri: lb://loginAndRegister-server
+        - id: spring-boot-spring-security-jwt-authentication
+          uri: lb://spring-boot-spring-security-jwt-authentication
           predicates:
-            - Path=/login
+            - Path=/login, /register
         - id: delegation-server-post
           uri: lb://delegation-server
           predicates:
@@ -23,5 +23,5 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://210.28.133.13:21251/eureka/
+      defaultZone: http://localhost:8002/eureka/
 
