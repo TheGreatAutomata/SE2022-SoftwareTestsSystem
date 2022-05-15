@@ -5,8 +5,11 @@ import com.micro.delegationserver.model.CreatDelegationRequest;
 import com.micro.delegationserver.model.Delegation;
 import com.micro.delegationserver.service.DelegationService;
 import com.micro.delegationserver.service.MinioServce;
+import io.minio.messages.Bucket;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.SneakyThrows;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
@@ -26,6 +29,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class delegationController implements DelegationApi{
@@ -42,8 +46,7 @@ public class delegationController implements DelegationApi{
     @Autowired
     CreatDelegationRequestMapper mapper;
 
-    @Autowired
-    MinioServce minioServce;
+
 
     @Override
     public ResponseEntity<String> creatDelegation(String usrName, String usrId, String usrRole, CreatDelegationRequestDto creatDelegationRequestDto) {
@@ -81,12 +84,19 @@ public class delegationController implements DelegationApi{
 
         return ResponseEntity.ok(usrId);
     }
-    @Override
-    public ResponseEntity<Void> createDelegationFile(String id, String usrName, String usrId, String usrRole, List<MultipartFile> file) {
-        for(MultipartFile f : file)
-        {
 
+
+    @SneakyThrows
+    @Override
+    public ResponseEntity<Void> createDelegationFile(String id, String usrName, String usrId, String usrRole, MultipartFile file1, MultipartFile file2, MultipartFile file3, MultipartFile file4) {
+        //usrName暂时作bucketName
+        //Optional<Bucket> delegationBucket = minioServce.getBucket(usrName);
+        if(delegationService.creatFile(id, "file1", file1) && delegationService.creatFile(id, "file2", file2) && delegationService.creatFile(id, "file3", file3) && delegationService.creatFile(id, "file4", file4))
+        {
+            return ResponseEntity.status(200).build();
         }
-        return new ResponseEntity(HttpStatus.NOT_IMPLEMENTED);
+        else {
+            return ResponseEntity.status(400).header("errerInfo", "had created").build();
+        }
     }
 }
