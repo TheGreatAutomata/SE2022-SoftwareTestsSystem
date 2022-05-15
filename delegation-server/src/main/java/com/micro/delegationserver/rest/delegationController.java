@@ -1,8 +1,11 @@
 package com.micro.delegationserver.rest;
 
 import com.micro.delegationserver.mapper.CreatDelegationRequestMapper;
-import com.micro.delegationserver.model.CreatDelegationRequest;
-import com.micro.delegationserver.model.Delegation;
+import com.micro.delegationserver.mapper.DelegationApplicationTableMapper;
+import com.micro.delegationserver.mapper.DelegationFileListMapper;
+import com.micro.delegationserver.mapper.DelegationFunctionTableMapper;
+import com.micro.delegationserver.model.*;
+import com.micro.delegationserver.model.dao.CreatDelegationRequestDao;
 import com.micro.delegationserver.service.DelegationService;
 import com.micro.delegationserver.service.MinioServce;
 import io.minio.messages.Bucket;
@@ -46,7 +49,17 @@ public class delegationController implements DelegationApi{
     @Autowired
     CreatDelegationRequestMapper mapper;
 
+    @Autowired
+    CreatDelegationRequestDao creatDelegationRequestDao;
 
+    @Autowired
+    DelegationApplicationTableMapper delegationApplicationTableMapper;
+
+    @Autowired
+    DelegationFileListMapper delegationFileListMapper;
+
+    @Autowired
+    DelegationFunctionTableMapper delegationFunctionTableMapper;
 
     @Override
     public ResponseEntity<String> creatDelegation(String usrName, String usrId, String usrRole, CreatDelegationRequestDto creatDelegationRequestDto) {
@@ -85,6 +98,47 @@ public class delegationController implements DelegationApi{
         return ResponseEntity.ok(usrId);
     }
 
+    //TODO: 处理异常情况，例如没找到委托
+    @Override
+    public ResponseEntity<Void> updateApplicationTable(String id, DelegationApplicationTableDto delegationApplicationTableDto) {
+        CreatDelegationRequest request=creatDelegationRequestDao.Get(Long.valueOf(id));
+        DelegationApplicationTable applicationTable=delegationApplicationTableMapper.toDelegationApplicationTable(delegationApplicationTableDto);
+        request.setApplicationTable(applicationTable);
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("request",request);
+        Delegation delegation=delegationService.constructFromRequest(request);
+        variables.put("delegation",delegation);
+        variables.put("applicationId",id);
+        runtimeService.startProcessInstanceByKey("delegation_modify", variables);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> updatefileListTable(String id, DelegationFileListDto delegationFileListDto) {
+        CreatDelegationRequest request=creatDelegationRequestDao.Get(Long.valueOf(id));
+        DelegationFileList fileList=delegationFileListMapper.toObj(delegationFileListDto);
+        request.setFileList(fileList);
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("request",request);
+        Delegation delegation=delegationService.constructFromRequest(request);
+        variables.put("delegation",delegation);
+        variables.put("applicationId",id);
+        runtimeService.startProcessInstanceByKey("delegation_modify", variables);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> updateFuntionTable(String id, DelegationFunctionTableDto delegationFunctionTableDto) {
+        CreatDelegationRequest request=creatDelegationRequestDao.Get(Long.valueOf(id));
+        DelegationFunctionTable functionTable=delegationFunctionTableMapper.toObj(delegationFunctionTableDto);
+        request.setFunctionTable(functionTable);
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("request",request);
+        Delegation delegation=delegationService.constructFromRequest(request);
+        variables.put("delegation",delegation);
+        variables.put("applicationId",id);
+        runtimeService.startProcessInstanceByKey("delegation_modify", variables);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     @SneakyThrows
     @Override
@@ -98,5 +152,6 @@ public class delegationController implements DelegationApi{
         else {
             return ResponseEntity.status(400).header("errerInfo", "had created").build();
         }
+
     }
 }

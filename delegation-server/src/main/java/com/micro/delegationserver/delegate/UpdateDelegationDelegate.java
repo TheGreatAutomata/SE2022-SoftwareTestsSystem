@@ -17,8 +17,7 @@ public class UpdateDelegationDelegate implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) {
         System.out.println("Update the delegation.");
         Delegation delegation=(Delegation) delegateExecution.getVariable("delegation");
-        Long id=Long.valueOf((String) delegateExecution.getVariable("applicationId"));
-        delegation.id=id;
+        delegation.id= Long.valueOf((String) delegateExecution.getVariable("applicationId"));
         delegationRepository.save(delegation);
     }
 }

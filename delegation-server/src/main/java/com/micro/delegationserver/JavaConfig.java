@@ -1,6 +1,8 @@
 package com.micro.delegationserver;
 
 import com.micro.delegationserver.delegate.*;
+import com.micro.delegationserver.mapper.*;
+import com.micro.delegationserver.model.DelegationFunctionTable;
 import org.activiti.engine.*;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.spring.ProcessEngineFactoryBean;
@@ -119,5 +121,20 @@ public class JavaConfig {
 
     @Bean
     public UpdateDelegationDelegate updateDelegationDelegate(){return new UpdateDelegationDelegate();}
+
+    @Bean
+    public DelegationApplicationTableMapper delegationApplicationTableMapper(){
+        return new DelegationApplicationTableMapperImpl();
+    }
+
+    @Bean
+    public DelegationFileListMapper delegationFileListMapper(){
+        return new DelegationFileListMapperImpl();
+    }
+
+    @Bean
+    public DelegationFunctionTableMapper delegationFunctionTableMapper(){
+        return new DelegationFunctionTableMapperImpl();
+    }
 }
 
