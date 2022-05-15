@@ -150,6 +150,82 @@ paths:
           description: bad permission
         '404':
           description: delegation not found
+  /delegation/{id}/applicationTable:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    put:
+      operationId: updateApplicationTable
+      tags:
+        - delegation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/delegationApplicationTable"
+        required: true
+      responses:
+        '200':
+          description: update succeed
+        '404':
+          description: delegation not found
+        '403':
+          description: delegation can no longer be modified
+  /delegation/{id}/functionTable:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    put:
+      operationId: updateFuntionTable
+      tags:
+        - delegation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/delegationFunctionTable"
+        required: true
+      responses:
+        '200':
+          description: update succeed
+        '404':
+          description: delegation not found
+        '403':
+          description: delegation can no longer be modified
+  /delegation/{id}/fileListTable:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    put:
+      operationId: updatefileListTable
+      tags:
+        - delegation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/delegationFileList"
+        required: true
+      responses:
+        '200':
+          description: update succeed
+        '404':
+          description: delegation not found
+        '403':
+          description: delegation can no longer be modified
+
   /delegations:
     parameters:
       - name: usrName

@@ -1,6 +1,8 @@
 package com.micro.delegationserver.service;
 
 
+import com.micro.delegationserver.model.CreatDelegationRequest;
+import com.micro.delegationserver.model.Delegation;
 import io.minio.StatObjectResponse;
 import io.minio.messages.Bucket;
 import io.minio.messages.Item;
@@ -46,6 +48,10 @@ public class DelegationService {
     }
 
 
+    public Delegation constructFromRequest(CreatDelegationRequest request){
+        return new Delegation(request.getUsrId(),request.getUsrName(),request.getApplicationTable().getName());
+
+
     @SneakyThrows
     public boolean creatFile(String delegationId, String fileName, MultipartFile file)
     {
@@ -65,5 +71,6 @@ public class DelegationService {
             }
         }
         return true;
+
     }
 }
