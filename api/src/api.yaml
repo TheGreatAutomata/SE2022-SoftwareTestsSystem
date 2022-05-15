@@ -48,6 +48,61 @@ paths:
             application/json:
               schema:
                 type: string
+  /delegation/{id}/file:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: createDelegationFile
+      tags:
+        - delegation
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                # The property name 'file' will be used for all files.
+                file:
+                  type: string
+                  format: binary
+                file1:
+                  type: string
+                  format: binary
+                file2:
+                  type: string
+                  format: binary
+                file3:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: created
+        '400':
+          description: cannot created
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: not found delegation
   /delegation/{id}:
     parameters:
       - name: usrName

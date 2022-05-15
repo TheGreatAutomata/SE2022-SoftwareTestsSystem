@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 10000
 spring:
   application:
     name: delegation-server
@@ -10,4 +10,11 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:8002/eureka/
+#minio
+minio:
+  endPoint: http://192.168.182.134:9000
+  accessKey: admin
+  secretKey: password
+# bucketName: minioTest
+  partSize: 104857600
 

@@ -1,5 +1,5 @@
 server:
-  port: 32000
+  port: 8000
 spring:
   application:
     name: gateway-server
@@ -13,7 +13,7 @@ spring:
         - id: delegation-server-post
           uri: lb://delegation-server
           predicates:
-            - Path=/delegation,/audit/delegation/{id}
+            - Path=/delegation,/audit/delegation/{id},/delegation/{id}/file
             - Method=POST
         - id: delegation-server-get
           uri: lb://delegation-server
@@ -23,5 +23,5 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://210.28.133.13:21251/eureka/
+      defaultZone: http://localhost:8002/eureka/
 
