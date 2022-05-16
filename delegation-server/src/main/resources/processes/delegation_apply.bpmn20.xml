@@ -3,7 +3,7 @@
   <process id="delegation_apply" name="delegation_apply" isExecutable="true">
     <startEvent id="sid-47c3086c-2c66-4a6d-aef7-7c792121daf6"/>
     <serviceTask id="sid-64d1a5bc-e16e-400e-b2a2-f28a5105acb8" activiti:exclusive="true" activiti:delegateExpression="${saveApplicationDelegate}" name="Save">
-      <documentation>Save the delegation.</documentation>
+      <documentation>Save the delegation</documentation>
     </serviceTask>
     <sequenceFlow id="sid-e93436a9-b493-464b-a628-e30b735b04c0" sourceRef="sid-47c3086c-2c66-4a6d-aef7-7c792121daf6" targetRef="sid-64d1a5bc-e16e-400e-b2a2-f28a5105acb8"/>
     <userTask id="sid-b44f6ab8-fb29-40e5-b3f4-7b8e06da66c0" name="Audit" activiti:assignee="group(employee_market)">
@@ -37,7 +37,7 @@
     </sequenceFlow>
     <endEvent id="sid-27a8561f-aa06-4162-883f-a0ff55138c34"/>
     <sequenceFlow id="sid-6e28f248-ed57-4693-8ec6-f4723b2c2dba" sourceRef="sid-0b73c759-50dd-4e6c-8ee8-704e2d31acdd" targetRef="sid-27a8561f-aa06-4162-883f-a0ff55138c34"/>
-    <serviceTask id="sid-4afe06bf-cf01-4971-aab5-d64780b56d08" activiti:exclusive="true" name="AcceptApplication" activiti:expression="${acceptApplicationDelegate}">
+    <serviceTask id="sid-4afe06bf-cf01-4971-aab5-d64780b56d08" activiti:exclusive="false" name="AcceptApplication" activiti:delegateExpression="${acceptApplicationDelegate}">
       <documentation>Do something after the application being accepted.</documentation>
     </serviceTask>
     <parallelGateway id="sid-1c62fe57-f33d-4db1-a90d-d54bcb0e9249"/>

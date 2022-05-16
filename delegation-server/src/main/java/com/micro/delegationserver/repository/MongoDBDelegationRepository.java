@@ -1,9 +1,11 @@
 package com.micro.delegationserver.repository;
 
+
 import com.micro.delegationserver.model.Delegation;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DelegationRepository extends JpaRepository<Delegation,String> {
+public interface MongoDBDelegationRepository extends MongoRepository<Delegation,String> {
+
 }

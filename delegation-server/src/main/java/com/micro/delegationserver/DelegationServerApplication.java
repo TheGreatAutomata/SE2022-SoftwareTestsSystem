@@ -43,9 +43,4 @@ public class DelegationServerApplication {
 
     }
 
-    @Bean
-    public testbean testbean(){
-        return new testbean();
-    }
-
 }
