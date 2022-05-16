@@ -80,9 +80,6 @@ paths:
             schema:
               properties:
                 # The property name 'file' will be used for all files.
-                file:
-                  type: string
-                  format: binary
                 file1:
                   type: string
                   format: binary
@@ -90,6 +87,9 @@ paths:
                   type: string
                   format: binary
                 file3:
+                  type: string
+                  format: binary
+                file4:
                   type: string
                   format: binary
       responses:

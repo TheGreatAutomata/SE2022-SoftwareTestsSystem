@@ -23,29 +23,29 @@ import java.util.*;
 
 @Service
 public class DelegationService {
-    @Autowired
-    private RuntimeService runtimeService;
-
-    @Autowired
-    private TaskService taskService;
+//    @Autowired
+//    private RuntimeService runtimeService;
+//
+//    @Autowired
+//    private TaskService taskService;
 
     @Autowired
     MinioServce minioServce;
 
-    @Transactional
-    public void startApplicationProcess() {
-        runtimeService.startProcessInstanceByKey("delegationApplication");
-    }
-
-    public void storeDelegation()
-    {
-        System.out.println("Store delegation....\n");
-    }
-
-    @Transactional
-    public List<Task> getTasks(String assignee) {
-        return taskService.createTaskQuery().taskAssignee(assignee).list();
-    }
+//    @Transactional
+//    public void startApplicationProcess() {
+//        runtimeService.startProcessInstanceByKey("delegationApplication");
+//    }
+//
+//    public void storeDelegation()
+//    {
+//        System.out.println("Store delegation....\n");
+//    }
+//
+//    @Transactional
+//    public List<Task> getTasks(String assignee) {
+//        return taskService.createTaskQuery().taskAssignee(assignee).list();
+//    }
 
 
     public Delegation constructFromRequest(CreatDelegationRequest request) {

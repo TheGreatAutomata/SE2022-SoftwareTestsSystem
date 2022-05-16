@@ -1,5 +1,6 @@
 package com.micro.delegationserver.rest;
 
+import com.google.common.collect.Lists;
 import com.micro.delegationserver.mapper.CreatDelegationRequestMapper;
 import com.micro.delegationserver.mapper.DelegationApplicationTableMapper;
 import com.micro.delegationserver.mapper.DelegationFileListMapper;
@@ -150,9 +151,13 @@ public class delegationController implements DelegationApi{
         Task task = taskService.createTaskQuery().taskName("FilesUpload").processVariableValueEquals("applicationId",id).singleResult();
 
         Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put("delegationId", "delega"+id);
-        List<MultipartFile> filesList = List.of(file1, file2, file3, file4);
-        variables.put("files", filesList);
+        String delegationId = "delega"+id;
+        variables.put("delegationId", delegationId);
+        //List<MultipartFile> filesList = Lists.newArrayList(file1, file2, file3, file4);
+        variables.put("file1", file1.getBytes());
+        //variables.put("file2", file2);
+        //variables.put("file3", file3);
+        //variables.put("file4", file4);
         taskService.complete(task.getId(), variables);
 
 //        if(delegationService.creatFile(id, "file1", file1) && delegationService.creatFile(id, "file2", file2) && delegationService.creatFile(id, "file3", file3) && delegationService.creatFile(id, "file4", file4))

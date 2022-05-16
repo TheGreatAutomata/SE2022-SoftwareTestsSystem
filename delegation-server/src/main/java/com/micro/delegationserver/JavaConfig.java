@@ -62,6 +62,7 @@ public class JavaConfig {
         beans.put("acceptApplicationDelegate",acceptApplicationDelegate());
         beans.put("updateApplicationDelegate",updateApplicationDelegate());
         beans.put("updateDelegationDelegate",updateDelegationDelegate());
+        beans.put("saveFilesDelegate",saveFilesDelegate());
 
         springProcessEngineConfiguration.setBeans(beans);
 
@@ -122,7 +123,10 @@ public class JavaConfig {
     @Bean
     public UpdateDelegationDelegate updateDelegationDelegate(){return new UpdateDelegationDelegate();}
     @Bean
-    public SaveFilesDelegate saveFilesDelegate(){return new SaveFilesDelegate();}
+    public SaveFilesDelegate saveFilesDelegate()
+    {
+        return new SaveFilesDelegate();
+    }
 
     @Bean
     public DelegationApplicationTableMapper delegationApplicationTableMapper(){
