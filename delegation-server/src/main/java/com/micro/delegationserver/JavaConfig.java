@@ -1,6 +1,8 @@
 package com.micro.delegationserver;
 
 import com.micro.delegationserver.delegate.*;
+import com.micro.delegationserver.mapper.*;
+import com.micro.delegationserver.model.DelegationFunctionTable;
 import org.activiti.engine.*;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.spring.ProcessEngineFactoryBean;
@@ -47,9 +49,10 @@ public class JavaConfig {
         springProcessEngineConfiguration.setDataSource(dataSource());
         springProcessEngineConfiguration.setTransactionManager(transactionManager());
         springProcessEngineConfiguration.setDatabaseSchemaUpdate("true");
-        Resource[] resources=new Resource[2];
+        Resource[] resources=new Resource[3];
         resources[0]=new ClassPathResource("processes/delegation.bpmn20.xml");
         resources[1]=new ClassPathResource("processes/delegation_apply.bpmn20.xml");
+        resources[2]=new ClassPathResource("processes/delegation_modify.bpmn20.xml");
         springProcessEngineConfiguration.setDeploymentResources(resources);
         springProcessEngineConfiguration.setDeploymentMode("single-resource");
 
@@ -57,6 +60,9 @@ public class JavaConfig {
 
         beans.put("saveApplicationDelegate",saveApplicationDelegate());
         beans.put("acceptApplicationDelegate",acceptApplicationDelegate());
+        beans.put("updateApplicationDelegate",updateApplicationDelegate());
+        beans.put("updateDelegationDelegate",updateDelegationDelegate());
+        beans.put("saveFilesDelegate",saveFilesDelegate());
 
         springProcessEngineConfiguration.setBeans(beans);
 
@@ -74,9 +80,9 @@ public class JavaConfig {
     public ProcessEngine processEngine() throws Exception{
         ProcessEngineFactoryBean factoryBean = new ProcessEngineFactoryBean();
         factoryBean.setProcessEngineConfiguration(processEngineConfiguration());
-        ProcessEngine processEngine = factoryBean.getObject();
-        Map<String, ProcessEngine> theMap = ProcessEngines.getProcessEngines();
-        RepositoryService repositoryService = processEngine.getRepositoryService();
+//        ProcessEngine processEngine = factoryBean.getObject();
+//        Map<String, ProcessEngine> theMap = ProcessEngines.getProcessEngines();
+//        RepositoryService repositoryService = processEngine.getRepositoryService();
 //        //这个是删除，注意用的是deployment_id_
 //        //repositoryService.deleteDeployment("35001",true);
 //
@@ -111,5 +117,30 @@ public class JavaConfig {
     @Bean
     public AcceptApplicationDelegate acceptApplicationDelegate() {return new AcceptApplicationDelegate();}
 
+    @Bean
+    public UpdateApplicationDelegate updateApplicationDelegate(){return new UpdateApplicationDelegate();}
+
+    @Bean
+    public UpdateDelegationDelegate updateDelegationDelegate(){return new UpdateDelegationDelegate();}
+    @Bean
+    public SaveFilesDelegate saveFilesDelegate()
+    {
+        return new SaveFilesDelegate();
+    }
+
+    @Bean
+    public DelegationApplicationTableMapper delegationApplicationTableMapper(){
+        return new DelegationApplicationTableMapperImpl();
+    }
+
+    @Bean
+    public DelegationFileListMapper delegationFileListMapper(){
+        return new DelegationFileListMapperImpl();
+    }
+
+    @Bean
+    public DelegationFunctionTableMapper delegationFunctionTableMapper(){
+        return new DelegationFunctionTableMapperImpl();
+    }
 }
 

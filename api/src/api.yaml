@@ -48,6 +48,61 @@ paths:
             application/json:
               schema:
                 type: string
+  /delegation/{id}/file:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: createDelegationFile
+      tags:
+        - delegation
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                # The property name 'file' will be used for all files.
+                file1:
+                  type: string
+                  format: binary
+                file2:
+                  type: string
+                  format: binary
+                file3:
+                  type: string
+                  format: binary
+                file4:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: created
+        '400':
+          description: cannot created
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: not found delegation
   /delegation/{id}:
     parameters:
       - name: usrName
@@ -95,6 +150,82 @@ paths:
           description: bad permission
         '404':
           description: delegation not found
+  /delegation/{id}/applicationTable:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    put:
+      operationId: updateApplicationTable
+      tags:
+        - delegation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/delegationApplicationTable"
+        required: true
+      responses:
+        '200':
+          description: update succeed
+        '404':
+          description: delegation not found
+        '403':
+          description: delegation can no longer be modified
+  /delegation/{id}/functionTable:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    put:
+      operationId: updateFuntionTable
+      tags:
+        - delegation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/delegationFunctionTable"
+        required: true
+      responses:
+        '200':
+          description: update succeed
+        '404':
+          description: delegation not found
+        '403':
+          description: delegation can no longer be modified
+  /delegation/{id}/fileListTable:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    put:
+      operationId: updatefileListTable
+      tags:
+        - delegation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/delegationFileList"
+        required: true
+      responses:
+        '200':
+          description: update succeed
+        '404':
+          description: delegation not found
+        '403':
+          description: delegation can no longer be modified
+
   /delegations:
     parameters:
       - name: usrName
@@ -122,9 +253,11 @@ paths:
           content:
             application/json:
               schema:
-                type: string
                 #changed
                   #$ref: "#/components/schemas/delegationItem"
+                type: array
+                items:
+                  type: string
         '404':
           description: usr not found
   /audit/delegation/{id}:
