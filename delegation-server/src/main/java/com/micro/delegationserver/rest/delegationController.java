@@ -1,6 +1,5 @@
 package com.micro.delegationserver.rest;
 
-import com.micro.delegationserver.mapper.CreatDelegationRequestMapper;
 import com.micro.delegationserver.mapper.DelegationApplicationTableMapper;
 import com.micro.delegationserver.mapper.DelegationFileListMapper;
 import com.micro.delegationserver.mapper.DelegationFunctionTableMapper;
@@ -9,7 +8,6 @@ import com.micro.delegationserver.repository.MongoDBDelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.micro.api.DelegationApi;
 import com.micro.dto.*;
 
-import java.net.URI;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -34,10 +30,6 @@ public class delegationController implements DelegationApi{
 
     @Autowired
     private TaskService taskService;
-
-    @Autowired
-    CreatDelegationRequestMapper mapper;
-
 
     @Autowired
     DelegationApplicationTableMapper delegationApplicationTableMapper;
@@ -71,7 +63,7 @@ public class delegationController implements DelegationApi{
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
-            delegation.setApplicationTable(new HashMap<>());
+
             Map<String, Object> variables = new HashMap<String, Object>();
             variables.put("delegation",delegation);
             variables.put("delegationId",id);
@@ -85,7 +77,7 @@ public class delegationController implements DelegationApi{
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
-            delegation.setApplicationTable(new HashMap<>());
+
             Map<String, Object> variables = new HashMap<String, Object>();
             variables.put("delegation",delegation);
             variables.put("delegationId",id);
@@ -99,7 +91,7 @@ public class delegationController implements DelegationApi{
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
-            delegation.setApplicationTable(new HashMap<>());
+
             Map<String, Object> variables = new HashMap<String, Object>();
             variables.put("delegation",delegation);
             variables.put("delegationId",id);
@@ -108,8 +100,20 @@ public class delegationController implements DelegationApi{
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
     @Override
     public ResponseEntity<DelegationItemDto> findDelegation(String usrName, String usrId, String usrRole, String id) {
-        return DelegationApi.super.findDelegation(usrName, usrId, usrRole, id);
+        DelegationItemDto delegationItemDto=new DelegationItemDto();
+        Optional<Delegation> delegation_op=delegationRepository.findById(id);
+        if(delegation_op.isPresent()){
+            Delegation delegation=delegation_op.get();
+            delegationItemDto.setDelegationId(id);
+            delegationItemDto.setApplicationTable(delegationApplicationTableMapper.toDelegationApplicationTableDto(delegation.getApplicationTable()));
+            delegationItemDto.setState(delegation.getState().toString());
+            delegationItemDto.setFileList(null);
+            delegationItemDto.setUsrBelonged(delegation.getUsrBelonged());
+            return new ResponseEntity<DelegationItemDto>(delegationItemDto,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

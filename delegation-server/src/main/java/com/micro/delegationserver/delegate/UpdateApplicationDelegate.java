@@ -1,6 +1,5 @@
 package com.micro.delegationserver.delegate;
 
-import com.micro.delegationserver.model.CreatDelegationRequest;
 import com.micro.delegationserver.model.Delegation;
 import com.micro.delegationserver.model.DelegationState;
 import com.micro.delegationserver.repository.MongoDBDelegationRepository;

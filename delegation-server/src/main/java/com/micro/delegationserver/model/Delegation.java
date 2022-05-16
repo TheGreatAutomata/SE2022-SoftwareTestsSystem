@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Map;
 
 @Document("delegation")
 @Data
@@ -14,24 +13,24 @@ public class Delegation implements Serializable {
 
     @Id
     public String id;
-
     @NotNull
-    public String usrId;
-
+    public String usrBelonged;
     public String usrName;
-    public String delegationName;
+
+    public DelegationApplicationTable applicationTable;
 
     public DelegationState state;
 
-    public Map<String,String> applicationTable;
+    public String suggestion;
 
     public Delegation(){
 
     }
 
-    public Delegation(String usrId,String usrName,String delegationName){
-        this.usrId=usrId;
+    public Delegation(String usrId,String usrName,DelegationApplicationTable applicationTable,DelegationState state){
+        this.usrBelonged =usrId;
         this.usrName=usrName;
-        this.delegationName=delegationName;
+        this.applicationTable=applicationTable;
+        this.state=state;
     }
 }

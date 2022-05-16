@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 
 import java.util.Collection;
 
-
+@Mapper
 public interface DelegationItemMapper {
     public Collection<DelegationItemDto> toDtos(Collection<Delegation> delegations);
 
