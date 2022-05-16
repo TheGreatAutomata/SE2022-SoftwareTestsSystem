@@ -107,4 +107,9 @@ public class delegationController implements DelegationApi{
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<DelegationItemDto> findDelegation(String usrName, String usrId, String usrRole, String id) {
+        return DelegationApi.super.findDelegation(usrName, usrId, usrRole, id);
+    }
 }
