@@ -86,6 +86,8 @@ public class delegationController implements DelegationApi{
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+
     @Override
     public ResponseEntity<Void> updateFuntionTable(String id, DelegationFunctionTableDto delegationFunctionTableDto) {
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
@@ -116,4 +118,6 @@ public class delegationController implements DelegationApi{
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+
 }

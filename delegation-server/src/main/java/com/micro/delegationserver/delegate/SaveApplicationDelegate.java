@@ -17,13 +17,11 @@ public class SaveApplicationDelegate implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) {
         System.out.println("Save the application.");
         Delegation currentDelegation=(Delegation) delegateExecution.getVariable("delegation");
-        currentDelegation=delegationRepository.save(currentDelegation);
-        currentDelegation.setState(DelegationState.IN_REVIEW);
         delegationRepository.save(currentDelegation);
 
-        System.out.println(currentDelegation.id);
+        System.out.println(currentDelegation.delegationId);
 
-        delegateExecution.setVariable("delegationId",currentDelegation.id);
+        delegateExecution.setVariable("delegationId",currentDelegation.delegationId);
 
         delegateExecution.setVariable("delegation",currentDelegation);
     }

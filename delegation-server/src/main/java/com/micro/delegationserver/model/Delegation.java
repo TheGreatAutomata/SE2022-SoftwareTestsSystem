@@ -2,6 +2,7 @@ package com.micro.delegationserver.model;
 
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,8 +12,8 @@ import java.io.Serializable;
 @Data
 public class Delegation implements Serializable {
 
-    @Id
-    public String id;
+    @MongoId
+    public String delegationId;
     @NotNull
     public String usrBelonged;
     public String usrName;

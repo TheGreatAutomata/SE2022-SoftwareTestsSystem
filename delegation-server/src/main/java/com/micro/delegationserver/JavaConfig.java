@@ -137,5 +137,10 @@ public class JavaConfig {
     public DelegationFunctionTableMapper delegationFunctionTableMapper(){
         return new DelegationFunctionTableMapperImpl();
     }
+
+    @Bean
+    public DelegationItemMapper delegationItemMapper() {
+        return new DelegationItemMapperImpl();
+    }
 }
 

@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface MongoDBDelegationRepository extends MongoRepository<Delegation,String> {
 
-    @Query("{usrId: ?0}")
+    @Query("{usrBelonged: ?0}")
     List<Delegation> findAllByUsrId(String usrId);
 
 }

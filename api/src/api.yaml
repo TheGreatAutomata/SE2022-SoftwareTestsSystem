@@ -198,9 +198,9 @@ paths:
           content:
             application/json:
               schema:
-                type: string
-                #changed
-                  #$ref: "#/components/schemas/delegationItem"
+                type: array
+                items:
+                  $ref: "#/components/schemas/delegationItem"
         '404':
           description: usr not found
   /audit/delegation/{id}:
