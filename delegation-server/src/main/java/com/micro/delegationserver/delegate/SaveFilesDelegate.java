@@ -22,7 +22,8 @@ public class SaveFilesDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
         System.out.println("Save the delegation files.");
-        String delegationId = (String) delegateExecution.getVariable("delegationId");
+        String applicationId = (String) delegateExecution.getVariable("applicationId");
+        String delegationId = "delega" + applicationId;
 //        List<MultipartFile> files = (List<MultipartFile>) delegateExecution.getVariable("files");
 //        List<String> filesName = Lists.newArrayList("file1", "file2", "file3", "file4");
 //        for(int i=0; i<files.size(); ++i)
@@ -32,11 +33,24 @@ public class SaveFilesDelegate implements JavaDelegate {
         //MultipartFile file = (MultipartFile) delegateExecution.getVariable("files");
         //delegationService.creatFile(delegationId, "fileTemp", file);
         //MultipartFile f = (MultipartFile) delegateExecution.getVariable("file1");
-        MultipartFile f = new MockMultipartFile(ContentType.APPLICATION_OCTET_STREAM.toString(), (byte[]) delegateExecution.getVariable("file1"));
-        delegationService.creatFile(delegationId, "file1", f);
+        List<String> filesName = Lists.newArrayList("usrManual", "installationManual", "operationManual", "maintenanceManual");
+        //List<String> storeName = Lists.newArrayList("file1", "file2", "file3", "file4");
+        for(String s : filesName)
+        {
+            byte[] file = (byte[]) delegateExecution.getVariable(s);
+            if(file != null)
+            {
+                MultipartFile f = new MockMultipartFile(ContentType.APPLICATION_OCTET_STREAM.toString(), file);
+
+                delegationService.creatFile(delegationId, (String) delegateExecution.getVariable(s+"Name"), f, s);
+            }
+
+        }
+
+
         //delegationService.creatFile(delegationId, "file2", (MultipartFile) delegateExecution.getVariable("file1"));
         //delegationService.creatFile(delegationId, "file3", (MultipartFile) delegateExecution.getVariable("file1"));
         //delegationService.creatFile(delegationId, "file4", (MultipartFile) delegateExecution.getVariable("file1"));
-        delegateExecution.setVariable("applicationId", delegationId);
+        delegateExecution.setVariable("applicationId", applicationId);
     }
 }

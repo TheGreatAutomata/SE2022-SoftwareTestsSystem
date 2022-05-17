@@ -1,6 +1,7 @@
 package com.micro.delegationserver.service;
 
 import io.minio.*;
+import io.minio.errors.*;
 import io.minio.http.Method;
 import io.minio.messages.Bucket;
 import io.minio.messages.Item;
@@ -9,10 +10,11 @@ import lombok.SneakyThrows;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -93,6 +95,57 @@ public class MinioServce {
                 .build();
         ObjectWriteResponse objectWriteResponse = client.putObject(putObjectArgs);
         return objectWriteResponse.object();
+    }
+
+    @SneakyThrows
+    public boolean setTag(String bucketName, String objectName, Map<String, String>mp)
+    {
+        client.setObjectTags(
+                SetObjectTagsArgs.builder().bucket(bucketName).object(objectName).tags(mp).build());
+        return true;
+    }
+
+    @SneakyThrows
+    public Map<String, String> getTags(String bucketName, String objectName)
+    {
+        if(hasObject(bucketName, objectName))
+        {
+            return client.getObjectTags(GetObjectTagsArgs.builder().bucket(bucketName).object(objectName).build()).get();
+        }
+        else return null;
+    }
+
+    @SneakyThrows
+    public boolean hasBucket(String bucketName)
+    {
+        return client.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
+    }
+
+    public boolean hasObject(String bucketName, String objectName)
+    {
+            if(hasBucket(bucketName))
+            {
+                try {
+                    StatObjectResponse objectInfo = getObjectInfo(bucketName, objectName);
+                    return objectInfo != null;
+                } catch (Exception e) {
+                    return false;
+                }
+            }
+            return false;
+
+    }
+
+    @SneakyThrows
+    public Iterable<Result<Item>> listObjects(String bucketName)
+    {
+        if(!hasBucket(bucketName))
+        {
+            return null;
+        }
+        Iterable<Result<Item>> results = client.listObjects(
+                ListObjectsArgs.builder().bucket(bucketName).recursive(true).build());
+        return results;
     }
 
     /**

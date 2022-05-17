@@ -8,6 +8,7 @@
         <module>delegation-server</module>
         <module>config-server</module>
         <module>gateway-server</module>
+        <module>discovery-server</module>
         <module>loginAndRegister-server</module>
         <module>spring-boot-spring-security-jwt-authentication</module>
     </modules>

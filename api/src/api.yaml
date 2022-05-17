@@ -48,7 +48,7 @@ paths:
             application/json:
               schema:
                 type: string
-  /delegation/{id}/file:
+  /delegation/{id}/files:
     parameters:
       - name: id
         in: path
@@ -70,7 +70,7 @@ paths:
         required: true
         schema:
           type: string
-    post:
+    post: #finished
       operationId: createDelegationFile
       tags:
         - delegation
@@ -80,29 +80,36 @@ paths:
             schema:
               properties:
                 # The property name 'file' will be used for all files.
-                file1:
+                usrManual:
                   type: string
                   format: binary
-                file2:
+                installationManual:
                   type: string
                   format: binary
-                file3:
+                operationManual:
                   type: string
                   format: binary
-                file4:
+                maintenanceManual:
                   type: string
                   format: binary
       responses:
         '201':
           description: created
-        '400':
-          description: cannot created
+        '404':
+          description: not found delegation
+    get:
+      operationId: listDelegationFile
+      tags:
+        - delegations
+      responses:
+        "200":
+          description: ok
           content:
             application/json:
               schema:
-                type: string
-        '404':
-          description: not found delegation
+                $ref: '#/components/schemas/allFiles'
+        "404":
+          description: delegation not found
   /delegation/{id}:
     parameters:
       - name: usrName
@@ -354,3 +361,19 @@ components:
           $ref: "#/components/schemas/delegationFunctionTable"
         fileList:
           $ref: "#/components/schemas/delegationFileList"
+    singleFile:
+      type: object
+      properties:
+        fileName:
+          type: string
+        fileType:
+          type: string
+        fileUri:
+          type: string
+    allFiles:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/singleFile'

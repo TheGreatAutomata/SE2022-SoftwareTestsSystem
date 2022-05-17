@@ -3,6 +3,8 @@ package com.micro.delegationserver.service;
 
 import com.micro.delegationserver.model.CreatDelegationRequest;
 import com.micro.delegationserver.model.Delegation;
+import com.micro.delegationserver.model.minioFileItem;
+import io.minio.Result;
 import io.minio.StatObjectResponse;
 import io.minio.messages.Bucket;
 import io.minio.messages.Item;
@@ -53,7 +55,7 @@ public class DelegationService {
     }
 
     @SneakyThrows
-    public boolean creatFile(String delegationId, String fileName, MultipartFile file)
+    public boolean creatFile(String delegationId, String fileName, MultipartFile file, String fileType)
     {
         if (!Objects.equals(file, null) && !file.isEmpty()) {
 
@@ -68,9 +70,36 @@ public class DelegationService {
                 return false;
             } catch (Exception e) {
                 minioServce.putObject(delegationId, fileName, file);
+                Map<String, String> mp = new HashMap<>();
+                mp.put("fileType", fileType);
+                //mp.put("User", "jsmith");
+                minioServce.setTag(delegationId, fileName, mp);
             }
         }
         return true;
-
     }
+
+    @SneakyThrows
+    public List<minioFileItem> getAllFiles(String delegationId)
+    {
+        Iterable<Result<Item>> allFiles = minioServce.listObjects(delegationId);
+        if(allFiles == null)
+        {
+            return null;
+        }
+        List<minioFileItem> fileList = new ArrayList<>();
+        for(Result<Item> f : allFiles)
+        {
+            fileList.add(new minioFileItem(minioServce.getTags(delegationId, f.get().objectName()).get("fileType"), f.get().objectName(), minioServce.getObjectURL(delegationId, f.get().objectName())));
+        }
+        return fileList;
+//        Map<String, String> mp = new HashMap<>();;
+//        for(Result<Item> f : allFiles)
+//        {
+//            mp.put(minioServce.getTags(delegationId, f.get().objectName()).get("fileType"), minioServce.getObjectURL(delegationId, f.get().objectName()));
+//        }
+//        return mp;
+    }
+
+
 }

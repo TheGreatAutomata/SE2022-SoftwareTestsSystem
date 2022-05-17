@@ -13,12 +13,12 @@ spring:
         - id: delegation-server-post
           uri: lb://delegation-server
           predicates:
-            - Path=/delegation,/audit/delegation/{id},/delegation/{id}/file
+            - Path=/delegation,/audit/delegation/{id},/delegation/{id}/files
             - Method=POST
         - id: delegation-server-get
           uri: lb://delegation-server
           predicates:
-            - Path=/delegation/{id},/delegations
+            - Path=/delegation/{id},/delegations,/delegation/{id}/files
             - Method=GET
 eureka:
   client:

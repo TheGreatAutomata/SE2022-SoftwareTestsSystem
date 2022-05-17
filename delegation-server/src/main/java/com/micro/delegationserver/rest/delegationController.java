@@ -1,10 +1,7 @@
 package com.micro.delegationserver.rest;
 
 import com.google.common.collect.Lists;
-import com.micro.delegationserver.mapper.CreatDelegationRequestMapper;
-import com.micro.delegationserver.mapper.DelegationApplicationTableMapper;
-import com.micro.delegationserver.mapper.DelegationFileListMapper;
-import com.micro.delegationserver.mapper.DelegationFunctionTableMapper;
+import com.micro.delegationserver.mapper.*;
 import com.micro.delegationserver.model.*;
 import com.micro.delegationserver.model.dao.CreatDelegationRequestDao;
 import com.micro.delegationserver.service.DelegationService;
@@ -61,6 +58,9 @@ public class delegationController implements DelegationApi{
 
     @Autowired
     DelegationFunctionTableMapper delegationFunctionTableMapper;
+
+    @Autowired
+    DelegationFilesMapper delegationFilesMapper;
 
     @Override
     public ResponseEntity<String> creatDelegation(String usrName, String usrId, String usrRole, CreatDelegationRequestDto creatDelegationRequestDto) {
@@ -145,26 +145,96 @@ public class delegationController implements DelegationApi{
 
     @SneakyThrows
     @Override
-    public ResponseEntity<Void> createDelegationFile(String id, String usrName, String usrId, String usrRole, MultipartFile file1, MultipartFile file2, MultipartFile file3, MultipartFile file4) {
+    public ResponseEntity<Void> createDelegationFile(String id, String usrName, String usrId, String usrRole, MultipartFile usrManual, MultipartFile installationManual, MultipartFile operationManual, MultipartFile maintenanceManual) {
         //usrName暂时作bucketName
         //Optional<Bucket> delegationBucket = minioServce.getBucket(usrName);
+
+        //start test
+        //here check
+
+
         Task task = taskService.createTaskQuery().taskName("FilesUpload").processVariableValueEquals("applicationId",id).singleResult();
+        if(task == null)
+        {
+            //application not found
+            ResponseEntity.status(404).build();
+        }
+        //end test
 
         Map<String, Object> variables = new HashMap<String, Object>();
-        String delegationId = "delega"+id;
-        variables.put("delegationId", delegationId);
+        //String delegationId = "delega"+id;
+        variables.put("applicationId", id);
         //List<MultipartFile> filesList = Lists.newArrayList(file1, file2, file3, file4);
-        variables.put("file1", file1.getBytes());
+
+        if(usrManual != null)
+        {
+            variables.put("usrManual", usrManual.getBytes());
+            variables.put("usrManualName", usrManual.getOriginalFilename());
+        }
+        else
+        {
+            variables.put("usrManual", usrManual);
+            variables.put("usrManualName", "None");
+        }
+        if(installationManual != null)
+        {
+            variables.put("installationManual", installationManual.getBytes());
+            variables.put("installationManualName", installationManual.getOriginalFilename());
+        }
+        else
+        {
+            variables.put("installationManual", installationManual);
+            variables.put("installationManualName", "None");
+        }
+        if(operationManual != null)
+        {
+            variables.put("operationManual", operationManual.getBytes());
+            variables.put("operationManualName", operationManual.getOriginalFilename());
+        }
+        else
+        {
+            variables.put("operationManual", operationManual);
+            variables.put("operationManualName", "None");
+        }
+        if(maintenanceManual != null)
+        {
+            variables.put("maintenanceManual", maintenanceManual.getBytes());
+            variables.put("maintenanceManualName", maintenanceManual.getOriginalFilename());
+        }
+        else
+        {
+            variables.put("maintenanceManual", maintenanceManual);
+            variables.put("maintenanceManualName", "None");
+        }
+        //variables.put("installationManual", installationManual.getBytes());
+        //variables.put("operationManual", operationManual.getBytes());
+        //variables.put("maintenanceManual", maintenanceManual.getBytes());
         //variables.put("file2", file2);
         //variables.put("file3", file3);
         //variables.put("file4", file4);
+
+
         taskService.complete(task.getId(), variables);
 
 //        if(delegationService.creatFile(id, "file1", file1) && delegationService.creatFile(id, "file2", file2) && delegationService.creatFile(id, "file3", file3) && delegationService.creatFile(id, "file4", file4))
 //        {
-        return ResponseEntity.status(200).build();
+        return ResponseEntity.status(201).build();
 //        }
+    }
 
+    @Override
+    public ResponseEntity<AllFilesDto> listDelegationFile(String id, String usrName, String usrId, String usrRole)
+    {
+        String delegationId = "delega" + id;
+        List<minioFileItem> mp = delegationService.getAllFiles(delegationId);
+        if(mp == null)
+        {
+            return ResponseEntity.status(404).build();
+        }
+        else
+        {
+            return ResponseEntity.ok(delegationFilesMapper.toAllFilesDto(mp));
+        }
     }
 }
 
