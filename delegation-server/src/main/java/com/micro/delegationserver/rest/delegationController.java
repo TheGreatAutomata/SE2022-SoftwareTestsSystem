@@ -134,4 +134,13 @@ public class delegationController implements DelegationApi{
     }
 
 
+    @Override
+    public ResponseEntity<Void> deleteDelegation(String usrName, String usrId, String usrRole, String id) {
+        Optional<Delegation> delegation_op=delegationRepository.findById(id);
+        if(delegation_op.isPresent()){
+            delegationRepository.deleteById(delegation_op.get().getDelegationId());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
