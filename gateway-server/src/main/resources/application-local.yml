@@ -6,10 +6,11 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: loginAndRegister-server
-          uri: lb://loginAndRegister-server
+        - id: spring-boot-spring-security-jwt-authentication
+          uri: lb://spring-boot-spring-security-jwt-authentication
           predicates:
-            - Path=/login
+            - Path=/login, /register
+            - Method=POST
         - id: delegation-server-post
           uri: lb://delegation-server
           predicates:
