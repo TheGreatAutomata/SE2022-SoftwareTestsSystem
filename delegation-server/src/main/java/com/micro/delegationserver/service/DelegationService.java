@@ -5,6 +5,12 @@ import com.micro.delegationserver.mapper.DelegationApplicationTableMapper;
 import com.micro.delegationserver.model.Delegation;
 import com.micro.delegationserver.model.DelegationState;
 import com.micro.dto.CreatDelegationRequestDto;
+import com.micro.delegationserver.model.minioFileItem;
+import io.minio.Result;
+import io.minio.StatObjectResponse;
+import io.minio.messages.Bucket;
+import io.minio.messages.Item;
+import lombok.SneakyThrows;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
@@ -14,29 +20,65 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.*;
 
 @Service
 public class DelegationService {
-    @Autowired
-    private RuntimeService runtimeService;
+//    @Autowired
+//    private RuntimeService runtimeService;
+//
+//    @Autowired
+//    private TaskService taskService;
 
     @Autowired
-    private TaskService taskService;
+    MinioServce minioServce;
 
-    @Transactional
-    public void startApplicationProcess() {
-        runtimeService.startProcessInstanceByKey("delegationApplication");
-    }
+//    @Transactional
+//    public void startApplicationProcess() {
+//        runtimeService.startProcessInstanceByKey("delegationApplication");
+//    }
+//
+//    public void storeDelegation()
+//    {
+//        System.out.println("Store delegation....\n");
+//    }
+//
+//    @Transactional
+//    public List<Task> getTasks(String assignee) {
+//        return taskService.createTaskQuery().taskAssignee(assignee).list();
+//    }
 
-    public void storeDelegation()
+
+    @SneakyThrows
+    public boolean creatFile(String delegationId, String fileName, MultipartFile file, String fileType)
     {
-        System.out.println("Store delegation....\n");
+        if (!Objects.equals(file, null) && !file.isEmpty()) {
+
+            Optional<Bucket> delegationBucket = minioServce.getBucket(delegationId);
+            if (delegationBucket.isEmpty()) {
+                minioServce.createBucket(delegationId);
+                //delegationBucket = minioServce.getBucket(delegationId);
+            }
+            StatObjectResponse objectStat = null;
+            try {
+                objectStat = minioServce.getObjectInfo(delegationId, fileName);
+                return false;
+            } catch (Exception e) {
+                minioServce.putObject(delegationId, fileName, file);
+                Map<String, String> mp = new HashMap<>();
+                mp.put("fileType", fileType);
+                //mp.put("User", "jsmith");
+                minioServce.setTag(delegationId, fileName, mp);
+            }
+        }
+        return true;
     }
 
-    @Transactional
-    public List<Task> getTasks(String assignee) {
-        return taskService.createTaskQuery().taskAssignee(assignee).list();
-    }
 
     @Autowired
     DelegationApplicationTableMapper delegationApplicationTableMapper;
@@ -47,6 +89,26 @@ public class DelegationService {
         return delegation;
     }
 
-
+    @SneakyThrows
+    public List<minioFileItem> getAllFiles(String delegationId)
+    {
+        Iterable<Result<Item>> allFiles = minioServce.listObjects(delegationId);
+        if(allFiles == null)
+        {
+            return null;
+        }
+        List<minioFileItem> fileList = new ArrayList<>();
+        for(Result<Item> f : allFiles)
+        {
+            fileList.add(new minioFileItem(minioServce.getTags(delegationId, f.get().objectName()).get("fileType"), f.get().objectName(), minioServce.getObjectURL(delegationId, f.get().objectName())));
+        }
+        return fileList;
+//        Map<String, String> mp = new HashMap<>();;
+//        for(Result<Item> f : allFiles)
+//        {
+//            mp.put(minioServce.getTags(delegationId, f.get().objectName()).get("fileType"), minioServce.getObjectURL(delegationId, f.get().objectName()));
+//        }
+//        return mp;
+    }
 
 }
