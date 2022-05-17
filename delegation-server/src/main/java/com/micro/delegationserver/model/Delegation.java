@@ -1,31 +1,37 @@
 package com.micro.delegationserver.model;
 
+import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "delegations")
+@Document("delegation")
+@Data
 public class Delegation implements Serializable {
-    @GeneratedValue
-    @Id
-    public Long id;
 
+    @MongoId
+    public String delegationId;
     @NotNull
-    public String usrId;
-
+    public String usrBelonged;
     public String usrName;
 
-    public String delegationName;
+    public DelegationApplicationTable applicationTable;
 
+    public DelegationState state;
+
+    public String suggestion;
 
     public Delegation(){
 
     }
 
-    public Delegation(String usrId,String usrName,String delegationName){
-        this.usrId=usrId;
+    public Delegation(String usrId,String usrName,DelegationApplicationTable applicationTable,DelegationState state){
+        this.usrBelonged =usrId;
         this.usrName=usrName;
-        this.delegationName=delegationName;
+        this.applicationTable=applicationTable;
+        this.state=state;
     }
 }

@@ -7,5 +7,5 @@ import java.util.List;
 
 @Data
 public class DelegationFileList implements Serializable {
-    List<String> fileName;
+    public List<String> fileName;
 }

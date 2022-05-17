@@ -260,11 +260,10 @@ paths:
           content:
             application/json:
               schema:
-                #changed
-                  #$ref: "#/components/schemas/delegationItem"
                 type: array
                 items:
-                  type: string
+                  $ref: "#/components/schemas/delegationItem"
+
         '404':
           description: usr not found
   /audit/delegation/{id}:
@@ -316,6 +315,49 @@ components:
       properties:
         name:
           type: string
+        测试类型(其他):
+          type: string
+        测试类型:
+          type: array
+          items:
+            type: string
+        软件名称:
+          type: string
+        版本号:
+          type: string
+        委托单位(中文):
+          type: string
+        委托单位(英文):
+          type: string
+        开发单位:
+          type: string
+        单位性质:
+          type: string
+        软件用户对象描述:
+          type: string
+        主要功能及用途简介(限300字):
+          type: string
+        测试依据:
+          type: array
+          items:
+            type: string
+        需要测试的技术指标:
+          type: array
+          items:
+            type: string
+        软件规模:
+          $ref: "#/components/schemas/softwareScale"
+        软件类型:
+          type: string
+        运行环境:
+          $ref: "#/components/schemas/runtimeEnvironment"
+        样品和数量:
+          $ref: "#/components/schemas/sampleAndQuantity"
+        希望测试完成时间:
+          type: string
+        委托单位信息:
+          $ref: "#/components/schemas/clientEnterpriseInfo"
+
     delegationFunctionTable:
       type: object
       properties:
@@ -361,6 +403,110 @@ components:
           $ref: "#/components/schemas/delegationFunctionTable"
         fileList:
           $ref: "#/components/schemas/delegationFileList"
+
+
+    softwareScale:
+      type: object
+      properties:
+        功能数(到最后一级菜单):
+          type: string
+
+    runtimeEnvironment:
+      type: object
+      properties:
+        客户端:
+          $ref: "#/components/schemas/clientRuntimeEnvironment"
+        服务器端:
+          $ref: "#/components/schemas/serverRuntimeEnvironment"
+        网络环境:
+          type: string
+
+    clientRuntimeEnvironment:
+      type: object
+      properties:
+        操作系统-Windows版本:
+          type: string
+        操作系统:
+          type: array
+          items:
+            type: string
+        内存要求:
+          type: string
+        其他要求:
+          type: string
+
+    serverRuntimeEnvironment:
+      type: object
+      properties:
+        硬件:
+          $ref: "#/components/schemas/hardwareEnvironment"
+        软件:
+          $ref: "#/components/schemas/softwareEnvironment"
+
+
+    hardwareEnvironment:
+      type: object
+      properties:
+        架构:
+          type: array
+          items:
+            type: string
+        内存要求:
+          type: string
+        硬盘要求:
+          type: string
+        其他要求:
+          type: string
+
+    softwareEnvironment:
+      type: object
+      properties:
+        操作系统:
+          type: string
+        版本:
+          type: string
+        编程语言:
+          type: string
+        架构:
+          type: array
+          items:
+            type: string
+        数据库:
+          type: string
+        中间件:
+          type: string
+        其他支撑软件:
+          type: string
+
+    sampleAndQuantity:
+      type: object
+      properties:
+        软件介质:
+          type: string
+        提交的样品(硬拷贝资料及硬件)五年保存期满后:
+          type: string
+
+    clientEnterpriseInfo:
+      type: object
+      properties:
+        电话:
+          type: string
+        传真:
+          type: string
+        地址:
+          type: string
+        邮编:
+          type: string
+        联系人:
+          type: string
+        手机:
+          type: string
+        E-mail:
+          type: string
+        网址:
+          type: string
+
+
     singleFile:
       type: object
       properties:
@@ -377,3 +523,4 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/singleFile'
+

@@ -6,5 +6,5 @@ import java.io.Serializable;
 
 @Data
 public class DelegationFunctionTable implements Serializable {
-    String name;
+    public String name;
 }

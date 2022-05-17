@@ -48,7 +48,8 @@ public class JavaConfig {
         SpringProcessEngineConfiguration springProcessEngineConfiguration=new SpringProcessEngineConfiguration();
         springProcessEngineConfiguration.setDataSource(dataSource());
         springProcessEngineConfiguration.setTransactionManager(transactionManager());
-        springProcessEngineConfiguration.setDatabaseSchemaUpdate("true");
+        springProcessEngineConfiguration.setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
+
         Resource[] resources=new Resource[3];
         resources[0]=new ClassPathResource("processes/delegation.bpmn20.xml");
         resources[1]=new ClassPathResource("processes/delegation_apply.bpmn20.xml");
@@ -141,6 +142,11 @@ public class JavaConfig {
     @Bean
     public DelegationFunctionTableMapper delegationFunctionTableMapper(){
         return new DelegationFunctionTableMapperImpl();
+    }
+
+    @Bean
+    public DelegationItemMapper delegationItemMapper() {
+        return new DelegationItemMapperImpl();
     }
 }
 
