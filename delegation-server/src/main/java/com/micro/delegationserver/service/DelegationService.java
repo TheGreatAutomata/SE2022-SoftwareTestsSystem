@@ -8,6 +8,7 @@ import com.micro.dto.CreatDelegationRequestDto;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,9 @@ public class DelegationService {
     DelegationApplicationTableMapper delegationApplicationTableMapper;
 
     public Delegation constructFromRequestDto(CreatDelegationRequestDto requestDto,String usrId,String usrName){
-        return new Delegation(usrId,usrName,delegationApplicationTableMapper.toDelegationApplicationTable(requestDto.getApplicationTable()), DelegationState.IN_REVIEW);
+        Delegation delegation=new Delegation(usrId,usrName,delegationApplicationTableMapper.toDelegationApplicationTable(requestDto.getApplicationTable()), DelegationState.IN_REVIEW);
+        delegation.setDelegationId(new ObjectId().toString());
+        return delegation;
     }
 
 
