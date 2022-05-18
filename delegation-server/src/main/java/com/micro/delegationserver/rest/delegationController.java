@@ -1,15 +1,30 @@
 package com.micro.delegationserver.rest;
 
+
 import com.micro.delegationserver.mapper.DelegationApplicationTableMapper;
 import com.micro.delegationserver.mapper.DelegationFileListMapper;
 import com.micro.delegationserver.mapper.DelegationFunctionTableMapper;
+
+import com.google.common.collect.Lists;
+import com.micro.delegationserver.mapper.*;
+
 import com.micro.delegationserver.model.*;
 import com.micro.delegationserver.repository.MongoDBDelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
+
 import com.sun.mail.imap.protocol.ID;
+
+import com.micro.delegationserver.service.MinioServce;
+import io.minio.messages.Bucket;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.SneakyThrows;
+
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 
+import org.activiti.engine.task.Task;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -18,9 +33,17 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import com.micro.api.DelegationApi;
 import com.micro.dto.*;
+import org.springframework.web.multipart.MultipartFile;
+
+
+import javax.validation.Valid;
+import java.net.URI;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +73,9 @@ public class delegationController implements DelegationApi{
 
     @Autowired
     MongoDBDelegationRepository delegationRepository;
+    @Autowired
+    DelegationFilesMapper delegationFilesMapper;
+
 
     @Override
     public ResponseEntity<String> creatDelegation(String usrName, String usrId, String usrRole, CreatDelegationRequestDto creatDelegationRequestDto) {
@@ -133,14 +159,97 @@ public class delegationController implements DelegationApi{
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @SneakyThrows
+    @Override
+    public ResponseEntity<Void> createDelegationFile(String id, String usrName, String usrId, String usrRole, MultipartFile usrManual, MultipartFile installationManual, MultipartFile operationManual, MultipartFile maintenanceManual) {
+        //usrName暂时作bucketName
+        //Optional<Bucket> delegationBucket = minioServce.getBucket(usrName);
+
+        //start test
+        //here check
+
+        Task task = taskService.createTaskQuery().taskName("FilesUpload").processVariableValueEquals("applicationId",id).singleResult();
+        if(task == null)
+        {
+            //application not found
+            ResponseEntity.status(404).build();
+        }
+        //end test
+
+        Map<String, Object> variables = new HashMap<String, Object>();
+        //String delegationId = "delega"+id;
+        variables.put("applicationId", id);
+        //List<MultipartFile> filesList = Lists.newArrayList(file1, file2, file3, file4);
+
+        if(usrManual != null)
+        {
+            variables.put("usrManual", usrManual.getBytes());
+            variables.put("usrManualName", usrManual.getOriginalFilename());
+        }
+        else
+        {
+            variables.put("usrManual", usrManual);
+            variables.put("usrManualName", "None");
+        }
+        if(installationManual != null)
+        {
+            variables.put("installationManual", installationManual.getBytes());
+            variables.put("installationManualName", installationManual.getOriginalFilename());
+        }
+        else
+        {
+            variables.put("installationManual", installationManual);
+            variables.put("installationManualName", "None");
+        }
+        if(operationManual != null)
+        {
+            variables.put("operationManual", operationManual.getBytes());
+            variables.put("operationManualName", operationManual.getOriginalFilename());
+        }
+        else
+        {
+            variables.put("operationManual", operationManual);
+            variables.put("operationManualName", "None");
+        }
+        if(maintenanceManual != null)
+        {
+            variables.put("maintenanceManual", maintenanceManual.getBytes());
+            variables.put("maintenanceManualName", maintenanceManual.getOriginalFilename());
+        }
+        else
+        {
+            variables.put("maintenanceManual", maintenanceManual);
+            variables.put("maintenanceManualName", "None");
+        }
+        //variables.put("installationManual", installationManual.getBytes());
+        //variables.put("operationManual", operationManual.getBytes());
+        //variables.put("maintenanceManual", maintenanceManual.getBytes());
+        //variables.put("file2", file2);
+        //variables.put("file3", file3);
+        //variables.put("file4", file4);
+
+
+        taskService.complete(task.getId(), variables);
+
+//        if(delegationService.creatFile(id, "file1", file1) && delegationService.creatFile(id, "file2", file2) && delegationService.creatFile(id, "file3", file3) && delegationService.creatFile(id, "file4", file4))
+//        {
+        return ResponseEntity.status(201).build();
+//        }
+    }
 
     @Override
-    public ResponseEntity<Void> deleteDelegation(String usrName, String usrId, String usrRole, String id) {
-        Optional<Delegation> delegation_op=delegationRepository.findById(id);
-        if(delegation_op.isPresent()){
-            delegationRepository.deleteById(delegation_op.get().getDelegationId());
-            return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<AllFilesDto> listDelegationFile(String id, String usrName, String usrId, String usrRole)
+    {
+        String delegationId = "delega" + id;
+        List<minioFileItem> mp = delegationService.getAllFiles(delegationId);
+        if(mp == null)
+        {
+            return ResponseEntity.status(404).build();
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else
+        {
+            return ResponseEntity.ok(delegationFilesMapper.toAllFilesDto(mp));
+        }
     }
 }
+

@@ -48,6 +48,68 @@ paths:
             application/json:
               schema:
                 type: string
+  /delegation/{id}/files:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    post: #finished
+      operationId: createDelegationFile
+      tags:
+        - delegation
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                # The property name 'file' will be used for all files.
+                usrManual:
+                  type: string
+                  format: binary
+                installationManual:
+                  type: string
+                  format: binary
+                operationManual:
+                  type: string
+                  format: binary
+                maintenanceManual:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: created
+        '404':
+          description: not found delegation
+    get:
+      operationId: listDelegationFile
+      tags:
+        - delegations
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/allFiles'
+        "404":
+          description: delegation not found
   /delegation/{id}:
     parameters:
       - name: usrName
@@ -201,6 +263,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/delegationItem"
+
         '404':
           description: usr not found
   /audit/delegation/{id}:
@@ -341,6 +404,7 @@ components:
         fileList:
           $ref: "#/components/schemas/delegationFileList"
 
+
     softwareScale:
       type: object
       properties:
@@ -441,4 +505,22 @@ components:
           type: string
         网址:
           type: string
+
+
+    singleFile:
+      type: object
+      properties:
+        fileName:
+          type: string
+        fileType:
+          type: string
+        fileUri:
+          type: string
+    allFiles:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/singleFile'
 
