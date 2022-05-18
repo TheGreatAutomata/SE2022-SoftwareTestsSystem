@@ -63,6 +63,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests().antMatchers("/**").permitAll()
             .antMatchers(HttpMethod.OPTIONS).permitAll()//跨域请求会先进行一次options请求
             .anyRequest().authenticated();
+
+
+
     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
   }
 }
