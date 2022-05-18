@@ -87,7 +87,7 @@ public class delegationController implements DelegationApi{
 
         runtimeService.startProcessInstanceByKey("delegation_apply", variables);
 
-        return ResponseEntity.ok(usrId);
+        return ResponseEntity.status(201).body("created ok");
     }
 
 
@@ -169,7 +169,7 @@ public class delegationController implements DelegationApi{
         //here check
 
 
-        Task task = taskService.createTaskQuery().taskName("FilesUpload").processVariableValueEquals("applicationId",id).singleResult();
+        Task task = taskService.createTaskQuery().taskName("FilesUpload").processVariableValueEquals("delegationId",id).singleResult();
         if(task == null)
         {
             //application not found
@@ -179,7 +179,7 @@ public class delegationController implements DelegationApi{
 
         Map<String, Object> variables = new HashMap<String, Object>();
         //String delegationId = "delega"+id;
-        variables.put("applicationId", id);
+        variables.put("delegationId", id);
         //List<MultipartFile> filesList = Lists.newArrayList(file1, file2, file3, file4);
 
         if(usrManual != null)
