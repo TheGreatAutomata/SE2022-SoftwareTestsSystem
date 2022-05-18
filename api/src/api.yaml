@@ -7,7 +7,7 @@ info:
 servers:
   - url: http://localhost:8000
 paths:
-  /delegation:
+  /delegation/applicationTable:
     parameters:
       - name: usrName
         in: header
@@ -25,7 +25,7 @@ paths:
         schema:
           type: string
     post:
-      summary: creat delegation
+      summary: creat delegation and add application table
       operationId: creatDelegation
       tags:
         - delegation

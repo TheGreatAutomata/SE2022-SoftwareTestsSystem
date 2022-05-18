@@ -167,8 +167,7 @@ public class delegationController implements DelegationApi{
 
         //start test
         //here check
-
-
+        
         Task task = taskService.createTaskQuery().taskName("FilesUpload").processVariableValueEquals("delegationId",id).singleResult();
         if(task == null)
         {
@@ -238,6 +237,8 @@ public class delegationController implements DelegationApi{
 //        }
     }
 
+
+
     @Override
     public ResponseEntity<AllFilesDto> listDelegationFile(String id, String usrName, String usrId, String usrRole)
     {
@@ -252,5 +253,16 @@ public class delegationController implements DelegationApi{
             return ResponseEntity.ok(delegationFilesMapper.toAllFilesDto(mp));
         }
     }
+
+    @Override
+    public ResponseEntity<Void> deleteDelegation(String usrName, String usrId, String usrRole, String id) {
+        Optional<Delegation> delegation_op=delegationRepository.findById(id);
+        if(delegation_op.isPresent()){
+            delegationRepository.deleteById(delegation_op.get().getDelegationId());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 }
 
