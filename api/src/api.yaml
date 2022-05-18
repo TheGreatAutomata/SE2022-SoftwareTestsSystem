@@ -48,6 +48,74 @@ paths:
             application/json:
               schema:
                 type: string
+
+  /delegation/{id}/functionTable:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    post: #finished
+      operationId: uploadFunctionTable
+      tags:
+        - delegation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/delegationFunctionTable"
+      responses:
+        '201':
+          description: created
+        '404':
+          description: not found delegation
+    get:
+      operationId: listFunctionTable
+      tags:
+        - delegations
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/delegationFunctionTable'
+        "404":
+          description: delegation not found
+    put:
+      operationId: updateFunctionTable
+      tags:
+        - delegation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/delegationFunctionTable"
+        required: true
+      responses:
+        '200':
+          description: update succeed
+        '404':
+          description: delegation not found
+        '403':
+          description: delegation can no longer be modified
+
   /delegation/{id}/files:
     parameters:
       - name: id
@@ -110,6 +178,9 @@ paths:
                 $ref: '#/components/schemas/allFiles'
         "404":
           description: delegation not found
+
+
+
   /delegation/{id}:
     parameters:
       - name: usrName
@@ -182,31 +253,7 @@ paths:
           description: delegation not found
         '403':
           description: delegation can no longer be modified
-  /delegation/{id}/functionTable:
-    parameters:
-      - name: id
-        in: path
-        required: true
-        description: The id of delegation
-        schema:
-          type: string
-    put:
-      operationId: updateFuntionTable
-      tags:
-        - delegation
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/delegationFunctionTable"
-        required: true
-      responses:
-        '200':
-          description: update succeed
-        '404':
-          description: delegation not found
-        '403':
-          description: delegation can no longer be modified
+
   /delegation/{id}/fileListTable:
     parameters:
       - name: id
@@ -266,7 +313,7 @@ paths:
 
         '404':
           description: usr not found
-  /audit/delegation/{id}:
+  /audit/delegation/test/{id}:
     parameters:
       - name: usrName
         in: header
@@ -290,14 +337,57 @@ paths:
         schema:
           type: string
     post:
-      operationId: auditDelegation
+      operationId: auditDelegationByTestEmployees
       tags:
         - delegation
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/delegationAuditResult"
+              $ref: "#/components/schemas/delegationAuditTestResult"
+        required: true
+      responses:
+        '200':
+          description: ok
+        '404':
+          description: delegation not found
+        '403':
+          description: bad permission
+        '423':
+          description: has been audited
+  /audit/delegation/market/{id}:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+
+    post:
+      operationId: auditDelegationByMarketEmployees
+      tags:
+        - delegation
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/delegationAuditMarketResult"
         required: true
       responses:
         '200':
@@ -370,13 +460,50 @@ components:
           type: array
           items:
             type: string
-    delegationAuditResult:
+    delegationAuditTestResult:
       type: object
       properties:
-        suggestion:
+        密级:
           type: string
-        state:
+        查杀病毒:
+          type: array
+          items:
+            type: string
+        材料检查:
+          $ref: "#/components/schemas/delegationAuditTestMaterialCheck"
+        确认意见:
           type: string
+
+    delegationAuditMarketResult:
+      type: object
+      properties:
+        result:
+          type: string
+
+    delegationAuditTestMaterialCheck:
+        type: object
+        properties:
+          材料样品:
+            type: array
+            items:
+              type: string
+          需求文档:
+            type: array
+            items:
+              type: string
+          用户文档:
+            type: array
+            items:
+              type: string
+          操作文档:
+            type: array
+            items:
+              type: string
+
+
+
+
+
     delegationItem:
       type: object
       properties:

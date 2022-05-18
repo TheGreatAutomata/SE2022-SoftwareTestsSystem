@@ -2,10 +2,13 @@ package com.micro.delegationserver.service;
 
 
 import com.micro.delegationserver.mapper.DelegationApplicationTableMapper;
+import com.micro.delegationserver.mapper.DelegationAuditTestResultMapper;
 import com.micro.delegationserver.model.Delegation;
 import com.micro.delegationserver.model.DelegationState;
+import com.micro.delegationserver.repository.MongoDBDelegationRepository;
 import com.micro.dto.CreatDelegationRequestDto;
 import com.micro.delegationserver.model.minioFileItem;
+import com.micro.dto.DelegationAuditTestResultDto;
 import io.minio.Result;
 import io.minio.StatObjectResponse;
 import io.minio.messages.Bucket;
@@ -37,6 +40,14 @@ public class DelegationService {
 
     @Autowired
     MinioServce minioServce;
+
+    @Autowired
+    MongoDBDelegationRepository delegationRepository;
+
+    @Autowired
+    DelegationAuditTestResultMapper delegationAuditTestResultMapper;
+
+
 
 //    @Transactional
 //    public void startApplicationProcess() {
@@ -77,6 +88,28 @@ public class DelegationService {
             }
         }
         return true;
+    }
+
+
+
+    ///存储测试部审理意见
+    public void saveDelegationAuditTestResult(String id,DelegationAuditTestResultDto resultDto){
+        Optional<Delegation> delegation_op=delegationRepository.findById(id);
+        if(delegation_op.isPresent()){
+            Delegation delegation=delegation_op.get();
+            delegation.setAuditTestResult(delegationAuditTestResultMapper.toObj(resultDto));
+            delegationRepository.save(delegation);
+        }
+    }
+
+    ///存储市场部审理意见
+    public void saveDelegationAuditMarketResult(String id,String result){
+        Optional<Delegation> delegation_op=delegationRepository.findById(id);
+        if(delegation_op.isPresent()){
+            Delegation delegation=delegation_op.get();
+            delegation.setAuditMarketResult(result);
+            delegationRepository.save(delegation);
+        }
     }
 
 

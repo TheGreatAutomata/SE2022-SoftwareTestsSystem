@@ -83,6 +83,8 @@ public class delegationController implements DelegationApi{
 
         Delegation delegation=delegationService.constructFromRequestDto(creatDelegationRequestDto,usrId,usrName);
 
+        delegation.setState(DelegationState.UPLOAD_FUNCTION_TABLE);
+
         variables.put("delegation",delegation);
 
         runtimeService.startProcessInstanceByKey("delegation_apply", variables);
@@ -105,6 +107,7 @@ public class delegationController implements DelegationApi{
             Delegation delegation=delegation_op.get();
             delegation.setApplicationTable(delegationApplicationTableMapper.toDelegationApplicationTable(delegationApplicationTableDto));
             //delegationRepository.updateDelegation(delegation);
+            delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
             Map<String, Object> variables = new HashMap<String, Object>();
             variables.put("delegation", delegation);
             variables.put("delegationId",id);
@@ -119,29 +122,33 @@ public class delegationController implements DelegationApi{
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
             Map<String, Object> variables = new HashMap<String, Object>();
+            delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
             variables.put("delegation",delegation);
             variables.put("delegationId",id);
             runtimeService.startProcessInstanceByKey("delegation_modify",variables);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
 
     @Override
-    public ResponseEntity<Void> updateFuntionTable(String id, DelegationFunctionTableDto delegationFunctionTableDto) {
+    public ResponseEntity<Void> uploadFunctionTable(String id, String usrName, String usrId, String usrRole, DelegationFunctionTableDto delegationFunctionTableDto) {
+        Map<String, Object> variables = new HashMap<String, Object>();
+
+        Task task=taskService.createTaskQuery().taskName("FunctionTableUpload").processVariableValueEquals("delegationId",id).singleResult();
+
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
+
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
-
-            Map<String, Object> variables = new HashMap<String, Object>();
-            variables.put("delegation",delegation);
-            variables.put("delegationId",id);
-            runtimeService.startProcessInstanceByKey("delegation_modify",variables);
+            delegation.setState(DelegationState.UPLOAD_FILES);
+            delegation.setFunctionTable(delegationFunctionTableMapper.toObj(delegationFunctionTableDto));
+            runtimeService.setVariable(task.getExecutionId(),"delegation",delegation);
+            taskService.complete(task.getId());
         }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
     @Override
     public ResponseEntity<DelegationItemDto> findDelegation(String usrName, String usrId, String usrRole, String id) {
@@ -168,7 +175,7 @@ public class delegationController implements DelegationApi{
         //start test
         //here check
 
-        Task task = taskService.createTaskQuery().taskName("FilesUpload").processVariableValueEquals("applicationId",id).singleResult();
+        Task task = taskService.createTaskQuery().taskName("FilesUpload").processVariableValueEquals("delegationId",id).singleResult();
         if(task == null)
         {
             //application not found
@@ -178,7 +185,7 @@ public class delegationController implements DelegationApi{
 
         Map<String, Object> variables = new HashMap<String, Object>();
         //String delegationId = "delega"+id;
-        variables.put("applicationId", id);
+        variables.put("delegationId", id);
         //List<MultipartFile> filesList = Lists.newArrayList(file1, file2, file3, file4);
 
         if(usrManual != null)
@@ -228,6 +235,12 @@ public class delegationController implements DelegationApi{
         //variables.put("file3", file3);
         //variables.put("file4", file4);
 
+        Optional<Delegation> delegation_op=delegationRepository.findById(id);
+        if(delegation_op.isPresent()){
+            Delegation delegation=delegation_op.get();
+            delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
+            delegationRepository.save(delegation);
+        }
 
         taskService.complete(task.getId(), variables);
 
@@ -264,5 +277,23 @@ public class delegationController implements DelegationApi{
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @Override
+    public ResponseEntity<Void> updateFunctionTable(String id, String usrName, String usrId, String usrRole, DelegationFunctionTableDto delegationFunctionTableDto) {
+        System.out.println("Updating...");
+
+        Optional<Delegation> delegation_op=delegationRepository.findById(id);
+
+        if(delegation_op.isPresent()){
+            Delegation delegation=delegation_op.get();
+            delegation.setFunctionTable(delegationFunctionTableMapper.toObj(delegationFunctionTableDto));
+            //delegationRepository.updateDelegation(delegation);
+            delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
+            Map<String, Object> variables = new HashMap<String, Object>();
+            variables.put("delegation", delegation);
+            variables.put("delegationId",id);
+            runtimeService.startProcessInstanceByKey("delegation_modify",variables);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
 
