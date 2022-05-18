@@ -272,6 +272,11 @@ public class delegationController implements DelegationApi{
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
         if(delegation_op.isPresent()){
             delegationRepository.deleteById(delegation_op.get().getDelegationId());
+
+            List<Task> tasks=taskService.createTaskQuery().processVariableValueEquals("delegationId",id).list();
+            if(!tasks.isEmpty()){
+                runtimeService.deleteProcessInstance(tasks.get(0).getExecutionId(),"delegation has been deleted");
+            }
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
