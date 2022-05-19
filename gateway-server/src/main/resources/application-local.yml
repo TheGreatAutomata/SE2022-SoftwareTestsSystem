@@ -14,13 +14,23 @@ spring:
         - id: delegation-server-post
           uri: lb://delegation-server
           predicates:
-            - Path=/delegation/applicationTable,/audit/delegation/{id},/delegation/{id}/files
+            - Path=/delegation/applicationTable,/audit/delegation/test/{id},/audit/delegation/market/{id},/delegation/{id}/files,/delegation/{id}/functionTable
             - Method=POST
         - id: delegation-server-get
           uri: lb://delegation-server
           predicates:
-            - Path=/delegation/{id},/delegations,/delegation/{id}/files
+            - Path=/delegation/{id},/delegations,/delegation/{id}/files,/delegation/{id}/functionTable
             - Method=GET
+        - id: delegation-server-put
+          uri: lb://delegation-server
+          predicates:
+            - Path=/delegation/{id}/applicationTable,/delegation/{id}/functionTable
+            - Math=PUT
+        - id: delegation-server-delete
+          uri: lb://delegation-server
+          predicates:
+            - Path=/delegation/{id}
+            - Math=DELETE
 #      globalcors:
 #        cors-configurations:
 #          '[/**]':
@@ -34,7 +44,6 @@ spring:
 #              - DELETE
 #              - OPTIONS
 #            max-age: 3600
-
 eureka:
   client:
     serviceUrl:

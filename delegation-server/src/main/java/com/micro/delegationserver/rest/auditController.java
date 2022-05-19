@@ -6,7 +6,7 @@ import com.micro.delegationserver.model.DelegationState;
 import com.micro.delegationserver.repository.MongoDBDelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
 import com.micro.dto.DelegationAuditMarketResultDto;
-import com.micro.dto.DelegationAuditResultDto;
+//import com.micro.dto.DelegationAuditResultDto;
 import com.micro.dto.DelegationAuditTestResultDto;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
