@@ -80,11 +80,11 @@ public class AuthGlobalFilter implements GlobalFilter
             final String token = this.getAuthHeader(request);
 
             if (!jwtUtils.validateJwtToken(token)) {
-                return this.onError(exchange, "Asuthorization header is invalid", HttpStatus.UNAUTHORIZED);
+                return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
             }
             else{
                 Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-                if(!request.getHeaders().containsKey("userName") || !claims.get("userName").equals(request.getHeaders().getFirst("userName")))
+                if(!request.getHeaders().containsKey("usrName") || !claims.get("usrName").equals(request.getHeaders().getFirst("usrName")))
                     return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
             }
 
