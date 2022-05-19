@@ -25,12 +25,12 @@ spring:
           uri: lb://delegation-server
           predicates:
             - Path=/delegation/{id}/applicationTable,/delegation/{id}/functionTable
-            - Math=PUT
+            - Method=PUT
         - id: delegation-server-delete
           uri: lb://delegation-server
           predicates:
             - Path=/delegation/{id}
-            - Math=DELETE
+            - Method=DELETE
 #      globalcors:
 #        cors-configurations:
 #          '[/**]':
