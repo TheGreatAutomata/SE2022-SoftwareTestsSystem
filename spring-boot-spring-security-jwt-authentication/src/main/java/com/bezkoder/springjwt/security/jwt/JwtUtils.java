@@ -1,6 +1,8 @@
 package com.bezkoder.springjwt.security.jwt;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +27,14 @@ public class JwtUtils {
 
     UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
+    Map<String, Object> claims = new HashMap<String, Object>();
+    claims.put("userId", userPrincipal.getId());
+    claims.put("userName", userPrincipal.getUsername());
+    claims.put("userRole", userPrincipal.getAuthorities());
     return Jwts.builder()
+            .setClaims(claims)
         .setSubject((userPrincipal.getUsername()))
+
         .setIssuedAt(new Date())
         .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
         .signWith(SignatureAlgorithm.HS512, jwtSecret)
