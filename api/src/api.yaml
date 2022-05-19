@@ -310,7 +310,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/delegationItem"
-
         '404':
           description: usr not found
   /audit/delegation/test/{id}:
@@ -398,6 +397,43 @@ paths:
           description: bad permission
         '423':
           description: has been audited
+  /offer/delegation/{id}:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    post:
+      operationId: createOffer
+      tags:
+        - offer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/offerTable"
+      responses:
+        '201':
+          description: created
+        '404':
+          description: delegation not exist
 components:
   schemas:
     delegationApplicationTable:
@@ -453,6 +489,7 @@ components:
       properties:
         name:
           type: string
+
     delegationFileList:
       type: object
       properties:
@@ -460,6 +497,7 @@ components:
           type: array
           items:
             type: string
+
     delegationAuditTestResult:
       type: object
       properties:
@@ -500,10 +538,6 @@ components:
             items:
               type: string
 
-
-
-
-
     delegationItem:
       type: object
       properties:
@@ -521,6 +555,7 @@ components:
           $ref: "#/components/schemas/delegationFunctionTable"
         fileList:
           $ref: "#/components/schemas/delegationFileList"
+
     creatDelegationRequest:
       type: object
       properties:
@@ -530,7 +565,6 @@ components:
           $ref: "#/components/schemas/delegationFunctionTable"
         fileList:
           $ref: "#/components/schemas/delegationFileList"
-
 
     softwareScale:
       type: object
@@ -569,7 +603,6 @@ components:
           $ref: "#/components/schemas/hardwareEnvironment"
         软件:
           $ref: "#/components/schemas/softwareEnvironment"
-
 
     hardwareEnvironment:
       type: object
@@ -633,7 +666,6 @@ components:
         网址:
           type: string
 
-
     singleFile:
       type: object
       properties:
@@ -643,6 +675,7 @@ components:
           type: string
         fileUri:
           type: string
+
     allFiles:
       type: object
       properties:
@@ -651,3 +684,39 @@ components:
           items:
             $ref: '#/components/schemas/singleFile'
 
+    projectItem:
+      type: object
+      properties:
+        "单价":
+          type: integer
+        "说明":
+          type: string
+
+
+    offerTableItem:
+      type: object
+      properties:
+        "项目名称":
+          type: string
+        "分项":
+          type: array
+          items:
+            $ref: "#/components/schemas/projectItem"
+        "行合计":
+          type: integer
+
+    offerTable:
+      type: object
+      properties:
+        "软件名称":
+          type: string
+        "项目列表":
+          type: array
+          items:
+            $ref: "#/components/schemas/offerTableItem"
+        "小计":
+          type: integer
+        "税率(8%)":
+          type: integer
+        "总计":
+          type: integer
