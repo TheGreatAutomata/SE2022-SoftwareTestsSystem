@@ -28,9 +28,9 @@ public class JwtUtils {
     UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
     Map<String, Object> claims = new HashMap<String, Object>();
-    claims.put("userId", userPrincipal.getId());
-    claims.put("userName", userPrincipal.getUsername());
-    claims.put("userRole", userPrincipal.getAuthorities());
+    claims.put("usrId", userPrincipal.getId());
+    claims.put("usrName", userPrincipal.getUsername());
+    claims.put("usrRole", userPrincipal.getAuthorities());
     return Jwts.builder()
             .setClaims(claims)
         .setSubject((userPrincipal.getUsername()))
