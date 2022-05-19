@@ -22,7 +22,7 @@ public class SaveFilesDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
         System.out.println("Save the delegation files.");
-        String applicationId = (String) delegateExecution.getVariable("applicationId");
+        String applicationId = (String) delegateExecution.getVariable("delegationId");
         String delegationId = "delega" + applicationId;
 //        List<MultipartFile> files = (List<MultipartFile>) delegateExecution.getVariable("files");
 //        List<String> filesName = Lists.newArrayList("file1", "file2", "file3", "file4");

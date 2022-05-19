@@ -20,9 +20,15 @@ public class Delegation implements Serializable {
 
     public DelegationApplicationTable applicationTable;
 
+    public DelegationFunctionTable functionTable;
+
     public DelegationState state;
 
     public String suggestion;
+
+    public DelegationAuditTestResult auditTestResult;
+
+    public String auditMarketResult;
 
     public Delegation(){
 

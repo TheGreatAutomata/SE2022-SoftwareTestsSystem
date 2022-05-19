@@ -14,13 +14,27 @@ spring:
         - id: delegation-server-post
           uri: lb://delegation-server
           predicates:
-            - Path=/delegation,/audit/delegation/{id},/delegation/{id}/files
+            - Path=/delegation/applicationTable,/audit/delegation/{id},/delegation/{id}/files
             - Method=POST
         - id: delegation-server-get
           uri: lb://delegation-server
           predicates:
             - Path=/delegation/{id},/delegations,/delegation/{id}/files
             - Method=GET
+#      globalcors:
+#        cors-configurations:
+#          '[/**]':
+#            #allow-credentials: true
+#            allowed-origin-patterns: "*"
+#            allowed-headers: "*"
+#            allowed-methods:
+#              - GET
+#              - POST
+#              - PUT
+#              - DELETE
+#              - OPTIONS
+#            max-age: 3600
+
 eureka:
   client:
     serviceUrl:

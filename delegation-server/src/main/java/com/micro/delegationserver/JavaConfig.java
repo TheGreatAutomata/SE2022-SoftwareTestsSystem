@@ -2,6 +2,7 @@ package com.micro.delegationserver;
 
 import com.micro.delegationserver.delegate.*;
 import com.micro.delegationserver.mapper.*;
+import com.micro.delegationserver.model.DelegationAuditTestResult;
 import com.micro.delegationserver.model.DelegationFunctionTable;
 import org.activiti.engine.*;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
@@ -147,6 +148,11 @@ public class JavaConfig {
     @Bean
     public DelegationItemMapper delegationItemMapper() {
         return new DelegationItemMapperImpl();
+    }
+
+    @Bean
+    public DelegationAuditTestResultMapper delegationAuditTestResultMapper(){
+        return new DelegationAuditTestResultMapperImpl();
     }
 }
 
