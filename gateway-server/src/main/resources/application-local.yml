@@ -14,7 +14,7 @@ spring:
         - id: delegation-server-post
           uri: lb://delegation-server
           predicates:
-            - Path=/delegation/applicationTable,/audit/delegation/test/{id},/audit/delegation/market/{id},/delegation/{id}/files,/delegation/{id}/functionTable
+            - Path=/offer/delegation/{id},/delegation/applicationTable,/audit/delegation/test/{id},/audit/delegation/market/{id},/delegation/{id}/files,/delegation/{id}/functionTable
             - Method=POST
         - id: delegation-server-get
           uri: lb://delegation-server

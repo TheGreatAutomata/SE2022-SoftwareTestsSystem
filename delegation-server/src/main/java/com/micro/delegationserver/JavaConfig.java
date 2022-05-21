@@ -51,10 +51,11 @@ public class JavaConfig {
         springProcessEngineConfiguration.setTransactionManager(transactionManager());
         springProcessEngineConfiguration.setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
 
-        Resource[] resources=new Resource[3];
+        Resource[] resources=new Resource[4];
         resources[0]=new ClassPathResource("processes/delegation.bpmn20.xml");
         resources[1]=new ClassPathResource("processes/delegation_apply.bpmn20.xml");
         resources[2]=new ClassPathResource("processes/delegation_modify.bpmn20.xml");
+        resources[3]=new ClassPathResource("processes/delegation_offer.bpmn20.xml");
         springProcessEngineConfiguration.setDeploymentResources(resources);
         springProcessEngineConfiguration.setDeploymentMode("single-resource");
 
@@ -65,6 +66,7 @@ public class JavaConfig {
         beans.put("updateApplicationDelegate",updateApplicationDelegate());
         beans.put("updateDelegationDelegate",updateDelegationDelegate());
         beans.put("saveFilesDelegate",saveFilesDelegate());
+        beans.put("saveOfferDelegate", saveOfferDelegate());
 
         springProcessEngineConfiguration.setBeans(beans);
 
@@ -117,6 +119,11 @@ public class JavaConfig {
     }
 
     @Bean
+    public SaveOfferDelegate saveOfferDelegate(){
+        return new SaveOfferDelegate();
+    }
+
+    @Bean
     public AcceptApplicationDelegate acceptApplicationDelegate() {return new AcceptApplicationDelegate();}
 
     @Bean
@@ -153,6 +160,11 @@ public class JavaConfig {
     @Bean
     public DelegationAuditTestResultMapper delegationAuditTestResultMapper(){
         return new DelegationAuditTestResultMapperImpl();
+    }
+
+    @Bean
+    public OfferTableMapper offerTableMapper(){
+        return new OfferTableMapperImpl();
     }
 }
 

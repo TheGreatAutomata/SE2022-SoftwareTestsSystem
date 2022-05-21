@@ -399,6 +399,12 @@ paths:
           description: has been audited
   /offer/delegation/{id}:
     parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
       - name: usrName
         in: header
         required: true
@@ -414,12 +420,6 @@ paths:
         required: true
         schema:
           type: string
-      - name: id
-        in: path
-        required: true
-        description: The id of delegation
-        schema:
-          type: string
     post:
       operationId: createOffer
       tags:
@@ -428,7 +428,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/offerTable"
+              $ref: "#/components/schemas/offerRequest"
       responses:
         '201':
           description: created
@@ -555,6 +555,8 @@ components:
           $ref: "#/components/schemas/delegationFunctionTable"
         fileList:
           $ref: "#/components/schemas/delegationFileList"
+        offerTableUnion:
+          $ref: '#/components/schemas/offerRequest'
 
     creatDelegationRequest:
       type: object
@@ -684,6 +686,7 @@ components:
           items:
             $ref: '#/components/schemas/singleFile'
 
+    # not use
     projectItem:
       type: object
       properties:
@@ -692,16 +695,17 @@ components:
         "说明":
           type: string
 
-
     offerTableItem:
       type: object
       properties:
-        "项目名称":
+        "项目":
           type: string
         "分项":
-          type: array
-          items:
-            $ref: "#/components/schemas/projectItem"
+          type: string
+        "单价":
+          type: string
+        "说明":
+          type: string
         "行合计":
           type: integer
 
@@ -720,3 +724,13 @@ components:
           type: integer
         "总计":
           type: integer
+
+    offerRequest:
+      type: object
+      properties:
+        "基本信息":
+          $ref: "#/components/schemas/offerTable"
+        "用户反馈":
+          type: string
+
+

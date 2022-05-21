@@ -51,6 +51,6 @@ public class SaveFilesDelegate implements JavaDelegate {
         //delegationService.creatFile(delegationId, "file2", (MultipartFile) delegateExecution.getVariable("file1"));
         //delegationService.creatFile(delegationId, "file3", (MultipartFile) delegateExecution.getVariable("file1"));
         //delegationService.creatFile(delegationId, "file4", (MultipartFile) delegateExecution.getVariable("file1"));
-        delegateExecution.setVariable("applicationId", applicationId);
+        delegateExecution.setVariable("delegationId", applicationId);
     }
 }
