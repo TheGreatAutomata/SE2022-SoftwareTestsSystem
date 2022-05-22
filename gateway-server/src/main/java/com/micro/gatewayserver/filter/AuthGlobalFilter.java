@@ -1,8 +1,11 @@
 package com.micro.gatewayserver.filter;
 import com.micro.gatewayserver.security.JwtUtils;
 import com.nimbusds.jose.JWSObject;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -30,8 +33,12 @@ public class AuthGlobalFilter implements GlobalFilter
 {
     @Autowired
     private RouterValidator routerValidator;//custom route validator
+
     @Autowired
     private JwtUtils jwtUtils;
+
+    @Value("${bezkoder.app.jwtSecret}")
+    private String jwtSecret;
 
 //    @Override
 //    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain)
@@ -72,8 +79,14 @@ public class AuthGlobalFilter implements GlobalFilter
 
             final String token = this.getAuthHeader(request);
 
-            if (!jwtUtils.validateJwtToken(token))
+            if (!jwtUtils.validateJwtToken(token)) {
                 return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
+            }
+            else{
+                Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+                if(!request.getHeaders().containsKey("usrName") || !claims.get("usrName").equals(request.getHeaders().getFirst("usrName")))
+                    return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
+            }
 
             this.populateRequestWithHeaders(exchange, token);
         }

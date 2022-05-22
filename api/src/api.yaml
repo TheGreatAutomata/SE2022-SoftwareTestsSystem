@@ -310,9 +310,9 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/delegationItem"
-
         '404':
           description: usr not found
+
   /audit/delegation/test/{id}:
     parameters:
       - name: usrName
@@ -355,6 +355,7 @@ paths:
           description: bad permission
         '423':
           description: has been audited
+
   /audit/delegation/market/{id}:
     parameters:
       - name: usrName
@@ -398,6 +399,137 @@ paths:
           description: bad permission
         '423':
           description: has been audited
+
+  /offer/delegation/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: createOffer
+      tags:
+        - offer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/offerRequest"
+      responses:
+        '201':
+          description: created
+        '404':
+          description: delegation not exist
+    put:
+      operationId: updateOffer
+      tags:
+        - offer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/offerRequest"
+      responses:
+        '200':
+          description: ok
+        '404':
+          description: delegation not exist
+
+  /offer/reply/delegation/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: replyOffer
+      tags:
+        - offer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/offerReplyRequest"
+      responses:
+        '200':
+          description: ok
+        '404':
+          description: delegation not found
+        '423':
+          description: the delegation can do this
+
+  /complete/delegation/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+      responses:
+        '201':
+          description: created
+        '404':
+          description: delegation not found
+
 components:
   schemas:
     delegationApplicationTable:
@@ -487,6 +619,7 @@ components:
           type: array
           items:
             type: string
+
     delegationAuditTestResult:
       type: object
       properties:
@@ -527,10 +660,6 @@ components:
             items:
               type: string
 
-
-
-
-
     delegationItem:
       type: object
       properties:
@@ -548,6 +677,11 @@ components:
           $ref: "#/components/schemas/delegationFunctionTable"
         fileList:
           $ref: "#/components/schemas/delegationFileList"
+        offerTableUnion:
+          $ref: '#/components/schemas/offerTableUnion'
+        projectId:
+          type: string
+
     creatDelegationRequest:
       type: object
       properties:
@@ -557,7 +691,6 @@ components:
           $ref: "#/components/schemas/delegationFunctionTable"
         fileList:
           $ref: "#/components/schemas/delegationFileList"
-
 
     softwareScale:
       type: object
@@ -596,7 +729,6 @@ components:
           $ref: "#/components/schemas/hardwareEnvironment"
         软件:
           $ref: "#/components/schemas/softwareEnvironment"
-
 
     hardwareEnvironment:
       type: object
@@ -659,6 +791,7 @@ components:
           type: string
         网址:
           type: string
+
     singleFile:
       type: object
       properties:
@@ -668,6 +801,7 @@ components:
           type: string
         fileUri:
           type: string
+
     allFiles:
       type: object
       properties:
@@ -675,4 +809,85 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/singleFile'
+
+    # not use
+    projectItem:
+      type: object
+      properties:
+        单价:
+          type: integer
+        说明:
+          type: string
+
+    offerTableItem:
+      type: object
+      properties:
+        "项目":
+          type: string
+        "分项":
+          type: string
+        "单价":
+          type: integer
+        "说明":
+          type: string
+        "行合计":
+          type: integer
+
+    offerTable:
+      type: object
+      properties:
+        软件名称:
+          type: string
+        项目列表:
+          type: array
+          items:
+            $ref: "#/components/schemas/offerTableItem"
+        小计:
+          type: integer
+        税率(8%):
+          type: integer
+        总计:
+          type: integer
+
+    offerRequest:
+      type: object
+      properties:
+        基本信息:
+          $ref: "#/components/schemas/offerTable"
+        市场部态度:
+          type: string
+
+    offerTableUnion:
+      type: object
+      properties:
+        基本信息:
+          $ref: "#/components/schemas/offerTable"
+        用户反馈:
+          type: string
+        态度:
+          type: string
+        附加信息:
+          type: string
+        确认信息:
+          $ref: "#/components/schemas/offerSignItem"
+
+    offerSignItem:
+      type: object
+      properties:
+        委托人签字:
+          type: string
+        日期:
+          type: string
+
+    offerReplyRequest:
+      type:
+        object
+      properties:
+        态度:
+          type: string
+        附加信息:
+          type: string
+        确认信息:
+          $ref: "#/components/schemas/offerSignItem"
+
 

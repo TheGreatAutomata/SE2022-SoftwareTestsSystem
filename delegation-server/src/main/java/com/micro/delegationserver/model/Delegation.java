@@ -30,6 +30,10 @@ public class Delegation implements Serializable {
 
     public String auditMarketResult;
 
+    public String projectId;
+
+    public OfferTableUnion offerTableUnion;
+
     public Delegation(){
 
     }

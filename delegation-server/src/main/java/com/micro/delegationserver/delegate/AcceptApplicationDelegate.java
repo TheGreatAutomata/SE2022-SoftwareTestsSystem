@@ -15,7 +15,7 @@ public class AcceptApplicationDelegate implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) {
         System.out.println("Save the delegation.");
         Delegation delegation=(Delegation) delegateExecution.getVariable("delegation");
-        delegation.setState(DelegationState.ACCEPTED);
+        delegation.setState(DelegationState.QUOTATION_MARKET);
         delegationRepository.save(delegation);
     }
 }

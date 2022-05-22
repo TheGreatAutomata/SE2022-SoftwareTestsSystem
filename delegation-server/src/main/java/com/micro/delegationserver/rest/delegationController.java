@@ -89,7 +89,7 @@ public class delegationController implements DelegationApi{
 
         runtimeService.startProcessInstanceByKey("delegation_apply", variables);
 
-        return ResponseEntity.ok(usrId);
+        return ResponseEntity.status(201).body("created ok");
     }
 
 
@@ -179,7 +179,7 @@ public class delegationController implements DelegationApi{
         if(task == null)
         {
             //application not found
-            ResponseEntity.status(404).build();
+            return ResponseEntity.status(404).build();
         }
         //end test
 
@@ -249,8 +249,6 @@ public class delegationController implements DelegationApi{
         return ResponseEntity.status(201).build();
 //        }
     }
-
-
 
     @Override
     public ResponseEntity<AllFilesDto> listDelegationFile(String id, String usrName, String usrId, String usrRole)
