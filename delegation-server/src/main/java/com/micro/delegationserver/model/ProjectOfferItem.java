@@ -11,7 +11,7 @@ public class ProjectOfferItem implements Serializable {
 
     public String 分项;
 
-    public String 单价;
+    public Integer 单价;
 
     public String 说明;
 

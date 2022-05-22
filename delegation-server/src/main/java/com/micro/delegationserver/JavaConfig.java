@@ -67,6 +67,8 @@ public class JavaConfig {
         beans.put("updateDelegationDelegate",updateDelegationDelegate());
         beans.put("saveFilesDelegate",saveFilesDelegate());
         beans.put("saveOfferDelegate", saveOfferDelegate());
+        beans.put("saveOfferConfirmationDelegate", saveOfferConfirmationDelegate());
+        beans.put("saveComplete", saveComplete());
 
         springProcessEngineConfiguration.setBeans(beans);
 
@@ -131,6 +133,12 @@ public class JavaConfig {
 
     @Bean
     public UpdateDelegationDelegate updateDelegationDelegate(){return new UpdateDelegationDelegate();}
+
+    @Bean
+    public SaveOfferConfirmationDelegate saveOfferConfirmationDelegate()
+    {
+        return new SaveOfferConfirmationDelegate();
+    }
     @Bean
     public SaveFilesDelegate saveFilesDelegate()
     {
@@ -165,6 +173,21 @@ public class JavaConfig {
     @Bean
     public OfferTableMapper offerTableMapper(){
         return new OfferTableMapperImpl();
+    }
+
+    @Bean
+    public ProjectOfferItemMapper projectOfferItemMapper(){
+        return new ProjectOfferItemMapperImpl();
+    }
+
+    @Bean
+    public OfferConfirmationMapper offerConfirmationMapper(){
+        return new OfferConfirmationMapperImpl();
+    }
+
+    @Bean
+    public SaveComplete saveComplete(){
+        return new SaveComplete();
     }
 }
 
