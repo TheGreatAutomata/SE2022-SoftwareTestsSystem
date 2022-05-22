@@ -583,8 +583,34 @@ components:
     delegationFunctionTable:
       type: object
       properties:
-        name:
+        软件名称:
           type: string
+        版本号:
+          type: string
+        功能项目列表:
+          type: array
+          items:
+            $ref: "#/components/schemas/softwareFunctionProject"
+
+
+    softwareFunctionProject:
+      type: object
+      properties:
+        子功能项目列表:
+          type: array
+          items:
+            $ref: "#/components/schemas/softwareChildFunction"
+        软件功能项目:
+          type: string
+
+    softwareChildFunction:
+      type: object
+      properties:
+        软件子功能项目:
+          type: string
+        功能说明:
+          type: string
+
 
     delegationFileList:
       type: object
