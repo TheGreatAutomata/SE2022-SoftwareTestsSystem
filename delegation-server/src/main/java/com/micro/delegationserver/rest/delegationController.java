@@ -5,45 +5,29 @@ import com.micro.delegationserver.mapper.DelegationApplicationTableMapper;
 import com.micro.delegationserver.mapper.DelegationFileListMapper;
 import com.micro.delegationserver.mapper.DelegationFunctionTableMapper;
 
-import com.google.common.collect.Lists;
 import com.micro.delegationserver.mapper.*;
 
 import com.micro.delegationserver.model.*;
-import com.micro.delegationserver.repository.MongoDBDelegationRepository;
+import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
 
-import com.sun.mail.imap.protocol.ID;
-
-import com.micro.delegationserver.service.MinioServce;
-import io.minio.messages.Bucket;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import com.micro.delegationserver.service.update.UpdateTableService;
+import com.micro.delegationserver.service.update.applicationTable.UpdateApplicationTableResult;
 import lombok.SneakyThrows;
 
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 
 import org.activiti.engine.task.Task;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import com.micro.api.DelegationApi;
 import com.micro.dto.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
-import javax.validation.Valid;
-import java.net.URI;
 
 import java.util.HashMap;
 import java.util.List;
@@ -72,7 +56,7 @@ public class delegationController implements DelegationApi{
     DelegationFunctionTableMapper delegationFunctionTableMapper;
 
     @Autowired
-    MongoDBDelegationRepository delegationRepository;
+    DelegationRepository delegationRepository;
     @Autowired
     DelegationFilesMapper delegationFilesMapper;
 
@@ -96,24 +80,21 @@ public class delegationController implements DelegationApi{
     @Autowired
     MongoTemplate mongoTemplate;
 
+    @Autowired
+    UpdateTableService updateTableService;
+
     //TODO: 处理异常情况，例如没找到委托
     @Override
     public ResponseEntity<Void> updateApplicationTable(String id, DelegationApplicationTableDto delegationApplicationTableDto) {
         System.out.println("Updating...");
 
-        Optional<Delegation> delegation_op=delegationRepository.findById(id);
+        UpdateApplicationTableResult result=updateTableService.updateApplicationTable(id,delegationApplicationTableDto);
 
-        if(delegation_op.isPresent()){
-            Delegation delegation=delegation_op.get();
-            delegation.setApplicationTable(delegationApplicationTableMapper.toDelegationApplicationTable(delegationApplicationTableDto));
-            //delegationRepository.updateDelegation(delegation);
-            delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
-            Map<String, Object> variables = new HashMap<String, Object>();
-            variables.put("delegation", delegation);
-            variables.put("delegationId",id);
-            runtimeService.startProcessInstanceByKey("delegation_modify",variables);
+        if(!result.isResult()){
+            return new ResponseEntity<>(HttpStatus.valueOf(403));
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        return new ResponseEntity<>(result.getHttpStatus());
     }
 
     @Override
@@ -122,7 +103,7 @@ public class delegationController implements DelegationApi{
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
             Map<String, Object> variables = new HashMap<String, Object>();
-            delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
+            delegation.setState(DelegationState.AUDIT_TEST_DPARTMENT);
             variables.put("delegation",delegation);
             variables.put("delegationId",id);
             runtimeService.startProcessInstanceByKey("delegation_modify",variables);
@@ -238,7 +219,7 @@ public class delegationController implements DelegationApi{
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
-            delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
+            delegation.setState(DelegationState.AUDIT_TEST_DPARTMENT);
             delegationRepository.save(delegation);
         }
 
@@ -290,7 +271,7 @@ public class delegationController implements DelegationApi{
             Delegation delegation=delegation_op.get();
             delegation.setFunctionTable(delegationFunctionTableMapper.toObj(delegationFunctionTableDto));
             //delegationRepository.updateDelegation(delegation);
-            delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
+            delegation.setState(DelegationState.AUDIT_TEST_DPARTMENT);
             Map<String, Object> variables = new HashMap<String, Object>();
             variables.put("delegation", delegation);
             variables.put("delegationId",id);
