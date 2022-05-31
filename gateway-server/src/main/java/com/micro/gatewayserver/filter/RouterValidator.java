@@ -16,7 +16,6 @@ import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import com.micro.gatewayserver.temp.TempBodyForLogin;
 
 import java.text.ParseException;
 import java.util.List;
@@ -28,7 +27,8 @@ public class RouterValidator {
 
     public static final List<String> openApiEndpoints= List.of(
             "/register",
-            "/login"
+            "/login",
+            "/register/admin"
     );
 
     public Predicate<ServerHttpRequest> isSecured =
