@@ -1,0 +1,49 @@
+openapi: "3.0.3"
+info:
+  version: 0.0.1
+  title: Micro
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:32000
+paths:
+  /private/Sample:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    post:
+      summary: start a sample application process in sample-server
+      operationId: startSampleApplication
+      tags:
+        - sample
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/startSampleApplicationRequest"
+      responses:
+        '200':
+          description: process started
+
+components:
+  schemas:
+    startSampleApplicationRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        applicationMethod:
+          type: string

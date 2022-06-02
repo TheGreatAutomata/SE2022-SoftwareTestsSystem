@@ -69,7 +69,7 @@ public class JavaConfig {
         beans.put("saveOfferDelegate", saveOfferDelegate());
         beans.put("saveOfferConfirmationDelegate", saveOfferConfirmationDelegate());
         beans.put("saveComplete", saveComplete());
-
+        beans.put("startSampleApplicationDelegate", startSampleApplicationDelegate());
         springProcessEngineConfiguration.setBeans(beans);
 
         springProcessEngineConfiguration.setMailServerHost("smtp.qq.com");
@@ -188,6 +188,12 @@ public class JavaConfig {
     @Bean
     public SaveComplete saveComplete(){
         return new SaveComplete();
+    }
+
+    @Bean
+    public StartSampleApplicationDelegate startSampleApplicationDelegate()
+    {
+        return new StartSampleApplicationDelegate();
     }
 }
 
