@@ -1,7 +1,6 @@
-package com.micro.delegationserver.service;
+package com.micro.commonserver.service;
 
 import io.minio.*;
-import io.minio.errors.*;
 import io.minio.http.Method;
 import io.minio.messages.Bucket;
 import io.minio.messages.Item;
@@ -9,21 +8,15 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-/**
- * minio template
- * @author Jarvis
- * @date 2020/1/26 16:06
- */
 @AllArgsConstructor
-public class MinioServce {
+public class MinioService {
 
     private String endpoint;
     private String accessKey;
@@ -33,7 +26,7 @@ public class MinioServce {
     private MinioClient client;
 
     @SneakyThrows
-    public MinioServce(String endpoint, String accessKey, String secretKey, int partSize) {
+    public MinioService(String endpoint, String accessKey, String secretKey, int partSize) {
         this.endpoint = endpoint;
         this.accessKey = accessKey;
         this.secretKey = secretKey;

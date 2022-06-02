@@ -5,45 +5,27 @@ import com.micro.delegationserver.mapper.DelegationApplicationTableMapper;
 import com.micro.delegationserver.mapper.DelegationFileListMapper;
 import com.micro.delegationserver.mapper.DelegationFunctionTableMapper;
 
-import com.google.common.collect.Lists;
 import com.micro.delegationserver.mapper.*;
 
 import com.micro.delegationserver.model.*;
 import com.micro.delegationserver.repository.MongoDBDelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
 
-import com.sun.mail.imap.protocol.ID;
-
-import com.micro.delegationserver.service.MinioServce;
-import io.minio.messages.Bucket;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.SneakyThrows;
 
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 
 import org.activiti.engine.task.Task;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import com.micro.api.DelegationApi;
 import com.micro.dto.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
-import javax.validation.Valid;
-import java.net.URI;
 
 import java.util.HashMap;
 import java.util.List;
