@@ -31,19 +31,6 @@ spring:
           predicates:
             - Path=/delegation/{id}
             - Method=DELETE
-#      globalcors:
-#        cors-configurations:
-#          '[/**]':
-#            #allow-credentials: true
-#            allowed-origin-patterns: "*"
-#            allowed-headers: "*"
-#            allowed-methods:
-#              - GET
-#              - POST
-#              - PUT
-#              - DELETE
-#              - OPTIONS
-#            max-age: 3600
 eureka:
   client:
     serviceUrl:

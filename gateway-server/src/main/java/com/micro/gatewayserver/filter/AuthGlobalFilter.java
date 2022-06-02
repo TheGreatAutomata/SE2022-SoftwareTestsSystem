@@ -1,4 +1,7 @@
 package com.micro.gatewayserver.filter;
+
+import com.micro.gatewayserver.permission.CPL;
+import com.micro.gatewayserver.permission.RPL;
 import com.micro.gatewayserver.security.JwtUtils;
 import com.nimbusds.jose.JWSObject;
 import io.jsonwebtoken.Claims;
@@ -21,16 +24,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import com.micro.gatewayserver.temp.TempBodyForLogin;
+import java.util.*;
+
 
 import java.text.ParseException;
-import java.util.List;
-import java.util.Objects;
 
 @Component
-public class AuthGlobalFilter implements GlobalFilter
-{
+public class AuthGlobalFilter implements GlobalFilter {
     @Autowired
     private RouterValidator routerValidator;//custom route validator
 
@@ -40,34 +40,9 @@ public class AuthGlobalFilter implements GlobalFilter
     @Value("${bezkoder.app.jwtSecret}")
     private String jwtSecret;
 
-//    @Override
-//    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain)
-//    {
-//        ServerHttpRequest serverHttpRequest = exchange.getRequest();
-//        String token = serverHttpRequest.getHeaders().getFirst("token");
-////        Flux<DataBuffer> body = serverHttpRequest.getBody();
-////        StringBuilder sb = new StringBuilder();
-////        body.subscribe(buffer -> {
-////            byte[] bytes = new byte[buffer.readableByteCount()];
-////            buffer.read(bytes);
-////            DataBufferUtils.release(buffer);
-////            String bodyString = new String(bytes, StandardCharsets.UTF_8);
-////            sb.append(bodyString);
-////        });
-////        //check
-////        System.out.println(sb.toString());
-//        //
-////        JSONObject jsonObject=new JSONObject();
-////        jsonObject.put("usrName","root usr");
-////        jsonObject.put("usrId","root usr");
-////        jsonObject.put("authorities","root usr");
-////        String base64 = Base64.getEncoder().encodeToString(jsonObject.toJSONString().getBytes(StandardCharsets.UTF_8));
-//        ServerHttpRequest request = exchange.getRequest().mutate().header("usrName", "rootUsr").build();
-//        request = exchange.getRequest().mutate().header("usrId", "rootUsr").build();
-//        request = exchange.getRequest().mutate().header("usrRole", "rootUsr").build();
-//        exchange  = exchange.mutate().request(request).build();
-//        return chain.filter(exchange);
-//    }
+    private CPL cpl = new CPL();
+
+    private RPL rpl = new RPL();
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -76,18 +51,28 @@ public class AuthGlobalFilter implements GlobalFilter
         if (routerValidator.isSecured.test(request)) {
             if (this.isAuthMissing(request))
                 return this.onError(exchange, "Authorization header is missing in request", HttpStatus.UNAUTHORIZED);
-
             final String token = this.getAuthHeader(request);
 
             if (!jwtUtils.validateJwtToken(token)) {
                 return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
             }
-            else{
-                Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-                if(!request.getHeaders().containsKey("usrName") || !claims.get("usrName").equals(request.getHeaders().getFirst("usrName")))
-                    return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
-            }
 
+            Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+
+            //validate UserName
+            if (!request.getHeaders().containsKey("usrName") || !claims.get("usrName").equals(request.getHeaders().getFirst("usrName")))
+                return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
+
+            //validate Role
+            var authlist = (ArrayList<LinkedHashMap<String, String>>) claims.get("usrRole");
+            String usrRole = request.getHeaders().getFirst("usrRole");
+            if(!validateUsrRole(usrRole, authlist))
+                return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
+
+            //validate privilege
+            String path = request.getPath().toString();
+            if(usrRole == null || !cpl.getCurPrivilege(usrRole).canAccess(rpl.getRequestPrivilege(path)))
+                return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
             this.populateRequestWithHeaders(exchange, token);
         }
         return chain.filter(exchange);
@@ -112,6 +97,15 @@ public class AuthGlobalFilter implements GlobalFilter
     private void populateRequestWithHeaders(ServerWebExchange exchange, String token) {
         exchange.getRequest().mutate()
                 .build();
+    }
+
+    private boolean validateUsrRole(String usrRole, ArrayList<LinkedHashMap<String, String>> authList){
+        for(var auth: authList){
+            if(auth.containsValue(usrRole)){
+                return true;
+            }
+        }
+        return false;
     }
 }
 
