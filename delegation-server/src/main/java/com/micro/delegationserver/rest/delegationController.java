@@ -76,6 +76,9 @@ public class delegationController implements DelegationApi{
     @Autowired
     DelegationFilesMapper delegationFilesMapper;
 
+    @Autowired
+    private DelegationItemMapper delegationItemMapper;
+
 
     @Override
     public ResponseEntity<String> creatDelegation(String usrName, String usrId, String usrRole, CreatDelegationRequestDto creatDelegationRequestDto) {
@@ -156,12 +159,13 @@ public class delegationController implements DelegationApi{
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
-            delegationItemDto.setDelegationId(id);
-            delegationItemDto.setApplicationTable(delegationApplicationTableMapper.toDelegationApplicationTableDto(delegation.getApplicationTable()));
-            delegationItemDto.setState(delegation.getState().toString());
-            delegationItemDto.setFileList(null);
-            delegationItemDto.setUsrBelonged(delegation.getUsrBelonged());
-            return new ResponseEntity<DelegationItemDto>(delegationItemDto,HttpStatus.OK);
+//            delegationItemDto.setDelegationId(id);
+//            delegationItemDto.setApplicationTable(delegationApplicationTableMapper.toDelegationApplicationTableDto(delegation.getApplicationTable()));
+//            delegationItemDto.setState(delegation.getState().toString());
+//            delegationItemDto.setFileList(null);
+//            delegationItemDto.setUsrBelonged(delegation.getUsrBelonged());
+
+            return new ResponseEntity<DelegationItemDto>(delegationItemMapper.toDto(delegation),HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

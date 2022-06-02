@@ -1,5 +1,5 @@
 server:
-  port: 8000
+  port: 32000
 spring:
   application:
     name: gateway-server
@@ -47,5 +47,5 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8002/eureka/
+      defaultZone: http://localhost:32001/eureka/
 

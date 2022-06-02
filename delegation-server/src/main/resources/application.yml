@@ -1,5 +1,5 @@
 server:
-  port: 9999
+  port: 32101
 spring:
   application:
     name: delegation-server
@@ -9,7 +9,7 @@ eureka:
   # standalone mode
   client:
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:8002/eureka/
+      defaultZone: http://${eureka.instance.hostname}:32001/eureka/
 #minio
 minio:
   endPoint: http://42.192.56.231:9000

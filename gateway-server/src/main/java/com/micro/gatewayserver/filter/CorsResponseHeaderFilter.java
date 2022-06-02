@@ -11,12 +11,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 
-/**
- * @author mazhen
- * @className CorsResponseHeaderFilter
- * @Description TODO
- * @date 2020/12/14 19:16
- */
 @Component("corsResponseHeaderFilter")
 public class CorsResponseHeaderFilter implements GlobalFilter, Ordered {
 
