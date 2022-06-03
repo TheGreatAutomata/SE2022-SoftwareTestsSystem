@@ -16,6 +16,7 @@ public enum DelegationState {
     QUOTATION_USER_APPLICATION,//用户申请再次议价
     TEST_MARKET_APPLICATION,//用户接受议价，等待市场部完成测试申请表
     TEST_MARKET_CONTRACT,//市场部完成测试申请表，等待市场部完成合同
+
     IN_REVIEW,
     DENIED,
     ACCEPTED,

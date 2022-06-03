@@ -5,7 +5,7 @@ import com.micro.delegationserver.mapper.DelegationItemMapper;
 import com.micro.delegationserver.model.Delegation;
 import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
-import com.micro.dto.DelegationItemDto;
+import com.micro.dto.*;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,4 +39,6 @@ public class delegationsController implements DelegationsApi {
         List<Delegation> delegations = delegationRepository.findAllByUsrId(usrId);
         return new ResponseEntity<>(new ArrayList<>(delegationItemMapper.toDtos(delegations)), HttpStatus.OK);
     }
+
+
 }

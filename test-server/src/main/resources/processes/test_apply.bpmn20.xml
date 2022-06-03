@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="test_apply" name="test_apply" isExecutable="true">
+    <startEvent id="sid-a470fbcd-9ffb-4bc1-9531-bdd38803e975"/>
+    <userTask id="sid-0ae6b922-2f3f-4349-a053-63f1c6b5208b" name="AuditTestScheme">
+      <documentation>质量部人员审核测试方案，并补全测试评审表</documentation>
+    </userTask>
+    <exclusiveGateway id="sid-97b39851-0c98-4540-ba1c-60c158efcff6"/>
+    <sequenceFlow id="sid-f4d115ee-abef-4a1f-9ace-d05ef7a08d10" sourceRef="sid-0ae6b922-2f3f-4349-a053-63f1c6b5208b" targetRef="sid-97b39851-0c98-4540-ba1c-60c158efcff6"/>
+    <serviceTask activiti:type="mail" id="sid-e187c740-d781-471c-b197-111c97eb07a1" name="InformDenied">
+      <documentation>测试方案被驳回，通知测试人员</documentation>
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:string>lejian663@126.com</activiti:string>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string>2379594184@qq.com</activiti:string>
+        </activiti:field>
+        <activiti:field name="text">
+          <activiti:string>测试方案被驳回。</activiti:string>
+        </activiti:field>
+        <activiti:field name="charset">
+          <activiti:string>UTF-8</activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string>TestResult-Denied</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <serviceTask activiti:type="mail" id="sid-55e3f0a7-d7ba-42f3-83fc-b5ce351485bd" name="InformAccepted">
+      <documentation>测试方案通过，通知测试人员</documentation>
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:string>lejian663@126.com</activiti:string>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string>2379594184@qq.com</activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string>TestResult-Accepted</activiti:string>
+        </activiti:field>
+        <activiti:field name="text">
+          <activiti:string>测试通过审核。</activiti:string>
+        </activiti:field>
+        <activiti:field name="charset">
+          <activiti:string>UTF-8</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="sid-30f01990-5296-4481-b12f-a58f8c512c9d" sourceRef="sid-97b39851-0c98-4540-ba1c-60c158efcff6" targetRef="sid-55e3f0a7-d7ba-42f3-83fc-b5ce351485bd">
+      <conditionExpression xsi:type="tFormalExpression">${auditResult==true}</conditionExpression>
+    </sequenceFlow>
+    <userTask id="sid-06b04165-7bbb-474a-ab64-cbd58cd997f9" name="UploadTestScheme"/>
+    <sequenceFlow id="sid-d460688d-308b-4fe5-b7bf-37ab14230020" sourceRef="sid-a470fbcd-9ffb-4bc1-9531-bdd38803e975" targetRef="sid-0ae6b922-2f3f-4349-a053-63f1c6b5208b"/>
+    <sequenceFlow id="sid-80c7420d-5a78-4d93-95cd-79dc6018931e" sourceRef="sid-e187c740-d781-471c-b197-111c97eb07a1" targetRef="sid-06b04165-7bbb-474a-ab64-cbd58cd997f9"/>
+    <sequenceFlow id="sid-fd6de3ac-86b0-44c6-8c5d-b7361cc507f0" sourceRef="sid-06b04165-7bbb-474a-ab64-cbd58cd997f9" targetRef="sid-0ae6b922-2f3f-4349-a053-63f1c6b5208b"/>
+    <sequenceFlow id="sid-bc442b52-5090-4c73-a215-169e1ea36ecf" sourceRef="sid-97b39851-0c98-4540-ba1c-60c158efcff6" targetRef="sid-e187c740-d781-471c-b197-111c97eb07a1">
+      <conditionExpression xsi:type="tFormalExpression"/>
+    </sequenceFlow>
+    <userTask id="sid-6cf9e1b5-df9d-481d-98ab-24618ebd0aa3" name="UploadTestcase">
+      <documentation>测试人员上传《测试用例》</documentation>
+    </userTask>
+    <sequenceFlow id="sid-2f673400-d10b-40ee-900f-ab59d2542cde" sourceRef="sid-55e3f0a7-d7ba-42f3-83fc-b5ce351485bd" targetRef="sid-6cf9e1b5-df9d-481d-98ab-24618ebd0aa3"/>
+    <userTask id="sid-a1278071-7bca-4c7e-8e94-5cd9f20bdcb0" name="UploadTestRecord">
+      <documentation>测试人员上传《软件测试记录》</documentation>
+    </userTask>
+    <sequenceFlow id="sid-f50b31ec-5737-47f0-aadd-f6e9edefd5f0" sourceRef="sid-6cf9e1b5-df9d-481d-98ab-24618ebd0aa3" targetRef="sid-a1278071-7bca-4c7e-8e94-5cd9f20bdcb0"/>
+    <userTask id="sid-181e6af5-70fb-49c5-8c80-dd6dff5ffc81" name="UploadBugList">
+      <documentation>测试人员上传《软件测试问题清单》</documentation>
+    </userTask>
+    <sequenceFlow id="sid-036f8ac1-eceb-406c-9138-61a21d32833c" sourceRef="sid-a1278071-7bca-4c7e-8e94-5cd9f20bdcb0" targetRef="sid-181e6af5-70fb-49c5-8c80-dd6dff5ffc81"/>
+    <userTask id="sid-c412d72c-3996-4439-8f64-265b47dca60e" name="UploadTestReport">
+      <documentation>测试人员上传测试报告。</documentation>
+    </userTask>
+    <endEvent id="sid-e26f6d84-4f70-4d9e-b511-58d91a338d37"/>
+    <sequenceFlow id="sid-6df0f7d6-a685-4342-a08e-16a9e9e6deab" sourceRef="sid-181e6af5-70fb-49c5-8c80-dd6dff5ffc81" targetRef="sid-c412d72c-3996-4439-8f64-265b47dca60e"/>
+    <sequenceFlow id="sid-4561cbb1-f0a9-4729-9d62-43015cbdffbf" sourceRef="sid-c412d72c-3996-4439-8f64-265b47dca60e" targetRef="sid-e26f6d84-4f70-4d9e-b511-58d91a338d37"/>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_test_apply">
+    <bpmndi:BPMNPlane bpmnElement="test_apply" id="BPMNPlane_test_apply">
+      <bpmndi:BPMNShape id="shape-b2a61fed-70a1-4b17-90c2-e74bc91d53b2" bpmnElement="sid-a470fbcd-9ffb-4bc1-9531-bdd38803e975">
+        <omgdc:Bounds x="240.0" y="0.0" width="30.0" height="30.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape-ac53a3d7-0d85-4f29-adf8-fd0b5327ff7b" bpmnElement="sid-0ae6b922-2f3f-4349-a053-63f1c6b5208b">
+        <omgdc:Bounds x="735.0" y="-25.0" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape-d9c038fb-07cb-43d1-b820-ec1a956b3e76" bpmnElement="sid-97b39851-0c98-4540-ba1c-60c158efcff6">
+        <omgdc:Bounds x="1000.0" y="-5.0" width="40.0" height="40.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-f129a975-b27b-482f-8049-c520fb3a2247" bpmnElement="sid-f4d115ee-abef-4a1f-9ace-d05ef7a08d10">
+        <omgdi:waypoint x="835.0" y="15.0"/>
+        <omgdi:waypoint x="1000.0" y="15.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-74664ec4-65ea-492a-a236-fd40d47285ae" bpmnElement="sid-e187c740-d781-471c-b197-111c97eb07a1">
+        <omgdc:Bounds x="945.0" y="170.0" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape-8514d252-66d0-417e-a6cd-cf0e463deaaa" bpmnElement="sid-55e3f0a7-d7ba-42f3-83fc-b5ce351485bd">
+        <omgdc:Bounds x="1185.0" y="-25.0" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-4e534a4f-f940-40d0-81ca-ff66848cc558" bpmnElement="sid-30f01990-5296-4481-b12f-a58f8c512c9d">
+        <omgdi:waypoint x="1040.0" y="15.0"/>
+        <omgdi:waypoint x="1185.0" y="15.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-28dfd01b-0765-4716-821a-7a8a8f33963d" bpmnElement="sid-06b04165-7bbb-474a-ab64-cbd58cd997f9">
+        <omgdc:Bounds x="685.0" y="170.0" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-d063a453-25d5-4b56-8e51-1d2329d91376" bpmnElement="sid-d460688d-308b-4fe5-b7bf-37ab14230020">
+        <omgdi:waypoint x="270.0" y="15.0"/>
+        <omgdi:waypoint x="735.0" y="15.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge-df22b8ab-8ffd-40c3-8c31-2a06a4ac176e" bpmnElement="sid-80c7420d-5a78-4d93-95cd-79dc6018931e">
+        <omgdi:waypoint x="945.0" y="210.0"/>
+        <omgdi:waypoint x="785.0" y="210.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge-578842d2-f413-47ce-8fae-3b954d20bee0" bpmnElement="sid-fd6de3ac-86b0-44c6-8c5d-b7361cc507f0">
+        <omgdi:waypoint x="760.0" y="170.0"/>
+        <omgdi:waypoint x="760.0" y="55.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge-2d650de4-5971-40c2-9914-03e0cd910278" bpmnElement="sid-bc442b52-5090-4c73-a215-169e1ea36ecf">
+        <omgdi:waypoint x="1020.0" y="35.0"/>
+        <omgdi:waypoint x="1020.0" y="170.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-048f07ec-d22e-48fc-a444-918ca7b658dd" bpmnElement="sid-6cf9e1b5-df9d-481d-98ab-24618ebd0aa3">
+        <omgdc:Bounds x="1435.0" y="-24.999998" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-2ed4238f-5217-4731-8af1-474425152ff6" bpmnElement="sid-2f673400-d10b-40ee-900f-ab59d2542cde">
+        <omgdi:waypoint x="1285.0" y="15.0"/>
+        <omgdi:waypoint x="1435.0" y="15.000002"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-bb4f647c-dd97-499b-a886-11d05767a57f" bpmnElement="sid-a1278071-7bca-4c7e-8e94-5cd9f20bdcb0">
+        <omgdc:Bounds x="1680.0" y="-25.0" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-73462531-283f-40f5-821b-9d8fdbe1f039" bpmnElement="sid-f50b31ec-5737-47f0-aadd-f6e9edefd5f0">
+        <omgdi:waypoint x="1535.0" y="15.000002"/>
+        <omgdi:waypoint x="1680.0" y="15.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-1c7a9352-b02f-4ef3-b070-2a30741952b7" bpmnElement="sid-181e6af5-70fb-49c5-8c80-dd6dff5ffc81">
+        <omgdc:Bounds x="1920.0" y="-25.0" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-9857aa16-3762-4192-979d-98222002765b" bpmnElement="sid-036f8ac1-eceb-406c-9138-61a21d32833c">
+        <omgdi:waypoint x="1780.0" y="15.0"/>
+        <omgdi:waypoint x="1920.0" y="15.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-9ff789e3-6eb3-41cf-84b7-cc204969879f" bpmnElement="sid-c412d72c-3996-4439-8f64-265b47dca60e">
+        <omgdc:Bounds x="2115.0" y="-25.0" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape-c26e20ca-c2dc-4a0c-9677-049def9b69c7" bpmnElement="sid-e26f6d84-4f70-4d9e-b511-58d91a338d37">
+        <omgdc:Bounds x="2355.0" y="0.0" width="30.0" height="30.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-013f8f57-e525-4b57-80a1-3d68babff3b3" bpmnElement="sid-6df0f7d6-a685-4342-a08e-16a9e9e6deab">
+        <omgdi:waypoint x="2020.0" y="15.0"/>
+        <omgdi:waypoint x="2115.0" y="15.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge-7dc9a526-03bb-4438-989b-f80fa6ca9349" bpmnElement="sid-4561cbb1-f0a9-4729-9d62-43015cbdffbf">
+        <omgdi:waypoint x="2215.0" y="15.0"/>
+        <omgdi:waypoint x="2355.0" y="15.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
