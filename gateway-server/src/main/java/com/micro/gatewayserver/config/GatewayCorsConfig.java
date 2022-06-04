@@ -12,12 +12,6 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
-/**
- * @author mazhen
- * @className CorsConfig
- * @Description TODO
- * @date 2020/12/14 19:09
- */
 @Configuration
 public class GatewayCorsConfig {
     private static final String MAX_AGE = "18000L";

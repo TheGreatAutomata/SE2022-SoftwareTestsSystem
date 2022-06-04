@@ -9,8 +9,9 @@
         <module>config-server</module>
         <module>gateway-server</module>
         <module>discovery-server</module>
-        <module>loginAndRegister-server</module>
         <module>spring-boot-spring-security-jwt-authentication</module>
+        <module>common-server</module>
+        <module>sample-server</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -14,18 +14,13 @@ import io.minio.StatObjectResponse;
 import io.minio.messages.Bucket;
 import io.minio.messages.Item;
 import lombok.SneakyThrows;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
-import org.activiti.engine.task.Task;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.micro.commonserver.service.MinioService;
 
 import java.util.List;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
@@ -39,7 +34,7 @@ public class DelegationService {
 //    private TaskService taskService;
 
     @Autowired
-    MinioServce minioServce;
+    MinioService minioServce;
 
     @Autowired
     MongoDBDelegationRepository delegationRepository;
