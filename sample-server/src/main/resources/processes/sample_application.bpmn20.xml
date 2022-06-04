@@ -7,13 +7,13 @@
     <exclusiveGateway id="sid-825a3b65-c16d-4b12-bcb7-77421ce40c68"/>
     <sequenceFlow id="sid-b88908d7-aa47-4ac5-9a6c-230fac568156" sourceRef="sid-24652852-e69e-42fe-af7f-a368c582d4a1" targetRef="sid-825a3b65-c16d-4b12-bcb7-77421ce40c68"/>
     <sequenceFlow id="sid-3e36ef36-ed4c-4e51-ab6f-86564331c4ea" sourceRef="sid-825a3b65-c16d-4b12-bcb7-77421ce40c68" targetRef="sid-b5b3e310-b66f-4980-a3c5-18641c2bb2a7">
-      <conditionExpression xsi:type="tFormalExpression"/>
+      <conditionExpression xsi:type="tFormalExpression">${state==1}</conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="sid-bac382e5-2baf-4a7f-827c-0497303d1a87" sourceRef="sid-825a3b65-c16d-4b12-bcb7-77421ce40c68" targetRef="sid-c2179ec8-7de4-4ff7-bd44-73917fe18945">
-      <conditionExpression xsi:type="tFormalExpression"/>
+      <conditionExpression xsi:type="tFormalExpression">${state==2}</conditionExpression>
     </sequenceFlow>
     <serviceTask id="sid-a11d7185-6843-4ce7-b8fe-6470e7b9ad4a" activiti:exclusive="true" name="saveFile" activiti:delegateExpression="${saveFileDelegate}"/>
-    <serviceTask id="sid-462b2117-ba76-4466-afd1-67137d1a7e47" activiti:exclusive="true" name="saveMassage" activiti:delegateExpression="${saveMassageDelegate}"/>
+    <serviceTask id="sid-462b2117-ba76-4466-afd1-67137d1a7e47" activiti:exclusive="true" name="saveMessage" activiti:delegateExpression="${saveMassageDelegate}"/>
     <sequenceFlow id="sid-a214a7c9-0ad0-497e-bf9a-a393f2d2fb21" sourceRef="sid-b5b3e310-b66f-4980-a3c5-18641c2bb2a7" targetRef="sid-a11d7185-6843-4ce7-b8fe-6470e7b9ad4a"/>
     <sequenceFlow id="sid-91642fb3-99e2-45c5-bf5d-f278231d4d17" sourceRef="sid-c2179ec8-7de4-4ff7-bd44-73917fe18945" targetRef="sid-462b2117-ba76-4466-afd1-67137d1a7e47"/>
     <serviceTask id="sid-07a52d9e-9e86-4d8a-8e51-46b346f3f416" activiti:exclusive="true" name="callDelegationServer" activiti:delegateExpression="${callDelegationServerDelegate}"/>

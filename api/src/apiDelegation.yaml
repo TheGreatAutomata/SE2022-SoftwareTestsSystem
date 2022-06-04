@@ -7,6 +7,22 @@ info:
 servers:
   - url: http://localhost:32000
 paths:
+  /delegationServer/private/applicationFinished/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      summary: finished sample application
+      operationId: sampleApplicationFinished
+      tags:
+        - sample
+      responses:
+        '200':
+          description: ok
+
   /delegation/applicationTable:
     parameters:
       - name: usrName
@@ -179,8 +195,6 @@ paths:
         "404":
           description: delegation not found
 
-
-
   /delegation/{id}:
     parameters:
       - name: usrName
@@ -228,6 +242,7 @@ paths:
           description: bad permission
         '404':
           description: delegation not found
+
   /delegation/{id}/applicationTable:
     parameters:
       - name: id

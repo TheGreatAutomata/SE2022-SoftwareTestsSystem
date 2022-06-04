@@ -3,6 +3,7 @@ package com.micro.sampleserver.config;
 import com.micro.sampleserver.delegate.CallDelegationServerDelegate;
 import com.micro.sampleserver.delegate.SaveFileDelegate;
 import com.micro.sampleserver.delegate.SaveMassageDelegate;
+import com.micro.sampleserver.mapper.SampleMessageMapper;
 import org.activiti.engine.*;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.spring.ProcessEngineFactoryBean;
@@ -15,7 +16,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-
+import com.micro.sampleserver.mapper.*;
 import javax.sql.DataSource;
 import java.util.HashMap;
 
@@ -101,6 +102,12 @@ public class JavaConfig {
     public SaveMassageDelegate saveMassageDelegate()
     {
         return new SaveMassageDelegate();
+    }
+
+    @Bean
+    public SampleMessageMapper sampleMessageMapper()
+    {
+        return new SampleMessageMapperImpl();
     }
 
 }
