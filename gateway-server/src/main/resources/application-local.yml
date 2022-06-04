@@ -6,6 +6,16 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: sample-server-post
+          uri: lb://sample-server
+          predicates:
+            - Path=/sample/online/{id},/sample/offline/{id}
+            - Method=POST
+        - id: sample-server-get
+          uri: lb://sample-server
+          predicates:
+            - Path=/sample/{id}
+            - Method=GET
         - id: spring-boot-spring-security-jwt-authentication
           uri: lb://spring-boot-spring-security-jwt-authentication
           predicates:
