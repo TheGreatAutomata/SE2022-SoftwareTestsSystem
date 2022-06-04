@@ -4,14 +4,20 @@ import com.micro.api.ApiUtil;
 import com.micro.api.SampleApi;
 import com.micro.commonserver.model.MultipartInputStreamFileResource;
 import com.micro.commonserver.service.MinioService;
+import com.micro.dto.DelegationItemDto;
 import com.micro.dto.GetSampleResponseDto;
 import com.micro.dto.SampleMessageApplicationRequestDto;
 import com.micro.sampleserver.mapper.SampleMessageMapper;
+import com.micro.sampleserver.model.Sample;
+import com.micro.sampleserver.repository.MongoDBDelegationRepository;
+import io.minio.Result;
+import io.minio.messages.Item;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.SneakyThrows;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
@@ -27,12 +33,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class sampleController implements SampleApi {
     @Autowired
     private RuntimeService runtimeService;
 
+    @Autowired
+    MongoDBDelegationRepository delegationRepository;
     @Autowired
     private TaskService taskService;
 
@@ -78,8 +87,31 @@ public class sampleController implements SampleApi {
         return ResponseEntity.status(201).build();
     }
 
+    @SneakyThrows
     @Override
     public ResponseEntity<GetSampleResponseDto> getSample(String usrName, String usrId, String usrRole, String id) {
-        return new ResponseEntity(HttpStatus.NOT_IMPLEMENTED);
+        Optional<Sample> delegation_op=delegationRepository.findById(id);
+        if(delegation_op.isPresent()){
+            Sample sample=delegation_op.get();
+            GetSampleResponseDto getSampleResponseDto = new GetSampleResponseDto();
+            getSampleResponseDto.setApplicationMethod("offline");
+            getSampleResponseDto.setUri(null);
+            getSampleResponseDto.setNumber(sample.getNumber());
+            return new ResponseEntity<GetSampleResponseDto>(getSampleResponseDto,HttpStatus.OK);
+        }
+        String sampleId = "sample" + id;
+        Iterable<Result<Item>> allFiles = minioServce.listObjects(sampleId);
+        if(allFiles == null)
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        GetSampleResponseDto getSampleResponseDto = new GetSampleResponseDto();
+        getSampleResponseDto.setApplicationMethod("online");
+        for(Result<Item> f : allFiles)
+        {
+            getSampleResponseDto.setUri(minioServce.getObjectURL(sampleId, f.get().objectName()));
+        }
+        getSampleResponseDto.setNumber(null);
+        return new ResponseEntity<GetSampleResponseDto>(getSampleResponseDto,HttpStatus.OK);
     }
 }

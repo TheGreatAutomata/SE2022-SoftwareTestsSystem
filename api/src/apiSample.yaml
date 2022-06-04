@@ -63,7 +63,7 @@ paths:
         '404':
           description: id not found
 
-  /sample/offonline/{id}:
+  /sample/offline/{id}:
     parameters:
       - name: usrName
         in: header

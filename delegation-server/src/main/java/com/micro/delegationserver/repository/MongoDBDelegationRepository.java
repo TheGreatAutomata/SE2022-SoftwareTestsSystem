@@ -36,5 +36,4 @@ public interface MongoDBDelegationRepository extends MongoRepository<Delegation,
 
 
 
-
 }

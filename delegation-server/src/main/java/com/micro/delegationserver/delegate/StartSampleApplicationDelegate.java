@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.micro.dto.StartSampleApplicationRequestDto;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +17,12 @@ public class StartSampleApplicationDelegate implements JavaDelegate {
     private RestTemplate restTemplate;
 
     private String SAMPLE_URI = "http://sample-server/sampleServer/private";
+
+    @Autowired
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
     @Override
     public void execute(DelegateExecution delegateExecution) {
         HttpHeaders headers = new HttpHeaders();
