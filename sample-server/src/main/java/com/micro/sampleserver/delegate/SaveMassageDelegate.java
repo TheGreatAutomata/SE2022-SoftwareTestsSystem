@@ -23,7 +23,7 @@ public class SaveMassageDelegate implements JavaDelegate {
         sample.setDelegationId(id);
         sample.setUsrName(usrName);
         sample.setUsrId(usrId);
-        sample.setNumber(message.getNumber());
+        sample.setComment(message.get备注());
         mongoTemplate.save(sample);
         delegateExecution.setVariable("id", id);
     }

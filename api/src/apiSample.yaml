@@ -54,7 +54,7 @@ paths:
             schema:
               properties:
                 # The property name 'file' will be used for all files.
-                sample:
+                样品:
                   type: string
                   format: binary
       responses:
@@ -147,14 +147,14 @@ components:
     sampleMessageApplicationRequest:
       type: object
       properties:
-        number:
+        备注:
           type: string
     getSampleResponse:
       type: object
       properties:
         applicationMethod:
           type: string
-        number:
+        comment:
           type: string
         uri:
           type: string

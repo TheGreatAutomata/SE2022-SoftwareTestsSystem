@@ -16,5 +16,5 @@ public class Sample implements Serializable {
 
     public String usrId;
 
-    public String number;
+    public String comment;
 }

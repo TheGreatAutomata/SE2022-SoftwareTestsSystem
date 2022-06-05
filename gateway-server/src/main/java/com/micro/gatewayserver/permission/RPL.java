@@ -15,7 +15,9 @@ public class RPL {
         MarketPattern.add(auditDelegationMarket);
         MarketPattern.add(offerDelegation);
         MarketPattern.add(completeDelegation);
+        MarketPattern.add("/delegations/.*");
         TestPattern.add(auditDelegationTest);
+        TestPattern.add("/delegations/.*");
     }
 
 

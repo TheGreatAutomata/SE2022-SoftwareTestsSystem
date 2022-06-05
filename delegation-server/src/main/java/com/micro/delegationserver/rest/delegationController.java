@@ -17,6 +17,7 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 
 import org.activiti.engine.task.Task;
+import org.activiti.engine.task.TaskQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
@@ -119,7 +120,6 @@ public class delegationController implements DelegationApi{
     @Override
     public ResponseEntity<Void> uploadFunctionTable(String id, String usrName, String usrId, String usrRole, DelegationFunctionTableDto delegationFunctionTableDto) {
         Map<String, Object> variables = new HashMap<String, Object>();
-
         Task task=taskService.createTaskQuery().taskName("FunctionTableUpload").processVariableValueEquals("delegationId",id).singleResult();
 
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
@@ -224,7 +224,7 @@ public class delegationController implements DelegationApi{
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
-            delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
+            delegation.setState(DelegationState.UPLOAD_SAMPLE);
             delegationRepository.save(delegation);
         }
 

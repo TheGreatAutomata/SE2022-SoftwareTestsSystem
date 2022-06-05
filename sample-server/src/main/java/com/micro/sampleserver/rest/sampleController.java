@@ -96,7 +96,7 @@ public class sampleController implements SampleApi {
             GetSampleResponseDto getSampleResponseDto = new GetSampleResponseDto();
             getSampleResponseDto.setApplicationMethod("offline");
             getSampleResponseDto.setUri(null);
-            getSampleResponseDto.setNumber(sample.getNumber());
+            getSampleResponseDto.setComment(sample.getComment());
             return new ResponseEntity<GetSampleResponseDto>(getSampleResponseDto,HttpStatus.OK);
         }
         String sampleId = "sample" + id;
@@ -111,7 +111,7 @@ public class sampleController implements SampleApi {
         {
             getSampleResponseDto.setUri(minioServce.getObjectURL(sampleId, f.get().objectName()));
         }
-        getSampleResponseDto.setNumber(null);
+        getSampleResponseDto.setComment(null);
         return new ResponseEntity<GetSampleResponseDto>(getSampleResponseDto,HttpStatus.OK);
     }
 }

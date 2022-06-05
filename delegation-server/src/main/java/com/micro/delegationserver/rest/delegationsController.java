@@ -42,4 +42,10 @@ public class delegationsController implements DelegationsApi {
         List<Delegation> delegations = delegationRepository.findAllByUsrId(usrId);
         return new ResponseEntity<>(new ArrayList<>(delegationItemMapper.toDtos(delegations)), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<List<DelegationItemDto>> getAllDelegations(String usrName, String usrId, String usrRole, String id) {
+        List<Delegation> delegations = delegationRepository.findAllByUsrId(id);
+        return new ResponseEntity<>(new ArrayList<>(delegationItemMapper.toDtos(delegations)), HttpStatus.OK);
+    }
 }
