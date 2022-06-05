@@ -15,6 +15,7 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,9 @@ public class delegationsController implements DelegationsApi {
     @Autowired
     private DelegationItemMapper delegationItemMapper;
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
     @Override
     public ResponseEntity<List<DelegationItemDto>> listDelegations(String usrName, String usrId, String usrRole) {
         List<Delegation> delegations = delegationRepository.findAllByUsrId(usrId);
@@ -52,13 +56,18 @@ public class delegationsController implements DelegationsApi {
     }
 
     @Override
-    public ResponseEntity<List<DelegationItemDto>> getAllDelegations(String usrName, String usrId, String usrRole, String id) {
+    public ResponseEntity<List<DelegationItemDto>> getAllDelegationsByUsr(String usrName, String usrId, String usrRole, String id) {
         List<Delegation> delegations = delegationRepository.findAllByUsrId(id);
         return new ResponseEntity<>(new ArrayList<>(delegationItemMapper.toDtos(delegations)), HttpStatus.OK);
     }
     @Override
     public ResponseEntity<List<DelegationItemDto>> getAllDelegationsByState(String usrName, String usrId, String usrRole, String id) {
         List<Delegation> delegations = delegationRepository.findAllByState(DelegationState.valueOf(id));
+        return new ResponseEntity<>(new ArrayList<>(delegationItemMapper.toDtos(delegations)), HttpStatus.OK);
+    }
+    @Override
+    public ResponseEntity<List<DelegationItemDto>> getAllDelegations(String usrName, String usrId, String usrRole) {
+        List<Delegation> delegations = mongoTemplate.findAll(Delegation.class);
         return new ResponseEntity<>(new ArrayList<>(delegationItemMapper.toDtos(delegations)), HttpStatus.OK);
     }
 }

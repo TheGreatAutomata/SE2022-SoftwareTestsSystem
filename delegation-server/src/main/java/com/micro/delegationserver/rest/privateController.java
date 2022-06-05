@@ -39,7 +39,7 @@ public class privateController implements DelegationServerApi {
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
-            delegation.setState(DelegationState.UPLOAD_SAMPLE);
+            delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
             delegationRepository.save(delegation);
         }
         taskService.complete(task.getId(), variables);
