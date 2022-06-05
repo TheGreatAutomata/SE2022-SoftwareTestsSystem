@@ -29,7 +29,7 @@ spring:
         - id: delegation-server-get
           uri: lb://delegation-server
           predicates:
-            - Path=/delegations/{id},/delegation/{id},/delegations,/delegation/{id}/files,/delegation/{id}/functionTable
+            - Path=/delegations/state/{id},/delegations/usrId/{id},/delegation/{id},/delegations,/delegation/{id}/files,/delegation/{id}/functionTable
             - Method=GET
         - id: delegation-server-put
           uri: lb://delegation-server
