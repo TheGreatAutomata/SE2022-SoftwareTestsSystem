@@ -52,7 +52,7 @@ public class sampleController implements SampleApi {
     SampleMessageMapper sampleMessageMapper;
 
     @Override
-    public ResponseEntity<Void> createSampleFile(String usrName, String usrId, String usrRole, String id, MultipartFile sample) {
+    public ResponseEntity<Void> createSampleFile(String usrName, String usrId, String usrRole, String id, MultipartFile 样品) {
         Task task = taskService.createTaskQuery().taskName("sampleApplicationOnline").processVariableValueEquals("id",id).singleResult();
         if(task == null)
         {
@@ -61,7 +61,7 @@ public class sampleController implements SampleApi {
         }
         Map<String, Object> variables = new HashMap<String, Object>();
         try {
-            variables.put("sample", new MultipartInputStreamFileResource(sample.getBytes(), sample.getOriginalFilename(), sample.getSize()));
+            variables.put("sample", new MultipartInputStreamFileResource(样品.getBytes(), 样品.getOriginalFilename(), 样品.getSize()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         };
