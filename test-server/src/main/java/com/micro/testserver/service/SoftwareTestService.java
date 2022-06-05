@@ -5,6 +5,7 @@ import com.micro.dto.AllFilesDto;
 import com.micro.dto.SingleFileDto;
 import com.micro.testserver.model.SoftwareFormalTestReport;
 import com.micro.testserver.model.SoftwareTest;
+import com.micro.testserver.model.SoftwareTestState;
 import com.micro.testserver.repository.SoftwareTestRepository;
 import com.netflix.discovery.converters.Auto;
 import org.bson.types.ObjectId;
@@ -40,5 +41,7 @@ public class SoftwareTestService {
         }
     }
 
-
+    public boolean checkModifiable(SoftwareTestState softwareTestState,SoftwareTestState target){
+        return (softwareTestState.ordinal()>target.ordinal() && softwareTestState.ordinal()<SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE.ordinal()) || softwareTestState.equals(SoftwareTestState.TEST_REPORT_DENIED) || softwareTestState.equals(SoftwareTestState.TEST_DOC_WORK_DENIED);
+    }
 }

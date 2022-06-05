@@ -2,10 +2,7 @@ package com.micro.testserver;
 
 import com.micro.dto.TestSchemeDto;
 import com.micro.testserver.delegate.GenerateTestReportDelegate;
-import com.micro.testserver.mapper.TestSchemeAuditTableMapper;
-import com.micro.testserver.mapper.TestSchemeAuditTableMapperImpl;
-import com.micro.testserver.mapper.TestSchemeMapper;
-import com.micro.testserver.mapper.TestSchemeMapperImpl;
+import com.micro.testserver.mapper.*;
 import org.activiti.engine.*;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.spring.ProcessEngineFactoryBean;
@@ -52,16 +49,16 @@ public class JavaConfig {
         springProcessEngineConfiguration.setTransactionManager(transactionManager());
         springProcessEngineConfiguration.setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
 
-        Resource[] resources=new Resource[1];
+        Resource[] resources=new Resource[2];
         resources[0]=new ClassPathResource("processes/test_apply.bpmn20.xml");
-        //resources[1]=new ClassPathResource("processes/test_audit.bpmn20.xml");
+        resources[1]=new ClassPathResource("processes/test_audit.bpmn20.xml");
 
         springProcessEngineConfiguration.setDeploymentResources(resources);
         springProcessEngineConfiguration.setDeploymentMode("single-resource");
 
         HashMap<Object,Object> beans=new HashMap<>();
 
-        beans.put("generateReportDelegate",generateTestReportDelegate());
+        beans.put("generateTestReportDelegate",generateTestReportDelegate());
 
         springProcessEngineConfiguration.setBeans(beans);
 
@@ -110,6 +107,46 @@ public class JavaConfig {
     @Bean
     public TestSchemeAuditTableMapper testSchemeAuditTableMapper(){
         return new TestSchemeAuditTableMapperImpl();
+    }
+
+    @Bean
+    public SoftwareBugListMapper softwareBugListMapper(){
+        return new SoftwareBugListMapperImpl();
+    }
+
+    @Bean
+    public SoftwareDocEvaluationTableMapper softwareDocEvaluationTableMapper(){
+        return new SoftwareDocEvaluationTableMapperImpl();
+    }
+
+    @Bean
+    public SoftwareFormalTestReportMapper softwareFormalTestReportMapper(){
+        return new SoftwareFormalTestReportMapperImpl();
+    }
+
+    @Bean
+    public SoftwareReportEvaluationMapper softwareReportEvaluationMapper(){
+        return new SoftwareReportEvaluationMapperImpl();
+    }
+
+    @Bean
+    public SoftwareTestCaseMapper softwareTestCaseMapper(){
+        return new SoftwareTestCaseMapperImpl();
+    }
+
+    @Bean
+    public SoftwareTestRecordMapper softwareTestRecordMapper(){
+        return new SoftwareTestRecordMapperImpl();
+    }
+
+    @Bean
+    public SoftwareTestReportMapper softwareTestReportMapper(){
+        return new SoftwareTestReportMapperImpl();
+    }
+
+    @Bean
+    public SoftwareWorkEvaluationTableMapper softwareWorkEvaluationTableMapper(){
+        return new SoftwareWorkEvaluationTableMapperImpl();
     }
 
     @Bean

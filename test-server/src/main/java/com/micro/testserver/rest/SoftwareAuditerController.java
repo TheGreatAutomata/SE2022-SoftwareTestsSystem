@@ -1,6 +1,6 @@
-package com.micro.testserver.rest;
+/*package com.micro.testserver.rest;
 
-import com.micro.api.AuditApi;
+import com.micro.api.TestApi;
 import com.micro.delegationserver.model.Delegation;
 import com.micro.dto.TestSchemeAuditTableDto;
 import com.micro.testserver.mapper.TestSchemeAuditTableMapper;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-public class SoftwareAuditController implements AuditApi {
+public class SoftwareAuditerController implements TestApi {
 
     @Autowired
     DelegationRepository delegationRepository;
@@ -38,34 +38,44 @@ public class SoftwareAuditController implements AuditApi {
     RuntimeService runtimeService;
 
     @Override
-    //该接口暂时停用
     public ResponseEntity<Void> uploadTestSchemeAuditTable(String id, TestSchemeAuditTableDto testSchemeAuditTableDto) {
-        //该接口仅仅用于测试部人员上传评审表
+        //该接口仅仅用于质量部人员上传评审表
         //当然，也需要判断一下委托存不存在
         Optional<Delegation> delegationOptional=delegationRepository.findById(id);
         if(delegationOptional.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Task task=taskService.createTaskQuery().processDefinitionKey("test_apply").taskName("UploadTestEvaluation").processVariableValueEquals("delegationId",id).singleResult();
+        Task task=taskService.createTaskQuery().processDefinitionKey("test_apply").taskName("AuditTestScheme").processVariableValueEquals("delegationId",id).singleResult();
         if(task==null){
             //压根没开始
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         SchemeEvaluationTable evaluationTable=testSchemeAuditTableMapper.toObj(testSchemeAuditTableDto);
-        SoftwareTest test=runtimeService.getVariable(task.getExecutionId(),"softwareTest",SoftwareTest.class);
+        SoftwareTest test=softwareTestRepository.findByDelegationId(id);
+        if(test==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         test.setSchemeEvaluationTable(evaluationTable);
-        test.setState(SoftwareTestState.AUDIT_QUALITY);
+
+        boolean result=true;
+        if(result){
+            test.setState(SoftwareTestState.TEST_DOC_TEST_CASE);
+        }else{
+            test.setState(SoftwareTestState.AUDIT_QUALITY_DENIED);
+        }
+
         softwareTestRepository.save(test);
-        runtimeService.setVariable(task.getExecutionId(),"softwareTest",test);
+        runtimeService.setVariable(task.getExecutionId(),"auditResult",result);
 
         taskService.complete(task.getId());
 
-        return AuditApi.super.uploadTestSchemeAuditTable(id, testSchemeAuditTableDto);
+        return TestApi.super.uploadTestSchemeAuditTable(id, testSchemeAuditTableDto);
     }
 
     @Override
     public ResponseEntity<TestSchemeAuditTableDto> getTestSchemeAuditTable(String id) {
-        return AuditApi.super.getTestSchemeAuditTable(id);
+        return TestApi.super.getTestSchemeAuditTable(id);
     }
-}
+}*/

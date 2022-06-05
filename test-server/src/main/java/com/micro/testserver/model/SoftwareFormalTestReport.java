@@ -2,7 +2,9 @@ package com.micro.testserver.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class SoftwareFormalTestReport {
+public class SoftwareFormalTestReport implements Serializable {
     String name;
 }

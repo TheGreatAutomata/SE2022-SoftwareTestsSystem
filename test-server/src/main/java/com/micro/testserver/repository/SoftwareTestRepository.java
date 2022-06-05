@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SoftwareTestRepository extends MongoRepository<SoftwareTest,String> {
-    @Query("{delegationId: ?0}")
+    @Query("{delegation_id: ?0}")
     SoftwareTest findByDelegationId(String delegationId);
 }
