@@ -19,7 +19,7 @@ spring:
         - id: spring-boot-spring-security-jwt-authentication
           uri: lb://spring-boot-spring-security-jwt-authentication
           predicates:
-            - Path=/login, /register
+            - Path=/login, /register, /register/admin
             - Method=POST
         - id: delegation-server-post
           uri: lb://delegation-server
