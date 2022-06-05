@@ -2,7 +2,7 @@ package com.micro.gatewayserver.permission;
 
 public enum EROLE {
     ROLE_USER(0),
-    //  @Deprecated
+
     ROLE_MODERATOR(1),
     ROLE_MODQLTY(2),
     ROLE_MODMARKET(3),
@@ -17,6 +17,8 @@ public enum EROLE {
     public boolean canAccess(EROLE need){
         if(need.privilege == 0)
             return true;
+        if(need.privilege == 1)
+            return this.privilege >= need.privilege;
         else if(this.privilege == 5)
             return true;
         else

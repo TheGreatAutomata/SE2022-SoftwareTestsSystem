@@ -11,19 +11,28 @@ public class RPL {
     private final HashSet<String> MarketPattern = new HashSet<>();
     private final HashSet<String> TestPattern = new HashSet<>();
     private final HashSet<String> QLTYPattern = new HashSet<>();
+    private final HashSet<String> MODPattern = new HashSet<>();
     public RPL(){
         MarketPattern.add(auditDelegationMarket);
         MarketPattern.add(offerDelegation);
         MarketPattern.add(completeDelegation);
         MarketPattern.add("/delegations/usrId/.*");
         MarketPattern.add("/delegations/state/.*");
+        MODPattern.add("/delegations/state/.*");
+        MODPattern.add("/delegations/usrId/.*");
         TestPattern.add(auditDelegationTest);
         TestPattern.add("/delegations/usrId/.*");
         TestPattern.add("/delegations/state/.*");
     }
 
 
+    //sequence is important here
     public EROLE getRequestPrivilege(String path){
+        for(String p: MODPattern){
+            if (Pattern.matches(p, path)) {
+                return EROLE.ROLE_MODERATOR;
+            }
+        }
         for(String p : MarketPattern) {
             if (Pattern.matches(p, path)) {
                 return EROLE.ROLE_MODMARKET;
