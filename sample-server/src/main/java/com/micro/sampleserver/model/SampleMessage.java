@@ -6,5 +6,5 @@ import java.io.Serializable;
 
 @Data
 public class SampleMessage  implements Serializable {
-    public String number;
+    public String 备注;
 }

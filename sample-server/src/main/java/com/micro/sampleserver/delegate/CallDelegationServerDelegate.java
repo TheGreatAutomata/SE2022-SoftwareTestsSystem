@@ -25,10 +25,10 @@ public class CallDelegationServerDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
         HttpHeaders headers = new HttpHeaders();
-        ObjectMapper mapper = new ObjectMapper();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String id = (String) delegateExecution.getVariable("delegationId");
-        ResponseEntity<Void> result = restTemplate.postForEntity(DELEGATION_URI+"/applicationFinished/" + id, null, Void.class);
+        String id = (String) delegateExecution.getVariable("id");
+        HttpEntity<String> request = new HttpEntity<>("{name:string}", headers);
+        ResponseEntity<Void> result = restTemplate.postForEntity(DELEGATION_URI+"/applicationFinished/" + id, request, Void.class);
         if(result.getStatusCode() != HttpStatus.OK)
         {
             throw new RuntimeException();
