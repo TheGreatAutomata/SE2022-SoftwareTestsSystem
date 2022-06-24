@@ -22,7 +22,6 @@ public class SaveApplicationDelegate implements JavaDelegate {
         System.out.println(currentDelegation.delegationId);
 
         delegateExecution.setVariable("delegationId",currentDelegation.delegationId);
-
         delegateExecution.setVariable("delegation",currentDelegation);
         delegateExecution.setVariable("sampleMethod",currentDelegation.applicationTable.get样品和数量().get软件介质());
     }

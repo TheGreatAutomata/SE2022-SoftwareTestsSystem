@@ -6,10 +6,18 @@ import com.micro.delegationserver.repository.MongoDBDelegationRepository;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
 
 public class AcceptApplicationDelegate implements JavaDelegate {
     @Autowired
     MongoDBDelegationRepository delegationRepository;
+
+    @LoadBalanced
+    private RestTemplate restTemplate;
+
+    private String closeSampleUri = "http://sample-server/sampleServer/private/closeSample/";
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
@@ -17,5 +25,15 @@ public class AcceptApplicationDelegate implements JavaDelegate {
         Delegation delegation=(Delegation) delegateExecution.getVariable("delegation");
         delegation.setState(DelegationState.QUOTATION_MARKET);
         delegationRepository.save(delegation);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        String id = delegation.getDelegationId();
+        HttpEntity<String> request = new HttpEntity<>("", headers);
+        ResponseEntity<Void> result = restTemplate.postForEntity(closeSampleUri+id, request, Void.class);
+        if(result.getStatusCode() != HttpStatus.OK)
+        {
+            throw new RuntimeException();
+        }
     }
 }

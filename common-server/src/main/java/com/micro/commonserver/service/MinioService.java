@@ -175,6 +175,7 @@ public class MinioService {
      * @return url
      */
     public String getObjectURL(String bucketName, String objectName) throws Exception {
+
         GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
                 .bucket(bucketName)
                 .method(Method.GET)

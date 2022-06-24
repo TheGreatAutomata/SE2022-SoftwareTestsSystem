@@ -23,6 +23,43 @@ paths:
         '200':
           description: ok
 
+#  /delegationServer/private/samplePut/{id}:
+#    parameters:
+#      - name: id
+#        in: path
+#        required: true
+#        schema:
+#          type: string
+#    post:
+#      summary: sample is changed
+#      operationId: samplePut
+#      tags:
+#        - sample
+#      responses:
+#        '200':
+#          description: ok
+
+  /delegationServer/private/changeSampleMethod/{method}/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: method
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      summary: change sample method
+      operationId: changeSampleMethod
+      tags:
+        - sample
+      responses:
+        '200':
+          description: ok
+
   /delegation/applicationTable:
     parameters:
       - name: usrName
