@@ -5,7 +5,8 @@ import com.micro.delegationserver.mapper.DelegationApplicationTableMapper;
 import com.micro.delegationserver.mapper.DelegationAuditTestResultMapper;
 import com.micro.delegationserver.model.Delegation;
 import com.micro.delegationserver.model.DelegationState;
-import com.micro.delegationserver.repository.MongoDBDelegationRepository;
+import com.micro.delegationserver.repository.DelegationRepository;
+import com.micro.delegationserver.service.update.UpdateTableService;
 import com.micro.dto.CreatDelegationRequestDto;
 import com.micro.delegationserver.model.minioFileItem;
 import com.micro.dto.DelegationAuditTestResultDto;
@@ -17,6 +18,7 @@ import lombok.SneakyThrows;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.micro.commonserver.service.MinioService;
 
 import java.util.List;
@@ -37,7 +39,7 @@ public class DelegationService {
     MinioService minioServce;
 
     @Autowired
-    MongoDBDelegationRepository delegationRepository;
+    DelegationRepository delegationRepository;
 
     @Autowired
     DelegationAuditTestResultMapper delegationAuditTestResultMapper;
@@ -106,6 +108,7 @@ public class DelegationService {
             delegationRepository.save(delegation);
         }
     }
+
 
 
     @Autowired

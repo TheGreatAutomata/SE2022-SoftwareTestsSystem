@@ -1,10 +1,12 @@
 package com.micro.delegationserver.delegate;
 
 import com.micro.delegationserver.model.Delegation;
+
+import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.model.DelegationState;
-import com.micro.delegationserver.repository.MongoDBDelegationRepository;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
 import org.activiti.engine.task.Task;
@@ -16,7 +18,7 @@ public class UpdateApplicationDelegate implements JavaDelegate {
 
 
     @Autowired
-    MongoDBDelegationRepository delegationRepository;
+    DelegationRepository delegationRepository;
 
     @Autowired
     MongoTemplate mongoTemplate;
@@ -27,7 +29,7 @@ public class UpdateApplicationDelegate implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) {
         System.out.println("Update the application.");
         Delegation delegation = (Delegation) delegateExecution.getVariable("delegation");
-        delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
+        delegation.setState(DelegationState.AUDIT_TEST_DPARTMENT);
         String delegationId = delegation.getDelegationId();
         mongoTemplate.save(delegation,"delegation");
     }

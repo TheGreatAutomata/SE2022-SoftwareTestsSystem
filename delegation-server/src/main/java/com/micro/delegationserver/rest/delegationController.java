@@ -8,20 +8,32 @@ import com.micro.delegationserver.mapper.DelegationFunctionTableMapper;
 import com.micro.delegationserver.mapper.*;
 
 import com.micro.delegationserver.model.*;
-import com.micro.delegationserver.repository.MongoDBDelegationRepository;
+import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
 
+
+import com.micro.delegationserver.service.update.UpdateTableService;
+import com.micro.delegationserver.service.update.applicationTable.UpdateApplicationTableResult;
+<<<<<<< HEAD
+
+=======
+>>>>>>> b20ea36d39301e91c003d308b614a66ffc7e32e5
+import com.micro.delegationserver.service.update.functionTable.UpdateFunctionTableResult;
 import lombok.SneakyThrows;
 
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 
 import org.activiti.engine.task.Task;
+
 import org.activiti.engine.task.TaskQuery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.data.mongodb.core.MongoTemplate;
+
 import org.springframework.http.*;
+
 import org.springframework.web.bind.annotation.RestController;
 import com.micro.api.DelegationApi;
 import com.micro.dto.*;
@@ -29,7 +41,12 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import java.util.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 
 @RestController
 public class delegationController implements DelegationApi{
@@ -53,7 +70,7 @@ public class delegationController implements DelegationApi{
     DelegationFunctionTableMapper delegationFunctionTableMapper;
 
     @Autowired
-    MongoDBDelegationRepository delegationRepository;
+    DelegationRepository delegationRepository;
     @Autowired
     DelegationFilesMapper delegationFilesMapper;
 
@@ -83,29 +100,19 @@ public class delegationController implements DelegationApi{
     @Autowired
     MongoTemplate mongoTemplate;
 
+    @Autowired
+    UpdateTableService updateTableService;
+
     //TODO: 处理异常情况，例如没找到委托
     @Override
     public ResponseEntity<Void> updateApplicationTable(String id, DelegationApplicationTableDto delegationApplicationTableDto) {
         System.out.println("Updating...");
 
-        Optional<Delegation> delegation_op=delegationRepository.findById(id);
+        UpdateApplicationTableResult result=updateTableService.updateApplicationTable(id,delegationApplicationTableDto);
 
-        if(delegation_op.isPresent()){
-            Delegation delegation=delegation_op.get();
-            delegation.setApplicationTable(delegationApplicationTableMapper.toDelegationApplicationTable(delegationApplicationTableDto));
-            //delegationRepository.updateDelegation(delegation);
-            delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
-            Map<String, Object> variables = new HashMap<String, Object>();
-            variables.put("delegation", delegation);
-            variables.put("delegationId",id);
-            Task task = taskService.createTaskQuery().processDefinitionKey("delegation_apply").processVariableValueEquals("delegationId",id).singleResult();
-            if(task != null)
-            {
-                runtimeService.deleteProcessInstance(task.getExecutionId(),"delegation has been deleted for modify");
-            }
-            runtimeService.startProcessInstanceByKey("delegation_modify",variables);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+        if(!result.isResult()){
+            return new ResponseEntity<>(HttpStatus.valueOf(403));
+        return new ResponseEntity<>(result.getHttpStatus());
     }
 
     @Override
@@ -114,7 +121,7 @@ public class delegationController implements DelegationApi{
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
             Map<String, Object> variables = new HashMap<String, Object>();
-            delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
+            delegation.setState(DelegationState.AUDIT_TEST_DPARTMENT);
             variables.put("delegation",delegation);
             variables.put("delegationId",id);
             runtimeService.startProcessInstanceByKey("delegation_modify",variables);
@@ -292,24 +299,13 @@ public class delegationController implements DelegationApi{
     @Override
     public ResponseEntity<Void> updateFunctionTable(String id, String usrName, String usrId, String usrRole, DelegationFunctionTableDto delegationFunctionTableDto) {
         System.out.println("Updating...");
-        //TODO:delete origin delegation
-        Optional<Delegation> delegation_op=delegationRepository.findById(id);
 
-        if(delegation_op.isPresent()){
-            Delegation delegation=delegation_op.get();
-            delegation.setFunctionTable(delegationFunctionTableMapper.toObj(delegationFunctionTableDto));
-            //delegationRepository.updateDelegation(delegation);
-            Map<String, Object> variables = new HashMap<String, Object>();
-            variables.put("delegation", delegation);
-            variables.put("delegationId",id);
-            Task task = taskService.createTaskQuery().processDefinitionKey("delegation_apply").processVariableValueEquals("delegationId",id).singleResult();
-            if(task != null)
-            {
-                runtimeService.deleteProcessInstance(task.getExecutionId(),"delegation has been deleted for modify");
-            }
-            runtimeService.startProcessInstanceByKey("delegation_modify",variables);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+        UpdateFunctionTableResult result = updateTableService.updateFunctionTable(id, delegationFunctionTableDto);
+        if(!result.isResult()){
+            return new ResponseEntity<>(HttpStatus.valueOf(403));
+
+        return new ResponseEntity<>(result.getHttpStatus());
+
     }
 }
 
