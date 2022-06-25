@@ -14,10 +14,6 @@ import com.micro.delegationserver.service.DelegationService;
 
 import com.micro.delegationserver.service.update.UpdateTableService;
 import com.micro.delegationserver.service.update.applicationTable.UpdateApplicationTableResult;
-<<<<<<< HEAD
-
-=======
->>>>>>> b20ea36d39301e91c003d308b614a66ffc7e32e5
 import com.micro.delegationserver.service.update.functionTable.UpdateFunctionTableResult;
 import lombok.SneakyThrows;
 
@@ -41,11 +37,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 
 @RestController
@@ -108,10 +100,12 @@ public class delegationController implements DelegationApi{
     public ResponseEntity<Void> updateApplicationTable(String id, DelegationApplicationTableDto delegationApplicationTableDto) {
         System.out.println("Updating...");
 
-        UpdateApplicationTableResult result=updateTableService.updateApplicationTable(id,delegationApplicationTableDto);
+        UpdateApplicationTableResult result = updateTableService.updateApplicationTable(id, delegationApplicationTableDto);
 
-        if(!result.isResult()){
+        if (!result.isResult()) {
             return new ResponseEntity<>(HttpStatus.valueOf(403));
+
+        }
         return new ResponseEntity<>(result.getHttpStatus());
     }
 
@@ -301,9 +295,9 @@ public class delegationController implements DelegationApi{
         System.out.println("Updating...");
 
         UpdateFunctionTableResult result = updateTableService.updateFunctionTable(id, delegationFunctionTableDto);
-        if(!result.isResult()){
+        if(!result.isResult()) {
             return new ResponseEntity<>(HttpStatus.valueOf(403));
-
+        }
         return new ResponseEntity<>(result.getHttpStatus());
 
     }

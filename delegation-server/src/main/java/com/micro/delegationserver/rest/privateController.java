@@ -3,7 +3,7 @@ package com.micro.delegationserver.rest;
 import com.micro.api.DelegationServerApi;
 import com.micro.delegationserver.model.Delegation;
 import com.micro.delegationserver.model.DelegationState;
-import com.micro.delegationserver.repository.MongoDBDelegationRepository;
+import com.micro.delegationserver.repository.DelegationRepository;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.activiti.engine.RuntimeService;
@@ -28,7 +28,7 @@ public class privateController implements DelegationServerApi {
     private TaskService taskService;
 
     @Autowired
-    MongoDBDelegationRepository delegationRepository;
+    DelegationRepository delegationRepository;
 
     @Autowired
     MongoTemplate mongoTemplate;
