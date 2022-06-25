@@ -1,15 +1,25 @@
 server:
-  port: 8000
+  port: 32000
 spring:
   application:
     name: gateway-server
   cloud:
     gateway:
       routes:
+        - id: sample-server-post
+          uri: lb://sample-server
+          predicates:
+            - Path=/sample/online/{id},/sample/offline/{id}
+            - Method=POST
+        - id: sample-server-get
+          uri: lb://sample-server
+          predicates:
+            - Path=/sample/{id}
+            - Method=GET
         - id: spring-boot-spring-security-jwt-authentication
           uri: lb://spring-boot-spring-security-jwt-authentication
           predicates:
-            - Path=/login, /register
+            - Path=/login, /register, /register/admin
             - Method=POST
         - id: delegation-server-post
           uri: lb://delegation-server
@@ -19,7 +29,7 @@ spring:
         - id: delegation-server-get
           uri: lb://delegation-server
           predicates:
-            - Path=/delegation/{id},/delegations,/delegation/{id}/files,/delegation/{id}/functionTable
+            - Path=/delegations/all,/delegations/state/{id},/delegations/usrId/{id},/delegation/{id},/delegations,/delegation/{id}/files,/delegation/{id}/functionTable
             - Method=GET
         - id: delegation-server-put
           uri: lb://delegation-server
@@ -31,21 +41,8 @@ spring:
           predicates:
             - Path=/delegation/{id}
             - Method=DELETE
-#      globalcors:
-#        cors-configurations:
-#          '[/**]':
-#            #allow-credentials: true
-#            allowed-origin-patterns: "*"
-#            allowed-headers: "*"
-#            allowed-methods:
-#              - GET
-#              - POST
-#              - PUT
-#              - DELETE
-#              - OPTIONS
-#            max-age: 3600
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8002/eureka/
+      defaultZone: http://localhost:32001/eureka/
 

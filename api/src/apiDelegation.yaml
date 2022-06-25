@@ -1,0 +1,1779 @@
+openapi: "3.0.3"
+info:
+  version: 0.0.1
+  title: Micro
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:32000
+paths:
+  /delegationServer/private/applicationFinished/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      summary: finished sample application
+      operationId: sampleApplicationFinished
+      tags:
+        - sample
+      responses:
+        '200':
+          description: ok
+
+#  /delegationServer/private/samplePut/{id}:
+#    parameters:
+#      - name: id
+#        in: path
+#        required: true
+#        schema:
+#          type: string
+#    post:
+#      summary: sample is changed
+#      operationId: samplePut
+#      tags:
+#        - sample
+#      responses:
+#        '200':
+#          description: ok
+
+  /delegationServer/private/changeSampleMethod/{method}/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: method
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      summary: change sample method
+      operationId: changeSampleMethod
+      tags:
+        - sample
+      responses:
+        '200':
+          description: ok
+
+  /delegation/applicationTable:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    post:
+      summary: creat delegation and add application table
+      operationId: creatDelegation
+      tags:
+        - delegation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/creatDelegationRequest"
+        required: true
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /delegation/{id}/functionTable:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    post: #finished
+      operationId: uploadFunctionTable
+      tags:
+        - delegation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/delegationFunctionTable"
+      responses:
+        '201':
+          description: created
+        '404':
+          description: not found delegation
+    get:
+      operationId: listFunctionTable
+      tags:
+        - delegations
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/delegationFunctionTable'
+        "404":
+          description: delegation not found
+    put:
+      operationId: updateFunctionTable
+      tags:
+        - delegation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/delegationFunctionTable"
+        required: true
+      responses:
+        '200':
+          description: update succeed
+        '404':
+          description: delegation not found
+        '403':
+          description: delegation can no longer be modified
+
+  /delegation/{id}/files:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    post: #finished
+      operationId: createDelegationFile
+      tags:
+        - delegation
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                # The property name 'file' will be used for all files.
+                usrManual:
+                  type: string
+                  format: binary
+                installationManual:
+                  type: string
+                  format: binary
+                operationManual:
+                  type: string
+                  format: binary
+                maintenanceManual:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: created
+        '404':
+          description: not found delegation
+    get:
+      operationId: listDelegationFile
+      tags:
+        - delegations
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/allFiles'
+        "404":
+          description: delegation not found
+
+  /delegation/{id}:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: findDelegation
+      tags:
+        - delegation
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/delegationItem"
+        '404':
+          description: delegation not found
+    delete:
+      operationId: deleteDelegation
+      tags:
+        - delegation
+      responses:
+        '200':
+          description: ok
+        '403':
+          description: bad permission
+        '404':
+          description: delegation not found
+
+  /delegation/{id}/applicationTable:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    put:
+      operationId: updateApplicationTable
+      tags:
+        - delegation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/delegationApplicationTable"
+        required: true
+      responses:
+        '200':
+          description: update succeed
+        '404':
+          description: delegation not found
+        '403':
+          description: delegation can no longer be modified
+
+  /delegation/{id}/fileListTable:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    put:
+      operationId: updatefileListTable
+      tags:
+        - delegation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/delegationFileList"
+        required: true
+      responses:
+        '200':
+          description: update succeed
+        '404':
+          description: delegation not found
+        '403':
+          description: delegation can no longer be modified
+
+  /delegations:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: listDelegations
+      tags:
+        - delegation
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/delegationItem"
+        '404':
+          description: usr not found
+
+  /delegations/all:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getAllDelegations
+      tags:
+        - delegations
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/delegationItem"
+
+  /delegations/usrId/{id}:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of usr
+        schema:
+          type: string
+    get:
+      operationId: getAllDelegationsByUsr
+      tags:
+        - delegations
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/delegationItem"
+        '404':
+          description: usrNotFound
+
+  /delegations/state/{id}:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The string of state
+        schema:
+          type: string
+    get:
+      operationId: getAllDelegationsByState
+      tags:
+        - delegations
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/delegationItem"
+        '404':
+          description: no such state
+
+  /audit/delegation/test/{id}:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    post:
+      operationId: auditDelegationByTestEmployees
+      tags:
+        - delegation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/delegationAuditTestResult"
+        required: true
+      responses:
+        '200':
+          description: ok
+        '404':
+          description: delegation not found
+        '403':
+          description: bad permission
+        '423':
+          description: has been audited
+
+  /audit/delegation/market/{id}:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+
+    post:
+      operationId: auditDelegationByMarketEmployees
+      tags:
+        - delegation
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/delegationAuditMarketResult"
+        required: true
+      responses:
+        '200':
+          description: ok
+        '404':
+          description: delegation not found
+        '403':
+          description: bad permission
+        '423':
+          description: has been audited
+
+  /offer/delegation/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: createOffer
+      tags:
+        - offer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/offerRequest"
+      responses:
+        '201':
+          description: created
+        '404':
+          description: delegation not exist
+    put:
+      operationId: updateOffer
+      tags:
+        - offer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/offerRequest"
+      responses:
+        '200':
+          description: ok
+        '404':
+          description: delegation not exist
+
+  /offer/reply/delegation/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: replyOffer
+      tags:
+        - offer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/offerReplyRequest"
+      responses:
+        '200':
+          description: ok
+        '404':
+          description: delegation not found
+        '423':
+          description: the delegation can do this
+
+  /complete/delegation/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+      responses:
+        '201':
+          description: created
+        '404':
+          description: delegation not found
+
+  /delegations/{id}/sample:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getSample
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+        "404":
+          description: delegation not found
+
+  /delegations/{id}/support-doc:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getSupportDocs
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-scheme:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getTestScheme
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testScheme"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    post:
+      operationId: uploadTestScheme
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testScheme"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    put:
+      operationId: putTestScheme
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testScheme"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/audit-scheme:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    post:
+      operationId: uploadTestSchemeAuditTable
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testSchemeAuditTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+    put:
+      operationId: putTestSchemeAuditTable
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testSchemeAuditTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-scheme/audit-table:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getTestSchemeAuditTable
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testSchemeAuditTable"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/approve/{id}/test-scheme:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    post:
+      operationId: uploadApproveResult
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testSchemeAuditTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-scheme-approve-result:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getApproveResult
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testSchemeAuditTable"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-docs/test-case:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_testCase
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testCase"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    post:
+      operationId: uploadDoc_testcase
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testCase"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+    put:
+      operationId: putDoc_testcase
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testCase"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-docs/test-record:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_testRecord
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testRecord"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    post:
+      operationId: uploadDoc_testRecord
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testRecord"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+    put:
+      operationId: putDoc_testRecord
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testRecord"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-docs/buglist:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_bugList
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bugList"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    post:
+      operationId: uploadDoc_bugList
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/bugList"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+    put:
+      operationId: putDoc_bugList
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/bugList"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-docs/doc-evaluation:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_docEvaluation
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/docEvaluationTable"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    post:
+      operationId: uploadDoc_docEvaluation
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/docEvaluationTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+    put:
+      operationId: putDoc_docEvaluation
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/docEvaluationTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-docs/test-report:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_testReport
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testReport"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    post:
+      operationId: uploadDoc_testReport
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testReport"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    put:
+      operationId: putDoc_testReport
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testReport"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-docs/report-evaluation:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    post:
+      operationId: uploadDoc_reportEvaluation
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testReportEvaluationTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    put:
+      operationId: putDoc_reportEvaluation
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testReportEvaluationTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-doc/test/report-evalutaion:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_reportEvaluation
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testReportEvaluationTable"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+
+  /test/{id}/test-docs/work-evaluation:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_workEvaluation
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/workEvaluationTable"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    post:
+      operationId: uploadDoc_workEvaluation
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/workEvaluationTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    put:
+      operationId: putDoc_workEvaluation
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/workEvaluationTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-docs/formal-test-report:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_formalTestReport
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/formalTestReport"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/apply-report-evaluation:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    put:
+      operationId: putDoc_applyReportEvaluation
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+components:
+  schemas:
+    delegationApplicationTable:
+      type: object
+      properties:
+        name:
+          type: string
+        测试类型(其他):
+          type: string
+        测试类型:
+          type: array
+          items:
+            type: string
+        软件名称:
+          type: string
+        版本号:
+          type: string
+        委托单位(中文):
+          type: string
+        委托单位(英文):
+          type: string
+        开发单位:
+          type: string
+        单位性质:
+          type: string
+        软件用户对象描述:
+          type: string
+        主要功能及用途简介(限300字):
+          type: string
+        测试依据:
+          type: array
+          items:
+            type: string
+        需要测试的技术指标:
+          type: array
+          items:
+            type: string
+        软件规模:
+          $ref: "#/components/schemas/softwareScale"
+        软件类型:
+          type: string
+        运行环境:
+          $ref: "#/components/schemas/runtimeEnvironment"
+        样品和数量:
+          $ref: "#/components/schemas/sampleAndQuantity"
+        希望测试完成时间:
+          type: string
+        委托单位信息:
+          $ref: "#/components/schemas/clientEnterpriseInfo"
+
+    delegationFunctionTable:
+      type: object
+      properties:
+        软件名称:
+          type: string
+        版本号:
+          type: string
+        功能项目列表:
+          type: array
+          items:
+            $ref: "#/components/schemas/softwareFunctionProject"
+
+    softwareFunctionProject:
+      type: object
+      properties:
+        子功能项目列表:
+          type: array
+          items:
+            $ref: "#/components/schemas/softwareChildFunction"
+        软件功能项目:
+          type: string
+
+    softwareChildFunction:
+      type: object
+      properties:
+        软件子功能项目:
+          type: string
+        功能说明:
+          type: string
+
+    delegationFileList:
+      type: object
+      properties:
+        fileName:
+          type: array
+          items:
+            type: string
+
+    delegationAuditTestResult:
+      type: object
+      properties:
+        密级:
+          type: string
+        查杀病毒:
+          type: array
+          items:
+            type: string
+        材料检查:
+          $ref: "#/components/schemas/delegationAuditTestMaterialCheck"
+        确认意见:
+          type: string
+
+    delegationAuditMarketResult:
+      type: object
+      properties:
+        result:
+          type: string
+
+    delegationAuditTestMaterialCheck:
+        type: object
+        properties:
+          材料样品:
+            type: array
+            items:
+              type: string
+          需求文档:
+            type: array
+            items:
+              type: string
+          用户文档:
+            type: array
+            items:
+              type: string
+          操作文档:
+            type: array
+            items:
+              type: string
+
+    delegationItem:
+      type: object
+      properties:
+        usrBelonged:
+          type: string
+        delegationId:
+          type: string
+        state:
+          type: string
+        suggestion:
+          type: string
+        applicationTable:
+          $ref: "#/components/schemas/delegationApplicationTable"
+        functionTable:
+          $ref: "#/components/schemas/delegationFunctionTable"
+        fileList:
+          $ref: "#/components/schemas/delegationFileList"
+        offerTableUnion:
+          $ref: '#/components/schemas/offerTableUnion'
+        projectId:
+          type: string
+
+    creatDelegationRequest:
+      type: object
+      properties:
+        applicationTable:
+          $ref: "#/components/schemas/delegationApplicationTable"
+        functionTable:
+          $ref: "#/components/schemas/delegationFunctionTable"
+        fileList:
+          $ref: "#/components/schemas/delegationFileList"
+
+    softwareScale:
+      type: object
+      properties:
+        功能数(到最后一级菜单):
+          type: string
+
+    runtimeEnvironment:
+      type: object
+      properties:
+        客户端:
+          $ref: "#/components/schemas/clientRuntimeEnvironment"
+        服务器端:
+          $ref: "#/components/schemas/serverRuntimeEnvironment"
+        网络环境:
+          type: string
+
+    clientRuntimeEnvironment:
+      type: object
+      properties:
+        操作系统-Windows版本:
+          type: string
+        操作系统:
+          type: array
+          items:
+            type: string
+        内存要求:
+          type: string
+        其他要求:
+          type: string
+
+    serverRuntimeEnvironment:
+      type: object
+      properties:
+        硬件:
+          $ref: "#/components/schemas/hardwareEnvironment"
+        软件:
+          $ref: "#/components/schemas/softwareEnvironment"
+
+    hardwareEnvironment:
+      type: object
+      properties:
+        架构:
+          type: array
+          items:
+            type: string
+        内存要求:
+          type: string
+        硬盘要求:
+          type: string
+        其他要求:
+          type: string
+
+    softwareEnvironment:
+      type: object
+      properties:
+        操作系统:
+          type: string
+        版本:
+          type: string
+        编程语言:
+          type: string
+        架构:
+          type: array
+          items:
+            type: string
+        数据库:
+          type: string
+        中间件:
+          type: string
+        其他支撑软件:
+          type: string
+
+    sampleAndQuantity:
+      type: object
+      properties:
+        软件介质:
+          type: string
+        提交的样品(硬拷贝资料及硬件)五年保存期满后:
+          type: string
+
+    clientEnterpriseInfo:
+      type: object
+      properties:
+        电话:
+          type: string
+        传真:
+          type: string
+        地址:
+          type: string
+        邮编:
+          type: string
+        联系人:
+          type: string
+        手机:
+          type: string
+        E-mail:
+          type: string
+        网址:
+          type: string
+
+    singleFile:
+      type: object
+      properties:
+        fileName:
+          type: string
+        fileType:
+          type: string
+        fileUri:
+          type: string
+
+    allFiles:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/singleFile'
+
+    # not use
+    projectItem:
+      type: object
+      properties:
+        单价:
+          type: integer
+        说明:
+          type: string
+
+    offerTableItem:
+      type: object
+      properties:
+        "项目":
+          type: string
+        "分项":
+          type: string
+        "单价":
+          type: integer
+        "说明":
+          type: string
+        "行合计":
+          type: integer
+
+    offerTable:
+      type: object
+      properties:
+        软件名称:
+          type: string
+        项目列表:
+          type: array
+          items:
+            $ref: "#/components/schemas/offerTableItem"
+        小计:
+          type: integer
+        税率(8%):
+          type: integer
+        总计:
+          type: integer
+
+    offerRequest:
+      type: object
+      properties:
+        基本信息:
+          $ref: "#/components/schemas/offerTable"
+        市场部态度:
+          type: string
+
+    offerTableUnion:
+      type: object
+      properties:
+        基本信息:
+          $ref: "#/components/schemas/offerTable"
+        用户反馈:
+          type: string
+        态度:
+          type: string
+        附加信息:
+          type: string
+        确认信息:
+          $ref: "#/components/schemas/offerSignItem"
+
+    offerSignItem:
+      type: object
+      properties:
+        委托人签字:
+          type: string
+        日期:
+          type: string
+
+    offerReplyRequest:
+      type:
+        object
+      properties:
+        态度:
+          type: string
+        附加信息:
+          type: string
+        确认信息:
+          $ref: "#/components/schemas/offerSignItem"
+
+    testScheme:
+      type: object
+      properties:
+        name:
+          type: string
+
+    testSchemeAuditTable:
+      type: object
+      properties:
+        name:
+          type: string
+        result:
+          type: string
+
+    testCase:
+      type: object
+      properties:
+        name:
+          type: string
+
+    testRecord:
+      type: object
+      properties:
+        name:
+          type: string
+
+    bugList:
+      type: object
+      properties:
+        name:
+          type: string
+
+    docEvaluationTable:
+      type: object
+      properties:
+        name:
+          type: string
+
+    testReport:
+      type: object
+      properties:
+        name:
+          type: string
+
+    testReportEvaluationTable:
+      type: object
+      properties:
+        name:
+          type: string
+        result:
+          type: string
+
+    workEvaluationTable:
+      type: object
+      properties:
+        name:
+          type: string
+
+    formalTestReport:
+      type: object
+      properties:
+        name:
+          type: string
