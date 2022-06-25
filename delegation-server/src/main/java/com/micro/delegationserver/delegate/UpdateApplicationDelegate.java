@@ -21,11 +21,7 @@ public class UpdateApplicationDelegate implements JavaDelegate {
     @Autowired
     MongoTemplate mongoTemplate;
 
-    @Autowired
-    private TaskService taskService;
 
-    @Autowired
-    private RuntimeService runtimeService;
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
@@ -33,11 +29,6 @@ public class UpdateApplicationDelegate implements JavaDelegate {
         Delegation delegation = (Delegation) delegateExecution.getVariable("delegation");
         delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
         String delegationId = delegation.getDelegationId();
-        Task task = taskService.createTaskQuery().processDefinitionKey("delegation_apply").processVariableValueEquals("delegationId",delegationId).singleResult();
-        if(task != null)
-        {
-            runtimeService.deleteProcessInstance(task.getExecutionId(),"delegation has been deleted for modify");
-        }
         mongoTemplate.save(delegation,"delegation");
     }
 }

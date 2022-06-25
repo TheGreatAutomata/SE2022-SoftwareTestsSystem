@@ -98,6 +98,11 @@ public class delegationController implements DelegationApi{
             Map<String, Object> variables = new HashMap<String, Object>();
             variables.put("delegation", delegation);
             variables.put("delegationId",id);
+            Task task = taskService.createTaskQuery().processDefinitionKey("delegation_apply").processVariableValueEquals("delegationId",id).singleResult();
+            if(task != null)
+            {
+                runtimeService.deleteProcessInstance(task.getExecutionId(),"delegation has been deleted for modify");
+            }
             runtimeService.startProcessInstanceByKey("delegation_modify",variables);
         }
         return new ResponseEntity<>(HttpStatus.OK);
@@ -294,10 +299,14 @@ public class delegationController implements DelegationApi{
             Delegation delegation=delegation_op.get();
             delegation.setFunctionTable(delegationFunctionTableMapper.toObj(delegationFunctionTableDto));
             //delegationRepository.updateDelegation(delegation);
-            delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
             Map<String, Object> variables = new HashMap<String, Object>();
             variables.put("delegation", delegation);
             variables.put("delegationId",id);
+            Task task = taskService.createTaskQuery().processDefinitionKey("delegation_apply").processVariableValueEquals("delegationId",id).singleResult();
+            if(task != null)
+            {
+                runtimeService.deleteProcessInstance(task.getExecutionId(),"delegation has been deleted for modify");
+            }
             runtimeService.startProcessInstanceByKey("delegation_modify",variables);
         }
         return new ResponseEntity<>(HttpStatus.OK);
