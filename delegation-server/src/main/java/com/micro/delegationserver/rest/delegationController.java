@@ -14,7 +14,10 @@ import com.micro.delegationserver.service.DelegationService;
 
 import com.micro.delegationserver.service.update.UpdateTableService;
 import com.micro.delegationserver.service.update.applicationTable.UpdateApplicationTableResult;
+<<<<<<< HEAD
 
+=======
+>>>>>>> b20ea36d39301e91c003d308b614a66ffc7e32e5
 import com.micro.delegationserver.service.update.functionTable.UpdateFunctionTableResult;
 import lombok.SneakyThrows;
 
@@ -296,10 +299,13 @@ public class delegationController implements DelegationApi{
     @Override
     public ResponseEntity<Void> updateFunctionTable(String id, String usrName, String usrId, String usrRole, DelegationFunctionTableDto delegationFunctionTableDto) {
         System.out.println("Updating...");
+
         UpdateFunctionTableResult result = updateTableService.updateFunctionTable(id, delegationFunctionTableDto);
         if(!result.isResult()){
             return new ResponseEntity<>(HttpStatus.valueOf(403));
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        return new ResponseEntity<>(result.getHttpStatus());
+
     }
 }
 
