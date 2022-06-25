@@ -6,5 +6,5 @@ import java.io.Serializable;
 
 @Data
 public class SoftwareTestCase implements Serializable {
-    String name;
+    public String name;
 }

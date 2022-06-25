@@ -147,7 +147,7 @@ public class SoftwareTestController implements TestApi {
             softwareTestRepository.save(test);
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.valueOf(400));
     }
 
     //前有屎山
@@ -205,7 +205,7 @@ public class SoftwareTestController implements TestApi {
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.valueOf(400));
     }
 
     @Override
@@ -260,7 +260,7 @@ public class SoftwareTestController implements TestApi {
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.valueOf(400));
     }
 
 
@@ -317,7 +317,7 @@ public class SoftwareTestController implements TestApi {
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.valueOf(400));
     }
 
     @Override
@@ -378,7 +378,7 @@ public class SoftwareTestController implements TestApi {
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.valueOf(400));
     }
 
     @Override
@@ -508,7 +508,7 @@ public class SoftwareTestController implements TestApi {
 
     @Override
     public ResponseEntity<Void> putDocApplyReportEvaluation(String id) {
-        if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id)==null){
+        if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id).singleResult()==null){
             //同一时间最多只有一个审核流程
             SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
             if(softwareTest==null) {
