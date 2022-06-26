@@ -98,6 +98,23 @@
                             <modelPackage>com.micro.dto</modelPackage>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>apiContract</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <generatorName>spring</generatorName>
+                            <library>spring-boot</library>
+                            <configOptions>
+                                <interfaceOnly>true</interfaceOnly>
+                            </configOptions>
+                            <inputSpec>${project.basedir}/src/apiContract.yaml</inputSpec>
+                            <modelNameSuffix>Dto</modelNameSuffix>
+                            <apiPackage>com.micro.api</apiPackage>
+                            <modelPackage>com.micro.dto</modelPackage>
+                        </configuration>
+                    </execution>
                 </executions>
 <!--                    <execution>-->
 <!--                        <goals>-->
