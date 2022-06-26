@@ -49,7 +49,7 @@ public class privateController implements DelegationServerApi {
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
-            delegation.setState(DelegationState.AUDIT_TEST_DPARTMENT);
+            delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
             delegationRepository.save(delegation);
         }
         taskService.complete(task.getId(), variables);
@@ -73,6 +73,21 @@ public class privateController implements DelegationServerApi {
             variables.put("delegation", delegation);
             variables.put("delegationId",id);
             runtimeService.startProcessInstanceByKey("delegation_modify",variables);
+            return ResponseEntity.status(200).build();
+        }else
+        {
+            return ResponseEntity.status(404).build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<Void> setContractId(String id, String contractId)
+    {
+        Optional<Delegation> delegation_op=delegationRepository.findById(id);
+        if(delegation_op.isPresent()){
+            Delegation delegation=delegation_op.get();
+            delegation.setContractId(contractId);
+            mongoTemplate.save(delegation, "delegation");
             return ResponseEntity.status(200).build();
         }else
         {

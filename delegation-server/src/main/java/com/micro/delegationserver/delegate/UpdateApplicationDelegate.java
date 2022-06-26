@@ -29,7 +29,7 @@ public class UpdateApplicationDelegate implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) {
         System.out.println("Update the application.");
         Delegation delegation = (Delegation) delegateExecution.getVariable("delegation");
-        delegation.setState(DelegationState.AUDIT_TEST_DPARTMENT);
+        delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
         String delegationId = delegation.getDelegationId();
         mongoTemplate.save(delegation,"delegation");
     }

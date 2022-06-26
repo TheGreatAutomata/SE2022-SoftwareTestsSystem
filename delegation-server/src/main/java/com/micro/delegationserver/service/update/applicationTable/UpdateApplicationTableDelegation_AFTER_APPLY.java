@@ -43,7 +43,7 @@ public class UpdateApplicationTableDelegation_AFTER_APPLY implements UpdateAppli
             Delegation delegation=delegation_op.get();
             delegation.setApplicationTable(delegationApplicationTableMapper.toDelegationApplicationTable(delegationApplicationTableDto));
             delegationRepository.save(delegation);
-            delegation.setState(DelegationState.AUDIT_TEST_DPARTMENT);
+            delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
 
             //删除当前的流程
             List<ProcessInstance> instances=runtimeService.createProcessInstanceQuery().processDefinitionKey("delegation_apply").variableValueEquals("delegationId",id).list();

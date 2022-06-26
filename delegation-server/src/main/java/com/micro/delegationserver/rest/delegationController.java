@@ -115,7 +115,7 @@ public class delegationController implements DelegationApi{
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
             Map<String, Object> variables = new HashMap<String, Object>();
-            delegation.setState(DelegationState.AUDIT_TEST_DPARTMENT);
+            delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
             variables.put("delegation",delegation);
             variables.put("delegationId",id);
             runtimeService.startProcessInstanceByKey("delegation_modify",variables);

@@ -65,7 +65,7 @@ public class offerController implements OfferApi {
         }
         if(Objects.equals(offerRequestDto.get市场部态度(), "拒绝"))
         {
-            delegation.setState(DelegationState.AUDIT_MARKET_DPARTMENT_DENIED);
+            delegation.setState(DelegationState.AUDIT_MARKET_APARTMENT_DENIED);
             variables.put("state",2);
         }
         else

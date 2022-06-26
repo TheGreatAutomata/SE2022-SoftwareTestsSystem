@@ -40,12 +40,12 @@ public class UpdateTableService {
                 break;
             case UPLOAD_FUNCTION_TABLE:
             case UPLOAD_FILES:
-            case AUDIT_TEST_DPARTMENT:
-            case AUDIT_TEST_DEPARTMENT_DENIED:
-            case AUDIT_MARKET_DPARTMENT_DENIED:
+            case AUDIT_TEST_APARTMENT:
+            case AUDIT_TEST_APARTMENT_DENIED:
+            case AUDIT_MARKET_APARTMENT_DENIED:
                 return function_table;
-            case AUDIT_MARKET_DPARTMENT:
-            case AUDIT_MARKET_DPARTMENT_FURTHER:
+            case AUDIT_MARKET_APARTMENT:
+            case AUDIT_MARKET_APARTMENT_FURTHER:
             case QUOTATION_MARKET:
             case QUOTATION_USER:
             case QUOTATION_USER_DENIED:
@@ -72,12 +72,12 @@ public class UpdateTableService {
             case UPLOAD_FUNCTION_TABLE:
                 break;
             case UPLOAD_FILES:
-            case AUDIT_TEST_DPARTMENT:
-            case AUDIT_TEST_DEPARTMENT_DENIED:
-            case AUDIT_MARKET_DPARTMENT_DENIED:
+            case AUDIT_TEST_APARTMENT:
+            case AUDIT_TEST_APARTMENT_DENIED:
+            case AUDIT_MARKET_APARTMENT_DENIED:
                 return upload_files;
-            case AUDIT_MARKET_DPARTMENT:
-            case AUDIT_MARKET_DPARTMENT_FURTHER:
+            case AUDIT_MARKET_APARTMENT:
+            case AUDIT_MARKET_APARTMENT_FURTHER:
             case QUOTATION_MARKET:
             case QUOTATION_USER:
             case QUOTATION_USER_DENIED:
