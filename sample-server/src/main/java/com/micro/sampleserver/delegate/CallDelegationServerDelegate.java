@@ -27,7 +27,7 @@ public class CallDelegationServerDelegate implements JavaDelegate {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String id = (String) delegateExecution.getVariable("id");
-        HttpEntity<String> request = new HttpEntity<>("{name:string}", headers);
+        HttpEntity<String> request = new HttpEntity<>("", headers);
         ResponseEntity<Void> result = restTemplate.postForEntity(DELEGATION_URI+"/applicationFinished/" + id, request, Void.class);
         if(result.getStatusCode() != HttpStatus.OK)
         {

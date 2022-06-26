@@ -3,21 +3,19 @@ package com.micro.delegationserver.rest;
 import com.micro.api.AuditApi;
 import com.micro.delegationserver.model.Delegation;
 import com.micro.delegationserver.model.DelegationState;
-import com.micro.delegationserver.repository.MongoDBDelegationRepository;
+import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
 import com.micro.dto.DelegationAuditMarketResultDto;
 import com.micro.dto.DelegationAuditTestResultDto;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
-import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -32,7 +30,7 @@ public class auditController implements AuditApi {
     DelegationService delegationService;
 
     @Autowired
-    MongoDBDelegationRepository delegationRepository;
+    DelegationRepository delegationRepository;
 
     //todo:处理没找到id的情况
     @Override
@@ -48,13 +46,13 @@ public class auditController implements AuditApi {
 
         taskVariables.put("accepted", accepted);
 
-        Delegation currentDelegation=runtimeService.getVariable(task.getExecutionId(),"delegation",Delegation.class);
+        /*Delegation currentDelegation=runtimeService.getVariable(task.getExecutionId(),"delegation",Delegation.class);
 
         if(accepted){
             currentDelegation.setState(DelegationState.ACCEPTED);
         }else{
             currentDelegation.setState(DelegationState.DENIED);
-        }
+        }*/
 
         delegationService.saveDelegationAuditTestResult(id,delegationAuditTestResultDto);
 
@@ -64,7 +62,7 @@ public class auditController implements AuditApi {
             if(accepted) {
                 delegation.setState(DelegationState.AUDIT_MARKET_APARTMENT);
             }else{
-                delegation.setState(DelegationState.AUDIT_TEST_DEPARTMENT_DENIED);
+                delegation.setState(DelegationState.AUDIT_TEST_APARTMENT_DENIED);
             }
             delegationRepository.save(delegation);
         }

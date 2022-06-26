@@ -8,6 +8,9 @@ public class RPL {
     private final String auditDelegationMarket = "/audit/delegation/market/.*";
     private final String offerDelegation = "/offer/delegation/.*";
     private final String completeDelegation = "/complete/delegation/.*";
+    private final String findDelegationByUsr = "/delegations/usrId/.*";
+    private final String findDelegationByState = "/delegations/state/.*";
+    private final String findDelegationAll = "/delegations/all";
     private final HashSet<String> MarketPattern = new HashSet<>();
     private final HashSet<String> TestPattern = new HashSet<>();
     private final HashSet<String> QLTYPattern = new HashSet<>();
@@ -16,13 +19,18 @@ public class RPL {
         MarketPattern.add(auditDelegationMarket);
         MarketPattern.add(offerDelegation);
         MarketPattern.add(completeDelegation);
-        MarketPattern.add("/delegations/usrId/.*");
-        MarketPattern.add("/delegations/state/.*");
-        MODPattern.add("/delegations/state/.*");
-        MODPattern.add("/delegations/usrId/.*");
+        MarketPattern.add(findDelegationByUsr);
+        MarketPattern.add(findDelegationByState);
+        MarketPattern.add(findDelegationAll);
+
+        MODPattern.add(findDelegationByState);
+        MODPattern.add(findDelegationByUsr);
+        MODPattern.add(findDelegationAll);
+
         TestPattern.add(auditDelegationTest);
-        TestPattern.add("/delegations/usrId/.*");
-        TestPattern.add("/delegations/state/.*");
+        TestPattern.add(findDelegationByUsr);
+        TestPattern.add(findDelegationByState);
+        TestPattern.add(findDelegationAll);
     }
 
 

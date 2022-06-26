@@ -1,6 +1,7 @@
 package com.micro.sampleserver.config;
 
 import com.micro.sampleserver.delegate.CallDelegationServerDelegate;
+import com.micro.sampleserver.delegate.SamplePutServer;
 import com.micro.sampleserver.delegate.SaveFileDelegate;
 import com.micro.sampleserver.delegate.SaveMassageDelegate;
 import com.micro.sampleserver.mapper.SampleMessageMapper;
@@ -60,6 +61,7 @@ public class JavaConfig {
         beans.put("callDelegationServerDelegate",callDelegationServerDelegate());
         beans.put("saveFileDelegate",saveFileDelegate());
         beans.put("saveMassageDelegate",saveMassageDelegate());
+        beans.put("samplePutServer", samplePutServer());
         springProcessEngineConfiguration.setBeans(beans);
         return springProcessEngineConfiguration;
     }
@@ -108,6 +110,12 @@ public class JavaConfig {
     public SampleMessageMapper sampleMessageMapper()
     {
         return new SampleMessageMapperImpl();
+    }
+
+    @Bean
+    public SamplePutServer samplePutServer()
+    {
+        return new SamplePutServer();
     }
 
 }

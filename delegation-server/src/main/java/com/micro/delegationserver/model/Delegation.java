@@ -32,6 +32,8 @@ public class Delegation implements Serializable {
 
     public String projectId;
 
+    public String contractId;
+
     public OfferTableUnion offerTableUnion;
 
     public Delegation(){

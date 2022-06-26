@@ -22,6 +22,24 @@ paths:
         '200':
           description: process started
 
+  /sampleServer/private/closeSample/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      summary: close a sample application, cannot put
+      operationId: closeSample
+      tags:
+        - sample
+      responses:
+        '200':
+          description: close ok
+        '404':
+          description: cannot find tasks to close
+
   /sample/online/{id}:
     parameters:
       - name: usrName
@@ -62,6 +80,35 @@ paths:
           description: created
         '404':
           description: id not found
+    delete:
+      operationId: deleteOnlineSample
+      tags:
+        - sample
+      responses:
+        '200':
+          description: ok
+        '404':
+          description: sample not found
+    put:
+      operationId: changeOnlineSample
+      tags:
+        - sample
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                # The property name 'file' will be used for all files.
+                样品:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: chenged
+        '400':
+          description: cannot put
+        '404':
+          description: id not found
 
   /sample/offline/{id}:
     parameters:
@@ -97,6 +144,29 @@ paths:
       responses:
         '201':
           description: created
+        '404':
+          description: id not found
+    delete:
+      operationId: deleteOfflineSample
+      tags:
+        - sample
+      responses:
+        '200':
+          description: ok
+        '404':
+          description: sample not found
+    put:
+      operationId: changeOfflineSample
+      tags:
+        - sample
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/sampleMessageApplicationRequest"
+      responses:
+        '200':
+          description: changed
         '404':
           description: id not found
 
@@ -135,6 +205,7 @@ paths:
                 $ref: "#/components/schemas/getSampleResponse"
         '404':
           description: not found
+
 components:
   schemas:
     startSampleApplicationRequest:

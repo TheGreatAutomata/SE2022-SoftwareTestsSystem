@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="test_conduct" name="test_conduct" isExecutable="true">
+    <startEvent id="sid-f997e2d0-3071-46ff-8645-ea7ad60392a5"/>
+    <userTask id="sid-24989ecb-061d-450d-aa56-9c53ab9d18ff" name="UploadTestcaseTable"/>
+    <userTask id="sid-c07d4993-8897-44bb-bb2f-2d61b95d01ec"/>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_test_conduct">
+    <bpmndi:BPMNPlane bpmnElement="test_conduct" id="BPMNPlane_test_conduct">
+      <bpmndi:BPMNShape id="shape-b79976ec-606d-44f6-bffe-babad48f6d05" bpmnElement="sid-f997e2d0-3071-46ff-8645-ea7ad60392a5">
+        <omgdc:Bounds x="35.0" y="-10.0" width="30.0" height="30.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape-836ac6c0-3373-4784-83a1-07b2e6ab298f" bpmnElement="sid-24989ecb-061d-450d-aa56-9c53ab9d18ff">
+        <omgdc:Bounds x="240.0" y="-35.0" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape-8290bacb-acf3-4573-abf2-e22bb0d7b4fe" bpmnElement="sid-c07d4993-8897-44bb-bb2f-2d61b95d01ec">
+        <omgdc:Bounds x="470.0" y="-35.0" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

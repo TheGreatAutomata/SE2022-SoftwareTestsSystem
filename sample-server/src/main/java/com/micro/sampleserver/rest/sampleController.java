@@ -30,10 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class sampleController implements SampleApi {
@@ -52,6 +49,25 @@ public class sampleController implements SampleApi {
     SampleMessageMapper sampleMessageMapper;
 
     @Override
+    public ResponseEntity<Void> changeOnlineSample(String usrName, String usrId, String usrRole, String id, MultipartFile 样品) {
+        Task task = taskService.createTaskQuery().taskName("putSampleOrCloseSample").processVariableValueEquals("id",id).singleResult();
+        if(task == null)
+        {
+            return ResponseEntity.status(404).build();
+        }
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("finish", 0);
+        variables.put("online", 1);
+        variables.put("sampleId", id);
+        try {
+            variables.put("sample", new MultipartInputStreamFileResource(样品.getBytes(), 样品.getOriginalFilename(), 样品.getSize()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        };
+        taskService.complete(task.getId(), variables);
+        return ResponseEntity.status(200).build();
+    }
+    @Override
     public ResponseEntity<Void> createSampleFile(String usrName, String usrId, String usrRole, String id, MultipartFile 样品) {
         Task task = taskService.createTaskQuery().taskName("sampleApplicationOnline").processVariableValueEquals("id",id).singleResult();
         if(task == null)
@@ -68,6 +84,24 @@ public class sampleController implements SampleApi {
         variables.put("sampleId", id);
         taskService.complete(task.getId(), variables);
         return ResponseEntity.status(201).build();
+    }
+
+    @Override
+    public ResponseEntity<Void> changeOfflineSample(String usrName, String usrId, String usrRole, String id, SampleMessageApplicationRequestDto sampleMessageApplicationRequestDto) {
+        Task task = taskService.createTaskQuery().taskName("putSampleOrCloseSample").processVariableValueEquals("id",id).singleResult();
+        if(task == null) {
+            //application not found
+            return ResponseEntity.status(404).build();
+        }
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("finish", 0);
+        variables.put("online", 0);
+        variables.put("sampleId", id);
+        variables.put("message", sampleMessageMapper.toObj(sampleMessageApplicationRequestDto));
+        variables.put("usrName", usrName);
+        variables.put("usrId", usrId);
+        taskService.complete(task.getId(), variables);
+        return ResponseEntity.status(200).build();
     }
 
     @Override
@@ -113,5 +147,36 @@ public class sampleController implements SampleApi {
         }
         getSampleResponseDto.setComment(null);
         return new ResponseEntity<GetSampleResponseDto>(getSampleResponseDto,HttpStatus.OK);
+    }
+
+    private Boolean deleteTaskByDelegationId(String id)
+    {
+        Task task = taskService.createTaskQuery().processDefinitionKey("sample_application").processVariableValueEquals("delegationId",id).singleResult();
+        if(task != null){
+            runtimeService.deleteProcessInstance(task.getExecutionId(),"sample process has been deleted because delegation is deleted");
+            return Boolean.TRUE;
+        }
+        else return Boolean.FALSE;
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteOnlineSample(String usrName, String usrId, String usrRole, String id) {
+        Optional<Sample> delegation_op=delegationRepository.findById(id);
+        if(delegation_op.isPresent()){
+            delegationRepository.deleteById(delegation_op.get().getDelegationId());
+            if(deleteTaskByDelegationId(id) == Boolean.TRUE)  return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.status(404).build();
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteOfflineSample(String usrName, String usrId, String usrRole, String id) {
+        String sampleId = "sample" + id;
+        try {
+            minioServce.removeBucket(sampleId);
+            return ResponseEntity.status(200).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(404).build();
+        }
     }
 }
