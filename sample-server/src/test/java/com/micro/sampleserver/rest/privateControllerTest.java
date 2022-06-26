@@ -43,8 +43,6 @@ class privateControllerTest {
     @MockBean
     private TaskQuery taskQuery;
     @MockBean
-    private TaskQuery taskQueryEmpty;
-    @MockBean
     private TaskEntity taskEntity;
     @MockBean
     private RuntimeService runtimeService;
@@ -77,8 +75,10 @@ class privateControllerTest {
                 .thenReturn(taskQuery);
         when(taskQuery.taskName(Mockito.anyString()))
                 .thenReturn(taskQuery);
-        when(taskQuery.processVariableValueEquals(eq("id"),eq("goodId")))
-                .thenReturn(taskQuery);
+        when(taskQuery.processVariableValueEquals(eq("id"),eq("goodId")).singleResult())
+                .thenReturn(taskEntity);
+        when(taskQuery.processVariableValueEquals(eq("id"),eq("badId")).singleResult())
+                .thenReturn(null);
         when(taskQuery.singleResult())
                 .thenReturn(taskEntity);
         ArrayList<Task> list=new ArrayList<>();
