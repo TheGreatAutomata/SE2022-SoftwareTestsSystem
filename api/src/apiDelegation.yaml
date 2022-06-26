@@ -23,7 +23,30 @@ paths:
         '200':
           description: ok
 
-#  /delegationServer/private/samplePut/{id}:
+  /delegationServer/private/contract/{id}/{contractId}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: contractId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      summary: fill contractId in delegation
+      operationId: setContractId
+      tags:
+        - contract
+      responses:
+        '200':
+          description: filled
+        '404':
+          description: delegation not found
+
+  #  /delegationServer/private/samplePut/{id}:
 #    parameters:
 #      - name: id
 #        in: path
@@ -1504,6 +1527,8 @@ components:
         offerTableUnion:
           $ref: '#/components/schemas/offerTableUnion'
         projectId:
+          type: string
+        contractId:
           type: string
 
     creatDelegationRequest:
