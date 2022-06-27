@@ -19,7 +19,7 @@ public class SamplePutServer implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
         Map<String, Object> variables = delegateExecution.getVariables();
-        int isOnline = (int) variables.get("isOnline");
+        int isOnline = (int) delegateExecution.getVariable("isOnline");
         String uriMethod;
         if(isOnline == 0)
         {

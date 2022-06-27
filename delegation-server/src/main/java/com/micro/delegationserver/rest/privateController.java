@@ -39,6 +39,7 @@ public class privateController implements DelegationServerApi {
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
             delegation.setState(DelegationState.valueOf(state));
+            mongoTemplate.save(delegation, "delegation");
             return ResponseEntity.status(200).build();
         }else
         {
