@@ -96,8 +96,6 @@
                             <modelNameSuffix>Dto</modelNameSuffix>
                             <apiPackage>com.micro.api</apiPackage>
                             <modelPackage>com.micro.dto</modelPackage>
-<<<<<<< HEAD
-=======
                         </configuration>
                     </execution>
                     <execution>
@@ -115,7 +113,6 @@
                             <modelNameSuffix>Dto</modelNameSuffix>
                             <apiPackage>com.micro.api</apiPackage>
                             <modelPackage>com.micro.dto</modelPackage>
->>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd
                         </configuration>
                     </execution>
                 </executions>
