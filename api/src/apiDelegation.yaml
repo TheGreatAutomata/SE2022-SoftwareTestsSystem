@@ -23,6 +23,29 @@ paths:
         '200':
           description: ok
 
+  /delegationServer/private/delegationState/{id}/{state}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: state
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      summary: change state in delegation
+      operationId: setDelegationState
+      tags:
+        - contract
+      responses:
+        '200':
+          description: filled
+        '404':
+          description: delegation not found
+
   /delegationServer/private/contractId/{id}/{contractId}:
     parameters:
       - name: id

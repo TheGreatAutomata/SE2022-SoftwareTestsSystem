@@ -1,7 +1,7 @@
 package com.micro.delegationserver.service.update;
 
 import com.micro.delegationserver.model.Delegation;
-import com.micro.delegationserver.model.DelegationState;
+import com.micro.commonserver.model.DelegationState;
 import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.update.applicationTable.*;
 import com.micro.delegationserver.service.update.functionTable.UpdateFunctionTableDelegation;

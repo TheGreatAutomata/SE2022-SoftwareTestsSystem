@@ -2,7 +2,7 @@ package com.micro.delegationserver.rest;
 
 import com.micro.api.CompleteApi;
 import com.micro.delegationserver.model.Delegation;
-import com.micro.delegationserver.model.DelegationState;
+import com.micro.commonserver.model.DelegationState;
 import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.dto.InlineObjectDto;
 import org.activiti.engine.TaskService;

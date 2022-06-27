@@ -3,7 +3,7 @@ package com.micro.testserver.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.micro.delegationserver.model.Delegation;
-import com.micro.delegationserver.model.DelegationState;
+import com.micro.commonserver.model.DelegationState;
 import com.micro.dto.*;
 import com.micro.testserver.TestServerApplication;
 import com.micro.testserver.mapper.*;
@@ -33,7 +33,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.nullable;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;

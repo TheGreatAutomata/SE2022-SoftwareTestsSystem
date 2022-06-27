@@ -2,7 +2,7 @@ package com.micro.delegationserver.rest;
 
 import com.micro.api.AuditApi;
 import com.micro.delegationserver.model.Delegation;
-import com.micro.delegationserver.model.DelegationState;
+import com.micro.commonserver.model.DelegationState;
 import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
 import com.micro.dto.DelegationAuditMarketResultDto;

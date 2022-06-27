@@ -41,7 +41,6 @@ public class SaveFilesDelegate implements JavaDelegate {
             if(file != null)
             {
                 MultipartFile f = new MockMultipartFile(ContentType.APPLICATION_OCTET_STREAM.toString(), file);
-
                 delegationService.creatFile(delegationId, (String) delegateExecution.getVariable(s+"Name"), f, s);
             }
 
