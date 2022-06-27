@@ -13,6 +13,7 @@ import com.micro.delegationserver.service.DelegationService;
 
 import com.micro.delegationserver.service.update.UpdateTableService;
 import com.micro.delegationserver.service.update.applicationTable.UpdateApplicationTableResult;
+import com.micro.delegationserver.service.update.functionTable.UpdateFunctionTableResult;
 import lombok.SneakyThrows;
 
 import org.activiti.engine.RuntimeService;
@@ -265,19 +266,13 @@ public class delegationController implements DelegationApi{
     public ResponseEntity<Void> updateFunctionTable(String id, String usrName, String usrId, String usrRole, DelegationFunctionTableDto delegationFunctionTableDto) {
         System.out.println("Updating...");
 
-        Optional<Delegation> delegation_op=delegationRepository.findById(id);
+        UpdateFunctionTableResult result=updateTableService.updateFunctionTable(id,delegationFunctionTableDto);
 
-        if(delegation_op.isPresent()){
-            Delegation delegation=delegation_op.get();
-            delegation.setFunctionTable(delegationFunctionTableMapper.toObj(delegationFunctionTableDto));
-            //delegationRepository.updateDelegation(delegation);
-            delegation.setState(DelegationState.AUDIT_TEST_DPARTMENT);
-            Map<String, Object> variables = new HashMap<String, Object>();
-            variables.put("delegation", delegation);
-            variables.put("delegationId",id);
-            runtimeService.startProcessInstanceByKey("delegation_modify",variables);
+        if(!result.isResult()){
+            return new ResponseEntity<>(HttpStatus.valueOf(403));
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        return new ResponseEntity<>(result.getHttpStatus());
     }
 }
 

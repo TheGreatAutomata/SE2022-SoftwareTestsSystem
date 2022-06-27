@@ -38,6 +38,10 @@ public class auditController implements AuditApi {
 
         Task task=taskService.createTaskQuery().taskName("Audit_Test").processVariableValueEquals("delegationId",id).singleResult();
 
+        if(task==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         String state=delegationAuditTestResultDto.get确认意见();
 
         boolean accepted= state.equals("可以测试");
@@ -65,6 +69,8 @@ public class auditController implements AuditApi {
                 delegation.setState(DelegationState.AUDIT_TEST_DEPARTMENT_DENIED);
             }
             delegationRepository.save(delegation);
+        }else{
+            return new ResponseEntity<>(HttpStatus.valueOf(401));
         }
 
 
@@ -77,6 +83,13 @@ public class auditController implements AuditApi {
     @Override
     public ResponseEntity<Void> auditDelegationByMarketEmployees(String usrName, String usrId, String usrRole, String id, DelegationAuditMarketResultDto delegationAuditMarketResultDto) {
         Task task=taskService.createTaskQuery().taskName("Audit_Market").processVariableValueEquals("delegationId",id).singleResult();
+
+        System.out.println(task);
+        System.out.println(runtimeService.getVariable(task.getExecutionId(),"delegationId"));
+
+        if(task==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         String result=delegationAuditMarketResultDto.getResult();
 
@@ -97,6 +110,8 @@ public class auditController implements AuditApi {
                 delegation.setState(DelegationState.AUDIT_MARKET_DPARTMENT_DENIED);
             }
             delegationRepository.save(delegation);
+        }else{
+            return new ResponseEntity<>(HttpStatus.valueOf(401));
         }
 
         taskService.complete(task.getId(), taskVariables);

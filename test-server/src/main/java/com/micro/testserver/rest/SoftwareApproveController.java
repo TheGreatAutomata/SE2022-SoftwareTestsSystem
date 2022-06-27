@@ -1,6 +1,6 @@
-package com.micro.testserver.rest;
+/*package com.micro.testserver.rest;
 
-import com.micro.api.ApproveApi;
+import com.micro.api.TestApi;
 import com.micro.delegationserver.model.Delegation;
 import com.micro.dto.TestSchemeAuditTableDto;
 import com.micro.testserver.mapper.TestSchemeAuditTableMapper;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-public class SoftwareApproveController implements ApproveApi {
+public class SoftwareApproveController implements TestApi {
 
     @Autowired
     DelegationRepository delegationRepository;
@@ -64,6 +64,7 @@ public class SoftwareApproveController implements ApproveApi {
         softwareTestRepository.save(test);
         runtimeService.setVariable(task.getExecutionId(),"softwareTest",test);
         taskService.complete(task.getId());
-        return ApproveApi.super.uploadApproveResult(id, testSchemeAuditTableDto);
+        return TestApi.super.uploadApproveResult(id, testSchemeAuditTableDto);
     }
-}
+
+}*/

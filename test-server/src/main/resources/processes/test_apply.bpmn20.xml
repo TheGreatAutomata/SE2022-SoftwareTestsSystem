@@ -69,12 +69,10 @@
       <documentation>测试人员上传《软件测试问题清单》</documentation>
     </userTask>
     <sequenceFlow id="sid-036f8ac1-eceb-406c-9138-61a21d32833c" sourceRef="sid-a1278071-7bca-4c7e-8e94-5cd9f20bdcb0" targetRef="sid-181e6af5-70fb-49c5-8c80-dd6dff5ffc81"/>
-    <userTask id="sid-c412d72c-3996-4439-8f64-265b47dca60e" name="UploadTestReport">
-      <documentation>测试人员上传测试报告。</documentation>
-    </userTask>
     <endEvent id="sid-e26f6d84-4f70-4d9e-b511-58d91a338d37"/>
-    <sequenceFlow id="sid-6df0f7d6-a685-4342-a08e-16a9e9e6deab" sourceRef="sid-181e6af5-70fb-49c5-8c80-dd6dff5ffc81" targetRef="sid-c412d72c-3996-4439-8f64-265b47dca60e"/>
-    <sequenceFlow id="sid-4561cbb1-f0a9-4729-9d62-43015cbdffbf" sourceRef="sid-c412d72c-3996-4439-8f64-265b47dca60e" targetRef="sid-e26f6d84-4f70-4d9e-b511-58d91a338d37"/>
+    <userTask id="sid-b2673d27-2a15-4663-9e09-8b58c471ed06" name="UploadDocEvaluationTable"/>
+    <sequenceFlow id="sid-c21fc052-b714-43ba-bef6-233895ab469b" sourceRef="sid-181e6af5-70fb-49c5-8c80-dd6dff5ffc81" targetRef="sid-b2673d27-2a15-4663-9e09-8b58c471ed06"/>
+    <sequenceFlow id="sid-c7b1d4cd-1e69-4b97-ab91-51960f324951" sourceRef="sid-b2673d27-2a15-4663-9e09-8b58c471ed06" targetRef="sid-e26f6d84-4f70-4d9e-b511-58d91a338d37"/>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_test_apply">
     <bpmndi:BPMNPlane bpmnElement="test_apply" id="BPMNPlane_test_apply">
@@ -141,18 +139,18 @@
         <omgdi:waypoint x="1780.0" y="15.0"/>
         <omgdi:waypoint x="1920.0" y="15.0"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="shape-9ff789e3-6eb3-41cf-84b7-cc204969879f" bpmnElement="sid-c412d72c-3996-4439-8f64-265b47dca60e">
-        <omgdc:Bounds x="2115.0" y="-25.0" width="100.0" height="80.0"/>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="shape-c26e20ca-c2dc-4a0c-9677-049def9b69c7" bpmnElement="sid-e26f6d84-4f70-4d9e-b511-58d91a338d37">
         <omgdc:Bounds x="2355.0" y="0.0" width="30.0" height="30.0"/>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="edge-013f8f57-e525-4b57-80a1-3d68babff3b3" bpmnElement="sid-6df0f7d6-a685-4342-a08e-16a9e9e6deab">
+      <bpmndi:BPMNShape id="shape-c79f7931-c3ea-49e6-83e5-62f05635fca1" bpmnElement="sid-b2673d27-2a15-4663-9e09-8b58c471ed06">
+        <omgdc:Bounds x="2135.0" y="-25.0" width="100.0" height="80.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-4319d632-889c-4d55-9897-640e3d7ff043" bpmnElement="sid-c21fc052-b714-43ba-bef6-233895ab469b">
         <omgdi:waypoint x="2020.0" y="15.0"/>
-        <omgdi:waypoint x="2115.0" y="15.0"/>
+        <omgdi:waypoint x="2135.0" y="15.0"/>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="edge-7dc9a526-03bb-4438-989b-f80fa6ca9349" bpmnElement="sid-4561cbb1-f0a9-4729-9d62-43015cbdffbf">
-        <omgdi:waypoint x="2215.0" y="15.0"/>
+      <bpmndi:BPMNEdge id="edge-2c82ee34-c8d1-439e-86f5-48f72935d16d" bpmnElement="sid-c7b1d4cd-1e69-4b97-ab91-51960f324951">
+        <omgdi:waypoint x="2235.0" y="15.0"/>
         <omgdi:waypoint x="2355.0" y="15.0"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
