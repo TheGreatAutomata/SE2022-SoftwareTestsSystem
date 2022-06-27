@@ -2,7 +2,7 @@ package com.micro.testserver.rest;
 
 import com.micro.api.TestApi;
 import com.micro.delegationserver.model.Delegation;
-import com.micro.delegationserver.model.DelegationState;
+import com.micro.commonserver.model.DelegationState;
 import com.micro.dto.*;
 import com.micro.testserver.mapper.*;
 import com.micro.testserver.model.SchemeEvaluationTable;

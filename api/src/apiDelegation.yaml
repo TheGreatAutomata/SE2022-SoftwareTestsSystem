@@ -23,7 +23,34 @@ paths:
         '200':
           description: ok
 
+<<<<<<< HEAD:api/src/apiDelegation.yaml
   /delegationServer/private/contract/{id}/{contractId}:
+=======
+  /delegationServer/private/delegationState/{id}/{state}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: state
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      summary: change state in delegation
+      operationId: setDelegationState
+      tags:
+        - contract
+      responses:
+        '200':
+          description: filled
+        '404':
+          description: delegation not found
+
+  /delegationServer/private/contractId/{id}/{contractId}:
+>>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd:api/src/api.yaml
     parameters:
       - name: id
         in: path

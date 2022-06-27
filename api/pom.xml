@@ -96,6 +96,26 @@
                             <modelNameSuffix>Dto</modelNameSuffix>
                             <apiPackage>com.micro.api</apiPackage>
                             <modelPackage>com.micro.dto</modelPackage>
+<<<<<<< HEAD
+=======
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>apiContract</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <generatorName>spring</generatorName>
+                            <library>spring-boot</library>
+                            <configOptions>
+                                <interfaceOnly>true</interfaceOnly>
+                            </configOptions>
+                            <inputSpec>${project.basedir}/src/apiContract.yaml</inputSpec>
+                            <modelNameSuffix>Dto</modelNameSuffix>
+                            <apiPackage>com.micro.api</apiPackage>
+                            <modelPackage>com.micro.dto</modelPackage>
+>>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd
                         </configuration>
                     </execution>
                 </executions>

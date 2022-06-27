@@ -2,7 +2,7 @@ package com.micro.delegationserver.rest;
 
 import com.micro.api.AuditApi;
 import com.micro.delegationserver.model.Delegation;
-import com.micro.delegationserver.model.DelegationState;
+import com.micro.commonserver.model.DelegationState;
 import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
 import com.micro.dto.DelegationAuditMarketResultDto;
@@ -83,6 +83,7 @@ public class auditController implements AuditApi {
     @Override
     public ResponseEntity<Void> auditDelegationByMarketEmployees(String usrName, String usrId, String usrRole, String id, DelegationAuditMarketResultDto delegationAuditMarketResultDto) {
         Task task=taskService.createTaskQuery().taskName("Audit_Market").processVariableValueEquals("delegationId",id).singleResult();
+<<<<<<< HEAD
 
         System.out.println(task);
         System.out.println(runtimeService.getVariable(task.getExecutionId(),"delegationId"));
@@ -91,6 +92,12 @@ public class auditController implements AuditApi {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+=======
+        if(task == null)
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+>>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd
         String result=delegationAuditMarketResultDto.getResult();
 
         boolean accepted= result.equals("可以测试");

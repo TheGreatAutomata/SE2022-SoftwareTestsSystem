@@ -149,7 +149,11 @@ public class sampleController implements SampleApi {
         return new ResponseEntity<GetSampleResponseDto>(getSampleResponseDto,HttpStatus.OK);
     }
 
+<<<<<<< HEAD
     private Boolean deleteTaskByDelegationId(String id)
+=======
+    public Boolean deleteTaskByDelegationId(String id)
+>>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd
     {
         Task task = taskService.createTaskQuery().processDefinitionKey("sample_application").processVariableValueEquals("delegationId",id).singleResult();
         if(task != null){
@@ -160,7 +164,11 @@ public class sampleController implements SampleApi {
     }
 
     @Override
+<<<<<<< HEAD
     public ResponseEntity<Void> deleteOnlineSample(String usrName, String usrId, String usrRole, String id) {
+=======
+    public ResponseEntity<Void> deleteOfflineSample(String usrName, String usrId, String usrRole, String id) {
+>>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd
         Optional<Sample> delegation_op=delegationRepository.findById(id);
         if(delegation_op.isPresent()){
             delegationRepository.deleteById(delegation_op.get().getDelegationId());
@@ -170,7 +178,11 @@ public class sampleController implements SampleApi {
     }
 
     @Override
+<<<<<<< HEAD
     public ResponseEntity<Void> deleteOfflineSample(String usrName, String usrId, String usrRole, String id) {
+=======
+    public ResponseEntity<Void> deleteOnlineSample(String usrName, String usrId, String usrRole, String id) {
+>>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd
         String sampleId = "sample" + id;
         try {
             minioServce.removeBucket(sampleId);

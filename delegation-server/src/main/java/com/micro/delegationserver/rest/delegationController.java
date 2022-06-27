@@ -1,6 +1,7 @@
 package com.micro.delegationserver.rest;
 
 
+import com.micro.commonserver.model.DelegationState;
 import com.micro.delegationserver.mapper.DelegationApplicationTableMapper;
 import com.micro.delegationserver.mapper.DelegationFileListMapper;
 import com.micro.delegationserver.mapper.DelegationFunctionTableMapper;
@@ -22,8 +23,11 @@ import org.activiti.engine.TaskService;
 
 import org.activiti.engine.task.Task;
 
+<<<<<<< HEAD
 import org.activiti.engine.task.TaskQuery;
 
+=======
+>>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.data.mongodb.core.MongoTemplate;

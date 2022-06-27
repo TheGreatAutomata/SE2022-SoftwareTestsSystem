@@ -1,0 +1,20 @@
+server:
+  port: 32111
+spring:
+  application:
+    name: contract-server
+eureka:
+  instance:
+    hostname: localhost
+  # standalone mode
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:32001/eureka/
+#minio
+minio:
+  # endPoint: http://210.28.133.13:21254
+  endPoint: http://localhost:32004
+  accessKey: minioadmin
+  secretKey: minioadmin
+  # bucketName: minioTest
+  partSize: 104857600

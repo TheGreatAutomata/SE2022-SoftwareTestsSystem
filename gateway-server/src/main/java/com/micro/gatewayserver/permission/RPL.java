@@ -11,6 +11,15 @@ public class RPL {
     private final String findDelegationByUsr = "/delegations/usrId/.*";
     private final String findDelegationByState = "/delegations/state/.*";
     private final String findDelegationAll = "/delegations/all";
+<<<<<<< HEAD
+=======
+    private final String draftPerformanceTermPartyB = "/contract/performanceTerm/partyB";
+    private final String getPerformanceTermReplyPartyB = "/contract/[0-9A-Za-z]+/performanceTerm/partyB";
+    private final String addContractTablePartyB = "/contract/[0-9A-Za-z]+/contractTable/partyB";
+    private final String downloadContractTablePartyB = "/contract/[0-9A-Za-z]+/files/contractTable";
+    private final String downloadNondisclosureAgreementTablePartyB = "/contract/[0-9A-Za-z]+/files/nondisclosureAgreementTable";
+    private final String uploadContractPartyB = "/contract/[0-9A-Za-z]+/files";
+>>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd
     private final HashSet<String> MarketPattern = new HashSet<>();
     private final HashSet<String> TestPattern = new HashSet<>();
     private final HashSet<String> QLTYPattern = new HashSet<>();
@@ -22,6 +31,15 @@ public class RPL {
         MarketPattern.add(findDelegationByUsr);
         MarketPattern.add(findDelegationByState);
         MarketPattern.add(findDelegationAll);
+<<<<<<< HEAD
+=======
+        MarketPattern.add(draftPerformanceTermPartyB);
+        MarketPattern.add(getPerformanceTermReplyPartyB);
+        MarketPattern.add(addContractTablePartyB);
+        MarketPattern.add(downloadContractTablePartyB);
+        MarketPattern.add(downloadNondisclosureAgreementTablePartyB);
+        MarketPattern.add(uploadContractPartyB);
+>>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd
 
         MODPattern.add(findDelegationByState);
         MODPattern.add(findDelegationByUsr);

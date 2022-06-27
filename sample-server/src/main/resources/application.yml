@@ -1,7 +1,12 @@
 #minio
 minio:
+<<<<<<< HEAD
 #  endPoint: http://210.28.133.13:21254
   endPoint: http://localhost:32004
+=======
+  endPoint: http://210.28.133.13:21254
+#  endPoint: http://localhost:32004
+>>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd
   accessKey: minioadmin
   secretKey: minioadmin
   # bucketName: minioTest

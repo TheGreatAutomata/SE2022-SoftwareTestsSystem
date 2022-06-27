@@ -3,6 +3,7 @@ package com.micro.delegationserver.repository;
 
 import com.micro.delegationserver.model.Delegation;
 
+<<<<<<< HEAD
 import com.micro.delegationserver.model.DelegationState;
 import com.mongodb.client.result.UpdateResult;
 import org.bson.types.ObjectId;
@@ -10,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Update;
+=======
+import com.micro.commonserver.model.DelegationState;
+>>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;

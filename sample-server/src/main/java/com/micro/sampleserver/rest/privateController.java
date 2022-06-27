@@ -41,9 +41,13 @@ public class privateController implements SampleServerApi {
         {
             variables.put("state",2);
         }
+<<<<<<< HEAD
 
         runtimeService.startProcessInstanceByKey("sample_application", variables);
 
+=======
+        runtimeService.startProcessInstanceByKey("sample_application", variables);
+>>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd
         return ResponseEntity.status(200).build();
     }
 

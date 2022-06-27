@@ -2,18 +2,27 @@ package com.micro.delegationserver.rest;
 
 import com.micro.api.DelegationServerApi;
 import com.micro.delegationserver.model.Delegation;
+<<<<<<< HEAD
 import com.micro.delegationserver.model.DelegationState;
 import com.micro.delegationserver.repository.DelegationRepository;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
+=======
+import com.micro.commonserver.model.DelegationState;
+import com.micro.delegationserver.repository.DelegationRepository;
+>>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+<<<<<<< HEAD
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+=======
+import org.springframework.http.ResponseEntity;
+>>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -37,6 +46,24 @@ public class privateController implements DelegationServerApi {
     private RuntimeService runtimeService;
 
     @Override
+<<<<<<< HEAD
+=======
+    public ResponseEntity<Void> setDelegationState(String id, String state)
+    {
+        Optional<Delegation> delegation_op=delegationRepository.findById(id);
+        if(delegation_op.isPresent()){
+            Delegation delegation=delegation_op.get();
+            delegation.setState(DelegationState.valueOf(state));
+            mongoTemplate.save(delegation, "delegation");
+            return ResponseEntity.status(200).build();
+        }else
+        {
+            return ResponseEntity.status(404).build();
+        }
+    }
+
+    @Override
+>>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd
     public ResponseEntity<Void> sampleApplicationFinished(String id) {
         Task task = taskService.createTaskQuery().taskName("SampleApplicationFinished").processVariableValueEquals("delegationId",id).singleResult();
         if(task == null)
