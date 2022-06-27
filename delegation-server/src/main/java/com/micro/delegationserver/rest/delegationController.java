@@ -9,6 +9,7 @@ import com.micro.delegationserver.mapper.DelegationFunctionTableMapper;
 import com.micro.delegationserver.mapper.*;
 
 import com.micro.delegationserver.model.*;
+import com.micro.commonserver.model.DelegationState;
 import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
 

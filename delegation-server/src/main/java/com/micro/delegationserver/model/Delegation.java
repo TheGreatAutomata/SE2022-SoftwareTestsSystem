@@ -1,5 +1,6 @@
 package com.micro.delegationserver.model;
 
+
 import com.micro.commonserver.model.DelegationState;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
