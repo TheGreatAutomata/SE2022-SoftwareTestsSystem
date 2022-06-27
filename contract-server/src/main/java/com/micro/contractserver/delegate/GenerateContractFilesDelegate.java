@@ -54,9 +54,12 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         ContractTablePartyB contractTablePartyB = contractTable.getContractTablePartyB();
 
         // 设置输入输出路径
+        File tempFile = new File("");
+        String projectPath = tempFile.getCanonicalPath();
+
         String filename = "Contract_" + contractId;
         String inputPath = "template/";
-        String outputPath = "contract-server/src/main/resources/generate/";
+        String outputPath = projectPath + "/contract-server/src/main/resources/generate/";
 
         // 设置velocity的资源加载器
         Properties prop = new Properties();
@@ -139,9 +142,12 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         Calendar calendar = Calendar.getInstance();
 
         // 设置输入输出路径
+        File tempFile = new File("");
+        String projectPath = tempFile.getCanonicalPath();
+
         String filename = "NDA_" + contractId;
         String inputPath = "template/";
-        String outputPath = "contract-server/src/main/resources/generate/";
+        String outputPath = projectPath + "/contract-server/src/main/resources/generate/";
 
         // 设置velocity的资源加载器
         Properties prop = new Properties();
