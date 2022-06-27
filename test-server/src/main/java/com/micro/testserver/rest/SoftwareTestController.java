@@ -2,7 +2,7 @@ package com.micro.testserver.rest;
 
 import com.micro.api.TestApi;
 import com.micro.delegationserver.model.Delegation;
-import com.micro.delegationserver.model.DelegationState;
+import com.micro.commonserver.model.DelegationState;
 import com.micro.dto.*;
 import com.micro.testserver.mapper.*;
 import com.micro.testserver.model.SchemeEvaluationTable;
@@ -14,7 +14,6 @@ import com.micro.testserver.repository.SoftwareTestRepository;
 import com.micro.testserver.service.SoftwareTestService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

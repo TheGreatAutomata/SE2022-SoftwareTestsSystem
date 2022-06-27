@@ -1,6 +1,5 @@
 package com.micro.delegationserver.rest;
 
-import com.micro.api.ApiUtil;
 import com.micro.api.DelegationsApi;
 import com.micro.delegationserver.mapper.DelegationItemMapper;
 import com.micro.delegationserver.model.Delegation;
@@ -8,7 +7,7 @@ import com.micro.delegationserver.model.Delegation;
 import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
 
-import com.micro.delegationserver.model.DelegationState;
+import com.micro.commonserver.model.DelegationState;
 import com.micro.dto.DelegationItemDto;
 
 
@@ -17,14 +16,10 @@ import org.activiti.engine.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @RestController

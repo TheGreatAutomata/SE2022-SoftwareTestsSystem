@@ -5,7 +5,7 @@ import com.micro.delegationserver.mapper.OfferConfirmationMapper;
 import com.micro.delegationserver.mapper.OfferTableMapper;
 import com.micro.delegationserver.mapper.ProjectOfferItemMapper;
 import com.micro.delegationserver.model.Delegation;
-import com.micro.delegationserver.model.DelegationState;
+import com.micro.commonserver.model.DelegationState;
 import com.micro.delegationserver.model.OfferTableUnion;
 import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.DelegationService;

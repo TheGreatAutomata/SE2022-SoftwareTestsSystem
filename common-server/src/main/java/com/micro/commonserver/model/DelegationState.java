@@ -1,4 +1,4 @@
-package com.micro.delegationserver.model;
+package com.micro.commonserver.model;
 
 //除错误状态外，其余状态编码方式为大阶段（如上传、审核）+ 状态转移负责人 + 细节
 public enum DelegationState {
