@@ -381,7 +381,7 @@ public class contractController implements ContractApi {
     @Override
     public ResponseEntity<SingleFileDto> downloadContractTablePartyB(String usrName, String usrId, String usrRole, String id) {
 
-        Task task = taskService.createTaskQuery().taskName("DownloadUnsignedContractTablePartyB").processVariableValueEquals("contractId", id).singleResult();
+        /*Task task = taskService.createTaskQuery().taskName("DownloadUnsignedContractTablePartyB").processVariableValueEquals("contractId", id).singleResult();
         if(task == null) {
             //contract not found
             System.out.println("contract not found...");
@@ -399,7 +399,9 @@ public class contractController implements ContractApi {
             variables.put("contractId", contract.getContractId());
             runtimeService.setVariables(task.getExecutionId(), variables);
             taskService.complete(task.getId());
-        }
+        }*/
+
+        System.out.println("download contract table file...");
 
         minioFileItem fileItem = contractService.getContractTableFile(id);
         if(fileItem == null) {
@@ -415,7 +417,7 @@ public class contractController implements ContractApi {
     @Override
     public ResponseEntity<SingleFileDto> downloadNondisclosureAgreementTablePartyB(String usrName, String usrId, String usrRole, String id) {
 
-        Task task = taskService.createTaskQuery().taskName("DownloadUnsignedNondisclosureAgreementTablePartyB").processVariableValueEquals("contractId", id).singleResult();
+        /*Task task = taskService.createTaskQuery().taskName("DownloadUnsignedNondisclosureAgreementTablePartyB").processVariableValueEquals("contractId", id).singleResult();
         if(task == null) {
             //contract not found
             System.out.println("contract not found...");
@@ -433,7 +435,9 @@ public class contractController implements ContractApi {
             variables.put("contractId", contract.getContractId());
             runtimeService.setVariables(task.getExecutionId(), variables);
             taskService.complete(task.getId());
-        }
+        }*/
+
+        System.out.println("download nondisclosure agreement file...");
 
         minioFileItem fileItem = contractService.getNondisclosureAgreementTableFile(id);
         if(fileItem == null) {

@@ -41,6 +41,21 @@ spring:
           predicates:
             - Path=/delegation/{id}
             - Method=DELETE
+        - id: contract-server-get
+          uri: lb://contract-server
+          predicates:
+            - Path=/contract/performanceTerm/partyA,/contract/{id}/contractTable/partyA,/contract/{id}/files/contractTable,/contract/{id}/files/nondisclosureAgreementTable
+            - Method=GET
+        - id: contract-server-post
+          uri: lb://contract-server
+          predicates:
+            - Path=/contract/performanceTerm/partyB,/contract/{id}/performanceTerm/partyA,/contract/{id}/contractTable/partyB,/contract/{id}/contractTable/partyA,/contract/{id}/files
+            - Method=POST
+        - id: contract-server-put
+          uri: lb://contract-server
+          predicates:
+            - Path=/contract/{id}/performanceTerm/partyB
+            - Method=PUT
 eureka:
   client:
     serviceUrl:

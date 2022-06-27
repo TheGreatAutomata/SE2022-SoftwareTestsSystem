@@ -8,8 +8,6 @@ public enum ContractState {
     PARTYA_REJECT_PERFORMANCE_TERM_FOR_MODIFICATION, // 用户已经申请再议履行期限，等待市场部修改履行期限
     PARTYA_REJECT_PERFORMANCE_TERM_TO_END, // 用户已经拒绝履行期限，合同被删除，委托结束
     PARTYB_ADD_CONTRACT_TABLE, // 市场部已经填写测试合同，等待用户填写测试合同
-    PARTYA_ADD_CONTRACT_TABLE, // 用户已经填写测试合同，等待市场部下载未签订合同
-    PARTYB_DOWNLOAD_UNSIGNED_CONTRACT_TABLE, // 市场部已经下载未签订测试合同，等待市场部下载未签订保密协议
-    PARTYB_DOWNLOAD_UNSIGNED_NONDISCLOSURE_AGREEMENT_TABLE, // 市场部已经下载未签订保密协议，等待市场部上传已签订合同
-    PARTYB_UPLOAD_SIGNED_CONTRACT // 市场部已经上传已签订合同，等待用户上传软件样品
+    PARTYA_ADD_CONTRACT_TABLE, // 用户已经填写测试合同，等待市场部下载合同文件后双方线下签字，并由市场部上传已签订合同
+    PARTYB_UPLOAD_SIGNED_CONTRACT // 市场部已经上传已签订合同
 }

@@ -23,7 +23,7 @@ paths:
         '200':
           description: ok
 
-  /delegationServer/private/contract/{id}/{contractId}:
+  /delegationServer/private/contractId/{id}/{contractId}:
     parameters:
       - name: id
         in: path
