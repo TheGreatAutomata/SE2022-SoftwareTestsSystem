@@ -64,9 +64,9 @@ public class auditController implements AuditApi {
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
             if(accepted) {
-                delegation.setState(DelegationState.AUDIT_MARKET_DPARTMENT);
+                delegation.setState(DelegationState.AUDIT_MARKET_APARTMENT);
             }else{
-                delegation.setState(DelegationState.AUDIT_TEST_DEPARTMENT_DENIED);
+                delegation.setState(DelegationState.AUDIT_TEST_APARTMENT_DENIED);
             }
             delegationRepository.save(delegation);
         }else{
@@ -107,7 +107,7 @@ public class auditController implements AuditApi {
             if(accepted) {
                 delegation.setState(DelegationState.QUOTATION_MARKET);
             }else{
-                delegation.setState(DelegationState.AUDIT_MARKET_DPARTMENT_DENIED);
+                delegation.setState(DelegationState.AUDIT_MARKET_APARTMENT_DENIED);
             }
             delegationRepository.save(delegation);
         }else{

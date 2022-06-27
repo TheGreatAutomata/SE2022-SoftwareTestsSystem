@@ -19,6 +19,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.micro.commonserver.service.MinioService;
+
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -34,7 +36,7 @@ public class DelegationService {
 //    private TaskService taskService;
 
     @Autowired
-    MinioServce minioServce;
+    MinioService minioServce;
 
     @Autowired
     DelegationRepository delegationRepository;

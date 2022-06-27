@@ -51,7 +51,7 @@
     <sequenceFlow id="sid-74077644-85dd-4761-9741-f371aa7313cf" sourceRef="sid-a2d3558c-8d73-4360-b9d0-be284934712d" targetRef="sid-ca1bdce6-89b5-43e2-bf41-c186e0dcbf29">
       <conditionExpression xsi:type="tFormalExpression"/>
     </sequenceFlow>
-    <serviceTask id="sid-1e2a3911-5be2-420e-b21d-3ac9a4c4b4d1" activiti:exclusive="true" name="Update" activiti:delegateExpression="${updateDelegationDelegate}"/>
+    <serviceTask id="sid-1e2a3911-5be2-420e-b21d-3ac9a4c4b4d1" activiti:exclusive="true" name="Update" activiti:delegateExpression="${acceptApplicationDelegate}"/>
     <sequenceFlow id="sid-51f40c66-54c4-4f1e-a430-415beaca6896" sourceRef="sid-a2d3558c-8d73-4360-b9d0-be284934712d" targetRef="sid-1e2a3911-5be2-420e-b21d-3ac9a4c4b4d1">
       <conditionExpression xsi:type="tFormalExpression"/>
     </sequenceFlow>

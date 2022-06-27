@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.7</version>
+        <artifactId>micro</artifactId>
+        <groupId>com.micro</groupId>
+        <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -55,16 +55,17 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <version>5.4.0</version>
-                <configuration>
-                    <inputSpec>
-                        ${project.basedir}/src/api.yaml
-                    </inputSpec>
-                    <modelNameSuffix>Dto</modelNameSuffix>
-                    <apiPackage>com.micro.api</apiPackage>
-                    <modelPackage>com.micro.dto</modelPackage>
-                </configuration>
+<!--                <configuration>-->
+<!--                    <inputSpec>-->
+<!--                        ${project.basedir}/src/apiDelegation.yaml-->
+<!--                    </inputSpec>-->
+<!--                    <modelNameSuffix>Dto</modelNameSuffix>-->
+<!--                    <apiPackage>com.micro.api</apiPackage>-->
+<!--                    <modelPackage>com.micro.dto</modelPackage>-->
+<!--                </configuration>-->
                 <executions>
                     <execution>
+                        <id>apiDelegation</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
@@ -74,9 +75,43 @@
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                             </configOptions>
+                            <inputSpec>${project.basedir}/src/apiDelegation.yaml</inputSpec>
+                            <modelNameSuffix>Dto</modelNameSuffix>
+                            <apiPackage>com.micro.api</apiPackage>
+                            <modelPackage>com.micro.dto</modelPackage>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>apiSample</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <generatorName>spring</generatorName>
+                            <library>spring-boot</library>
+                            <configOptions>
+                                <interfaceOnly>true</interfaceOnly>
+                            </configOptions>
+                            <inputSpec>${project.basedir}/src/apiSample.yaml</inputSpec>
+                            <modelNameSuffix>Dto</modelNameSuffix>
+                            <apiPackage>com.micro.api</apiPackage>
+                            <modelPackage>com.micro.dto</modelPackage>
                         </configuration>
                     </execution>
                 </executions>
+<!--                    <execution>-->
+<!--                        <goals>-->
+<!--                            <goal>generate</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <generatorName>spring</generatorName>-->
+<!--                            <library>spring-boot</library>-->
+<!--                            <configOptions>-->
+<!--                                <interfaceOnly>true</interfaceOnly>-->
+<!--                            </configOptions>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
             </plugin>
         </plugins>
     </build>

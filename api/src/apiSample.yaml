@@ -1,0 +1,231 @@
+openapi: "3.0.3"
+info:
+  version: 0.0.1
+  title: Micro
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:32000
+paths:
+  /sampleServer/private/startApplication:
+    post:
+      summary: start a sample application process in sample-server
+      operationId: startSampleApplication
+      tags:
+        - sample
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/startSampleApplicationRequest"
+      responses:
+        '200':
+          description: process started
+
+  /sampleServer/private/closeSample/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      summary: close a sample application, cannot put
+      operationId: closeSample
+      tags:
+        - sample
+      responses:
+        '200':
+          description: close ok
+        '404':
+          description: cannot find tasks to close
+
+  /sample/online/{id}:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: createSampleFile
+      tags:
+        - sample
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                # The property name 'file' will be used for all files.
+                样品:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: created
+        '404':
+          description: id not found
+    delete:
+      operationId: deleteOnlineSample
+      tags:
+        - sample
+      responses:
+        '200':
+          description: ok
+        '404':
+          description: sample not found
+    put:
+      operationId: changeOnlineSample
+      tags:
+        - sample
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                # The property name 'file' will be used for all files.
+                样品:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: chenged
+        '400':
+          description: cannot put
+        '404':
+          description: id not found
+
+  /sample/offline/{id}:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: createSampleMessage
+      tags:
+        - sample
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/sampleMessageApplicationRequest"
+      responses:
+        '201':
+          description: created
+        '404':
+          description: id not found
+    delete:
+      operationId: deleteOfflineSample
+      tags:
+        - sample
+      responses:
+        '200':
+          description: ok
+        '404':
+          description: sample not found
+    put:
+      operationId: changeOfflineSample
+      tags:
+        - sample
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/sampleMessageApplicationRequest"
+      responses:
+        '200':
+          description: changed
+        '404':
+          description: id not found
+
+  /sample/{id}:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getSample
+      tags:
+        - sample
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getSampleResponse"
+        '404':
+          description: not found
+
+components:
+  schemas:
+    startSampleApplicationRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        applicationMethod:
+          type: string
+    sampleMessageApplicationRequest:
+      type: object
+      properties:
+        备注:
+          type: string
+    getSampleResponse:
+      type: object
+      properties:
+        applicationMethod:
+          type: string
+        comment:
+          type: string
+        uri:
+          type: string

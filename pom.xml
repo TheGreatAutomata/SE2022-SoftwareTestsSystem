@@ -11,6 +11,8 @@
         <module>discovery-server</module>
         <module>spring-boot-spring-security-jwt-authentication</module>
         <module>test-server</module>
+        <module>common-server</module>
+        <module>sample-server</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -32,6 +34,7 @@
     </properties>
     <dependencies>
         <dependency>
+
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
