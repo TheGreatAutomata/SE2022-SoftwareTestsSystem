@@ -92,12 +92,12 @@ public class contractController implements ContractApi {
 
         System.out.println("Party A get the performance term...");
 
-        Task task = taskService.createTaskQuery().taskName("GetPerformanceTermPartyA").processVariableValueEquals("delegationId", delegationId).singleResult();
+        /*Task task = taskService.createTaskQuery().taskName("GetPerformanceTermPartyA").processVariableValueEquals("delegationId", delegationId).singleResult();
         if(task == null) {
             //performance term not found
             System.out.println("performance term not found...");
             return ResponseEntity.status(400).build();
-        }
+        }*/
 
         Optional<Contract> contract_op = contractRepository.findByDelegationId(delegationId);
         if(contract_op.isPresent()) {
@@ -105,11 +105,11 @@ public class contractController implements ContractApi {
             PerformanceTermPartyAResponse performanceTermPartyAResponse = new PerformanceTermPartyAResponse(contract.getContractId(), new PerformanceTermPartyB(contract.getContractTable().getContractTableExist().getProjectName(), contract.getContractTable().getContractTableExist().getPartyBName1(), contract.getContractTable().getContractTableExist().getPerformanceTerm(), contract.getContractTable().getContractTableExist().getRectificationTimes(), contract.getContractTable().getContractTableExist().getRectificationTerm()));
             PerformanceTermPartyAResponseDto performanceTermPartyAResponseDto = performanceTermPartyAResponseMapper.toDto(performanceTermPartyAResponse);
 
-            Map<String, Object> variables = new HashMap<String, Object>();
+            /*Map<String, Object> variables = new HashMap<String, Object>();
             variables.put("contract", contract);
             variables.put("contractId", contract.getContractId());
             runtimeService.setVariables(task.getExecutionId(), variables);
-            taskService.complete(task.getId());
+            taskService.complete(task.getId());*/
 
             return new ResponseEntity<PerformanceTermPartyAResponseDto>(performanceTermPartyAResponseDto, HttpStatus.OK);
         }
@@ -180,12 +180,12 @@ public class contractController implements ContractApi {
 
         System.out.println("Party b get the performance term...");
 
-        Task task = taskService.createTaskQuery().taskName("GetPerformanceTermReplyPartyB").processVariableValueEquals("contractId", id).singleResult();
+        /*Task task = taskService.createTaskQuery().taskName("GetPerformanceTermReplyPartyB").processVariableValueEquals("contractId", id).singleResult();
         if(task == null) {
             //performance term not found
             System.out.println("performance term not found...");
             return ResponseEntity.status(400).build();
-        }
+        }*/
 
         Optional<Contract> contract_op = contractRepository.findByContractId(id);
         if(contract_op.isPresent()) {
@@ -193,35 +193,12 @@ public class contractController implements ContractApi {
 
             PerformanceTermPartyADto performanceTermPartyADto = performanceTermPartyAMapper.toDto(new PerformanceTermPartyA(contract.getPerformanceTermState(), contract.getPerformanceTermSuggestion()));
 
-            Map<String, Object> variables = new HashMap<String, Object>();
+            /*Map<String, Object> variables = new HashMap<String, Object>();
             variables.put("contract", contract);
             variables.put("contractId", contract.getContractId());
 
-            String performanceTermState = contract.getPerformanceTermState();
-
-            if(performanceTermState != null) {
-                switch (performanceTermState) {
-                    case "接受": {
-                        variables.put("state", 1);
-                        break;
-                    }
-                    case "申请再议": {
-                        variables.put("state", 2);
-                        break;
-                    }
-                    case "不接受": {
-                        variables.put("state", 3);
-                        break;
-                    }
-                    default: {
-                        System.out.println("State is illegal...");
-                        break;
-                    }
-                }
-            }
-
             runtimeService.setVariables(task.getExecutionId(), variables);
-            taskService.complete(task.getId());
+            taskService.complete(task.getId());*/
 
             return new ResponseEntity<PerformanceTermPartyADto>(performanceTermPartyADto, HttpStatus.OK);
         }
@@ -311,23 +288,23 @@ public class contractController implements ContractApi {
 
         System.out.println("Party A get the contract table...");
 
-        Task task = taskService.createTaskQuery().taskName("GetContractTablePartyA").processVariableValueEquals("contractId", id).singleResult();
+        /*Task task = taskService.createTaskQuery().taskName("GetContractTablePartyA").processVariableValueEquals("contractId", id).singleResult();
         if(task == null) {
             //contract not found
             System.out.println("contract not found1...");
             return ResponseEntity.status(400).build();
-        }
+        }*/
 
         Optional<Contract> contract_op = contractRepository.findByContractId(id);
         if(contract_op.isPresent()) {
             Contract contract = contract_op.get();
             ContractTablePartyBDto contractTablePartyBDto = contractTablePartyBMapper.toDto(contract.getContractTable().getContractTablePartyB());
 
-            Map<String, Object> variables = new HashMap<String, Object>();
+            /*Map<String, Object> variables = new HashMap<String, Object>();
             variables.put("contract", contract);
             variables.put("contractId", contract.getContractId());
             runtimeService.setVariables(task.getExecutionId(), variables);
-            taskService.complete(task.getId());
+            taskService.complete(task.getId());*/
 
             return new ResponseEntity<ContractTablePartyBDto>(contractTablePartyBDto, HttpStatus.OK);
         }

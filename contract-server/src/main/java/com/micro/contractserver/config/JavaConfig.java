@@ -59,6 +59,7 @@ public class JavaConfig {
         HashMap<Object,Object> beans=new HashMap<>();
 
         beans.put("setDelegationContractIdDelegate", setDelegationContractIdDelegate());
+        beans.put("setDelegationStateDelegate", setDelegationStateDelegate());
         beans.put("getDelegationDelegate", getDelegationDelegate());
         beans.put("saveContractDelegate", saveContractDelegate());
         beans.put("generateContractFilesDelegate", generateContractFilesDelegate());
@@ -118,6 +119,11 @@ public class JavaConfig {
     @Bean
     public GetDelegationDelegate getDelegationDelegate() {
         return new GetDelegationDelegate();
+    }
+
+    @Bean
+    public SetDelegationStateDelegate setDelegationStateDelegate() {
+        return new SetDelegationStateDelegate();
     }
 
     @Bean
