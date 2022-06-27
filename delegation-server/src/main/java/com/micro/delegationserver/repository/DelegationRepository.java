@@ -4,7 +4,7 @@ package com.micro.delegationserver.repository;
 import com.micro.delegationserver.model.Delegation;
 
 
-import com.micro.delegationserver.model.DelegationState;
+import com.micro.commonserver.model.DelegationState;
 import com.mongodb.client.result.UpdateResult;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
