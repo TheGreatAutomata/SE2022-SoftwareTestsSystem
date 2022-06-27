@@ -77,7 +77,10 @@ public class auditController implements AuditApi {
     @Override
     public ResponseEntity<Void> auditDelegationByMarketEmployees(String usrName, String usrId, String usrRole, String id, DelegationAuditMarketResultDto delegationAuditMarketResultDto) {
         Task task=taskService.createTaskQuery().taskName("Audit_Market").processVariableValueEquals("delegationId",id).singleResult();
-
+        if(task == null)
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         String result=delegationAuditMarketResultDto.getResult();
 
         boolean accepted= result.equals("可以测试");
