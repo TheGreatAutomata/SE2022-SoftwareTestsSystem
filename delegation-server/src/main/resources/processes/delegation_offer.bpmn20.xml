@@ -14,7 +14,7 @@
     <serviceTask activiti:type="mail" id="sid-57b61999-4f5d-43ea-a118-d273e4f4dcbb" name="mailForAccept">
       <extensionElements>
         <activiti:field name="to">
-          <activiti:string>3368925785@qq.com</activiti:string>
+          <activiti:string>lejian663@126.com</activiti:string>
         </activiti:field>
         <activiti:field name="from">
           <activiti:string>2379594184@qq.com</activiti:string>
@@ -67,7 +67,7 @@
     <serviceTask activiti:type="mail" id="sid-5bb6f845-8226-4cde-92da-e924998913f2" name="mailForShutDown">
       <extensionElements>
         <activiti:field name="to">
-          <activiti:string>3368925785@qq.com</activiti:string>
+          <activiti:string>lejian663@126.com</activiti:string>
         </activiti:field>
         <activiti:field name="from">
           <activiti:string>2379594184@qq.com</activiti:string>

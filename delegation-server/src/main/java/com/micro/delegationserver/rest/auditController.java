@@ -49,6 +49,7 @@ public class auditController implements AuditApi {
         Map<String, Object> taskVariables = new HashMap<String, Object>();
 
         taskVariables.put("accepted", accepted);
+        taskVariables.put("delegationId", id);
 
         /*Delegation currentDelegation=runtimeService.getVariable(task.getExecutionId(),"delegation",Delegation.class);
 

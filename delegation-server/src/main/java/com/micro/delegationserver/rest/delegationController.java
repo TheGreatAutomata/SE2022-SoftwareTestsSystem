@@ -85,7 +85,7 @@ public class delegationController implements DelegationApi{
 
         runtimeService.startProcessInstanceByKey("delegation_apply", variables);
 
-        return ResponseEntity.status(201).body("created ok");
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 
