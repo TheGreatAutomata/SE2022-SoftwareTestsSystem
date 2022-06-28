@@ -139,10 +139,17 @@ public class NumberService {
         }
     }*/
 
-    private final String UNIT = "万千佰拾亿千佰拾万千佰拾元角分";
-    private final String SL_UNIT = "万千佰拾亿千佰拾万千佰拾 ";
-    private final String DIGIT = "零壹贰叁肆伍陆柒捌玖";
-    private final double MAX_VALUE = 9999999999999.99D;
+    public String unit;
+    public String sl_unit;
+    public String digit;
+    public double max_value;
+
+    public NumberService() {
+        unit = "万千佰拾亿千佰拾万千佰拾元角分";
+        sl_unit = "万千佰拾亿千佰拾万千佰拾 ";
+        digit = "零壹贰叁肆伍陆柒捌玖";
+        max_value = 9999999999999.99D;
+    }
 
     // 金额转中文
     public String moneyToChinese(double v) {
@@ -151,7 +158,7 @@ public class NumberService {
             prefix = "负";
             v = Math.abs(v);
         }
-        if (v > MAX_VALUE) {
+        if (v > max_value) {
             return "参数非法!";
         }
 
@@ -163,15 +170,15 @@ public class NumberService {
         // i用来控制数
         int i = 0;
         // j用来控制单位
-        int j = UNIT.length() - strValue.length();
+        int j = unit.length() - strValue.length();
         String rs = "";
         boolean isZero = false;
         for (; i < strValue.length(); i++, j++) {
             char ch = strValue.charAt(i);
             if (ch == '0') {
                 isZero = true;
-                if (UNIT.charAt(j) == '亿' || UNIT.charAt(j) == '万' || UNIT.charAt(j) == '元') {
-                    rs = rs + UNIT.charAt(j);
+                if (unit.charAt(j) == '亿' || unit.charAt(j) == '万' || unit.charAt(j) == '元') {
+                    rs = rs + unit.charAt(j);
                     isZero = false;
                 }
             } else {
@@ -179,7 +186,7 @@ public class NumberService {
                     rs = rs + "零";
                     isZero = false;
                 }
-                rs = rs + DIGIT.charAt(ch - '0') + UNIT.charAt(j);
+                rs = rs + digit.charAt(ch - '0') + unit.charAt(j);
             }
         }
         if (!rs.endsWith("分")) {
@@ -196,7 +203,7 @@ public class NumberService {
             prefix = "负";
             v = Math.abs(v);
         }
-        if (v > MAX_VALUE) {
+        if (v > max_value) {
             return "参数非法!";
         }
 
@@ -208,15 +215,15 @@ public class NumberService {
         // i用来控制数
         int i = 0;
         // j用来控制单位
-        int j = SL_UNIT.length() - strValue.length();
+        int j = sl_unit.length() - strValue.length();
         String rs = "";
         boolean isZero = false;
         for (; i < strValue.length(); i++, j++) {
             char ch = strValue.charAt(i);
             if (ch == '0') {
                 isZero = true;
-                if (SL_UNIT.charAt(j) == '亿' || SL_UNIT.charAt(j) == '万' ) {
-                    rs = rs + SL_UNIT.charAt(j);
+                if (sl_unit.charAt(j) == '亿' || sl_unit.charAt(j) == '万' ) {
+                    rs = rs + sl_unit.charAt(j);
                     isZero = false;
                 }
             } else {
@@ -224,7 +231,7 @@ public class NumberService {
                     rs = rs + "零";
                     isZero = false;
                 }
-                rs = rs + DIGIT.charAt(ch - '0') + SL_UNIT.charAt(j);
+                rs = rs + digit.charAt(ch - '0') + sl_unit.charAt(j);
             }
         }
         rs = rs.replaceAll("亿万", "亿");
@@ -276,6 +283,9 @@ public class NumberService {
         for (int i = userI.length-1; i >=0; i--) {
             numFinal += String.valueOf(userI[i]);
         }
+
+        System.out.println(numFinal);
+
         return numFinal;
     }
     

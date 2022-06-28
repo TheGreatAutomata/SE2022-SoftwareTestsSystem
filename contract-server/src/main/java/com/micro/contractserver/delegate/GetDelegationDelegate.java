@@ -25,14 +25,20 @@ public class GetDelegationDelegate implements JavaDelegate {
 
     private String DELEGATION_URI = "http://delegation-server/delegation/";
 
-    public NumberService numberService;
+    @Autowired
+    private NumberService numberService;
+
+    @Autowired
+    public void setNumberService(NumberService numberService) {
+        this.numberService = numberService;
+    }
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
         System.out.println("Get the existed delegation...");
 
-        /*HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
         //headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "xxx");
         headers.set("usrName", "xxx");
@@ -48,11 +54,11 @@ public class GetDelegationDelegate implements JavaDelegate {
             throw new RuntimeException();
         }
         DelegationItemDto delegationItemDto = result.getBody();
-        System.out.println(delegationItemDto);*/
+        System.out.println(delegationItemDto);
 
         Contract contract = (Contract)delegateExecution.getVariable("contract");
         // 加入已有信息
-        /*contract.getContractTable().getContractTableExist().setSoftwareName(delegationItemDto.getFunctionTable().get软件名称());
+        contract.getContractTable().getContractTableExist().setSoftwareName(delegationItemDto.getFunctionTable().get软件名称());
         //contract.getContractTable().getContractTableExist().setSoftwareName("djsakdjlkajhsfkjaklf");
         String softwareQualityCharacteristic = new String("");
         List<String> s = delegationItemDto.getApplicationTable().get需要测试的技术指标();
@@ -66,10 +72,10 @@ public class GetDelegationDelegate implements JavaDelegate {
 
         }
         contract.getContractTable().getContractTableExist().setSoftwareQualityCharacteristic(softwareQualityCharacteristic);
-        contract.getContractTable().getContractTableExist().setPaymentInChinese(delegationItemDto.getOfferTableUnion().get基本信息().get总计().toString());
+        contract.getContractTable().getContractTableExist().setPaymentInChinese(numberService.transFormation(delegationItemDto.getOfferTableUnion().get基本信息().get总计().toString()) + "元整");
         contract.getContractTable().getContractTableExist().setPaymentInArabic(delegationItemDto.getOfferTableUnion().get基本信息().get总计().toString());
-        //contract.getContractTable().getContractTableExist().setPaymentInChinese("163761822");
-        //contract.getContractTable().getContractTableExist().setPaymentInArabic("163761822");*/
+        //contract.getContractTable().getContractTableExist().setPaymentInChinese(numberService.transFormation("163761822"));
+        //contract.getContractTable().getContractTableExist().setPaymentInArabic("163761822");
 
         delegateExecution.setVariable("contract", contract);
         delegateExecution.setVariable("contractId", contract.getContractId());

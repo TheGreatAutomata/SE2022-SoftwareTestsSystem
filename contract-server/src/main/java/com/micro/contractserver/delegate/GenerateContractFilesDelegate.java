@@ -152,13 +152,16 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         String projectPath = tempFile.getCanonicalPath();
 
         String filename = "Contract_" + contractId;
-        String inputPath = "contract-server/src/main/resources/template/";
+        String inputPath = "template/";
         String outputPath = "velocity/generate/";
 
         // 设置velocity的资源加载器
         Properties properties = new Properties();
         properties.setProperty("resource.loader", "class");
         properties.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        properties.setProperty("jar.resource.loader.path", "jar:file:/root/deployment/contract-server-0.0.1-SNAPSHOT.jar");
+        properties.put("input.encoding", "UTF-8");
+        properties.put("output.encoding", "UTF-8");
 
         // 初始化velocity引擎
         VelocityEngine engine = new VelocityEngine();
@@ -203,7 +206,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         // 加载velocity模板文件
         // 合并数据到模板
         FileWriter fw = new FileWriter(outputPath + filename + ".tex");
-        engine.mergeTemplate(inputPath + "NDA.vm", "utf-8", context, fw);
+        engine.mergeTemplate(inputPath + "Contract.vm", "utf-8", context, fw);
 
         // 释放资源
         fw.close();
@@ -302,13 +305,16 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
         // 设置输入输出路径
         String filename = "NDA_" + contractId;
-        String inputPath = "contract-server/src/main/resources/template/";
+        String inputPath = "template/";
         String outputPath = "velocity/generate/";
 
         // 设置velocity的资源加载器
         Properties properties = new Properties();
         properties.setProperty("resource.loader", "class");
         properties.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        properties.setProperty("jar.resource.loader.path", "jar:file:/root/deployment/contract-server-0.0.1-SNAPSHOT.jar");
+        properties.put("input.encoding", "UTF-8");
+        properties.put("output.encoding", "UTF-8");
 
         // 初始化velocity引擎
         VelocityEngine engine = new VelocityEngine();
@@ -360,9 +366,8 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
         File tempFile = new File("");
         String projectPath = tempFile.getCanonicalPath();
-        String outputPath = "contract-server/src/main/resources/generate/";
-
-        //String outputPath = "~/deployment/velocity/generate/";
+        //String outputPath = "contract-server/src/main/resources/generate/";
+        String outputPath = "velocity/generate/";
 
         File contractTableFile = new File(outputPath + "Contract_" + contractId + ".pdf");
         FileInputStream contractTableFileInputStream = new FileInputStream(contractTableFile);
@@ -382,10 +387,12 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
         File file = new File("");
         String filePath = file.getCanonicalPath();
+        //String outputPath = "contract-server/src/main/resources/generate/";
+        String outputPath = "velocity/generate/";
 
         Runtime runtime = Runtime.getRuntime();
-        Process process = runtime.exec("rm " + filePath + "/contract-server/src/main/resources/generate/" +  "Contract_" + contractId + ".pdf");
-        process = runtime.exec("rm " + filePath + "/contract-server/src/main/resources/generate/" +  "NDA_" + contractId + ".pdf");
+        Process process = runtime.exec("rm " + outputPath +  "Contract_" + contractId + ".pdf");
+        process = runtime.exec("rm " + outputPath +  "NDA_" + contractId + ".pdf");
 
     }
 

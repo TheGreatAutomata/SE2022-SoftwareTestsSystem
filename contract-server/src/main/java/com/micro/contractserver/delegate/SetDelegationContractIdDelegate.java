@@ -27,7 +27,7 @@ public class SetDelegationContractIdDelegate implements JavaDelegate {
 
         Contract contract = (Contract)delegateExecution.getVariable("contract");
 
-        /*HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String delegationId = (String) delegateExecution.getVariable("delegationId");
         HttpEntity<String> request = new HttpEntity<>("{name:string}", headers);
@@ -35,7 +35,7 @@ public class SetDelegationContractIdDelegate implements JavaDelegate {
         if(result.getStatusCode() != HttpStatus.OK)
         {
             throw new RuntimeException();
-        }*/
+        }
 
         delegateExecution.setVariable("contract", contract);
         delegateExecution.setVariable("contractId", contract.getContractId());

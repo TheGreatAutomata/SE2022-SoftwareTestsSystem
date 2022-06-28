@@ -70,7 +70,7 @@ public class SetDelegationStateDelegate implements JavaDelegate {
             }
         }
 
-        /*HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String delegationId = contract.getDelegationId();
         HttpEntity<String> request = new HttpEntity<>("{name:string}", headers);
@@ -78,7 +78,7 @@ public class SetDelegationStateDelegate implements JavaDelegate {
         if(result.getStatusCode() != HttpStatus.OK)
         {
             throw new RuntimeException();
-        }*/
+        }
 
         String performanceTermState = contract.getPerformanceTermState();;
 

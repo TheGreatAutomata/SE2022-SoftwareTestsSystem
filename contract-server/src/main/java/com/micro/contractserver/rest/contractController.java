@@ -92,29 +92,17 @@ public class contractController implements ContractApi {
 
         System.out.println("Party A get the performance term...");
 
-        /*Task task = taskService.createTaskQuery().taskName("GetPerformanceTermPartyA").processVariableValueEquals("delegationId", delegationId).singleResult();
-        if(task == null) {
-            //performance term not found
-            System.out.println("performance term not found...");
-            return ResponseEntity.status(400).build();
-        }*/
-
         Optional<Contract> contract_op = contractRepository.findByDelegationId(delegationId);
         if(contract_op.isPresent()) {
             Contract contract = contract_op.get();
             PerformanceTermPartyAResponse performanceTermPartyAResponse = new PerformanceTermPartyAResponse(contract.getContractId(), new PerformanceTermPartyB(contract.getContractTable().getContractTableExist().getProjectName(), contract.getContractTable().getContractTableExist().getPartyBName1(), contract.getContractTable().getContractTableExist().getPerformanceTerm(), contract.getContractTable().getContractTableExist().getRectificationTimes(), contract.getContractTable().getContractTableExist().getRectificationTerm()));
             PerformanceTermPartyAResponseDto performanceTermPartyAResponseDto = performanceTermPartyAResponseMapper.toDto(performanceTermPartyAResponse);
 
-            /*Map<String, Object> variables = new HashMap<String, Object>();
-            variables.put("contract", contract);
-            variables.put("contractId", contract.getContractId());
-            runtimeService.setVariables(task.getExecutionId(), variables);
-            taskService.complete(task.getId());*/
-
             return new ResponseEntity<PerformanceTermPartyAResponseDto>(performanceTermPartyAResponseDto, HttpStatus.OK);
         }
         else {
             System.out.println("contract not found...");
+
             return ResponseEntity.status(400).build();
         }
 
@@ -127,15 +115,18 @@ public class contractController implements ContractApi {
 
         Task task = taskService.createTaskQuery().taskName("ReplyPerformanceTermPartyA").processVariableValueEquals("contractId", id).singleResult();
         if(task == null) {
-            //performance term not found
+            // performance term not found
             System.out.println("performance term not found...");
+
             return ResponseEntity.status(400).body("performance term not found");
         }
 
         Optional<Contract> contract_op = contractRepository.findByContractId(id);
         if(contract_op.isPresent()) {
             Contract contract = contract_op.get();
+
             System.out.println(contract);
+
             contract.setUsrId(usrId);
             contract.setUsrName(usrName);
             contract.setPerformanceTermState(performanceTermPartyAMapper.toObj(performanceTermPartyADto).get态度());
@@ -158,6 +149,7 @@ public class contractController implements ContractApi {
             }
 
             System.out.println(contract);
+
             Map<String, Object> variables = new HashMap<String, Object>();
             variables.put("contract", contract);
             variables.put("contractId", contract.getContractId());
@@ -171,6 +163,7 @@ public class contractController implements ContractApi {
 
         } else {
             System.out.println("contract not found...");
+
             return ResponseEntity.status(400).body("contract not found");
         }
     }
@@ -180,30 +173,17 @@ public class contractController implements ContractApi {
 
         System.out.println("Party b get the performance term...");
 
-        /*Task task = taskService.createTaskQuery().taskName("GetPerformanceTermReplyPartyB").processVariableValueEquals("contractId", id).singleResult();
-        if(task == null) {
-            //performance term not found
-            System.out.println("performance term not found...");
-            return ResponseEntity.status(400).build();
-        }*/
-
         Optional<Contract> contract_op = contractRepository.findByContractId(id);
         if(contract_op.isPresent()) {
             Contract contract = contract_op.get();
 
             PerformanceTermPartyADto performanceTermPartyADto = performanceTermPartyAMapper.toDto(new PerformanceTermPartyA(contract.getPerformanceTermState(), contract.getPerformanceTermSuggestion()));
 
-            /*Map<String, Object> variables = new HashMap<String, Object>();
-            variables.put("contract", contract);
-            variables.put("contractId", contract.getContractId());
-
-            runtimeService.setVariables(task.getExecutionId(), variables);
-            taskService.complete(task.getId());*/
-
             return new ResponseEntity<PerformanceTermPartyADto>(performanceTermPartyADto, HttpStatus.OK);
         }
         else {
             System.out.println("contract not found...");
+
             return ResponseEntity.status(400).build();
         }
 
@@ -216,8 +196,9 @@ public class contractController implements ContractApi {
 
         Task task = taskService.createTaskQuery().taskName("UpdatePerformanceTermPartyB").processVariableValueEquals("contractId", id).singleResult();
         if(task == null) {
-            //performance term not found
+            // performance term not found
             System.out.println("performance term not found...");
+
             return ResponseEntity.status(400).body("performance term not found");
         }
 
@@ -244,6 +225,7 @@ public class contractController implements ContractApi {
 
         } else {
             System.out.println("contract not found...");
+
             return ResponseEntity.status(400).body("contract not found");
         }
     }
@@ -255,8 +237,9 @@ public class contractController implements ContractApi {
 
         Task task = taskService.createTaskQuery().taskName("AddContractTablePartyB").processVariableValueEquals("contractId", id).singleResult();
         if(task == null) {
-            //contract not found
+            // contract not found
             System.out.println("contract not found1...");
+
             return ResponseEntity.status(400).body("contract not found");
         }
 
@@ -279,6 +262,7 @@ public class contractController implements ContractApi {
 
         } else {
             System.out.println("contract not found2...");
+
             return ResponseEntity.status(400).body("contract not found");
         }
     }
@@ -288,28 +272,16 @@ public class contractController implements ContractApi {
 
         System.out.println("Party A get the contract table...");
 
-        /*Task task = taskService.createTaskQuery().taskName("GetContractTablePartyA").processVariableValueEquals("contractId", id).singleResult();
-        if(task == null) {
-            //contract not found
-            System.out.println("contract not found1...");
-            return ResponseEntity.status(400).build();
-        }*/
-
         Optional<Contract> contract_op = contractRepository.findByContractId(id);
         if(contract_op.isPresent()) {
             Contract contract = contract_op.get();
             ContractTablePartyBDto contractTablePartyBDto = contractTablePartyBMapper.toDto(contract.getContractTable().getContractTablePartyB());
 
-            /*Map<String, Object> variables = new HashMap<String, Object>();
-            variables.put("contract", contract);
-            variables.put("contractId", contract.getContractId());
-            runtimeService.setVariables(task.getExecutionId(), variables);
-            taskService.complete(task.getId());*/
-
             return new ResponseEntity<ContractTablePartyBDto>(contractTablePartyBDto, HttpStatus.OK);
         }
         else {
             System.out.println("contract not found2...");
+
             return ResponseEntity.status(400).build();
         }
 
@@ -324,6 +296,7 @@ public class contractController implements ContractApi {
         if(task == null) {
             //contract not found
             System.out.println("contract not found1...");
+
             return ResponseEntity.status(400).body("contract not found");
         }
 
@@ -350,6 +323,7 @@ public class contractController implements ContractApi {
 
         } else {
             System.out.println("contract not found2...");
+
             return ResponseEntity.status(400).body("contract not found");
         }
     }
@@ -383,10 +357,13 @@ public class contractController implements ContractApi {
         minioFileItem fileItem = contractService.getContractTableFile(id);
         if(fileItem == null) {
             System.out.println("contract file not found...");
+
             return ResponseEntity.status(400).build();
         }
         else {
+
             return ResponseEntity.ok(contractFileMapper.toSingleFileDto(fileItem));
+
         }
 
     }
@@ -419,10 +396,13 @@ public class contractController implements ContractApi {
         minioFileItem fileItem = contractService.getNondisclosureAgreementTableFile(id);
         if(fileItem == null) {
             System.out.println("nondisclosure agreement file not found...");
+
             return ResponseEntity.status(400).build();
         }
         else {
+
             return ResponseEntity.ok(contractFileMapper.toSingleFileDto(fileItem));
+
         }
 
     }
@@ -433,15 +413,14 @@ public class contractController implements ContractApi {
 
         Task task = taskService.createTaskQuery().taskName("UploadSignedContractPartyB").processVariableValueEquals("contractId", id).singleResult();
         if(task == null) {
-            //contract not found
+            // contract not found
             System.out.println("contract not found...");
+
             return ResponseEntity.status(400).body("contract not found");
         }
 
         Map<String, Object> variables = new HashMap<String, Object>();
-        //String delegationId = "delega"+id;
         variables.put("contractId", id);
-        //List<MultipartFile> filesList = Lists.newArrayList(file1, file2, file3, file4);
 
         if(contractTableFile != null)
         {
@@ -463,12 +442,6 @@ public class contractController implements ContractApi {
             variables.put("NDA_complete_" + id, nondisclosureAgreementFile);
             variables.put("NDA_complete_" + id + "Name", "None");
         }
-        //variables.put("installationManual", installationManual.getBytes());
-        //variables.put("operationManual", operationManual.getBytes());
-        //variables.put("maintenanceManual", maintenanceManual.getBytes());
-        //variables.put("file2", file2);
-        //variables.put("file3", file3);
-        //variables.put("file4", file4);
 
         Optional<Contract> contract_op = contractRepository.findByContractId(id);
         if(contract_op.isPresent()){
@@ -479,10 +452,7 @@ public class contractController implements ContractApi {
 
         taskService.complete(task.getId(), variables);
 
-//        if(delegationService.creatFile(id, "file1", file1) && delegationService.creatFile(id, "file2", file2) && delegationService.creatFile(id, "file3", file3) && delegationService.creatFile(id, "file4", file4))
-//        {
         return ResponseEntity.status(200).body("upload successfully");
-//        }
 
     }
 
