@@ -1,6 +1,7 @@
 package com.micro.delegationserver.rest;
 
 
+import com.micro.commonserver.model.DelegationState;
 import com.micro.delegationserver.mapper.DelegationApplicationTableMapper;
 import com.micro.delegationserver.mapper.DelegationFileListMapper;
 import com.micro.delegationserver.mapper.DelegationFunctionTableMapper;
@@ -8,6 +9,7 @@ import com.micro.delegationserver.mapper.DelegationFunctionTableMapper;
 import com.micro.delegationserver.mapper.*;
 
 import com.micro.delegationserver.model.*;
+import com.micro.commonserver.model.DelegationState;
 import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
 
@@ -21,8 +23,6 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 
 import org.activiti.engine.task.Task;
-
-import org.activiti.engine.task.TaskQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;

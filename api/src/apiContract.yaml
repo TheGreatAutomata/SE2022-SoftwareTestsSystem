@@ -1,0 +1,626 @@
+openapi: "3.0.3"
+info:
+  version: 0.0.1
+  title: Micro
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:32000
+paths:
+  /contract/performanceTerm/partyB:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: delegationId
+        in: header
+        required: true
+        schema:
+          type: string
+    post:
+      summary: creat contract and draft party B's part of performance term
+      operationId: draftPerformanceTermPartyB
+      tags:
+        - contract
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/performanceTermPartyB"
+        required: true
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /contract/performanceTerm/partyA:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: delegationId
+        in: header
+        required: true
+        schema:
+          type: string
+    get:
+      summary: get party B's part of performance term
+      operationId: getPerformanceTermPartyA
+      tags:
+        - contract
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/performanceTermPartyAResponse"
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /contract/{id}/performanceTerm/partyA:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of contract
+        schema:
+          type: string
+    post:
+      summary: reply for performance term
+      operationId: replyPerformanceTermPartyA
+      tags:
+        - contract
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/performanceTermPartyA"
+        required: true
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /contract/{id}/performanceTerm/partyB:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of contract
+        schema:
+          type: string
+    get:
+      summary: get the reply of performance term from party A
+      operationId: getPerformanceTermReplyPartyB
+      tags:
+        - contract
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/performanceTermPartyA"
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: string
+    put:
+      summary: update party B's part of performance term
+      operationId: updatePerformanceTermPartyB
+      tags:
+        - contract
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/performanceTermPartyB"
+        required: true
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /contract/{id}/contractTable/partyB:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of contract
+        schema:
+          type: string
+    post:
+      summary: add party B's part of contract table
+      operationId: addContractTablePartyB
+      tags:
+        - contract
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/contractTablePartyB"
+        required: true
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /contract/{id}/contractTable/partyA:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of contract
+        schema:
+          type: string
+    get:
+      summary: get party B's part of contract table
+      operationId: getContractTablePartyA
+      tags:
+        - contract
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/contractTablePartyB"
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      summary: add party A's part of contract table
+      operationId: addContractTablePartyA
+      tags:
+        - contract
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/contractTablePartyA"
+        required: true
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /contract/{id}/files/contractTable:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of contract
+        schema:
+          type: string
+    get:
+      operationId: downloadContractTablePartyB
+      tags:
+        - contract
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/singleFile'
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /contract/{id}/files/nondisclosureAgreementTable:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of contract
+        schema:
+          type: string
+    get:
+      operationId: downloadNondisclosureAgreementTablePartyB
+      tags:
+        - contract
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/singleFile'
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /contract/{id}/files:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of contract
+        schema:
+          type: string
+    post:
+      summary: upload signed contract table and non-disclosure agreement table
+      operationId: uploadContractPartyB
+      tags:
+        - contract
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                # The property name 'file' will be used for all files.
+                contractTableFile:
+                  type: string
+                  format: binary
+                nondisclosureAgreementTableFile:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    performanceTermPartyB:
+      type: object
+      properties:
+        项目名称:
+          type: string
+        受托方(乙方):
+          type: string
+        合同履行期限:
+          type: string
+        整改限制次数:
+          type: string
+        一次整改限制的天数:
+          type: string
+
+    performanceTermPartyAResponse:
+      type: object
+      properties:
+        contractId:
+          type: string
+        履行期限(受托方部分):
+          $ref: "#/components/schemas/performanceTermPartyB"
+    performanceTermPartyA:
+      type: object
+      properties:
+        态度:
+          type: string
+        意见:
+          type: string
+
+    contractTablePartyA:
+      type: object
+      properties:
+        单位全称:
+          type: string
+        授权代表:
+          type: string
+        联系人:
+          type: string
+        通讯地址:
+          type: string
+        电话:
+          type: string
+        传真:
+          type: string
+        开户银行:
+          type: string
+        账号:
+          type: string
+        邮编:
+          type: string
+
+    contractTablePartyB:
+      type: object
+      properties:
+        授权代表:
+          type: string
+        联系人:
+          type: string
+        通讯地址:
+          type: string
+        邮编:
+          type: string
+        电话:
+          type: string
+        传真:
+          type: string
+        开户银行:
+          type: string
+        户名:
+          type: string
+        账号:
+          type: string
+
+    contractTableExist:
+      type: object
+      properties:
+        projectName:
+          type: string
+        partyAName1:
+          type: string
+        partyBName1:
+          type: string
+        partyAName2:
+          type: string
+        partyBName2:
+          type: string
+        softwareName:
+          type: string
+        softwareQualityCharacteristic:
+          type: string
+        paymentInChinese:
+          type: string
+        paymentInArabic:
+          type: string
+        performanceTerm:
+          type: string
+        rectificationTimes:
+          type: string
+        rectificationTerm:
+          type: string
+        partyAName3:
+          type: string
+        partyBName3:
+          type: string
+        partyBDepositBank:
+          type: string
+        partyBBankAccountName:
+          type: string
+        partyBBankAccountNumber:
+          type: string
+
+    contractTable:
+      type: object
+      properties:
+        ContractTableExist:
+          $ref: "#/components/schemas/contractTableExist"
+        ContractTablePartyA:
+          $ref: "#/components/schemas/contractTablePartyA"
+        ContractTablePartyB:
+          $ref: "#/components/schemas/contractTablePartyB"
+
+    nondisclosureAgreementTable:
+      type: object
+      properties:
+        partyAName:
+          type: string
+        partyBName:
+          type: string
+        projectName:
+          type: string
+
+    contract:
+      type: object
+      properties:
+        usrId:
+          type: string
+        usrName:
+          type: string
+        contractId:
+          type: string
+        delegationId:
+          type: string
+        contractState:
+          type: string
+        performanceTermState:
+          type: string
+        performanceTermSuggestion:
+          type: string
+        contractTable:
+          $ref: "#/components/schemas/contractTable"
+        nondisclosureAgreementTable:
+          $ref: "#/components/schemas/nondisclosureAgreementTable"
+        projectId:
+          type: string
+
+    singleFile:
+      type: object
+      properties:
+        fileName:
+          type: string
+        fileType:
+          type: string
+        fileUri:
+          type: string
