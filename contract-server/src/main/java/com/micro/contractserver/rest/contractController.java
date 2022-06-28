@@ -116,7 +116,7 @@ public class contractController implements ContractApi {
         Task task = taskService.createTaskQuery().taskName("ReplyPerformanceTermPartyA").processVariableValueEquals("contractId", id).singleResult();
         if(task == null) {
             // performance term not found
-            System.out.println("performance term not found...");
+            System.out.println("performance term " + id + " not found...");
 
             return ResponseEntity.status(400).body("performance term not found");
         }
@@ -197,7 +197,7 @@ public class contractController implements ContractApi {
         Task task = taskService.createTaskQuery().taskName("UpdatePerformanceTermPartyB").processVariableValueEquals("contractId", id).singleResult();
         if(task == null) {
             // performance term not found
-            System.out.println("performance term not found...");
+            System.out.println("performance term " + id + " not found...");
 
             return ResponseEntity.status(400).body("performance term not found");
         }
@@ -238,7 +238,7 @@ public class contractController implements ContractApi {
         Task task = taskService.createTaskQuery().taskName("AddContractTablePartyB").processVariableValueEquals("contractId", id).singleResult();
         if(task == null) {
             // contract not found
-            System.out.println("contract not found1...");
+            System.out.println("contract " + id + " not found1...");
 
             return ResponseEntity.status(400).body("contract not found");
         }
@@ -295,7 +295,7 @@ public class contractController implements ContractApi {
         Task task = taskService.createTaskQuery().taskName("AddContractTablePartyA").processVariableValueEquals("contractId", id).singleResult();
         if(task == null) {
             //contract not found
-            System.out.println("contract not found1...");
+            System.out.println("contract " + id + " not found1...");
 
             return ResponseEntity.status(400).body("contract not found");
         }
@@ -414,7 +414,7 @@ public class contractController implements ContractApi {
         Task task = taskService.createTaskQuery().taskName("UploadSignedContractPartyB").processVariableValueEquals("contractId", id).singleResult();
         if(task == null) {
             // contract not found
-            System.out.println("contract not found...");
+            System.out.println("contract " + id + " not found...");
 
             return ResponseEntity.status(400).body("contract not found");
         }

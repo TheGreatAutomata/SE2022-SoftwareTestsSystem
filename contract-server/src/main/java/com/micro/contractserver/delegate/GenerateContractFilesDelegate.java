@@ -49,8 +49,8 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
     @SneakyThrows
     public void generateContractTableFile(ContractTable contractTable, String contractId) {
 
-        /*
-        Calendar calendar = Calendar.getInstance();
+
+        /*Calendar calendar = Calendar.getInstance();
         ContractTableExist contractTableExist = contractTable.getContractTableExist();
         ContractTablePartyA contractTablePartyA = contractTable.getContractTablePartyA();
         ContractTablePartyB contractTablePartyB = contractTable.getContractTablePartyB();
@@ -140,7 +140,8 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         // 删除中间生成文件
         process = runtime.exec("rm " + outputPath + filename + "_old.pdf " + outputPath + filename + ".tex " + outputPath + filename + ".aux " + outputPath + filename + ".log " + outputPath + "texput.log");
 
-        */
+
+         */
 
         Calendar calendar = Calendar.getInstance();
         ContractTableExist contractTableExist = contractTable.getContractTableExist();
@@ -242,8 +243,8 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
     @SneakyThrows
     public void generateNondisclosureAgreementTableFile(NondisclosureAgreementTable nondisclosureAgreementTable, String contractId) {
 
-        /*
-        Calendar calendar = Calendar.getInstance();
+
+        /*Calendar calendar = Calendar.getInstance();
 
         // 设置输入输出路径
         File tempFile = new File("");
@@ -300,7 +301,9 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         // 删除中间生成文件
         process = runtime.exec("rm " + outputPath + filename + "_old.pdf " + outputPath + filename + ".tex " + outputPath + filename + ".aux " + outputPath + filename + ".log " + outputPath + "texput.log");
 
-        */
+
+         */
+
         Calendar calendar = Calendar.getInstance();
 
         // 设置输入输出路径
@@ -357,7 +360,6 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
         // 删除中间生成文件
         process = runtime.exec("rm " + outputPath + filename + "_old.pdf " + outputPath + filename + ".tex " + outputPath + filename + ".aux " + outputPath + filename + ".log " + outputPath + "texput.log");
-
 
     }
 
