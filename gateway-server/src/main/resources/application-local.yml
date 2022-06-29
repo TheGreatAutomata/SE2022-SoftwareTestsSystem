@@ -41,8 +41,7 @@ spring:
           predicates:
             - Path=/delegation/{id}
             - Method=DELETE
-<<<<<<< HEAD
-=======
+
         - id: contract-server-get
           uri: lb://contract-server
           predicates:
@@ -58,7 +57,7 @@ spring:
           predicates:
             - Path=/contract/{id}/performanceTerm/partyB
             - Method=PUT
->>>>>>> 045d88bebda9adae538f7e2de4388f6c1d8291bd
+
 eureka:
   client:
     serviceUrl:

@@ -51,7 +51,7 @@
     <serviceTask activiti:type="mail" id="sid-f2816b00-7803-4be0-8e24-be5b577a3696" name="mailForOffer">
       <extensionElements>
         <activiti:field name="to">
-          <activiti:string>3368925785@qq.com</activiti:string>
+          <activiti:string>lejian663@126.com</activiti:string>
         </activiti:field>
         <activiti:field name="from">
           <activiti:string>2379594184@qq.com</activiti:string>
