@@ -11,24 +11,28 @@ import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 public class AcceptApplicationDelegate implements JavaDelegate {
+    @LoadBalanced
+    private RestTemplate restTemplate;
+
     @Autowired
     DelegationRepository delegationRepository;
 
-    @LoadBalanced
-    private RestTemplate restTemplate;
+    @Autowired
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     private String closeSampleUri = "http://sample-server/sampleServer/private/closeSample/";
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
-        System.out.println("Save the delegation.");
-        Delegation delegation=(Delegation) delegateExecution.getVariable("delegation");
-        delegation.setState(DelegationState.QUOTATION_MARKET);
-        delegationRepository.save(delegation);
-
+//        System.out.println("Save the delegation.");
+//        Delegation delegation=(Delegation) delegateExecution.getVariable("delegation");
+//        delegation.setState(DelegationState.QUOTATION_MARKET);
+//        delegationRepository.save(delegation);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String id = delegation.getDelegationId();
+        String id = (String) delegateExecution.getVariable("delegationId");
         HttpEntity<String> request = new HttpEntity<>("", headers);
         ResponseEntity<Void> result = restTemplate.postForEntity(closeSampleUri+id, request, Void.class);
         if(result.getStatusCode() != HttpStatus.OK)

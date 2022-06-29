@@ -12,10 +12,10 @@ eureka:
       defaultZone: http://${eureka.instance.hostname}:32001/eureka/
 #minio
 minio:
-#  endPoint: http://210.28.133.13:21254
-  endPoint: http://localhost:32004
+  endPoint: http://42.192.56.231:32004
+  #  endPoint: http://localhost:32004
   accessKey: minioadmin
   secretKey: minioadmin
-# bucketName: minioTest
+  # bucketName: minioTest
   partSize: 104857600
 

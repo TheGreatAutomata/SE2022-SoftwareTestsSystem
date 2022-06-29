@@ -42,12 +42,13 @@ public class privateController implements SampleServerApi {
             variables.put("state",2);
         }
         runtimeService.startProcessInstanceByKey("sample_application", variables);
+
         return ResponseEntity.status(200).build();
     }
 
     @Override
     public ResponseEntity<Void> closeSample(String id) {
-        Task task = taskService.createTaskQuery().taskName("sampleApplicationOnline").processVariableValueEquals("id",id).singleResult();
+        Task task = taskService.createTaskQuery().taskName("putSampleOrCloseSample").processVariableValueEquals("id",id).singleResult();
         if(task == null)
         {
             return ResponseEntity.status(404).build();

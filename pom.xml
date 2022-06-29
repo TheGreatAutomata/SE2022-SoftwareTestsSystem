@@ -11,7 +11,7 @@
         <module>gateway-server</module>
         <module>discovery-server</module>
         <module>spring-boot-spring-security-jwt-authentication</module>
-<!--        <module>test-server</module>-->
+        <!--        <module>test-server</module>-->
         <module>common-server</module>
         <module>sample-server</module>
     </modules>
@@ -39,15 +39,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
         </dependency>
-        <!-- may bad merge-->
-
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -89,6 +85,7 @@
 
         </dependencies>
     </dependencyManagement>
+
 
 
 </project>

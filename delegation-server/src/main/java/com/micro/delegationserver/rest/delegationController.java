@@ -9,6 +9,7 @@ import com.micro.delegationserver.mapper.DelegationFunctionTableMapper;
 import com.micro.delegationserver.mapper.*;
 
 import com.micro.delegationserver.model.*;
+import com.micro.commonserver.model.DelegationState;
 import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
 
@@ -84,7 +85,7 @@ public class delegationController implements DelegationApi{
 
         runtimeService.startProcessInstanceByKey("delegation_apply", variables);
 
-        return ResponseEntity.status(201).body("created ok");
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 
