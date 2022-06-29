@@ -46,13 +46,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/normalResponse"
         '400':
           description: error
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/normalResponse"
 
   /contract/performanceTerm/partyA:
     parameters:
@@ -135,13 +135,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/normalResponse"
         '400':
           description: error
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/normalResponse"
 
   /contract/{id}/performanceTerm/partyB:
     parameters:
@@ -201,13 +201,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/normalResponse"
         '400':
           description: error
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/normalResponse"
 
   /contract/{id}/contractTable/partyB:
     parameters:
@@ -249,13 +249,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/normalResponse"
         '400':
           description: error
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/normalResponse"
 
   /contract/{id}/contractTable/partyA:
     parameters:
@@ -315,13 +315,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/normalResponse"
         '400':
           description: error
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/normalResponse"
 
   /contract/{id}/files/contractTable:
     parameters:
@@ -451,13 +451,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/normalResponse"
         '400':
           description: error
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/normalResponse"
 components:
   schemas:
     performanceTermPartyB:
@@ -474,6 +474,12 @@ components:
         一次整改限制的天数:
           type: string
 
+    normalResponse:
+      type: object
+      properties:
+        responseInfo:
+          type: string
+
     performanceTermPartyAResponse:
       type: object
       properties:
@@ -481,6 +487,7 @@ components:
           type: string
         履行期限(受托方部分):
           $ref: "#/components/schemas/performanceTermPartyB"
+
     performanceTermPartyA:
       type: object
       properties:

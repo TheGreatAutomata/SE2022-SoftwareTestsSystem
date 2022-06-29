@@ -34,6 +34,9 @@ public class contractController implements ContractApi {
     private TaskService taskService;
 
     @Autowired
+    NormalResponseMapper normalResponseMapper;
+
+    @Autowired
     ContractMapper contractMapper;
 
     @Autowired
@@ -67,7 +70,7 @@ public class contractController implements ContractApi {
     MongoDBContractRepository contractRepository;
 
     @Override
-    public ResponseEntity<String> draftPerformanceTermPartyB(String usrName, String usrId, String usrRole, String delegationId, PerformanceTermPartyBDto performanceTermPartyBDto) {
+    public ResponseEntity<NormalResponseDto> draftPerformanceTermPartyB(String usrName, String usrId, String usrRole, String delegationId, PerformanceTermPartyBDto performanceTermPartyBDto) {
 
         System.out.println("Party B draft the performance term...");
 
@@ -83,7 +86,7 @@ public class contractController implements ContractApi {
         // save contract in delegate/saveContractDelegate
         // contractRepository.save(contract); // TODO: updateservice 判断合同状态
 
-        return ResponseEntity.status(200).body(contract.contractId);
+        return new ResponseEntity<NormalResponseDto>(normalResponseMapper.toDto(new NormalResponse(contract.contractId)), HttpStatus.OK);
 
     }
 
@@ -109,7 +112,7 @@ public class contractController implements ContractApi {
     }
 
     @Override
-    public ResponseEntity<String> replyPerformanceTermPartyA(String usrName, String usrId, String usrRole, String id, PerformanceTermPartyADto performanceTermPartyADto) {
+    public ResponseEntity<NormalResponseDto> replyPerformanceTermPartyA(String usrName, String usrId, String usrRole, String id, PerformanceTermPartyADto performanceTermPartyADto) {
 
         System.out.println("Party A reply the performance term...");
 
@@ -118,7 +121,7 @@ public class contractController implements ContractApi {
             // performance term not found
             System.out.println("performance term " + id + " not found...");
 
-            return ResponseEntity.status(400).body("performance term not found");
+            return new ResponseEntity<NormalResponseDto>(normalResponseMapper.toDto(new NormalResponse("performance not found")), HttpStatus.BAD_REQUEST);
         }
 
         Optional<Contract> contract_op = contractRepository.findByContractId(id);
@@ -159,12 +162,12 @@ public class contractController implements ContractApi {
             // save contract in delegate/saveContractDelegate
             // contractRepository.save(contract); // TODO: updateservice 判断合同状态
 
-            return new ResponseEntity<String>("reply successfully" ,HttpStatus.OK);
+            return new ResponseEntity<NormalResponseDto>(normalResponseMapper.toDto(new NormalResponse("reply successfully")), HttpStatus.OK);
 
         } else {
             System.out.println("contract not found...");
 
-            return ResponseEntity.status(400).body("contract not found");
+            return new ResponseEntity<NormalResponseDto>(normalResponseMapper.toDto(new NormalResponse("contract not found")), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -190,7 +193,7 @@ public class contractController implements ContractApi {
     }
 
     @Override
-    public ResponseEntity<String> updatePerformanceTermPartyB(String usrName, String usrId, String usrRole, String id, PerformanceTermPartyBDto performanceTermPartyBDto) {
+    public ResponseEntity<NormalResponseDto> updatePerformanceTermPartyB(String usrName, String usrId, String usrRole, String id, PerformanceTermPartyBDto performanceTermPartyBDto) {
 
         System.out.println("Party B update the performance term...");
 
@@ -199,7 +202,8 @@ public class contractController implements ContractApi {
             // performance term not found
             System.out.println("performance term " + id + " not found...");
 
-            return ResponseEntity.status(400).body("performance term not found");
+            return new ResponseEntity<NormalResponseDto>(normalResponseMapper.toDto(new NormalResponse("performance not found")), HttpStatus.BAD_REQUEST);
+
         }
 
         Optional<Contract> contract_op = contractRepository.findByContractId(id);
@@ -221,26 +225,27 @@ public class contractController implements ContractApi {
             // save contract in delegate/saveContractDelegate
             // contractRepository.save(contract); // TODO: updateservice 判断合同状态
 
-            return new ResponseEntity<String>("update successfully" ,HttpStatus.OK);
+            return new ResponseEntity<NormalResponseDto>(normalResponseMapper.toDto(new NormalResponse("update successfully")), HttpStatus.OK);
 
         } else {
             System.out.println("contract not found...");
 
-            return ResponseEntity.status(400).body("contract not found");
+            return new ResponseEntity<NormalResponseDto>(normalResponseMapper.toDto(new NormalResponse("contract not found")), HttpStatus.BAD_REQUEST);
         }
     }
 
     @Override
-    public ResponseEntity<String> addContractTablePartyB(String usrName, String usrId, String usrRole, String id, ContractTablePartyBDto contractTablePartyBDto) {
+    public ResponseEntity<NormalResponseDto> addContractTablePartyB(String usrName, String usrId, String usrRole, String id, ContractTablePartyBDto contractTablePartyBDto) {
 
         System.out.println("Party B add the contract table...");
 
         Task task = taskService.createTaskQuery().taskName("AddContractTablePartyB").processVariableValueEquals("contractId", id).singleResult();
         if(task == null) {
             // contract not found
-            System.out.println("contract " + id + " not found1...");
+            System.out.println("contract " + id + " not found when add party B's contract table ...");
 
-            return ResponseEntity.status(400).body("contract not found");
+            return new ResponseEntity<NormalResponseDto>(normalResponseMapper.toDto(new NormalResponse("contract not found")), HttpStatus.BAD_REQUEST);
+
         }
 
         Optional<Contract> contract_op = contractRepository.findByContractId(id);
@@ -258,12 +263,12 @@ public class contractController implements ContractApi {
             // save contract in delegate/saveContractDelegate
             // contractRepository.save(contract); // TODO: updateservice 判断合同状态
 
-            return new ResponseEntity<String>("add successfully", HttpStatus.OK);
+            return new ResponseEntity<NormalResponseDto>(normalResponseMapper.toDto(new NormalResponse("add successfully")), HttpStatus.OK);
 
         } else {
-            System.out.println("contract not found2...");
+            System.out.println("contract not found...");
 
-            return ResponseEntity.status(400).body("contract not found");
+            return new ResponseEntity<NormalResponseDto>(normalResponseMapper.toDto(new NormalResponse("contract not found")), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -288,7 +293,7 @@ public class contractController implements ContractApi {
     }
 
     @Override
-    public ResponseEntity<String> addContractTablePartyA(String usrName, String usrId, String usrRole, String id, ContractTablePartyADto contractTablePartyADto) {
+    public ResponseEntity<NormalResponseDto> addContractTablePartyA(String usrName, String usrId, String usrRole, String id, ContractTablePartyADto contractTablePartyADto) {
 
         System.out.println("Party A add the contract table...");
 
@@ -297,7 +302,7 @@ public class contractController implements ContractApi {
             //contract not found
             System.out.println("contract " + id + " not found1...");
 
-            return ResponseEntity.status(400).body("contract not found");
+            return new ResponseEntity<NormalResponseDto>(normalResponseMapper.toDto(new NormalResponse("contract not found")), HttpStatus.BAD_REQUEST);
         }
 
         Optional<Contract> contract_op = contractRepository.findByContractId(id);
@@ -319,12 +324,12 @@ public class contractController implements ContractApi {
             // save contract in delegate/saveContractDelegate
             // contractRepository.save(contract); // TODO: updateservice 判断合同状态
 
-            return new ResponseEntity<String>("add successfully" ,HttpStatus.OK);
+            return new ResponseEntity<NormalResponseDto>(normalResponseMapper.toDto(new NormalResponse("add successfully")), HttpStatus.OK);
 
         } else {
             System.out.println("contract not found2...");
 
-            return ResponseEntity.status(400).body("contract not found");
+            return new ResponseEntity<NormalResponseDto>(normalResponseMapper.toDto(new NormalResponse("contract not found")), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -362,7 +367,7 @@ public class contractController implements ContractApi {
         }
         else {
 
-            return ResponseEntity.ok(contractFileMapper.toSingleFileDto(fileItem));
+            return new ResponseEntity<SingleFileDto>(contractFileMapper.toSingleFileDto(fileItem), HttpStatus.OK);
 
         }
 
@@ -401,7 +406,7 @@ public class contractController implements ContractApi {
         }
         else {
 
-            return ResponseEntity.ok(contractFileMapper.toSingleFileDto(fileItem));
+            return new ResponseEntity<SingleFileDto>(contractFileMapper.toSingleFileDto(fileItem), HttpStatus.OK);
 
         }
 
@@ -409,14 +414,15 @@ public class contractController implements ContractApi {
 
     @SneakyThrows
     @Override
-    public ResponseEntity<String> uploadContractPartyB(String usrName, String usrId, String usrRole, String id, MultipartFile contractTableFile, MultipartFile nondisclosureAgreementFile) {
+    public ResponseEntity<NormalResponseDto> uploadContractPartyB(String usrName, String usrId, String usrRole, String id, MultipartFile contractTableFile, MultipartFile nondisclosureAgreementFile) {
 
         Task task = taskService.createTaskQuery().taskName("UploadSignedContractPartyB").processVariableValueEquals("contractId", id).singleResult();
         if(task == null) {
             // contract not found
             System.out.println("contract " + id + " not found when upload signed contract...");
 
-            return ResponseEntity.status(400).body("contract not found");
+            return new ResponseEntity<NormalResponseDto>(normalResponseMapper.toDto(new NormalResponse("contract not found")), HttpStatus.BAD_REQUEST);
+
         }
 
         Map<String, Object> variables = new HashMap<String, Object>();
@@ -452,7 +458,8 @@ public class contractController implements ContractApi {
 
         taskService.complete(task.getId(), variables);
 
-        return ResponseEntity.status(200).body("upload successfully");
+        return new ResponseEntity<NormalResponseDto>(normalResponseMapper.toDto(new NormalResponse("upload successfully")), HttpStatus.OK);
+
 
     }
 

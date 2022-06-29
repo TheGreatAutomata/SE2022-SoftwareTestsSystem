@@ -45,7 +45,7 @@ spring:
         - id: contract-server-get
           uri: lb://contract-server
           predicates:
-            - Path=/contract/performanceTerm/partyA,/contract/{id}/contractTable/partyA,/contract/{id}/files/contractTable,/contract/{id}/files/nondisclosureAgreementTable
+            - Path=/contract/performanceTerm/partyA,/contract/{id}/performanceTerm/partyB,/contract/{id}/contractTable/partyA,/contract/{id}/files/contractTable,/contract/{id}/files/nondisclosureAgreementTable
             - Method=GET
         - id: contract-server-post
           uri: lb://contract-server

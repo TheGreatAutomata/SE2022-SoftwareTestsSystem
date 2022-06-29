@@ -151,6 +151,11 @@ public class JavaConfig {
     }
 
     @Bean
+    public NormalResponseMapper normalResponseMapper() {
+        return new NormalResponseMapperImpl();
+    }
+
+    @Bean
     public ContractMapper contractMapper() {
         return new ContractMapperImpl();
     }

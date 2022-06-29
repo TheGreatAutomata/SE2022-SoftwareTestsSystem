@@ -25,9 +25,9 @@ public class SetDelegationStateDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
-        System.out.println("Set delegation state according to contract state...");
-
         Contract contract = (Contract)delegateExecution.getVariable("contract");
+
+        System.out.println("Set delegation state as " + contract.getContractState()  + " according to contract state...");
 
         DelegationState delegationState = DelegationState.ERROR;
 
