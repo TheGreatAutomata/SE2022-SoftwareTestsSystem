@@ -414,7 +414,7 @@ public class contractController implements ContractApi {
         Task task = taskService.createTaskQuery().taskName("UploadSignedContractPartyB").processVariableValueEquals("contractId", id).singleResult();
         if(task == null) {
             // contract not found
-            System.out.println("contract " + id + " not found...");
+            System.out.println("contract " + id + " not found when upload signed contract...");
 
             return ResponseEntity.status(400).body("contract not found");
         }
