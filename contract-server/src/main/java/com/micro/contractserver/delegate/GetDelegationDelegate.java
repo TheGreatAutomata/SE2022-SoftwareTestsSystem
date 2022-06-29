@@ -25,14 +25,19 @@ public class GetDelegationDelegate implements JavaDelegate {
 
     private String DELEGATION_URI = "http://delegation-server/delegation/";
 
-    public NumberService numberService;
+    @Autowired
+    private NumberService numberService;
+
+    @Autowired
+    public void setNumberService(NumberService numberService) {
+        this.numberService = numberService;
+    }
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
         System.out.println("Get the existed delegation...");
 
-        // TODO: 检查是否可用
         HttpHeaders headers = new HttpHeaders();
         //headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "xxx");
@@ -53,6 +58,7 @@ public class GetDelegationDelegate implements JavaDelegate {
 
         Contract contract = (Contract)delegateExecution.getVariable("contract");
         // 加入已有信息
+        contract.setProjectId(delegationItemDto.getProjectId());
         contract.getContractTable().getContractTableExist().setSoftwareName(delegationItemDto.getFunctionTable().get软件名称());
         //contract.getContractTable().getContractTableExist().setSoftwareName("djsakdjlkajhsfkjaklf");
         String softwareQualityCharacteristic = new String("");
@@ -67,9 +73,9 @@ public class GetDelegationDelegate implements JavaDelegate {
 
         }
         contract.getContractTable().getContractTableExist().setSoftwareQualityCharacteristic(softwareQualityCharacteristic);
-        contract.getContractTable().getContractTableExist().setPaymentInChinese(delegationItemDto.getOfferTableUnion().get基本信息().get总计().toString());
+        contract.getContractTable().getContractTableExist().setPaymentInChinese(numberService.transFormation(delegationItemDto.getOfferTableUnion().get基本信息().get总计().toString()) + "元整");
         contract.getContractTable().getContractTableExist().setPaymentInArabic(delegationItemDto.getOfferTableUnion().get基本信息().get总计().toString());
-        //contract.getContractTable().getContractTableExist().setPaymentInChinese("163761822");
+        //contract.getContractTable().getContractTableExist().setPaymentInChinese(numberService.transFormation("163761822"));
         //contract.getContractTable().getContractTableExist().setPaymentInArabic("163761822");
 
         delegateExecution.setVariable("contract", contract);

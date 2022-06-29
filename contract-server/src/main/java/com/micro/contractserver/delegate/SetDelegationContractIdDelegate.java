@@ -39,7 +39,7 @@ public class SetDelegationContractIdDelegate implements JavaDelegate {
 
         delegateExecution.setVariable("contract", contract);
         delegateExecution.setVariable("contractId", contract.getContractId());
-        delegateExecution.setVariable("delegationId", delegationId);
+        delegateExecution.setVariable("delegationId", contract.getDelegationId());
 
     }
 

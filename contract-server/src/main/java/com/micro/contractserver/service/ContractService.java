@@ -77,21 +77,18 @@ public class ContractService {
         if (allFiles == null) {
             return null;
         }
-        //List<minioFileItem> fileList = new ArrayList<>();
+
         for (Result<Item> f : allFiles) {
+
             String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
+
             if(tag.equals("Contract_" + contractId)) {
                 return new minioFileItem(tag, f.get().objectName(), minioService.getObjectURL(contractId, f.get().objectName()));
             }
         }
+
         return null;
-        //return fileList;
-//        Map<String, String> mp = new HashMap<>();;
-//        for(Result<Item> f : allFiles)
-//        {
-//            mp.put(minioService.getTags(contractId, f.get().objectName()).get("fileType"), minioService.getObjectURL(contractId, f.get().objectName()));
-//        }
-//        return mp;
+
     }
 
     @SneakyThrows
@@ -101,22 +98,20 @@ public class ContractService {
         if (allFiles == null) {
             return null;
         }
-        //List<minioFileItem> fileList = new ArrayList<>();
+
         for (Result<Item> f : allFiles) {
+
             String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
             System.out.println(tag);
+
             if(tag.equals("NDA_" + contractId)) {
                 return new minioFileItem(tag, f.get().objectName(), minioService.getObjectURL(contractId, f.get().objectName()));
             }
+
         }
+
         return null;
-        //return fileList;
-//        Map<String, String> mp = new HashMap<>();;
-//        for(Result<Item> f : allFiles)
-//        {
-//            mp.put(minioService.getTags(contractId, f.get().objectName()).get("fileType"), minioService.getObjectURL(contractId, f.get().objectName()));
-//        }
-//        return mp;
+
     }
 
 }

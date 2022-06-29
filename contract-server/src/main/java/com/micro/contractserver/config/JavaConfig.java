@@ -3,7 +3,7 @@ package com.micro.contractserver.config;
 import com.micro.contractserver.delegate.*;
 import com.micro.contractserver.mapper.*;
 
-import com.micro.contractserver.model.PerformanceTermPartyAResponse;
+import com.micro.contractserver.service.NumberService;
 import org.activiti.engine.*;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.spring.ProcessEngineFactoryBean;
@@ -20,7 +20,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
-import java.util.Map;
 
 @Configuration
 public class JavaConfig {
@@ -109,6 +108,11 @@ public class JavaConfig {
     @Bean
     public RepositoryService repositoryService() throws Exception {
         return processEngine().getRepositoryService();
+    }
+
+    @Bean
+    public NumberService NumberService() {
+        return new NumberService();
     }
 
     @Bean
