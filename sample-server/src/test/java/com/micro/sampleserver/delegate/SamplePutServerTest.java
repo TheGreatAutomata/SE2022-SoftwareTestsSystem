@@ -47,9 +47,12 @@ class SamplePutServerTest {
     void executeOffline() {
         when(delegateExecution.getVariable("isOnline"))
                 .thenReturn(0);
+        when(restTemplate.postForEntity(DELEGATION_URI+"/applicationFinished/sampleId", request, Void.class))
+                .thenReturn(ResponseEntity.status(200).build());
         String uriMethod = "offline";
         String id = "sampleId";
-        when(restTemplate.postForEntity(DELEGATION_URI+"/changeSampleMethod/" + uriMethod + "/" + id, request, Void.class))
+        String uri = DELEGATION_URI+"/changeSampleMethod/" + uriMethod + "/" + id;
+        when(restTemplate.postForEntity(uri, request, Void.class))
                 .thenReturn(ResponseEntity.status(200).build());
         samplePutServer.execute(delegateExecution);
         verify(restTemplate,times(1)).postForEntity(DELEGATION_URI+"/changeSampleMethod/" + uriMethod + "/" + id, request, Void.class);
