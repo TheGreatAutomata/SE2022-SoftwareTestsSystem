@@ -58,6 +58,7 @@ public class GetDelegationDelegate implements JavaDelegate {
 
         Contract contract = (Contract)delegateExecution.getVariable("contract");
         // 加入已有信息
+        contract.setProjectId(delegationItemDto.getProjectId());
         contract.getContractTable().getContractTableExist().setSoftwareName(delegationItemDto.getFunctionTable().get软件名称());
         //contract.getContractTable().getContractTableExist().setSoftwareName("djsakdjlkajhsfkjaklf");
         String softwareQualityCharacteristic = new String("");
