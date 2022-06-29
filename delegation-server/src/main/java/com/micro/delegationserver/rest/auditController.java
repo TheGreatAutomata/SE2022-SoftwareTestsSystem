@@ -38,6 +38,10 @@ public class auditController implements AuditApi {
 
         Task task=taskService.createTaskQuery().taskName("Audit_Test").processVariableValueEquals("delegationId",id).singleResult();
 
+        if(task==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         String state=delegationAuditTestResultDto.get确认意见();
 
         boolean accepted= state.equals("可以测试");
@@ -45,6 +49,7 @@ public class auditController implements AuditApi {
         Map<String, Object> taskVariables = new HashMap<String, Object>();
 
         taskVariables.put("accepted", accepted);
+        taskVariables.put("delegationId", id);
 
         /*Delegation currentDelegation=runtimeService.getVariable(task.getExecutionId(),"delegation",Delegation.class);
 
@@ -65,6 +70,8 @@ public class auditController implements AuditApi {
                 delegation.setState(DelegationState.AUDIT_TEST_APARTMENT_DENIED);
             }
             delegationRepository.save(delegation);
+        }else{
+            return new ResponseEntity<>(HttpStatus.valueOf(401));
         }
 
 
@@ -77,6 +84,13 @@ public class auditController implements AuditApi {
     @Override
     public ResponseEntity<Void> auditDelegationByMarketEmployees(String usrName, String usrId, String usrRole, String id, DelegationAuditMarketResultDto delegationAuditMarketResultDto) {
         Task task=taskService.createTaskQuery().taskName("Audit_Market").processVariableValueEquals("delegationId",id).singleResult();
+
+//        System.out.println(task);
+//        System.out.println(runtimeService.getVariable(task.getExecutionId(),"delegationId"));
+
+        if(task==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         String result=delegationAuditMarketResultDto.getResult();
 
@@ -91,12 +105,18 @@ public class auditController implements AuditApi {
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
+            taskVariables.put("delegationId", delegation.getDelegationId());
             if(accepted) {
                 delegation.setState(DelegationState.QUOTATION_MARKET);
+//                taskVariables.put("isAgree", 1);
             }else{
                 delegation.setState(DelegationState.AUDIT_MARKET_APARTMENT_DENIED);
+//                taskVariables.put("isAgree", 0);
             }
             delegationRepository.save(delegation);
+
+        }else{
+            return new ResponseEntity<>(HttpStatus.valueOf(401));
         }
 
         taskService.complete(task.getId(), taskVariables);
