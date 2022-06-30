@@ -13,6 +13,7 @@ public class SaveMassageDelegate implements JavaDelegate {
 
     @Autowired
     MongoTemplate mongoTemplate;
+
     @Override
     public void execute(DelegateExecution delegateExecution) {
         SampleMessage message = (SampleMessage) delegateExecution.getVariable("message");

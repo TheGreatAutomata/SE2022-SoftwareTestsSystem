@@ -1,9 +1,12 @@
 package com.micro.commonserver.model;
 
+import lombok.Data;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 
+@Data
 public class MultipartInputStreamFileResource implements Serializable {
 
     private final String filename;
@@ -17,8 +20,8 @@ public class MultipartInputStreamFileResource implements Serializable {
         this.inputStream = inputStream;
     }
 
-
-    public String getFilename() {
+    public String getFilename()
+    {
         return this.filename;
     }
 
@@ -31,4 +34,5 @@ public class MultipartInputStreamFileResource implements Serializable {
     {
         return this.inputStream;
     }
+
 }
