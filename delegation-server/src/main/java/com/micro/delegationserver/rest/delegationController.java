@@ -89,8 +89,8 @@ public class delegationController implements DelegationApi{
     }
 
 
-    @Autowired
-    MongoTemplate mongoTemplate;
+//    @Autowired
+//    MongoTemplate mongoTemplate;
 
     @Autowired
     UpdateTableService updateTableService;
