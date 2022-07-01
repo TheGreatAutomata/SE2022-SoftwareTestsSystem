@@ -14,6 +14,7 @@ import com.micro.testserver.repository.SoftwareTestRepository;
 import com.micro.testserver.service.SoftwareTestService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -395,7 +396,7 @@ public class SoftwareTestController implements TestApi {
     @Override
     public ResponseEntity<Void> uploadDocTestReport(String id, TestReportDto testReportDto) {
         //检测当前有无流程
-        if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_apply").variableValueEquals("delegationId",id)!=null){
+        if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id)!=null){
             Task task=taskService.createTaskQuery().taskName("UploadTestReport").processDefinitionKey("test_apply").processVariableValueEquals("delegationId",id).singleResult();
             if(task==null){
                 return new ResponseEntity<>(HttpStatus.valueOf(400));
@@ -550,6 +551,7 @@ public class SoftwareTestController implements TestApi {
         test.setSchemeEvaluationTable(evaluationTable);
 
         boolean result=true;
+
         if(result){
             test.setState(SoftwareTestState.TEST_DOC_TEST_CASE);
         }else{
@@ -570,4 +572,7 @@ public class SoftwareTestController implements TestApi {
     public ResponseEntity<TestSchemeAuditTableDto> getTestSchemeAuditTable(String id) {
         return TestApi.super.getTestSchemeAuditTable(id);
     }
+
+
+
 }

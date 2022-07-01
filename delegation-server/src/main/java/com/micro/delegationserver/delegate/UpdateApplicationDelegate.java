@@ -4,11 +4,15 @@ import com.micro.delegationserver.model.Delegation;
 
 import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.commonserver.model.DelegationState;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.http.ResponseEntity;
 
 public class UpdateApplicationDelegate implements JavaDelegate {
 

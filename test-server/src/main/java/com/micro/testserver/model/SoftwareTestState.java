@@ -1,6 +1,8 @@
 package com.micro.testserver.model;
 
 public enum SoftwareTestState {
+    ERROR,
+    TEST_SCHEME,
     AUDIT_QUALITY,//等待质量部人员审核
     AUDIT_QUALITY_DENIED,//审核不通过
     TEST_DOC_TEST_CASE,//审核通过，开始测试，等待《测试用例》
