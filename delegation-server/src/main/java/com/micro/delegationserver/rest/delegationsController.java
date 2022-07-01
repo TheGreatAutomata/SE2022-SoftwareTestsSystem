@@ -40,8 +40,8 @@ public class delegationsController implements DelegationsApi {
     @Autowired
     private DelegationItemMapper delegationItemMapper;
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
+//    @Autowired
+//    private MongoTemplate mongoTemplate;
 
     @Override
     public ResponseEntity<List<DelegationItemDto>> listDelegations(String usrName, String usrId, String usrRole) {
@@ -62,7 +62,7 @@ public class delegationsController implements DelegationsApi {
     }
     @Override
     public ResponseEntity<List<DelegationItemDto>> getAllDelegations(String usrName, String usrId, String usrRole) {
-        List<Delegation> delegations = mongoTemplate.findAll(Delegation.class);
+        List<Delegation> delegations = delegationRepository.findAll();
         return new ResponseEntity<>(new ArrayList<>(delegationItemMapper.toDtos(delegations)), HttpStatus.OK);
     }
 

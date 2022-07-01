@@ -46,9 +46,6 @@ class privateControllerTest {
     private DelegationService delegationService;
 
     @MockBean
-    private MongoTemplate mongoTemplate;
-
-    @MockBean
     private RuntimeService runtimeService;
 
     @MockBean
@@ -69,6 +66,8 @@ class privateControllerTest {
 
     private String badDelegationId;
 
+    Optional<Delegation> delegation_op;
+
     private HttpHeaders headers;
 
     @BeforeEach
@@ -76,46 +75,46 @@ class privateControllerTest {
     {
         headers = new HttpHeaders();
         Delegation delegation = new Delegation();
-        Optional<Delegation> delegation_op = Optional.of(delegation);
+        delegation_op = Optional.of(delegation);
         delegation.setState(DelegationState.TEST_MARKET_APPLICATION);
         goodDelegationId = "goodDelegationId";
         badDelegationId = "badDelegationId";
-        when(delegationRepository.findById(goodDelegationId))
-                .thenReturn(delegation_op);
-        when(delegationRepository.findById(badDelegationId))
-                .thenReturn(Optional.of(null));
-    }
 
-    void verify404()
-    {
-        verify(ResponseEntity.status(200), times(0)).build();
-        verify(ResponseEntity.status(404), times(1)).build();
-    }
-
-    void verify200()
-    {
-        verify(ResponseEntity.status(200), times(1)).build();
-        verify(ResponseEntity.status(404), times(0)).build();
     }
 
     private String setDelegationStateUri = "/delegationServer/private/delegationState/{id}/{state}";
     @Test
     void setDelegationStateOk() throws Exception {
+        when(delegationRepository.findById(eq(goodDelegationId)))
+                .thenReturn(delegation_op);
         mockMvc.perform(post(setDelegationStateUri, goodDelegationId, DelegationState.TEST_MARKET_CONTRACT).contentType("application/json").headers(headers).content(""))
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
         Delegation resultDelegation = new Delegation();
         resultDelegation.setState(DelegationState.TEST_MARKET_CONTRACT);
-        verify(mongoTemplate, times(1)).save(resultDelegation, eq("delegation"));
-        verify200();
+        verify(delegationRepository, times(1)).save(resultDelegation);
     }
 
     @Test
     void setDelegationStateNotFound() throws Exception {
+        when(delegationRepository.findById(eq(goodDelegationId)))
+                .thenReturn(Optional.of(null));
+        mockMvc.perform(post(setDelegationStateUri, goodDelegationId, DelegationState.TEST_MARKET_CONTRACT).contentType("application/json").headers(headers).content(""))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void sampleApplicationFinishedOk() throws Exception {
 
     }
 
     @Test
-    void sampleApplicationFinished() throws Exception {
+    void sampleApplicationFinishedNotFoundTask() throws Exception {
+
+    }
+
+    @Test
+    void sampleApplicationFinishedNotFound() throws Exception {
+
     }
 
     @Test

@@ -26,8 +26,8 @@ public class privateController implements DelegationServerApi {
     @Autowired
     DelegationRepository delegationRepository;
 
-    @Autowired
-    MongoTemplate mongoTemplate;
+//    @Autowired
+//    MongoTemplate mongoTemplate;
 
     @Autowired
     private RuntimeService runtimeService;
@@ -39,7 +39,7 @@ public class privateController implements DelegationServerApi {
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
             delegation.setState(DelegationState.valueOf(state));
-            mongoTemplate.save(delegation, "delegation");
+            delegationRepository.save(delegation);
             return ResponseEntity.status(200).build();
         }else
         {
@@ -98,7 +98,7 @@ public class privateController implements DelegationServerApi {
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
             delegation.setContractId(contractId);
-            mongoTemplate.save(delegation, "delegation");
+            delegationRepository.save(delegation);
             return ResponseEntity.status(200).build();
         }else
         {
