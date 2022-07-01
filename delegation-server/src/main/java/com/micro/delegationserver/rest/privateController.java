@@ -63,6 +63,10 @@ public class privateController implements DelegationServerApi {
             delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
             delegationRepository.save(delegation);
         }
+        else
+        {
+            return ResponseEntity.status(404).build();
+        }
         taskService.complete(task.getId(), variables);
         return ResponseEntity.status(200).build();
     }
