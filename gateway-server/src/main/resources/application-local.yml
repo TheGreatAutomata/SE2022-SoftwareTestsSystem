@@ -56,6 +56,84 @@ spring:
           predicates:
             - Path=/contract/{id}/performanceTerm/partyB
             - Method=PUT
+
+        - id: test-server-testScheme
+          uri: lb://test-server
+          predicates:
+            - Path=/test/{id}/test-scheme,
+            - Method=GET,POST,PUT
+
+        - id: test-server-testSchemeAudit-get
+          uri: lb://test-server
+          predicates:
+            - Path=/test/{id}/test-scheme/audit-table
+            - Method=GET
+
+        - id: test-server-testSchemeAudit-postput
+          uri: lb://test-server
+          predicates:
+            -Path=/test/{id}/audit-scheme
+            - Method=POST,PUT
+
+        - id: test-server-testCase
+          uri: lb://test-server
+          predicates:
+            -Path=/test/{id}/test-docs/test-case
+            - Method=GET,POST,PUT
+
+        - id: test-server-testRecord
+          uri: lb://test-server
+          predicates:
+            -Path=/test/{id}/test-docs/test-record
+            - Method=GET,POST,PUT
+
+        - id: test-server-bugList
+          uri: lb://test-server
+          predicates:
+            -Path=/test/{id}/test-docs/buglist
+            - Method=GET,POST,PUT
+
+        - id: test-server-docEvaluation
+          uri: lb://test-server
+          predicates:
+            -Path=/test/{id}/test-doc/doc-evaluation
+            - Method=GET,POST,PUT
+
+        - id: test-server-testReport
+          uri: lb://test-server
+          predicates:
+            -Path=/test/{id}/test-doc/test-report
+            - Method=GET,POST,PUT
+
+        - id: test-server-docEvaluation
+          uri: lb://test-server
+          predicates:
+            -Path=/test/{id}/test-doc/doc-evaluation
+            - Method=GET,POST,PUT
+
+        - id: test-server-reportEvaluation-postput
+          uri: lb://test-server
+          predicates:
+            -Path=/test/{id}/test-doc/report-evaluation
+            - Method=POST,PUT
+
+        - id: test-server-reportEvaluation-get
+          uri: lb://test-server
+          predicates:
+            -Path=/test/{delegationId}/test-doc/test/report-evaluation
+            - Method=GET
+
+        - id: test-server-workEvaluation
+          uri: lb://test-server
+          predicates:
+            -Path=/test/{id}/test-doc/work-evaluation
+            - Method=GET,POST,PUT
+
+        - id: test-server-applyEvaluation
+          uri: lb://test-server
+          predicates:
+            - Path=/test/{delegationId}/apply-report-evaluation
+            - Method=PUT
 eureka:
   client:
     serviceUrl:
