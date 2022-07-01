@@ -150,6 +150,11 @@ public class JavaConfig {
     }
 
     @Bean
+    public TestProjectMapper testProjectMapper(){
+        return new TestProjectMapperImpl();
+    }
+
+    @Bean
     public GenerateTestReportDelegate generateTestReportDelegate(){
         return new GenerateTestReportDelegate();
     }

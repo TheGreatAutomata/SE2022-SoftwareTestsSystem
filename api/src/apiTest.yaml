@@ -607,8 +607,31 @@ paths:
         "404":
           description: delegation not found
 
+  /test/prepare/{delegationId}/{projectId}:
+    parameters:
+      - name: delegationId
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
 
+      - name: projectId
+        in: path
+        required: true
+        description: The id of project
+        schema:
+          type: string
 
+    put:
+      operationId: prepareProject
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
 
   /test/{id}/apply-report-evaluation:
     parameters:
@@ -629,6 +652,39 @@ paths:
           description: other errors
         "404":
           description: delegation not found
+
+  /test/projects:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: listProjects
+      tags:
+        - test
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/testProject"
+        '404':
+          description: usr not found
 
 components:
   schemas:
@@ -1346,4 +1402,18 @@ components:
         测试说明:
           type: string
         测试结果:
+          type: string
+
+    testProject:
+      type: object
+      properties:
+        usrId:
+          type: string
+        usrName:
+          type: string
+        delegationId:
+          type: string
+        contractId:
+          type: string
+        projectId:
           type: string

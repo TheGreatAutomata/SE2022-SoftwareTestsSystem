@@ -1,14 +1,13 @@
 package com.micro.testserver.rest;
 
 import com.micro.api.TestApi;
+import com.micro.contractserver.model.Contract;
 import com.micro.delegationserver.model.Delegation;
 import com.micro.commonserver.model.DelegationState;
+import com.micro.delegationserver.model.User;
 import com.micro.dto.*;
 import com.micro.testserver.mapper.*;
-import com.micro.testserver.model.SchemeEvaluationTable;
-import com.micro.testserver.model.SoftwareTest;
-import com.micro.testserver.model.SoftwareTestScheme;
-import com.micro.testserver.model.SoftwareTestState;
+import com.micro.testserver.model.*;
 import com.micro.testserver.repository.DelegationRepository;
 import com.micro.testserver.repository.SoftwareTestRepository;
 import com.micro.testserver.service.SoftwareTestService;
@@ -20,10 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class SoftwareTestController implements TestApi {
@@ -72,6 +70,11 @@ public class SoftwareTestController implements TestApi {
     @Autowired
     SoftwareTestService softwareTestService;
 
+    @Autowired
+    RestTemplate restTemplate;
+
+    @Autowired
+    TestProjectMapper testProjectMapper;
 
     @Override
     public ResponseEntity<Void> uploadTestScheme(String id, TestSchemeDto testSchemeDto) {
@@ -92,7 +95,12 @@ public class SoftwareTestController implements TestApi {
             return new ResponseEntity<>(HttpStatus.valueOf(400));
         }
 
-        SoftwareTest softwareTest=new SoftwareTest();
+        SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
+
+        if (softwareTest==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         softwareTest.setDelegation_id(delegation.getDelegationId());
         softwareTest.setScheme(scheme);
         softwareTest.setState(SoftwareTestState.AUDIT_QUALITY);
@@ -446,7 +454,7 @@ public class SoftwareTestController implements TestApi {
             softwareTest.setReportEvaluationTable(softwareReportEvaluationMapper.toObj(testReportEvaluationTableDto));
 
             //审核结果
-            boolean accepted=true;
+            boolean accepted=testReportEvaluationTableDto.get确认意见().equals("通过");
             if(accepted){
                 softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_EVALUATION_TABLE);
             }else{
@@ -491,7 +499,7 @@ public class SoftwareTestController implements TestApi {
             softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
 
             //审核结果
-            boolean accepted=true;
+            boolean accepted=workEvaluationTableDto.get市场部审核意见().equals("批准签发");
             if(accepted){
                 softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_ACCEPTED);
             }else{
@@ -550,7 +558,7 @@ public class SoftwareTestController implements TestApi {
 
         test.setSchemeEvaluationTable(evaluationTable);
 
-        boolean result=true;
+        boolean result=testSchemeAuditTableDto.get确认意见().equals("通过");
 
         if(result){
             test.setState(SoftwareTestState.TEST_DOC_TEST_CASE);
@@ -558,21 +566,46 @@ public class SoftwareTestController implements TestApi {
             test.setState(SoftwareTestState.AUDIT_QUALITY_DENIED);
         }
 
-
-
         softwareTestRepository.save(test);
         runtimeService.setVariable(task.getExecutionId(),"auditResult",result);
-
         taskService.complete(task.getId());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
     @Override
     public ResponseEntity<TestSchemeAuditTableDto> getTestSchemeAuditTable(String id) {
         return TestApi.super.getTestSchemeAuditTable(id);
     }
+    @Override
+    public ResponseEntity<Void> prepareProject(String delegationId, String projectId) {
+        Contract c = restTemplate.getForObject("contract-server/contract/"+delegationId, Contract.class);
+        SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(delegationId);
+        if(c==null||softwareTest==null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
+        softwareTest.setState(SoftwareTestState.TEST_SCHEME);
+        softwareTest.setContract(c);
+        softwareTest.setProjectId(projectId);
 
+        softwareTest.setUsrId(c.getUsrId());
+        softwareTest.setUsrName(c.getUsrName());
 
+        softwareTestRepository.save(softwareTest);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<TestProjectDto>> listProjects(String usrName, String usrId, String usrRole) {
+        List<SoftwareTest> softwareTests=softwareTestRepository.findByUsrId(usrId);
+        if(softwareTests.size()==0){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<TestProjectDto> projectDtos=new ArrayList<>();
+        for (SoftwareTest softwareTest:softwareTests){
+            TestProject project=new TestProject(usrId,usrName,softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId());
+            projectDtos.add(testProjectMapper.toDto(project));
+        }
+        return new ResponseEntity<>(projectDtos,HttpStatus.OK);
+    }
 }

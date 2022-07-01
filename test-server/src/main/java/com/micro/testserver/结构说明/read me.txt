@@ -1,0 +1,10 @@
+TestSchemeDto : 06软件测试方案
+TestSchemeAuditTableDto : 13测试方案评审表
+TestCaseDto : 08 测试用例（电子记录）
+TestRecordDto : 09 软件测试记录（电子记录）
+BugListDto: 11 软件测试问题清单（电子记录）
+DocEvaluationTableDto: 14 软件文档评审表
+TestReportDto: 07 软件测试报告
+TestReportEvaluationTableDto: 10 测试报告检查表
+WorkEvaluationTableDto: 12 软件项目委托测试工作检查表
+9张表内部有一些其他结构，也附在了压缩包内。
