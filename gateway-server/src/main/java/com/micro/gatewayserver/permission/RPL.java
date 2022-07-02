@@ -19,7 +19,11 @@ public class RPL {
     private final String downloadUnsignedNondisclosureAgreementTablePartyB = "/contract/[0-9A-Za-z]+/files/unsignedNondisclosureAgreementTable";
     private final String uploadContractPartyB = "/contract/[0-9A-Za-z]+/files";
 
-    private final String uploadTestScheme="/test/[0-9A-Za-z]+/test-scheme";
+    private final String get_post_put_TestScheme="/test/[0-9A-Za-z]+/test-scheme";
+    private final String get_TestSchemeAuditTable="/test/[0-9A-Za-z]+/test-scheme/audit-table";
+    private final String post_put_TestSchemeAuditTable="/test/[0-9A-Za-z]+/audit-scheme";
+    private final String get_post_put_TestCase="/test/[0-9A-Za-z]+/test-doc/test-case";
+
 
     private final HashSet<String> MarketPattern = new HashSet<>();
     private final HashSet<String> TestPattern = new HashSet<>();
