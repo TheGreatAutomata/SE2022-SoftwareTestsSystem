@@ -8,8 +8,10 @@ import com.micro.dto.DelegationItemDto;
 import com.micro.dto.GetSampleResponseDto;
 import com.micro.dto.SampleAcceptDto;
 import com.micro.dto.SampleMessageApplicationRequestDto;
+import com.micro.sampleserver.mapper.SampleAcceptModelMapper;
 import com.micro.sampleserver.mapper.SampleMessageMapper;
 import com.micro.sampleserver.model.Sample;
+import com.micro.sampleserver.model.SampleAcceptModel;
 import com.micro.sampleserver.repository.MongoDBDelegationRepository;
 import io.minio.Result;
 import io.minio.messages.Item;
@@ -44,6 +46,9 @@ public class sampleController implements SampleApi {
     private TaskService taskService;
 
     @Autowired
+    private SampleAcceptModelMapper sampleAcceptModelMapper;
+
+    @Autowired
     MinioService minioServce;
 
     @Autowired
@@ -51,7 +56,12 @@ public class sampleController implements SampleApi {
 
     @Override
     public ResponseEntity<Void> acceptSample(String usrName, String usrId, String usrRole, String id, SampleAcceptDto sampleAcceptDto) {
-
+        Task task = taskService.createTaskQuery().taskName("acceptSample").processVariableValueEquals("id",id).singleResult();
+        if(task == null)
+        {
+            return ResponseEntity.status(404).build();
+        }
+        SampleAcceptModel sampleAccept =
     }
 
     @Override

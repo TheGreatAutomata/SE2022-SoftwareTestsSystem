@@ -47,7 +47,22 @@
     <sequenceFlow id="sid-4289f672-5217-43e3-b923-0874c434ddb0" sourceRef="sid-a3b866b0-3a10-4b1c-b7cc-4139d625f05d" targetRef="sid-b7bace9a-0963-480b-83a7-62844ab32191">
       <conditionExpression xsi:type="tFormalExpression">${isOk==1}</conditionExpression>
     </sequenceFlow>
-    <serviceTask activiti:type="mail" id="sid-89fdc2cb-f253-43f3-8a7d-dfb5dd85441e"/>
+    <serviceTask activiti:type="mail" id="sid-89fdc2cb-f253-43f3-8a7d-dfb5dd85441e" name="askToPut">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:string>lejian663@126.com</activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string><![CDATA[Bad sample ]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="text">
+          <activiti:string>Bad sample ; Please put</activiti:string>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string>2379594184@qq.com</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
     <sequenceFlow id="sid-b83ae8ef-1158-4bd3-8357-eef16f569443" sourceRef="sid-a3b866b0-3a10-4b1c-b7cc-4139d625f05d" targetRef="sid-89fdc2cb-f253-43f3-8a7d-dfb5dd85441e">
       <conditionExpression xsi:type="tFormalExpression">${isOk==0}</conditionExpression>
     </sequenceFlow>
