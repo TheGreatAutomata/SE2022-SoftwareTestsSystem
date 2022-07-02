@@ -31,5 +31,6 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
         System.out.println(softwareTestRepository);
         softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
         softwareTestRepository.save(softwareTest);
+        delegateExecution.setVariable("softwareTest",softwareTest);
     }
 }
