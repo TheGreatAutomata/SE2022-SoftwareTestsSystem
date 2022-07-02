@@ -291,7 +291,7 @@ class contractControllerTest {
         mockMvc.perform(get("/contract/{id}/performanceTerm/partyB", "contractId").contentType("application/json").headers(headers))
                 .andExpect(content().json(content))
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/contract/{id}/performanceTerm/partyB", "contractId").contentType("application/json").headers(headers))
+        mockMvc.perform(get("/contract/{id}/performanceTerm/partyB", "wrongContractId").contentType("application/json").headers(headers))
                 .andExpect(status().isBadRequest());
 
     }
