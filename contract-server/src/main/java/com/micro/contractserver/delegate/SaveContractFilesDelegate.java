@@ -1,6 +1,9 @@
 package com.micro.contractserver.delegate;
 
 import com.google.common.collect.Lists;
+import com.micro.contractserver.model.Contract;
+import com.micro.contractserver.model.minioFileItem;
+import com.micro.contractserver.repository.MongoDBContractRepository;
 import com.micro.contractserver.service.ContractService;
 import lombok.SneakyThrows;
 import org.activiti.engine.delegate.DelegateExecution;
@@ -17,25 +20,19 @@ public class SaveContractFilesDelegate implements JavaDelegate {
     @Autowired
     public ContractService contractService;
 
+    @Autowired
+    MongoDBContractRepository contractRepository;
+
     @SneakyThrows
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
-        System.out.println("Save the signed contract files...");
+        System.out.println("...Saving the signed contract files");
 
+        Contract contract = (Contract)delegateExecution.getVariable("contract");
         String contractId = (String) delegateExecution.getVariable("contractId");
 
-//        List<MultipartFile> files = (List<MultipartFile>) delegateExecution.getVariable("files");
-//        List<String> filesName = Lists.newArrayList("file1", "file2", "file3", "file4");
-//        for(int i=0; i<files.size(); ++i)
-//        {
-//            delegationService.creatFile(delegationId, filesName.get(i), files.get(i));
-//        }
-        //MultipartFile file = (MultipartFile) delegateExecution.getVariable("files");
-        //delegationService.creatFile(delegationId, "fileTemp", file);
-        //MultipartFile f = (MultipartFile) delegateExecution.getVariable("file1");
         List<String> filesName = Lists.newArrayList("Contract_complete_" + contractId, "NDA_complete_" + contractId);
-        //List<String> storeName = Lists.newArrayList("file1", "file2", "file3", "file4");
         for(String s : filesName)
         {
             byte[] file = (byte[]) delegateExecution.getVariable(s);
@@ -43,15 +40,30 @@ public class SaveContractFilesDelegate implements JavaDelegate {
             {
                 MultipartFile f = new MockMultipartFile(ContentType.APPLICATION_OCTET_STREAM.toString(), file);
 
-                contractService.creatFile(contractId, (String) delegateExecution.getVariable(s+"Name"), s, f);
+                contractService.creatFile(contractId, (String) delegateExecution.getVariable(s + "Name"), s, f);
+
+                if(s.equals("Contract_complete_" + contractId)) {
+                    minioFileItem fileItem = contractService.getSignedContractTableFile(contractId);
+
+                    System.out.println("...Setting signed contract file for contract");
+
+                    contract.setSignedContractTableFile(fileItem);
+                } else {
+                    minioFileItem fileItem = contractService.getSignedNondisclosureAgreementTableFile(contractId);
+
+                    System.out.println("...Setting signed non-disclosure agreement file for contract");
+
+                    contract.setSignedNondisclosureAgreementTableFile(fileItem);
+                }
+
             }
 
         }
 
+        contractRepository.save(contract);
 
-        //delegationService.creatFile(delegationId, "file2", (MultipartFile) delegateExecution.getVariable("file1"));
-        //delegationService.creatFile(delegationId, "file3", (MultipartFile) delegateExecution.getVariable("file1"));
-        //delegationService.creatFile(delegationId, "file4", (MultipartFile) delegateExecution.getVariable("file1"));
-        delegateExecution.setVariable("contractId", contractId);
+        delegateExecution.setVariable("contract", contract);
+        delegateExecution.setVariable("contractId", contract.getContractId());
+
     }
 }
