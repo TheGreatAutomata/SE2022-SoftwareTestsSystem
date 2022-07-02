@@ -63,6 +63,12 @@ public class JavaConfig {
         beans.put("saveMassageDelegate",saveMassageDelegate());
         beans.put("samplePutServer", samplePutServer());
         springProcessEngineConfiguration.setBeans(beans);
+        springProcessEngineConfiguration.setMailServerHost("smtp.qq.com");
+        springProcessEngineConfiguration.setMailServerPort(465);
+        springProcessEngineConfiguration.setMailServerDefaultFrom("2379594184@qq.com");
+        springProcessEngineConfiguration.setMailServerUsername("2379594184@qq.com");
+        springProcessEngineConfiguration.setMailServerPassword("qiijzfyfucxadhha");
+        springProcessEngineConfiguration.setMailServerUseSSL(true);
         return springProcessEngineConfiguration;
     }
 

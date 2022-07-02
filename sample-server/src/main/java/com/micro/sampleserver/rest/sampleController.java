@@ -6,6 +6,7 @@ import com.micro.commonserver.model.MultipartInputStreamFileResource;
 import com.micro.commonserver.service.MinioService;
 import com.micro.dto.DelegationItemDto;
 import com.micro.dto.GetSampleResponseDto;
+import com.micro.dto.SampleAcceptDto;
 import com.micro.dto.SampleMessageApplicationRequestDto;
 import com.micro.sampleserver.mapper.SampleMessageMapper;
 import com.micro.sampleserver.model.Sample;
@@ -47,6 +48,11 @@ public class sampleController implements SampleApi {
 
     @Autowired
     SampleMessageMapper sampleMessageMapper;
+
+    @Override
+    public ResponseEntity<Void> acceptSample(String usrName, String usrId, String usrRole, String id, SampleAcceptDto sampleAcceptDto) {
+
+    }
 
     @Override
     public ResponseEntity<Void> changeOnlineSample(String usrName, String usrId, String usrRole, String id, MultipartFile 样品) {
