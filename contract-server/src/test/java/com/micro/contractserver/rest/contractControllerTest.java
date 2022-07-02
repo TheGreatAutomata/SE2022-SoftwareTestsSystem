@@ -13,6 +13,7 @@ import com.micro.contractserver.service.ContractService;
 import com.micro.dto.*;
 import io.minio.Result;
 import io.minio.messages.Item;
+import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
@@ -41,6 +42,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -62,6 +64,8 @@ class contractControllerTest {
     private TaskEntity taskEntity;
     @MockBean
     private RuntimeService runtimeService;
+    @MockBean
+    private RepositoryService repositoryService;
     @MockBean
     private ProcessInstanceQuery processInstanceQuery;
     @MockBean
@@ -92,7 +96,7 @@ class contractControllerTest {
                 .thenReturn(processInstanceQuery);
         when(processInstanceQuery.singleResult())
                 .thenReturn(processInstance);
-        ArrayList<ProcessInstance> instanceList=new ArrayList<>();
+        ArrayList<ProcessInstance> instanceList = new ArrayList<>();
         instanceList.add(processInstance);
         when(processInstanceQuery.list())
                 .thenReturn(instanceList);
@@ -108,12 +112,12 @@ class contractControllerTest {
                 .thenReturn(taskQuery);
         when(taskQuery.singleResult())
                 .thenReturn(taskEntity);
-        ArrayList<Task> list=new ArrayList<>();
+        ArrayList<Task> list = new ArrayList<>();
         list.add(taskEntity);
         when(taskQuery.list())
                 .thenReturn(list);
         when(taskEntity.getExecutionId())
-                .thenReturn("sampleId");
+                .thenReturn("contractId");
         Iterable<Result<Item>> fileList = Arrays.asList(singleFile);
         when(minioService.listObjects(Mockito.anyString()))
                 .thenReturn(fileList);
@@ -224,10 +228,10 @@ class contractControllerTest {
 
         String content = toJson(performanceTermPartyAResponseDto);
 
-        mockMvc.perform(post("/contract/performanceTerm/partyA").contentType("application/json").headers(headersWithDelegationId))
+        mockMvc.perform(get("/contract/performanceTerm/partyA").contentType("application/json").headers(headersWithDelegationId))
                 .andExpect(content().json(content))
                 .andExpect(status().isOk());
-        mockMvc.perform(post("/contract/performanceTerm/partyA").contentType("application/json").headers(headersWithWrongDelegationId))
+        mockMvc.perform(get("/contract/performanceTerm/partyA").contentType("application/json").headers(headersWithWrongDelegationId))
                 .andExpect(status().isBadRequest());
 
     }
@@ -237,18 +241,23 @@ class contractControllerTest {
 
         Contract contract = new Contract("delegationId", null);
         contract.setContractId("contractId");
-        contract.setPerformanceTermState("接受");
 
         when(contractRepository.findByContractId("contractId"))
                 .thenReturn(Optional.of(contract));
         when(contractRepository.findByContractId("wrongContractId"))
                 .thenReturn(Optional.ofNullable(null));
 
+        PerformanceTermPartyADto performanceTermPartyADto = new PerformanceTermPartyADto();
+        performanceTermPartyADto.set态度("接受");
+        performanceTermPartyADto.set意见("接受履行期限");
+
+        String body = toJson(performanceTermPartyADto);
+
         NormalResponseDto normalResponseDto = new NormalResponseDto();
         normalResponseDto.setResponseInfo("reply successfully");
         String content = toJson(normalResponseDto);
 
-        mockMvc.perform(post("/contract/{id}/performanceTerm/partyA", "contractId").contentType("application/json").headers(headers))
+        mockMvc.perform(post("/contract/{id}/performanceTerm/partyA", "contractId").contentType("application/json").headers(headers).content(body))
                 .andExpect(content().json(content))
                 .andExpect(status().isOk());
 
@@ -265,7 +274,7 @@ class contractControllerTest {
 
         Contract contract = new Contract("delegationId", null);
         contract.setContractId("contractId");
-        contract.setPerformanceTermState("接受");
+        contract.setPerformanceTermState("PerformanceTermState");
 
         when(contractRepository.findByContractId("contractId"))
                 .thenReturn(Optional.of(contract));
@@ -301,4 +310,21 @@ class contractControllerTest {
     @Test
     void uploadContractPartyB() {
     }
+
+    @Test
+    void downloadSignedContractTable() {
+    }
+
+    @Test
+    void downloadSignedNondisclosureAgreementTable() {
+    }
+
+    @Test
+    void getContractByContractId() {
+    }
+
+    @Test
+    void getContractByDelegationId() {
+    }
+
 }

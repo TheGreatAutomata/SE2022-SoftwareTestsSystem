@@ -27,7 +27,7 @@ public class ContractServerApplication {
         return new RestTemplate();
     }
 
-    @Bean
+    /*@Bean
     public CommandLineRunner init(final RepositoryService repositoryService,
                                   final RuntimeService runtimeService,
                                   final TaskService taskService) {
@@ -46,6 +46,6 @@ public class ContractServerApplication {
             }
         };
 
-    }
+    }*/
 
 }
