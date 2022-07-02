@@ -25,7 +25,7 @@ public class TestRecordEntry {
 
     public String 是否与预期结果一致;
 
-    public String 相关的bUG编号;
+    public String 相关的bug编号;
 
     public String 用例执行者;
 
