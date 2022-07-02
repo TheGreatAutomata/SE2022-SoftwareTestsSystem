@@ -1,5 +1,8 @@
 package com.micro.testserver;
 
+import com.micro.contractserver.mapper.ContractMapper;
+import com.micro.contractserver.mapper.ContractMapperImpl;
+import com.micro.contractserver.model.Contract;
 import com.micro.dto.TestSchemeDto;
 import com.micro.testserver.delegate.GenerateLatexReportDelegate;
 import com.micro.testserver.delegate.GenerateTestReportDelegate;
@@ -165,5 +168,9 @@ public class JavaConfig {
 
     @Bean
     public GenerateLatexReportDelegate generateLatexReportDelegate() {return new GenerateLatexReportDelegate();}
+
+    @Bean
+    public ContractMapper contractMapper(){return new ContractMapperImpl();
+    }
 }
 

@@ -1,6 +1,7 @@
 package com.micro.testserver.rest;
 
 import com.micro.api.TestApi;
+import com.micro.contractserver.mapper.ContractMapper;
 import com.micro.contractserver.model.Contract;
 import com.micro.delegationserver.model.Delegation;
 import com.micro.commonserver.model.DelegationState;
@@ -76,6 +77,9 @@ public class SoftwareTestController implements TestApi {
 
     @Autowired
     TestProjectMapper testProjectMapper;
+
+    @Autowired
+    ContractMapper contractMapper;
 
     @Override
     public ResponseEntity<Void> uploadTestScheme(String id, TestSchemeDto testSchemeDto) {
@@ -579,7 +583,7 @@ public class SoftwareTestController implements TestApi {
     }
     @Override
     public ResponseEntity<Void> prepareProject(String delegationId, String projectId) {
-        Contract c = restTemplate.getForObject("http://contract-server/contract/delegationId/"+delegationId, Contract.class);
+        Contract c = contractMapper.toObj(restTemplate.getForObject("http://contract-server/contract/delegationId/"+delegationId, ContractDto.class));
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(delegationId);
         if(c==null||softwareTest==null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
