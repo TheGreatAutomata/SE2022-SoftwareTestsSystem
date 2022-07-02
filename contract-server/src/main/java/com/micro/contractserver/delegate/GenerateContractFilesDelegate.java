@@ -50,8 +50,6 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
         if(this.getClass().getResource("").getProtocol().equals("file")) {
 
-            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-
             Calendar calendar = Calendar.getInstance();
             ContractTableExist contractTableExist = contractTable.getContractTableExist();
             ContractTablePartyA contractTablePartyA = contractTable.getContractTablePartyA();
@@ -145,8 +143,6 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         }
         else if(this.getClass().getResource("").getProtocol().equals("jar")) {
 
-            System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-
             Calendar calendar = Calendar.getInstance();
             ContractTableExist contractTableExist = contractTable.getContractTableExist();
             ContractTablePartyA contractTablePartyA = contractTable.getContractTablePartyA();
@@ -158,7 +154,8 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
             String filename = "Contract_" + contractId;
             String inputPath = "template/";
-            String outputPath = "velocity/generate/";
+            // String outputPath = "velocity/generate/";
+            String outputPath = "../src/main/resources/generate/";
 
             // 设置velocity的资源加载器
             Properties properties = new Properties();
@@ -318,7 +315,8 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
             // 设置输入输出路径
             String filename = "NDA_" + contractId;
             String inputPath = "template/";
-            String outputPath = "velocity/generate/";
+            // String outputPath = "velocity/generate/";
+            String outputPath = "../src/main/resources/generate/";
 
             // 设置velocity的资源加载器
             Properties properties = new Properties();
@@ -397,7 +395,8 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         }
         else if(this.getClass().getResource("").getProtocol().equals("jar")) {
 
-            String outputPath = "velocity/generate/";
+            // String outputPath = "velocity/generate/";
+            String outputPath = "../src/main/resources/generate/";
 
             File contractTableFile = new File(outputPath + "Contract_" + contractId + ".pdf");
             FileInputStream contractTableFileInputStream = new FileInputStream(contractTableFile);
@@ -430,7 +429,8 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         }
         else if(this.getClass().getResource("").getProtocol().equals("jar")) {
 
-            String outputPath = "velocity/generate/";
+            // String outputPath = "velocity/generate/";
+            String outputPath = "../src/main/resources/generate/";
 
             Runtime runtime = Runtime.getRuntime();
             Process process = runtime.exec("rm " + outputPath + "Contract_" + contractId + ".pdf");
