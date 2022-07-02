@@ -18,6 +18,7 @@ import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -578,7 +579,7 @@ public class SoftwareTestController implements TestApi {
     }
     @Override
     public ResponseEntity<Void> prepareProject(String delegationId, String projectId) {
-        Contract c = restTemplate.getForObject("contract-server/contract/"+delegationId, Contract.class);
+        Contract c = restTemplate.getForObject("http://contract-server/contract/delegationId/"+delegationId, Contract.class);
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(delegationId);
         if(c==null||softwareTest==null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -603,9 +604,40 @@ public class SoftwareTestController implements TestApi {
         }
         List<TestProjectDto> projectDtos=new ArrayList<>();
         for (SoftwareTest softwareTest:softwareTests){
-            TestProject project=new TestProject(usrId,usrName,softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId());
+            TestProject project=new TestProject(usrId,usrName,softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState());
             projectDtos.add(testProjectMapper.toDto(project));
         }
         return new ResponseEntity<>(projectDtos,HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<List<TestProjectDto>> listAllProjects() {
+        List<SoftwareTest> softwareTests=softwareTestRepository.findAll();
+        if(softwareTests.size()==0){
+            return new ResponseEntity<>(HttpStatus.valueOf(400));
+        }
+        List<TestProjectDto> projectDtos=new ArrayList<>();
+        for(SoftwareTest softwareTest:softwareTests){
+            TestProject project=new TestProject(softwareTest.getUsrId(),softwareTest.getUsrName(),softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState());
+            projectDtos.add(testProjectMapper.toDto(project));
+        }
+        return new ResponseEntity<>(projectDtos,HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<TestProjectDto> findProjectByDelegationId(String delegationId) {
+        SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(delegationId);
+        if(softwareTest==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        TestProject project=new TestProject(softwareTest.getUsrId(),softwareTest.getUsrName(),softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState());
+        TestProjectDto dto=testProjectMapper.toDto(project);
+        return new ResponseEntity<>(dto,HttpStatus.OK);
+    }
+
+    /*@GetMapping("/new/test")
+    public void getContractTest(){
+        Contract c = restTemplate.getForObject("http://contract-server/contract/", Contract.class);
+        System.out.println(c);
+    }*/
 }

@@ -29,12 +29,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 
 import static org.mockito.ArgumentMatchers.nullable;
+import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -691,6 +693,10 @@ class SoftwareTestControllerTest {
     void getTestSchemeAuditTable() {
     }
 
+    @Test
+    void getContractTest(){
+        RestTemplate restTemplate=new RestTemplate();
+    }
 
 
 }

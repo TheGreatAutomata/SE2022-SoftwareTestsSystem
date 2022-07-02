@@ -686,6 +686,44 @@ paths:
         '404':
           description: usr not found
 
+  /test/projects/all:
+    get:
+      operationId: listAllProjects
+      tags:
+        - test
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/testProject"
+        '400':
+          description: other errors
+
+  /test/projects/{delegationId}:
+    parameters:
+      - name: delegationId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: findProjectByDelegationId
+      tags:
+        - test
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testProject"
+        '400':
+          description: other errors
+
 components:
   schemas:
     testScheme:
