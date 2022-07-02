@@ -41,11 +41,10 @@ spring:
           predicates:
             - Path=/delegation/{id}
             - Method=DELETE
-
         - id: contract-server-get
           uri: lb://contract-server
           predicates:
-            - Path=/contract/performanceTerm/partyA,/contract/{id}/contractTable/partyA,/contract/{id}/files/contractTable,/contract/{id}/files/nondisclosureAgreementTable
+            - Path=/contract/performanceTerm/partyA,/contract/{id}/performanceTerm/partyB,/contract/{id}/contractTable/partyA,/contract/{id}/files/unsignedContractTable,/contract/{id}/files/unsignedNondisclosureAgreementTable,/contract/{id}/files/signedContractTable,/contract/{id}/files/signedNondisclosureAgreementTable,/contract/{id},/contract/delegationId/{id}
             - Method=GET
         - id: contract-server-post
           uri: lb://contract-server

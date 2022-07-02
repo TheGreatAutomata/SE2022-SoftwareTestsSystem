@@ -1,5 +1,0 @@
-TestSchemeDto : 06软件测试方案
-TestSchemeAuditTableDto : 13测试方案评审表
-TestCaseDto : 08 测试用例（电子记录）
-TestRecordDto : 09 软件测试记录（电子记录）
-

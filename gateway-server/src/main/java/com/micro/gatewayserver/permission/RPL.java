@@ -15,9 +15,11 @@ public class RPL {
     private final String draftPerformanceTermPartyB = "/contract/performanceTerm/partyB";
     private final String getPerformanceTermReplyPartyB = "/contract/[0-9A-Za-z]+/performanceTerm/partyB";
     private final String addContractTablePartyB = "/contract/[0-9A-Za-z]+/contractTable/partyB";
-    private final String downloadContractTablePartyB = "/contract/[0-9A-Za-z]+/files/contractTable";
-    private final String downloadNondisclosureAgreementTablePartyB = "/contract/[0-9A-Za-z]+/files/nondisclosureAgreementTable";
+    private final String downloadUnsignedContractTablePartyB = "/contract/[0-9A-Za-z]+/files/unsignedContractTable";
+    private final String downloadUnsignedNondisclosureAgreementTablePartyB = "/contract/[0-9A-Za-z]+/files/unsignedNondisclosureAgreementTable";
     private final String uploadContractPartyB = "/contract/[0-9A-Za-z]+/files";
+
+    private final String uploadTestScheme="/test/[0-9A-Za-z]+/test-scheme";
 
     private final HashSet<String> MarketPattern = new HashSet<>();
     private final HashSet<String> TestPattern = new HashSet<>();
@@ -34,8 +36,8 @@ public class RPL {
         MarketPattern.add(draftPerformanceTermPartyB);
         MarketPattern.add(getPerformanceTermReplyPartyB);
         MarketPattern.add(addContractTablePartyB);
-        MarketPattern.add(downloadContractTablePartyB);
-        MarketPattern.add(downloadNondisclosureAgreementTablePartyB);
+        MarketPattern.add(downloadUnsignedContractTablePartyB);
+        MarketPattern.add(downloadUnsignedNondisclosureAgreementTablePartyB);
         MarketPattern.add(uploadContractPartyB);
 
 

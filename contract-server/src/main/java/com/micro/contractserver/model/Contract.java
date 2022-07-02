@@ -21,24 +21,28 @@ public class Contract implements Serializable {
 
     public String delegationId;
 
-    public ContractTable contractTable;
-
-    public NondisclosureAgreementTable nondisclosureAgreementTable;
+    public String projectId;
 
     public ContractState contractState;
 
     public String performanceTermState;
+
     public String performanceTermSuggestion;
 
-    public String projectId;
+    public ContractTable contractTable;
 
-    public Contract(String usrId, String usrName, String delegationId, ContractTable contractTable, NondisclosureAgreementTable nondisclosureAgreementTable, ContractState contractState) {
-        this.usrId = usrId;
-        this.usrName = usrName;
+    public NondisclosureAgreementTable nondisclosureAgreementTable;
+
+    public minioFileItem signedContractTableFile;
+
+    public minioFileItem signedNondisclosureAgreementTableFile;
+
+    public Contract() {
+    }
+
+    public Contract(String delegationId, ContractTable contractTable) {
         this.delegationId = delegationId;
         this.contractTable = contractTable;
-        this.nondisclosureAgreementTable = nondisclosureAgreementTable;
-        this.contractState = contractState;
     }
 
 }

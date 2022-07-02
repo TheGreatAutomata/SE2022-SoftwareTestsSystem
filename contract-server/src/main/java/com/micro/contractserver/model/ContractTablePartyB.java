@@ -17,4 +17,6 @@ public class ContractTablePartyB implements Serializable {
     public String 户名;
     public String 账号;
 
+    public ContractTablePartyB() {
+    }
 }
