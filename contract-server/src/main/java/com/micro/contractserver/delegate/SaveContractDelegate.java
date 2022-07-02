@@ -14,13 +14,11 @@ public class SaveContractDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
-        System.out.println("Save the contract table...");
-
         Contract currentContract = (Contract)delegateExecution.getVariable("contract");
 
-        contractRepository.save(currentContract); // TODO: 判断合同状态 updateservice
+        System.out.println("...Saving the contract " + currentContract.getContractId());
 
-        System.out.println(currentContract.getContractId());
+        contractRepository.save(currentContract); // TODO: 判断合同状态 updateservice
 
         delegateExecution.setVariable("contract", currentContract);
         delegateExecution.setVariable("contractId", currentContract.getContractId());

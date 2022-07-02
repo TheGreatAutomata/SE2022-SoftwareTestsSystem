@@ -41,11 +41,10 @@ spring:
           predicates:
             - Path=/delegation/{id}
             - Method=DELETE
-
         - id: contract-server-get
           uri: lb://contract-server
           predicates:
-            - Path=/contract/performanceTerm/partyA,/contract/{id}/contractTable/partyA,/contract/{id}/files/contractTable,/contract/{id}/files/nondisclosureAgreementTable
+            - Path=/contract/performanceTerm/partyA,/contract/{id}/performanceTerm/partyB,/contract/{id}/contractTable/partyA,/contract/{id}/files/unsignedContractTable,/contract/{id}/files/unsignedNondisclosureAgreementTable,/contract/{id}/files/signedContractTable,/contract/{id}/files/signedNondisclosureAgreementTable,/contract/{id},/contract/delegationId/{id}
             - Method=GET
         - id: contract-server-post
           uri: lb://contract-server
@@ -73,61 +72,61 @@ spring:
         - id: test-server-testSchemeAudit-postput
           uri: lb://test-server
           predicates:
-            -Path=/test/{id}/audit-scheme
+            - Path=/test/{id}/audit-scheme
             - Method=POST,PUT
 
         - id: test-server-testCase
           uri: lb://test-server
           predicates:
-            -Path=/test/{id}/test-docs/test-case
+            - Path=/test/{id}/test-docs/test-case
             - Method=GET,POST,PUT
 
         - id: test-server-testRecord
           uri: lb://test-server
           predicates:
-            -Path=/test/{id}/test-docs/test-record
+            - Path=/test/{id}/test-docs/test-record
             - Method=GET,POST,PUT
 
         - id: test-server-bugList
           uri: lb://test-server
           predicates:
-            -Path=/test/{id}/test-docs/buglist
+            - Path=/test/{id}/test-docs/buglist
             - Method=GET,POST,PUT
 
         - id: test-server-docEvaluation
           uri: lb://test-server
           predicates:
-            -Path=/test/{id}/test-doc/doc-evaluation
+            - Path=/test/{id}/test-doc/doc-evaluation
             - Method=GET,POST,PUT
 
         - id: test-server-testReport
           uri: lb://test-server
           predicates:
-            -Path=/test/{id}/test-doc/test-report
+            - Path=/test/{id}/test-doc/test-report
             - Method=GET,POST,PUT
 
         - id: test-server-docEvaluation
           uri: lb://test-server
           predicates:
-            -Path=/test/{id}/test-doc/doc-evaluation
+            - Path=/test/{id}/test-doc/doc-evaluation
             - Method=GET,POST,PUT
 
         - id: test-server-reportEvaluation-postput
           uri: lb://test-server
           predicates:
-            -Path=/test/{id}/test-doc/report-evaluation
+            - Path=/test/{id}/test-doc/report-evaluation
             - Method=POST,PUT
 
         - id: test-server-reportEvaluation-get
           uri: lb://test-server
           predicates:
-            -Path=/test/{delegationId}/test-doc/test/report-evaluation
+            - Path=/test/{delegationId}/test-doc/test/report-evaluation
             - Method=GET
 
         - id: test-server-workEvaluation
           uri: lb://test-server
           predicates:
-            -Path=/test/{id}/test-doc/work-evaluation
+            - Path=/test/{id}/test-doc/work-evaluation
             - Method=GET,POST,PUT
 
         - id: test-server-applyEvaluation

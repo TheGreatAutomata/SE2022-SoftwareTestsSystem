@@ -37,7 +37,7 @@ public class ContractService {
     public Contract constructFromPerformanceTermPartyBDto(String delegationId, PerformanceTermPartyBDto performanceTermPartyBDto) {
 
         PerformanceTermPartyB performanceTermPartyB = performanceTermPartyBMapper.toObj(performanceTermPartyBDto);
-        Contract contract = new Contract(null, null, delegationId, new ContractTable(new ContractTableExist(performanceTermPartyB.get项目名称(), performanceTermPartyB.get受托方乙方(), performanceTermPartyB.get受托方乙方(), performanceTermPartyB.get受托方乙方(), performanceTermPartyB.get合同履行期限(), performanceTermPartyB.get整改限制次数(), performanceTermPartyB.get一次整改限制的天数()), null, null), null, null);
+        Contract contract = new Contract(delegationId, new ContractTable(new ContractTableExist(performanceTermPartyB.get项目名称(), performanceTermPartyB.get受托方乙方(), performanceTermPartyB.get受托方乙方(), performanceTermPartyB.get受托方乙方(), performanceTermPartyB.get合同履行期限(), performanceTermPartyB.get整改限制次数(), performanceTermPartyB.get一次整改限制的天数()), null, null));
         contract.setContractId(new ObjectId().toString());
         return contract;
 
@@ -50,7 +50,7 @@ public class ContractService {
 
             Optional<Bucket> contractBucket = minioService.getBucket(contractId);
             if (contractBucket.isEmpty()) {
-                System.out.println("create a new bucket...");
+                System.out.println("...creating a new bucket");
                 minioService.createBucket(contractId);
                 //contractBucket = minioService.getBucket(contractId);
             }
@@ -60,63 +60,107 @@ public class ContractService {
                 return false;
             } catch (Exception e) {
                 minioService.putObject(contractId, fileName, file);
-                System.out.println("store " + fileName + " in the bucket...");
+                System.out.println("...storing " + fileName + " in the bucket");
                 Map<String, String> mp = new HashMap<>();
                 mp.put("fileType", fileType);
                 //mp.put("User", "jsmith");
                 minioService.setTag(contractId, fileName, mp);
             }
+        } else {
+            System.out.println("!!! file is null !!!");
         }
+
         return true;
     }
 
     @SneakyThrows
-    public minioFileItem getContractTableFile(String contractId) {
+    public minioFileItem getUnsignedContractTableFile(String contractId) {
 
         Iterable<Result<Item>> allFiles = minioService.listObjects(contractId);
         if (allFiles == null) {
             return null;
         }
-        //List<minioFileItem> fileList = new ArrayList<>();
+
         for (Result<Item> f : allFiles) {
+
             String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
+            System.out.println(tag);
+
             if(tag.equals("Contract_" + contractId)) {
                 return new minioFileItem(tag, f.get().objectName(), minioService.getObjectURL(contractId, f.get().objectName()));
             }
         }
+
         return null;
-        //return fileList;
-//        Map<String, String> mp = new HashMap<>();;
-//        for(Result<Item> f : allFiles)
-//        {
-//            mp.put(minioService.getTags(contractId, f.get().objectName()).get("fileType"), minioService.getObjectURL(contractId, f.get().objectName()));
-//        }
-//        return mp;
+
     }
 
     @SneakyThrows
-    public minioFileItem getNondisclosureAgreementTableFile(String contractId) {
+    public minioFileItem getUnsignedNondisclosureAgreementTableFile(String contractId) {
 
         Iterable<Result<Item>> allFiles = minioService.listObjects(contractId);
         if (allFiles == null) {
             return null;
         }
-        //List<minioFileItem> fileList = new ArrayList<>();
+
         for (Result<Item> f : allFiles) {
+
             String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
             System.out.println(tag);
+
             if(tag.equals("NDA_" + contractId)) {
                 return new minioFileItem(tag, f.get().objectName(), minioService.getObjectURL(contractId, f.get().objectName()));
             }
+
         }
+
         return null;
-        //return fileList;
-//        Map<String, String> mp = new HashMap<>();;
-//        for(Result<Item> f : allFiles)
-//        {
-//            mp.put(minioService.getTags(contractId, f.get().objectName()).get("fileType"), minioService.getObjectURL(contractId, f.get().objectName()));
-//        }
-//        return mp;
+
+    }
+
+    @SneakyThrows
+    public minioFileItem getSignedContractTableFile(String contractId) {
+
+        Iterable<Result<Item>> allFiles = minioService.listObjects(contractId);
+        if (allFiles == null) {
+            return null;
+        }
+
+        for (Result<Item> f : allFiles) {
+
+            String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
+            System.out.println(tag);
+
+            if(tag.equals("Contract_complete_" + contractId)) {
+                return new minioFileItem(tag, f.get().objectName(), minioService.getObjectURL(contractId, f.get().objectName()));
+            }
+        }
+
+        return null;
+
+    }
+
+    @SneakyThrows
+    public minioFileItem getSignedNondisclosureAgreementTableFile(String contractId) {
+
+        Iterable<Result<Item>> allFiles = minioService.listObjects(contractId);
+        if (allFiles == null) {
+            return null;
+        }
+
+        for (Result<Item> f : allFiles) {
+
+            String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
+            System.out.println(tag);
+
+            if(tag.equals("NDA_complete_" + contractId)) {
+                return new minioFileItem(tag, f.get().objectName(), minioService.getObjectURL(contractId, f.get().objectName()));
+            }
+
+        }
+
+        return null;
+
     }
 
 }

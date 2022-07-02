@@ -11,7 +11,10 @@ public class ContractTable implements Serializable {
     public ContractTablePartyA contractTablePartyA;
     public ContractTablePartyB contractTablePartyB;
 
-    public ContractTable(ContractTableExist contractTableExist,ContractTablePartyA contractTablePartyA, ContractTablePartyB contractTablePartyB) {
+    public ContractTable() {
+    }
+
+    public ContractTable(ContractTableExist contractTableExist, ContractTablePartyA contractTablePartyA, ContractTablePartyB contractTablePartyB) {
         this.contractTableExist = contractTableExist;
         this.contractTablePartyA = contractTablePartyA;
         this.contractTablePartyB = contractTablePartyB;
