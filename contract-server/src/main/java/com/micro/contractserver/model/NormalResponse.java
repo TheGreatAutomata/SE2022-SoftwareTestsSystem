@@ -10,6 +10,9 @@ public class NormalResponse implements Serializable {
 
     public String responseInfo;
 
+    public NormalResponse() {
+    }
+
     public NormalResponse(String responseInfo) {
         this.responseInfo = responseInfo;
     }

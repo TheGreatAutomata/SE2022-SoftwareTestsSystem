@@ -13,6 +13,9 @@ public class PerformanceTermPartyB implements Serializable {
     public String 整改限制次数;
     public String 一次整改限制的天数;
 
+    public PerformanceTermPartyB() {
+    }
+
     public PerformanceTermPartyB(String 项目名称, String 受托方乙方, String 合同履行期限, String 整改限制次数, String 一次整改限制的天数) {
 
         this.项目名称 = 项目名称;

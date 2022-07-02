@@ -64,6 +64,7 @@ public class JavaConfig {
         beans.put("generateContractFilesDelegate", generateContractFilesDelegate());
         beans.put("saveContractFilesDelegate", saveContractFilesDelegate());
         beans.put("deleteContractDelegate", deleteContractDelegate());
+        beans.put("setTestPreparationDelegate", setTestPreparationDelegate());
 
         springProcessEngineConfiguration.setBeans(beans);
 
@@ -148,6 +149,11 @@ public class JavaConfig {
     @Bean
     public SaveContractFilesDelegate saveContractFilesDelegate() {
         return new SaveContractFilesDelegate();
+    }
+
+    @Bean
+    public SetTestPreparationDelegate setTestPreparationDelegate() {
+        return new SetTestPreparationDelegate();
     }
 
     @Bean

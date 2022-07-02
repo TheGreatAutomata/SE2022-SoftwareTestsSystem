@@ -1,6 +1,9 @@
 package com.micro.contractserver.delegate;
 
 import com.google.common.collect.Lists;
+import com.micro.contractserver.model.Contract;
+import com.micro.contractserver.model.minioFileItem;
+import com.micro.contractserver.repository.MongoDBContractRepository;
 import com.micro.contractserver.service.ContractService;
 import lombok.SneakyThrows;
 import org.activiti.engine.delegate.DelegateExecution;
@@ -17,12 +20,16 @@ public class SaveContractFilesDelegate implements JavaDelegate {
     @Autowired
     public ContractService contractService;
 
+    @Autowired
+    MongoDBContractRepository contractRepository;
+
     @SneakyThrows
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
-        System.out.println("Save the signed contract files...");
+        System.out.println("...Saving the signed contract files");
 
+        Contract contract = (Contract)delegateExecution.getVariable("contract");
         String contractId = (String) delegateExecution.getVariable("contractId");
 
         List<String> filesName = Lists.newArrayList("Contract_complete_" + contractId, "NDA_complete_" + contractId);
@@ -33,12 +40,30 @@ public class SaveContractFilesDelegate implements JavaDelegate {
             {
                 MultipartFile f = new MockMultipartFile(ContentType.APPLICATION_OCTET_STREAM.toString(), file);
 
-                contractService.creatFile(contractId, (String) delegateExecution.getVariable(s+"Name"), s, f);
+                contractService.creatFile(contractId, (String) delegateExecution.getVariable(s + "Name"), s, f);
+
+                if(s.equals("Contract_complete_" + contractId)) {
+                    minioFileItem fileItem = contractService.getSignedContractTableFile(contractId);
+
+                    System.out.println("...Setting signed contract file for contract");
+
+                    contract.setSignedContractTableFile(fileItem);
+                } else {
+                    minioFileItem fileItem = contractService.getSignedNondisclosureAgreementTableFile(contractId);
+
+                    System.out.println("...Setting signed non-disclosure agreement file for contract");
+
+                    contract.setSignedNondisclosureAgreementTableFile(fileItem);
+                }
+
             }
 
         }
 
-        delegateExecution.setVariable("contractId", contractId);
+        contractRepository.save(contract);
+
+        delegateExecution.setVariable("contract", contract);
+        delegateExecution.setVariable("contractId", contract.getContractId());
 
     }
 }

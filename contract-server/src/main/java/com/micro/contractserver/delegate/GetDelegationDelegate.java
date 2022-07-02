@@ -36,7 +36,7 @@ public class GetDelegationDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
-        System.out.println("Get the existed delegation...");
+        System.out.println("...Getting the existed delegation");
 
         HttpHeaders headers = new HttpHeaders();
         //headers.setContentType(MediaType.APPLICATION_JSON);
@@ -58,6 +58,7 @@ public class GetDelegationDelegate implements JavaDelegate {
 
         Contract contract = (Contract)delegateExecution.getVariable("contract");
         // 加入已有信息
+        contract.setUsrId(delegationItemDto.getUsrBelonged());
         contract.setProjectId(delegationItemDto.getProjectId());
         contract.getContractTable().getContractTableExist().setSoftwareName(delegationItemDto.getFunctionTable().get软件名称());
         //contract.getContractTable().getContractTableExist().setSoftwareName("djsakdjlkajhsfkjaklf");

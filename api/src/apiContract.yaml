@@ -323,7 +323,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/normalResponse"
 
-  /contract/{id}/files/contractTable:
+  /contract/{id}/files/unsignedContractTable:
     parameters:
       - name: usrName
         in: header
@@ -347,7 +347,7 @@ paths:
         schema:
           type: string
     get:
-      operationId: downloadContractTablePartyB
+      operationId: downloadUnsignedContractTablePartyB
       tags:
         - contract
       responses:
@@ -364,7 +364,7 @@ paths:
               schema:
                 type: string
 
-  /contract/{id}/files/nondisclosureAgreementTable:
+  /contract/{id}/files/unsignedNondisclosureAgreementTable:
     parameters:
       - name: usrName
         in: header
@@ -388,7 +388,7 @@ paths:
         schema:
           type: string
     get:
-      operationId: downloadNondisclosureAgreementTablePartyB
+      operationId: downloadUnsignedNondisclosureAgreementTablePartyB
       tags:
         - contract
       responses:
@@ -458,6 +458,171 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/normalResponse"
+
+  /contract/{id}/files/signedContractTable:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of contract
+        schema:
+          type: string
+    get:
+      operationId: downloadSignedContractTable
+      tags:
+        - contract
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/singleFile'
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /contract/{id}/files/signedNondisclosureAgreementTable:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of contract
+        schema:
+          type: string
+    get:
+      operationId: downloadSignedNondisclosureAgreementTable
+      tags:
+        - contract
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/singleFile'
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /contract/{id}:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of contract
+        schema:
+          type: string
+    get:
+      operationId: getContractByContractId
+      tags:
+        - contract
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/contract'
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /contract/delegationId/{id}:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getContractByDelegationId
+      tags:
+        - contract
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/contract'
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: string
+
 components:
   schemas:
     performanceTermPartyB:
@@ -571,12 +736,6 @@ components:
           type: string
         partyBName3:
           type: string
-        partyBDepositBank:
-          type: string
-        partyBBankAccountName:
-          type: string
-        partyBBankAccountNumber:
-          type: string
 
     contractTable:
       type: object
@@ -609,6 +768,8 @@ components:
           type: string
         delegationId:
           type: string
+        projectId:
+          type: string
         contractState:
           type: string
         performanceTermState:
@@ -619,8 +780,10 @@ components:
           $ref: "#/components/schemas/contractTable"
         nondisclosureAgreementTable:
           $ref: "#/components/schemas/nondisclosureAgreementTable"
-        projectId:
-          type: string
+        signedContractTableFile:
+          $ref: "#/components/schemas/singleFile"
+        signedNondisclosureAgreementTableFile:
+          $ref: "#/components/schemas/singleFile"
 
     singleFile:
       type: object
