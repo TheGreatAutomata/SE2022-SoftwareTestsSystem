@@ -535,21 +535,6 @@ paths:
         description: The id of delegation
         schema:
           type: string
-    get:
-      operationId: getDoc_workEvaluation
-      tags:
-        - test
-      responses:
-        "200":
-          description: ok
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/workEvaluationTable"
-        "400":
-          description: other errors
-        "404":
-          description: delegation not found
     post:
       operationId: uploadDoc_workEvaluation
       tags:
@@ -578,6 +563,30 @@ paths:
       responses:
         "200":
           description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-doc/test/work-evaluation:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_workEvaluation
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/workEvaluationTable"
         "400":
           description: other errors
         "404":

@@ -1,4 +1,6 @@
 package com.micro.gatewayserver.permission;
+import org.bouncycastle.util.test.Test;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.regex.*;
@@ -27,7 +29,14 @@ public class RPL {
     private final String get_post_put_BugList="/test/[0-9A-Za-z]+/test-doc/buglist";
     private final String get_post_put_DocEvaluationTable="/test/[0-9A-Za-z]+/test-doc/doc-evaluation";
     private final String get_post_put_TestReport="/test/[0-9A-Za-z]+/test-doc/test-report";
-    //private final String get_Report
+    private final String get_ReportEvaluationTable="/test/[0-9A-Za-z]+/test-doc/test/report-evaluation";
+    private final String post_put_ReportEvaluationTable="/test/[0-9A-Za-z]+/test-doc/report-evaluation";
+    private final String post_put_WorkEvaluationTable="/test/[0-9A-Za-z]+/test-doc/work-evaluation";
+    private final String get_WorkEvaluationTable="/test/[0-9A-Za-z]+/test-doc/test/work-evaluation";
+    private final String put_AuditRequest="/test/[0-9A-Za-z]+/apply-report-evaluation";
+    private final String getProjects="/test/projects";
+    private final String getAllProjects="/test/projects/all";
+    private final String getProjectByDelegationId="/test/project/[0-9A-Za-z]+";
 
     private final HashSet<String> MarketPattern = new HashSet<>();
     private final HashSet<String> TestPattern = new HashSet<>();
@@ -41,6 +50,7 @@ public class RPL {
         MarketPattern.add(findDelegationByState);
         MarketPattern.add(findDelegationAll);
 
+
         MarketPattern.add(draftPerformanceTermPartyB);
         MarketPattern.add(getPerformanceTermReplyPartyB);
         MarketPattern.add(addContractTablePartyB);
@@ -48,15 +58,31 @@ public class RPL {
         MarketPattern.add(downloadUnsignedNondisclosureAgreementTablePartyB);
         MarketPattern.add(uploadContractPartyB);
 
-
         MODPattern.add(findDelegationByState);
         MODPattern.add(findDelegationByUsr);
         MODPattern.add(findDelegationAll);
+        MODPattern.add(get_post_put_TestScheme);
+        MODPattern.add(get_TestSchemeAuditTable);
+        MODPattern.add(get_post_put_TestCase);
+        MODPattern.add(get_post_put_TestRecord);
+        MODPattern.add(get_post_put_BugList);
+        MODPattern.add(get_post_put_DocEvaluationTable);
+        MODPattern.add(get_post_put_TestReport);
+        MODPattern.add(get_ReportEvaluationTable);
+        MODPattern.add(get_WorkEvaluationTable);
+        MODPattern.add(getProjects);
+        MODPattern.add(getAllProjects);
+        MODPattern.add(getProjectByDelegationId);
 
         TestPattern.add(auditDelegationTest);
         TestPattern.add(findDelegationByUsr);
         TestPattern.add(findDelegationByState);
         TestPattern.add(findDelegationAll);
+        TestPattern.add(put_AuditRequest);
+
+        QLTYPattern.add(post_put_TestSchemeAuditTable);
+        QLTYPattern.add(post_put_ReportEvaluationTable);
+        QLTYPattern.add(post_put_WorkEvaluationTable);
     }
 
 
