@@ -27,7 +27,13 @@ public class RPL {
     private final String get_post_put_BugList="/test/[0-9A-Za-z]+/test-doc/buglist";
     private final String get_post_put_DocEvaluationTable="/test/[0-9A-Za-z]+/test-doc/doc-evaluation";
     private final String get_post_put_TestReport="/test/[0-9A-Za-z]+/test-doc/test-report";
-    //private final String get_Report
+    private final String get_ReportEvaluationTable="/test/[0-9A-Za-z]+/test-doc/test/report-evaluation";
+    private final String post_put_ReportEvaluationTable="/test/[0-9A-Za-z]+/test-doc/report-evaluation";
+    private final String get_post_put_WorkEvaluationTable="/test/[0-9A-Za-z]+/test-doc/work-evaluation";
+    private final String put_AuditRequest="/test/[0-9A-Za-z]+/apply-report-evaluation";
+    private final String getProjects="/test/projects";
+    private final String getAllProjects="/test/projects/all";
+    private final String getProjectByDelegationId="/test/project/[0-9A-Za-z]+";
 
     private final HashSet<String> MarketPattern = new HashSet<>();
     private final HashSet<String> TestPattern = new HashSet<>();
@@ -57,6 +63,10 @@ public class RPL {
         TestPattern.add(findDelegationByUsr);
         TestPattern.add(findDelegationByState);
         TestPattern.add(findDelegationAll);
+        TestPattern.add(get_post_put_TestScheme);
+        TestPattern.add(get_TestSchemeAuditTable);
+
+
     }
 
 
