@@ -15,5 +15,8 @@ nohup java -jar ./SE2022-SoftwareTestsSystem/${NOW}/target/${NOW}-0.0.1-SNAPSHOT
 NOW="contract-server"
 nohup java -jar ./SE2022-SoftwareTestsSystem/${NOW}/target/${NOW}-0.0.1-SNAPSHOT.jar > ${LOGDIR}/${NOW}.txt &
 
-NOW="spring-boot-security-jwt-server"
+NOW="sample-server"
+nohup java -jar ./SE2022-SoftwareTestsSystem/${NOW}/target/${NOW}-0.0.1-SNAPSHOT.jar > ${LOGDIR}/${NOW}.txt &
+
+NOW="spring-boot-security-jwt"
 nohup java -jar ./SE2022-SoftwareTestsSystem/${NOW}/target/${NOW}-0.0.1-SNAPSHOT.jar > ${LOGDIR}/${NOW}.txt &
