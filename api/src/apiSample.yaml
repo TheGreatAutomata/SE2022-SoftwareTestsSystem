@@ -40,6 +40,43 @@ paths:
         '404':
           description: cannot find tasks to close
 
+  /sample/accept/{id}:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: acceptSample
+      tags:
+        - sample
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/sampleAcceptDto"
+      responses:
+        '201':
+          description: created
+        '404':
+          description: id not found
+
   /sample/online/{id}:
     parameters:
       - name: usrName
@@ -228,4 +265,16 @@ components:
         comment:
           type: string
         uri:
+          type: string
+    sampleAcceptDto:
+      type: object
+      properties:
+        样品列表:
+          type: array
+          properties:
+            item:
+              type: string
+        样品状态:
+          type: string
+        来样日期:
           type: string
