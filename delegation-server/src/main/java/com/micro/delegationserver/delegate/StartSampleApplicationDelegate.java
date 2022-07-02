@@ -45,7 +45,6 @@ public class StartSampleApplicationDelegate implements JavaDelegate {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-
         ResponseEntity<Void> result = restTemplate.postForEntity(SAMPLE_URI+"/startApplication", request, Void.class);
         if(result.getStatusCode() != HttpStatus.OK)
         {

@@ -1,6 +1,7 @@
 package com.micro.testserver.delegate;
 
 import com.micro.testserver.model.SoftwareTest;
+import com.micro.testserver.model.SoftwareTestReport;
 import com.micro.testserver.model.SoftwareTestState;
 import com.micro.testserver.repository.SoftwareTestRepository;
 import org.activiti.engine.delegate.DelegateExecution;
@@ -19,6 +20,10 @@ public class GenerateTestReportDelegate implements JavaDelegate {
             //？！
             return;
         }
+
+        SoftwareTestReport report=new SoftwareTestReport();
+
+
 
         System.out.println(softwareTestRepository);
         softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);

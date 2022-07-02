@@ -2,14 +2,21 @@ package com.micro.delegationserver.rest;
 
 import com.micro.api.DelegationServerApi;
 import com.micro.delegationserver.model.Delegation;
+
 import com.micro.commonserver.model.DelegationState;
 import com.micro.delegationserver.repository.DelegationRepository;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -26,8 +33,8 @@ public class privateController implements DelegationServerApi {
     @Autowired
     DelegationRepository delegationRepository;
 
-    @Autowired
-    MongoTemplate mongoTemplate;
+//    @Autowired
+//    MongoTemplate mongoTemplate;
 
     @Autowired
     private RuntimeService runtimeService;
@@ -39,7 +46,7 @@ public class privateController implements DelegationServerApi {
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
             delegation.setState(DelegationState.valueOf(state));
-            mongoTemplate.save(delegation, "delegation");
+            delegationRepository.save(delegation);
             return ResponseEntity.status(200).build();
         }else
         {
@@ -62,6 +69,10 @@ public class privateController implements DelegationServerApi {
             Delegation delegation=delegation_op.get();
             delegation.setState(DelegationState.AUDIT_TEST_APARTMENT);
             delegationRepository.save(delegation);
+        }
+        else
+        {
+            return ResponseEntity.status(404).build();
         }
         taskService.complete(task.getId(), variables);
         return ResponseEntity.status(200).build();
@@ -98,7 +109,7 @@ public class privateController implements DelegationServerApi {
         if(delegation_op.isPresent()){
             Delegation delegation=delegation_op.get();
             delegation.setContractId(contractId);
-            mongoTemplate.save(delegation, "delegation");
+            delegationRepository.save(delegation);
             return ResponseEntity.status(200).build();
         }else
         {

@@ -10,7 +10,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 @EnableDiscoveryClient
 @SpringBootApplication
-public class GatewayServerApplication {
+public class  GatewayServerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(GatewayServerApplication.class, args);

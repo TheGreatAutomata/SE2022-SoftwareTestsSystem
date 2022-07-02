@@ -1,0 +1,1457 @@
+openapi: "3.0.3"
+info:
+  version: 0.0.1
+  title: Micro
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:32000
+paths:
+  /test/{id}/test-scheme:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getTestScheme
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testScheme"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    post:
+      operationId: uploadTestScheme
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testScheme"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    put:
+      operationId: putTestScheme
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testScheme"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/audit-scheme:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    post:
+      operationId: uploadTestSchemeAuditTable
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testSchemeAuditTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+    put:
+      operationId: putTestSchemeAuditTable
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testSchemeAuditTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-scheme/audit-table:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getTestSchemeAuditTable
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testSchemeAuditTable"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/approve/{id}/test-scheme:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    post:
+      operationId: uploadApproveResult
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testSchemeAuditTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-scheme-approve-result:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getApproveResult
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testSchemeAuditTable"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-doc/test-case:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_testCase
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testCase"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    post:
+      operationId: uploadDoc_testcase
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testCase"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+    put:
+      operationId: putDoc_testcase
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testCase"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-doc/test-record:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_testRecord
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testRecord"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    post:
+      operationId: uploadDoc_testRecord
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testRecord"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+    put:
+      operationId: putDoc_testRecord
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testRecord"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-doc/buglist:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_bugList
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bugList"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    post:
+      operationId: uploadDoc_bugList
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/bugList"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+    put:
+      operationId: putDoc_bugList
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/bugList"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-doc/doc-evaluation:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_docEvaluation
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/docEvaluationTable"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    post:
+      operationId: uploadDoc_docEvaluation
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/docEvaluationTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+    put:
+      operationId: putDoc_docEvaluation
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/docEvaluationTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-doc/test-report:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_testReport
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testReport"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    post:
+      operationId: uploadDoc_testReport
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testReport"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    put:
+      operationId: putDoc_testReport
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testReport"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-doc/report-evaluation:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    post:
+      operationId: uploadDoc_reportEvaluation
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testReportEvaluationTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    put:
+      operationId: putDoc_reportEvaluation
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testReportEvaluationTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-doc/test/report-evaluation:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_reportEvaluation
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testReportEvaluationTable"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-doc/work-evaluation:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_workEvaluation
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/workEvaluationTable"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    post:
+      operationId: uploadDoc_workEvaluation
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/workEvaluationTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+    put:
+      operationId: putDoc_workEvaluation
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/workEvaluationTable"
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/test-doc/formal-test-report:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_formalTestReport
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/formalTestReport"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/prepare/{delegationId}/{projectId}:
+    parameters:
+      - name: delegationId
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+
+      - name: projectId
+        in: path
+        required: true
+        description: The id of project
+        schema:
+          type: string
+
+    put:
+      operationId: prepareProject
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/{id}/apply-report-evaluation:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    put:
+      operationId: putDoc_applyReportEvaluation
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
+  /test/projects:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: listProjects
+      tags:
+        - test
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/testProject"
+        '404':
+          description: usr not found
+
+  /test/projects/all:
+    get:
+      operationId: listAllProjects
+      tags:
+        - test
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/testProject"
+        '400':
+          description: other errors
+
+  /test/projects/{delegationId}:
+    parameters:
+      - name: delegationId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: findProjectByDelegationId
+      tags:
+        - test
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testProject"
+        '400':
+          description: other errors
+
+components:
+  schemas:
+    testScheme:
+      type: object
+      properties:
+        版本号:
+          type: string
+        文档修改记录:
+          type: array
+          items:
+            $ref: "#/components/schemas/docModifyRecord"
+        1.1标识:
+          type: string
+        1.2系统概述:
+          type: string
+        1.3文档概述:
+          type: string
+        1.4基线:
+          type: string
+        3.1硬件:
+          type: string
+        3.2软件:
+          type: string
+        3.3其他:
+          type: string
+        3.4参与组织:
+          type: string
+        3.5人员:
+          type: string
+        4.1总体设计:
+          type: string
+        4.1.1测试级别:
+          type: string
+        4.1.2测试类别:
+          type: string
+        4.1.3一般测试条件:
+          type: string
+        4.2计划执行的测试:
+          type: string
+        4.3测试用例:
+          type: string
+        测试进度表:
+          $ref: "#/components/schemas/testProgressTable"
+        需求的可追踪性:
+          type: string
+
+    testSchemeAuditTable:
+      type: object
+      properties:
+        软件名称:
+          type: string
+        版本号:
+          type: string
+        项目编号:
+          type: string
+        测试类别:
+          type: string
+        pass_0:
+          type: boolean
+        fail_reason_0:
+          type: string
+        pass_1:
+          type: boolean
+        fail_reason_1:
+          type: string
+        pass_2:
+          type: boolean
+        fail_reason_2:
+          type: string
+        pass_3:
+          type: boolean
+        fail_reason_3:
+          type: string
+        pass_4:
+          type: boolean
+        fail_reason_4:
+          type: string
+        pass_5:
+          type: boolean
+        fail_reason_5:
+          type: string
+        pass_6:
+          type: boolean
+        fail_reason_6:
+          type: string
+        pass_7:
+          type: boolean
+        fail_reason_7:
+          type: string
+        opinion_0:
+          type: string
+        sign_0:
+          type: string
+        date_0:
+          type: string
+        opinion_1:
+          type: string
+        sign_1:
+          type: string
+        date_1:
+          type: string
+        opinion_2:
+          type: string
+        sign_2:
+          type: string
+        date_2:
+          type: string
+        opinion_3:
+          type: string
+        sign_3:
+          type: string
+        date_3:
+          type: string
+        opinion_4:
+          type: string
+        sign_4:
+          type: string
+        date_4:
+          type: string
+        确认意见:
+          type: string
+
+    testCase:
+      type: object
+      properties:
+        测试用例:
+          type: array
+          items:
+            $ref: "#/components/schemas/testCaseEntry"
+
+    testRecord:
+      type: object
+      properties:
+        软件测试记录:
+          type: array
+          items:
+            $ref: "#/components/schemas/testRecordEntry"
+
+    bugList:
+      type: object
+      properties:
+        项目列表:
+          type: array
+          items:
+            $ref: "#/components/schemas/bugListEntry"
+
+    docEvaluationTable:
+      type: object
+      properties:
+        软件名称:
+          type: string
+        版本号:
+          type: string
+        评审人:
+          type: string
+        评审完成时间:
+          type: string
+        result_1:
+          type: string
+        description_1:
+          type: string
+        result_2:
+          type: string
+        description_2:
+          type: string
+        result_3:
+          type: string
+        description_3:
+          type: string
+        result_4:
+          type: string
+        description_4:
+          type: string
+        result_5:
+          type: string
+        description_5:
+          type: string
+        result_6:
+          type: string
+        description_6:
+          type: string
+        result_7:
+          type: string
+        description_7:
+          type: string
+        result_8:
+          type: string
+        description_8:
+          type: string
+        result_9:
+          type: string
+        description_9:
+          type: string
+        result_10:
+          type: string
+        description_10:
+          type: string
+        result_11:
+          type: string
+        description_11:
+          type: string
+        result_12:
+          type: string
+        description_12:
+          type: string
+        result_13:
+          type: string
+        description_13:
+          type: string
+        result_14:
+          type: string
+        description_14:
+          type: string
+        result_16:
+          type: string
+        description_16:
+          type: string
+        result_17:
+          type: string
+        description_17:
+          type: string
+        result_18:
+          type: string
+        description_18:
+          type: string
+        result_19:
+          type: string
+        description_19:
+          type: string
+        result_20:
+          type: string
+        description_20:
+          type: string
+        result_21:
+          type: string
+        description_21:
+          type: string
+        result_22:
+          type: string
+        description_22:
+          type: string
+        result_23:
+          type: string
+        description_23:
+          type: string
+        result_24:
+          type: string
+        description_24:
+          type: string
+        result_25:
+          type: string
+        description_25:
+          type: string
+        result_26:
+          type: string
+        description_26:
+          type: string
+        result_27:
+          type: string
+        description_27:
+          type: string
+        result_28:
+          type: string
+        description_28:
+          type: string
+        result_29:
+          type: string
+        description_29:
+          type: string
+        result_30:
+          type: string
+        description_30:
+          type: string
+        result_31:
+          type: string
+        description_31:
+          type: string
+        result_32:
+          type: string
+        description_32:
+          type: string
+        result_33:
+          type: string
+        description_33:
+          type: string
+        result_34:
+          type: string
+        description_34:
+          type: string
+        result_35:
+          type: string
+        description_35:
+          type: string
+        检查人:
+          type: string
+
+    testReport:
+      type: object
+      properties:
+        报告编号:
+          type: string
+        软件名称:
+          type: string
+        版本号:
+          type: string
+        总委托单位:
+          type: string
+        测试类别:
+          type: string
+        报告日期:
+          type: string
+        委托单位:
+          type: string
+        样品名称:
+          type: string
+        版本/型号:
+          type: string
+        来样日期:
+          type: string
+        测试类型:
+          type: string
+        测试开始时间:
+          type: string
+        测试结束时间:
+          type: string
+        样品状态:
+          type: string
+        总测试依据:
+          type: string
+        样品清单:
+          type: string
+        测试结论:
+          type: string
+        主测人:
+          type: string
+        主测人日期:
+          type: string
+        审核人:
+          type: string
+        审核人日期:
+          type: string
+        批准人:
+          type: string
+        批准人日期:
+          type: string
+        电话:
+          type: string
+        传真:
+          type: string
+        地址:
+          type: string
+        邮编:
+          type: string
+        联系人:
+          type: string
+        E-mail:
+          type: string
+        硬件环境:
+          type: array
+          items:
+            $ref: "#/components/schemas/testReportHardwareEnv"
+        软件环境:
+          type: array
+          items:
+            $ref: "#/components/schemas/testReportSoftwareEnv"
+        网络环境:
+          type: string
+        测试依据:
+          type: array
+          items:
+            $ref: "#/components/schemas/testReportTestDependency"
+        参考资料:
+          type: array
+          items:
+            $ref: "#/components/schemas/testReportReference"
+        功能性测试:
+          type: array
+          items:
+            $ref: "#/components/schemas/testReportFuncTest"
+        效率测试:
+          type: array
+          items:
+            $ref: "#/components/schemas/testReportEfficiencyTest"
+        可移植性测试:
+          type: array
+          items:
+            $ref: "#/components/schemas/testReportPortabilityTest"
+        易用性测试:
+          type: array
+          items:
+            $ref: "#/components/schemas/testReportUsabilityTest"
+        可靠性测试:
+          type: array
+          items:
+            $ref: "#/components/schemas/testReportReliabilityTest"
+        可维护性测试:
+          type: array
+          items:
+            $ref: "#/components/schemas/testReportMaintainabilityTest"
+        测试执行记录:
+          type: string
+
+    testReportEvaluationTable:
+      type: object
+      properties:
+        软件名称:
+          type: string
+        委托单位:
+          type: string
+        tableItem_0:
+          type: boolean
+        tableItem_1:
+          type: boolean
+        tableItem_2:
+          type: boolean
+        tableItem_3:
+          type: boolean
+        tableItem_4:
+          type: boolean
+        tableItem_5:
+          type: boolean
+        tableItem_6:
+          type: boolean
+        tableItem_7:
+          type: boolean
+        tableItem_8:
+          type: boolean
+        tableItem_9:
+          type: boolean
+        tableItem_10:
+          type: boolean
+        tableItem_11:
+          type: boolean
+        tableItem_12:
+          type: boolean
+        tableItem_13:
+          type: boolean
+        检查人:
+          type: string
+        日期:
+          type: string
+        确认意见:
+          type: string
+
+    workEvaluationTable:
+      type: object
+      properties:
+        软件名称:
+          type: string
+        版本号:
+          type: string
+        申报单位:
+          type: string
+        起始时间:
+          type: string
+        预计完成时间:
+          type: string
+        主测人:
+          type: string
+        实际完成时间:
+          type: string
+        tableItem_1:
+          type: boolean
+        tableItem_2:
+          type: boolean
+        tableItem_3:
+          type: boolean
+        tableItem_4:
+          type: boolean
+        tableItem_5:
+          type: boolean
+        tableItem_6:
+          type: boolean
+        tableItem_7:
+          type: boolean
+        tableItem_9:
+          type: boolean
+        tableItem_11:
+          type: boolean
+        tableItem_12:
+          type: boolean
+        tableItem_13:
+          type: boolean
+        tableItem_14:
+          type: boolean
+        tableItem_15:
+          type: boolean
+        tableItem_16:
+          type: boolean
+        tableItem_17:
+          type: boolean
+        tableItem_18:
+          type: boolean
+        tableItem_19:
+          type: boolean
+        tableItem_20:
+          type: boolean
+        tableItem_21:
+          type: boolean
+        tableItem_22:
+          type: boolean
+        tableItem_23:
+          type: boolean
+        tableItem_24:
+          type: boolean
+        tableItem_25:
+          type: boolean
+        tableItem_26:
+          type: boolean
+        市场部审核意见:
+          type: string
+
+    formalTestReport:
+      type: object
+      properties:
+        name:
+          type: string
+
+    docModifyRecord:
+      type: object
+      properties:
+        版本号:
+          type: string
+        日期:
+          type: string
+        AMD:
+          type: string
+        修订者:
+          type: string
+        说明:
+          type: string
+
+    testProgressTable:
+      type: object
+      properties:
+        制定测试计划:
+          $ref: "#/components/schemas/testProgressEntry"
+        设计测试:
+          $ref: "#/components/schemas/testProgressEntry"
+        执行测试:
+          $ref: "#/components/schemas/testProgressEntry"
+        评估测试:
+          $ref: "#/components/schemas/testProgressEntry"
+
+    testProgressEntry:
+      type: object
+      properties:
+        工作量:
+          type: string
+        开始时间:
+          type: string
+        结束时间:
+          type: string
+
+    testCaseEntry:
+      type: object
+      properties:
+        测试分类:
+          type: string
+        ID:
+          type: string
+        测试用例设计说明:
+          type: string
+        与本测试用例有关的规约说明:
+          type: string
+        预期的结果:
+          type: string
+        测试用例设计者:
+          type: string
+        测试时间:
+          type: string
+
+    testRecordEntry:
+      type: object
+      properties:
+        测试分类:
+          type: string
+        序号:
+          type: string
+        测试用例设计说明:
+          type: string
+        与本测试用例有关的规约说明:
+          type: string
+        前提条件:
+          type: string
+        测试用例执行过程:
+          type: string
+        预期的结果:
+          type: string
+        测试用例设计者:
+          type: string
+        实际结果:
+          type: string
+        是否与预期结果一致:
+          type: string
+        相关的BUG编号:
+          type: string
+        用例执行者:
+          type: string
+        执行测试时间:
+          type: string
+        确认人:
+          type: string
+
+    bugListEntry:
+      type: object
+      properties:
+        问题(缺陷)简要描述:
+          type: string
+        对应需求条目:
+          type: string
+        发现缺陷的初始条件:
+          type: string
+        发现缺陷用例及具体操作路径(要具体):
+          type: string
+        关联用例:
+          type: string
+        时间:
+          type: string
+        责任人:
+          type: string
+        修改建议:
+          type: string
+
+    testReportHardwareEnv:
+      type: object
+      properties:
+        硬件类别:
+          type: string
+        硬件名称:
+          type: string
+        配置:
+          type: string
+        数量:
+          type: string
+
+    testReportSoftwareEnv:
+      type: object
+      properties:
+        软件类别:
+          type: string
+        软件名称:
+          type: string
+        版本:
+          type: string
+
+    testReportTestDependency:
+      type: object
+      properties:
+        测试依据分项:
+          type: string
+
+    testReportReference:
+      type: object
+      properties:
+        参考资料分项:
+          type: string
+
+    testReportFuncTest:
+      type: object
+      properties:
+        功能模块:
+          type: string
+        功能要求:
+          type: string
+        测试结果:
+          type: string
+
+    testReportEfficiencyTest:
+      type: object
+      properties:
+        测试特性:
+          type: string
+        测试说明:
+          type: string
+        测试结果:
+          type: string
+
+    testReportPortabilityTest:
+      type: object
+      properties:
+        测试特性:
+          type: string
+        测试说明:
+          type: string
+        测试结果:
+          type: string
+
+    testReportUsabilityTest:
+      type: object
+      properties:
+        测试特性:
+          type: string
+        测试说明:
+          type: string
+        测试结果:
+          type: string
+
+    testReportReliabilityTest:
+      type: object
+      properties:
+        测试特性:
+          type: string
+        测试说明:
+          type: string
+        测试结果:
+          type: string
+
+    testReportMaintainabilityTest:
+      type: object
+      properties:
+        测试特性:
+          type: string
+        测试说明:
+          type: string
+        测试结果:
+          type: string
+
+    testProject:
+      type: object
+      properties:
+        usrId:
+          type: string
+        usrName:
+          type: string
+        delegationId:
+          type: string
+        contractId:
+          type: string
+        projectId:
+          type: string

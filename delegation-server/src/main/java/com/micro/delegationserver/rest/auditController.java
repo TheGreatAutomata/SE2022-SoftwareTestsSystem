@@ -81,12 +81,17 @@ public class auditController implements AuditApi {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * @param usrName                        (required)
+     * @param usrId                          (required)
+     * @param usrRole                        (required)
+     * @param id                             The id of delegation (required)
+     * @param delegationAuditMarketResultDto (required)
+     * @return
+     */
     @Override
     public ResponseEntity<Void> auditDelegationByMarketEmployees(String usrName, String usrId, String usrRole, String id, DelegationAuditMarketResultDto delegationAuditMarketResultDto) {
         Task task=taskService.createTaskQuery().taskName("Audit_Market").processVariableValueEquals("delegationId",id).singleResult();
-
-//        System.out.println(task);
-//        System.out.println(runtimeService.getVariable(task.getExecutionId(),"delegationId"));
 
         if(task==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -114,7 +119,6 @@ public class auditController implements AuditApi {
 //                taskVariables.put("isAgree", 0);
             }
             delegationRepository.save(delegation);
-
         }else{
             return new ResponseEntity<>(HttpStatus.valueOf(401));
         }

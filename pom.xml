@@ -10,10 +10,10 @@
         <module>config-server</module>
         <module>gateway-server</module>
         <module>discovery-server</module>
-        <module>spring-boot-spring-security-jwt-authentication</module>
-        <!--        <module>test-server</module>-->
+        <module>spring-boot-security-jwt</module>
         <module>common-server</module>
         <module>sample-server</module>
+        <module>test-server</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

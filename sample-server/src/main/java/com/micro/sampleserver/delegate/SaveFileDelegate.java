@@ -25,21 +25,22 @@ public class SaveFileDelegate implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) {
         String id = (String) delegateExecution.getVariable("sampleId");
         MultipartInputStreamFileResource sample = (MultipartInputStreamFileResource) delegateExecution.getVariable("sample");
-        if(sample != null)
+
+        String sampleId = "sample" + id;
+        if(minioService.hasBucket(sampleId))
         {
-            String sampleId = "sample" + id;
-            if(minioService.hasBucket(sampleId))
+            Iterable<Result<Item>> allFiles = minioService.listObjects(sampleId);
+            if(allFiles != null)
             {
-                Iterable<Result<Item>> allFiles = minioService.listObjects(sampleId);
-                if(allFiles != null)
+                for(Result<Item> f : allFiles)
                 {
-                    for(Result<Item> f : allFiles)
-                    {
-                        minioService.removeObject(sampleId, f.get().objectName());
-                    }
+                    minioService.removeObject(sampleId, f.get().objectName());
                 }
             }
-            else minioService.createBucket(sampleId);
+        }
+        else minioService.createBucket(sampleId);
+        if(sample != null)
+        {
             byte[] file = (byte[]) sample.getInputStream();
             MultipartFile f = new MockMultipartFile(ContentType.APPLICATION_OCTET_STREAM.toString(), file);
             minioService.putObject(sampleId, sample.getFilename(), f);
