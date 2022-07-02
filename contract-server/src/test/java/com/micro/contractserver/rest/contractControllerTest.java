@@ -270,16 +270,29 @@ class contractControllerTest {
     }
 
     @Test
-    void getPerformanceTermReplyPartyB() {
+    void getPerformanceTermReplyPartyB() throws Exception {
 
         Contract contract = new Contract("delegationId", null);
         contract.setContractId("contractId");
         contract.setPerformanceTermState("PerformanceTermState");
+        contract.setPerformanceTermSuggestion("PerformanceTermSuggestion");
 
         when(contractRepository.findByContractId("contractId"))
                 .thenReturn(Optional.of(contract));
         when(contractRepository.findByContractId("wrongContractId"))
                 .thenReturn(Optional.ofNullable(null));
+
+        PerformanceTermPartyADto performanceTermPartyADto = new PerformanceTermPartyADto();
+        performanceTermPartyADto.set态度("PerformanceTermState");
+        performanceTermPartyADto.set意见("PerformanceTermSuggestion");
+
+        String content = toJson(performanceTermPartyADto);
+
+        mockMvc.perform(get("/contract/{id}/performanceTerm/partyB", "contractId").contentType("application/json").headers(headers))
+                .andExpect(content().json(content))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/contract/{id}/performanceTerm/partyB", "contractId").contentType("application/json").headers(headers))
+                .andExpect(status().isBadRequest());
 
     }
 
