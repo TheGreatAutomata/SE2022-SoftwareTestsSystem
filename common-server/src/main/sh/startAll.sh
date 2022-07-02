@@ -9,3 +9,11 @@ sleep 10
 NOW="gateway-server"
 nohup java -jar ./SE2022-SoftwareTestsSystem/${NOW}/target/${NOW}-0.0.1-SNAPSHOT.jar > ${LOGDIR}/${NOW}.txt &
 
+NOW="delegation-server"
+nohup java -jar ./SE2022-SoftwareTestsSystem/${NOW}/target/${NOW}-0.0.1-SNAPSHOT.jar > ${LOGDIR}/${NOW}.txt &
+
+NOW="contract-server"
+nohup java -jar ./SE2022-SoftwareTestsSystem/${NOW}/target/${NOW}-0.0.1-SNAPSHOT.jar > ${LOGDIR}/${NOW}.txt &
+
+NOW="spring-boot-security-jwt-server"
+nohup java -jar ./SE2022-SoftwareTestsSystem/${NOW}/target/${NOW}-0.0.1-SNAPSHOT.jar > ${LOGDIR}/${NOW}.txt &

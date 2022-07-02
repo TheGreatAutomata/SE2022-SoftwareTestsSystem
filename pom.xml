@@ -10,7 +10,7 @@
         <module>config-server</module>
         <module>gateway-server</module>
         <module>discovery-server</module>
-        <module>spring-boot-spring-security-jwt-authentication</module>
+        <module>spring-boot-security-jwt-server</module>
         <!--        <module>test-server</module>-->
         <module>common-server</module>
         <module>sample-server</module>
