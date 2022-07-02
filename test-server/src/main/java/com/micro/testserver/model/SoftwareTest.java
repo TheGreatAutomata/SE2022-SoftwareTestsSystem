@@ -33,5 +33,6 @@ public class SoftwareTest implements Serializable {
 
     public SoftwareTest(){
         id=new ObjectId().toString();
+        state=SoftwareTestState.TEST_SCHEME;
     }
 }
