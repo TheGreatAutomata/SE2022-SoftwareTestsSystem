@@ -875,10 +875,10 @@ components:
       properties:
         密级:
           type: string
+        查杀工具:
+          type: string
         查杀病毒:
-          type: array
-          items:
-            type: string
+          type: string
         材料检查:
           $ref: "#/components/schemas/delegationAuditTestMaterialCheck"
         确认意见:

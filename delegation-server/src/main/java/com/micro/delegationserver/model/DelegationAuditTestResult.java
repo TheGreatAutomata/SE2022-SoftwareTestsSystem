@@ -8,11 +8,13 @@ import java.io.Serializable;
 import java.util.List;
 
 public class DelegationAuditTestResult implements Serializable {
-    private String 密级;
+    public String 密级;
 
-    private List<String> 查杀病毒 = null;
+    public String 查杀工具;
+    
+    public String 查杀病毒 = null;
 
-    private DelegationAuditTestMaterialCheck 材料检查;
+    public DelegationAuditTestMaterialCheck 材料检查;
 
-    private String 确认意见;
+    public String 确认意见;
 }
