@@ -19,4 +19,6 @@ public class SampleAcceptModel {
     public String 样品状态;
 
     public String 来样日期;
+
+    public String 态度;
 }

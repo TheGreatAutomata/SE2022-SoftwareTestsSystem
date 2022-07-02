@@ -277,3 +277,5 @@ components:
           type: string
         来样日期:
           type: string
+        态度:
+          type: string
