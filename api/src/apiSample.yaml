@@ -271,9 +271,8 @@ components:
       properties:
         样品列表:
           type: array
-          properties:
-            item:
-              type: string
+          items:
+            type: string
         样品状态:
           type: string
         来样日期:
