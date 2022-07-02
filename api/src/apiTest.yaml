@@ -1303,6 +1303,8 @@ components:
           type: string
         序号:
           type: string
+        测试特性:
+          type: string
         测试用例设计说明:
           type: string
         与本测试用例有关的规约说明:
