@@ -50,6 +50,8 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
         if(this.getClass().getResource("").getProtocol().equals("file")) {
 
+            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
             Calendar calendar = Calendar.getInstance();
             ContractTableExist contractTableExist = contractTable.getContractTableExist();
             ContractTablePartyA contractTablePartyA = contractTable.getContractTablePartyA();
@@ -143,6 +145,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         }
         else if(this.getClass().getResource("").getProtocol().equals("jar")) {
 
+            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
             Calendar calendar = Calendar.getInstance();
             ContractTableExist contractTableExist = contractTable.getContractTableExist();
