@@ -155,7 +155,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
             String filename = "Contract_" + contractId;
             String inputPath = "template/";
             // String outputPath = "velocity/generate/";
-            String outputPath = "SE2022-SoftwareTestsSystem/velocity/generate/";
+            String outputPath = "velocity/generate/";
 
             // 设置velocity的资源加载器
             Properties properties = new Properties();
@@ -316,7 +316,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
             String filename = "NDA_" + contractId;
             String inputPath = "template/";
             // String outputPath = "velocity/generate/";
-            String outputPath = "SE2022-SoftwareTestsSystem/velocity/generate/";
+            String outputPath = "velocity/generate/";
 
             // 设置velocity的资源加载器
             Properties properties = new Properties();
@@ -396,7 +396,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         else if(this.getClass().getResource("").getProtocol().equals("jar")) {
 
             // String outputPath = "velocity/generate/";
-            String outputPath = "SE2022-SoftwareTestsSystem/velocity/generate/";
+            String outputPath = "velocity/generate/";
 
             File contractTableFile = new File(outputPath + "Contract_" + contractId + ".pdf");
             FileInputStream contractTableFileInputStream = new FileInputStream(contractTableFile);
@@ -430,7 +430,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         else if(this.getClass().getResource("").getProtocol().equals("jar")) {
 
             // String outputPath = "velocity/generate/";
-            String outputPath = "SE2022-SoftwareTestsSystem/velocity/generate/";
+            String outputPath = "velocity/generate/";
 
             Runtime runtime = Runtime.getRuntime();
             Process process = runtime.exec("rm " + outputPath + "Contract_" + contractId + ".pdf");
