@@ -19,6 +19,8 @@ public class RPL {
     private final String downloadNondisclosureAgreementTablePartyB = "/contract/[0-9A-Za-z]+/files/nondisclosureAgreementTable";
     private final String uploadContractPartyB = "/contract/[0-9A-Za-z]+/files";
 
+    private final String uploadTestScheme="/test/[0-9A-Za-z]+/test-scheme";
+
     private final HashSet<String> MarketPattern = new HashSet<>();
     private final HashSet<String> TestPattern = new HashSet<>();
     private final HashSet<String> QLTYPattern = new HashSet<>();

@@ -29,12 +29,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 
 import static org.mockito.ArgumentMatchers.nullable;
+import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -124,7 +126,7 @@ class SoftwareTestControllerTest {
         delegation.setUsrName("great");
 
         TestSchemeDto testSchemeDto=new TestSchemeDto();
-        testSchemeDto.setName("新方案");
+        testSchemeDto.set11标识("新方案");
 
         String body=toJson(testSchemeDto);
 
@@ -167,7 +169,7 @@ class SoftwareTestControllerTest {
         softwareTest.setState(SoftwareTestState.AUDIT_QUALITY_DENIED);
 
         TestSchemeDto testSchemeDto=new TestSchemeDto();
-        testSchemeDto.setName("新方案");
+        testSchemeDto.set11标识("新方案");
 
         String body=toJson(testSchemeDto);
 
@@ -426,7 +428,7 @@ class SoftwareTestControllerTest {
         SoftwareTest softwareTest=new SoftwareTest();
 
         SoftwareDocEvaluationTable docEvaluationTable=new SoftwareDocEvaluationTable();
-        docEvaluationTable.setName("软件评估");
+        docEvaluationTable.set软件名称("软件评估");
 
         softwareTest.setDocEvaluationTable(docEvaluationTable);
 
@@ -449,7 +451,7 @@ class SoftwareTestControllerTest {
         SoftwareTest softwareTest=new SoftwareTest();
 
         SoftwareDocEvaluationTable docEvaluationTable=new SoftwareDocEvaluationTable();
-        docEvaluationTable.setName("软件评估");
+        docEvaluationTable.set软件名称("软件评估");
 
         softwareTest.setDocEvaluationTable(docEvaluationTable);
 
@@ -473,7 +475,7 @@ class SoftwareTestControllerTest {
         SoftwareTest softwareTest=new SoftwareTest();
 
         SoftwareDocEvaluationTable docEvaluationTable=new SoftwareDocEvaluationTable();
-        docEvaluationTable.setName("软件评估");
+        docEvaluationTable.set版本号("软件评估");
 
         softwareTest.setDocEvaluationTable(docEvaluationTable);
 
@@ -505,7 +507,7 @@ class SoftwareTestControllerTest {
         SoftwareTest softwareTest=new SoftwareTest();
 
         SoftwareTestReport testReport=new SoftwareTestReport();
-        testReport.setName("测试报告");
+        testReport.set主测人("测试报告");
 
         softwareTest.setTestReport(testReport);
 
@@ -528,7 +530,7 @@ class SoftwareTestControllerTest {
         SoftwareTest softwareTest=new SoftwareTest();
 
         SoftwareTestReport testReport=new SoftwareTestReport();
-        testReport.setName("测试报告");
+        testReport.set主测人("测试报告");
 
         softwareTest.setTestReport(testReport);
 
@@ -552,7 +554,7 @@ class SoftwareTestControllerTest {
         SoftwareTest softwareTest=new SoftwareTest();
 
         SoftwareReportEvaluationTable softwareReportEvaluationTable=new SoftwareReportEvaluationTable();
-        softwareReportEvaluationTable.setName("评估报告");
+        softwareReportEvaluationTable.set确认意见("评估报告");
 
         softwareTest.setReportEvaluationTable(softwareReportEvaluationTable);
 
@@ -575,7 +577,7 @@ class SoftwareTestControllerTest {
         SoftwareTest softwareTest=new SoftwareTest();
 
         SoftwareReportEvaluationTable softwareReportEvaluationTable=new SoftwareReportEvaluationTable();
-        softwareReportEvaluationTable.setName("评估报告");
+        softwareReportEvaluationTable.set确认意见("评估报告");
 
         softwareTest.setReportEvaluationTable(softwareReportEvaluationTable);
 
@@ -599,7 +601,7 @@ class SoftwareTestControllerTest {
         SoftwareTest softwareTest=new SoftwareTest();
 
         SoftwareWorkEvaluationTable workEvaluationTable=new SoftwareWorkEvaluationTable();
-        workEvaluationTable.setName("工作评估");
+        workEvaluationTable.set市场部审核意见("工作评估");
 
         softwareTest.setWorkEvaluationTable(workEvaluationTable);
 
@@ -622,7 +624,7 @@ class SoftwareTestControllerTest {
         SoftwareTest softwareTest=new SoftwareTest();
 
         SoftwareWorkEvaluationTable workEvaluationTable=new SoftwareWorkEvaluationTable();
-        workEvaluationTable.setName("工作评估");
+        workEvaluationTable.set预计完成时间("工作评估");
 
         softwareTest.setWorkEvaluationTable(workEvaluationTable);
 
@@ -689,6 +691,11 @@ class SoftwareTestControllerTest {
 
     @Test
     void getTestSchemeAuditTable() {
+    }
+
+    @Test
+    void getContractTest(){
+        RestTemplate restTemplate=new RestTemplate();
     }
 
 
