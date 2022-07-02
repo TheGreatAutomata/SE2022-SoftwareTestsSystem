@@ -17,5 +17,5 @@ minio:
   accessKey: minioadmin
   secretKey: minioadmin
   # bucketName: minioTest
-  partSize: 1048576000000
+  partSize: 0x7fffffff
 
