@@ -145,7 +145,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         }
         else if(this.getClass().getResource("").getProtocol().equals("jar")) {
 
-            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
 
             Calendar calendar = Calendar.getInstance();
             ContractTableExist contractTableExist = contractTable.getContractTableExist();
