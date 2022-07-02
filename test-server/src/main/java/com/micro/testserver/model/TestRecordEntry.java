@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class TestRecordEntry {
     public String 测试分类;
-
     public String 序号;
 
+    public String 测试特性;
     public String 测试用例设计说明;
 
     public String 与本测试用例有关的规约说明;
@@ -25,7 +25,7 @@ public class TestRecordEntry {
 
     public String 是否与预期结果一致;
 
-    public String 相关的bUG编号;
+    public String 相关的bug编号;
 
     public String 用例执行者;
 
