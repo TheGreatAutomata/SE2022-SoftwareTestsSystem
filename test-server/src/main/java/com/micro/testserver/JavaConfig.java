@@ -1,6 +1,10 @@
 package com.micro.testserver;
 
+import com.micro.contractserver.mapper.ContractMapper;
+import com.micro.contractserver.mapper.ContractMapperImpl;
+import com.micro.contractserver.model.Contract;
 import com.micro.dto.TestSchemeDto;
+import com.micro.testserver.delegate.GenerateLatexReportDelegate;
 import com.micro.testserver.delegate.GenerateTestReportDelegate;
 import com.micro.testserver.mapper.*;
 import org.activiti.engine.*;
@@ -9,6 +13,7 @@ import org.activiti.spring.ProcessEngineFactoryBean;
 import org.activiti.spring.SpringProcessEngineConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -59,6 +64,7 @@ public class JavaConfig {
         HashMap<Object,Object> beans=new HashMap<>();
 
         beans.put("generateTestReportDelegate",generateTestReportDelegate());
+        beans.put("generateLatexReportDelegate",generateLatexReportDelegate());
 
         springProcessEngineConfiguration.setBeans(beans);
 
@@ -95,6 +101,7 @@ public class JavaConfig {
     }
 
     @Bean
+    @LoadBalanced
     public RestTemplate restTemplate(){
         return new RestTemplate();
     }
@@ -150,8 +157,20 @@ public class JavaConfig {
     }
 
     @Bean
+    public TestProjectMapper testProjectMapper(){
+        return new TestProjectMapperImpl();
+    }
+
+    @Bean
     public GenerateTestReportDelegate generateTestReportDelegate(){
         return new GenerateTestReportDelegate();
+    }
+
+    @Bean
+    public GenerateLatexReportDelegate generateLatexReportDelegate() {return new GenerateLatexReportDelegate();}
+
+    @Bean
+    public ContractMapper contractMapper(){return new ContractMapperImpl();
     }
 }
 

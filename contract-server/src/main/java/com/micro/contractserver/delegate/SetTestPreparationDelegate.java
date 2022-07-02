@@ -8,7 +8,7 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-public class SetDelegationContractIdDelegate implements JavaDelegate {
+public class SetTestPreparationDelegate implements JavaDelegate {
 
     @LoadBalanced
     private RestTemplate restTemplate;
@@ -18,24 +18,23 @@ public class SetDelegationContractIdDelegate implements JavaDelegate {
         this.restTemplate = restTemplate;
     }
 
-    private String DELEGATION_URI = "http://delegation-server/delegationServer/private/contractId/";
+    private String TEST_URI = "http://test/prepare/";
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
-        System.out.println("...Setting contract id for the existed delegation");
+        System.out.println("...Setting preparation for the test");
 
         Contract contract = (Contract)delegateExecution.getVariable("contract");
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        String delegationId = (String) delegateExecution.getVariable("delegationId");
-        HttpEntity<String> request = new HttpEntity<>("{name:string}", headers);
-        ResponseEntity<Void> result = restTemplate.postForEntity(DELEGATION_URI + delegationId + "/" + contract.getContractId(), request, Void.class);
+        /*HttpHeaders headers = new HttpHeaders();
+        // headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+        ResponseEntity<Void> result = restTemplate.exchange(TEST_URI + contract.getDelegationId() + "/" + contract.getProjectId(), HttpMethod.PUT, requestEntity, Void.class);
         if(result.getStatusCode() != HttpStatus.OK)
         {
             throw new RuntimeException();
-        }
+        }*/
 
         delegateExecution.setVariable("contract", contract);
         delegateExecution.setVariable("contractId", contract.getContractId());
