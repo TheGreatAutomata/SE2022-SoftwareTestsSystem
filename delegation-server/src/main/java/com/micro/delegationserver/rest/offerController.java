@@ -59,13 +59,14 @@ public class offerController implements OfferApi {
         //设置参数
         Delegation delegation=delegation_op.get();
         Map<String, Object> variables = new HashMap<String, Object>();
-        if(delegation.getState() != DelegationState.QUOTATION_USER_APPLICATION)
-        {
-            return ResponseEntity.status(423).build();
-        }
+//        if(delegation.getState() != DelegationState.QUOTATION_USER_APPLICATION)
+//        {
+//            return ResponseEntity.status(423).build();
+//        }
         if(Objects.equals(offerRequestDto.get市场部态度(), "拒绝"))
         {
             delegation.setState(DelegationState.AUDIT_MARKET_APARTMENT_DENIED);
+            delegationRepository.save(delegation);
             variables.put("state",2);
         }
         else
@@ -116,10 +117,10 @@ public class offerController implements OfferApi {
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
         Delegation delegation=delegation_op.get();
 
-        if(delegation.getState() != DelegationState.QUOTATION_USER)
-        {
-            return ResponseEntity.status(423).build();
-        }
+//        if(delegation.getState() != DelegationState.QUOTATION_USER)
+//        {
+//            return ResponseEntity.status(423).build();
+//        }
 
         delegation.getOfferTableUnion().set态度(offerReplyRequestDto.get态度());
         delegation.getOfferTableUnion().set附加信息(offerReplyRequestDto.get附加信息());
