@@ -134,6 +134,25 @@ spring:
           predicates:
             - Path=/test/{delegationId}/apply-report-evaluation
             - Method=PUT
+
+        - id: test-server-listProjects
+          uri: lb://test-server
+          predicates:
+            - Path=/test/projects/
+            - Method=GET
+
+        - id: test-server-listAllProjects
+          uri: lb://test-server
+          predicates:
+            - Path=/test/projects/all
+            - Method=GET
+
+        - id: test-server-findProjectByDelegationId
+          uri: lb://test-server
+          predicates:
+            - Path=/test/project/{delegationId}
+            - Method=GET
+
 eureka:
   client:
     serviceUrl:
