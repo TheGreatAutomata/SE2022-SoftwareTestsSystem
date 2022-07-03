@@ -2,8 +2,10 @@ package com.micro.testserver.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class TestProject {
+public class TestProject implements Serializable {
     /**
      * 用户ID
      */

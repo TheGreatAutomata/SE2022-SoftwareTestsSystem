@@ -3,8 +3,10 @@ package com.micro.testserver.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class TestCaseEntry {
+public class TestCaseEntry implements Serializable {
     public String 测试分类;
 
     public String ID;
