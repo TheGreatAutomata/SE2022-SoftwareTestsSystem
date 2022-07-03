@@ -24,7 +24,6 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
             return;
         }
 
-        SoftwareTestReport report=new SoftwareTestReport();
 
 
 

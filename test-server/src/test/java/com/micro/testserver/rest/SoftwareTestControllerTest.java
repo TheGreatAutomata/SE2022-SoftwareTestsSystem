@@ -50,7 +50,6 @@ class SoftwareTestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private SoftwareTestRepository softwareTestRepository;
     @MockBean
