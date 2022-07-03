@@ -31,6 +31,8 @@ public class SoftwareTest implements Serializable {
     SchemeEvaluationTable schemeEvaluationTable;
     SoftwareTestState state;
 
+    String 软件名称;
+
     Contract contract;
 
     //测试文档

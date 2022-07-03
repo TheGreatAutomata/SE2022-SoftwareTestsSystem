@@ -1752,3 +1752,7 @@ components:
           type: string
         projectId:
           type: string
+        state:
+          type: string
+        软件名称:
+          type: string
