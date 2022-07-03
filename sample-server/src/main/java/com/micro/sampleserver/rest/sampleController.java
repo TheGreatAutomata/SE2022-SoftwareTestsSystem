@@ -1,37 +1,32 @@
 package com.micro.sampleserver.rest;
 
-import com.micro.api.ApiUtil;
 import com.micro.api.SampleApi;
+import com.micro.commonserver.model.DelegationState;
 import com.micro.commonserver.model.MultipartInputStreamFileResource;
 import com.micro.commonserver.service.MinioService;
-import com.micro.dto.DelegationItemDto;
 import com.micro.dto.GetSampleResponseDto;
 import com.micro.dto.SampleAcceptDto;
 import com.micro.dto.SampleMessageApplicationRequestDto;
 import com.micro.sampleserver.mapper.SampleAcceptModelMapper;
 import com.micro.sampleserver.mapper.SampleMessageMapper;
 import com.micro.sampleserver.model.Sample;
-import com.micro.sampleserver.model.SampleAcceptModel;
-import com.micro.sampleserver.repository.MongoDBDelegationRepository;
+import com.micro.commonserver.model.SampleAcceptModel;
+import com.micro.sampleserver.repository.MongoDBSampleAcceptRepository;
+import com.micro.sampleserver.repository.MongoDBSampleRepository;
 import io.minio.Result;
 import io.minio.messages.Item;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.SneakyThrows;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
 
@@ -41,12 +36,15 @@ public class sampleController implements SampleApi {
     private RuntimeService runtimeService;
 
     @Autowired
-    MongoDBDelegationRepository delegationRepository;
+    MongoDBSampleRepository sampleRepository;
+
+    @Autowired
+    MongoDBSampleAcceptRepository sampleAcceptRepository;
     @Autowired
     private TaskService taskService;
 
     @Autowired
-    private SampleAcceptModelMapper sampleAcceptModelMapper;
+    SampleAcceptModelMapper sampleAcceptModelMapper;
 
     @Autowired
     MinioService minioServce;
@@ -54,14 +52,45 @@ public class sampleController implements SampleApi {
     @Autowired
     SampleMessageMapper sampleMessageMapper;
 
+    @LoadBalanced
+    private RestTemplate restTemplate;
+
+    @Autowired
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
+    private String setDelegationUri = "http://delegation-server//delegationServer/private/delegationState/";
     @Override
     public ResponseEntity<Void> acceptSample(String usrName, String usrId, String usrRole, String id, SampleAcceptDto sampleAcceptDto) {
         Task task = taskService.createTaskQuery().taskName("acceptSample").processVariableValueEquals("id",id).singleResult();
-        if(task == null)
-        {
+        if(task == null) {
             return ResponseEntity.status(404).build();
         }
-        SampleAcceptModel sampleAccept =
+        Map<String, Object> variables = new HashMap<String, Object>();
+        DelegationState state;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> request = new HttpEntity<>("", headers);
+        if(Objects.equals(sampleAcceptDto.get态度(), "同意"))
+        {
+            variables.put("isOk", 1);
+            SampleAcceptModel sampleAccept = sampleAcceptModelMapper.toObj(sampleAcceptDto);
+            sampleAcceptRepository.save(sampleAccept);
+            state = DelegationState.AUDIT_MARKET_APARTMENT;
+        }
+        else
+        {
+            variables.put("isOk", 0);
+            state = DelegationState.WAIT_PUT_SAMPLE;
+        }
+        ResponseEntity<Void> result = restTemplate.postForEntity(setDelegationUri + id + "/" + state, request, Void.class);
+        if(result.getStatusCode() != HttpStatus.OK)
+        {
+            return ResponseEntity.status(400).build();
+        }
+        taskService.complete(task.getId(), variables);
+        return ResponseEntity.status(200).build();
     }
 
     @Override
@@ -140,7 +169,7 @@ public class sampleController implements SampleApi {
     @SneakyThrows
     @Override
     public ResponseEntity<GetSampleResponseDto> getSample(String usrName, String usrId, String usrRole, String id) {
-        Optional<Sample> delegation_op=delegationRepository.findById(id);
+        Optional<Sample> delegation_op= sampleRepository.findById(id);
         if(delegation_op.isPresent()){
             Sample sample=delegation_op.get();
             GetSampleResponseDto getSampleResponseDto = new GetSampleResponseDto();
@@ -166,7 +195,6 @@ public class sampleController implements SampleApi {
     }
 
     public Boolean deleteTaskByDelegationId(String id)
-
     {
         Task task = taskService.createTaskQuery().processDefinitionKey("sample_application").processVariableValueEquals("delegationId",id).singleResult();
         if(task != null){
@@ -179,9 +207,9 @@ public class sampleController implements SampleApi {
     @Override
     public ResponseEntity<Void> deleteOfflineSample(String usrName, String usrId, String usrRole, String id) {
 
-        Optional<Sample> delegation_op=delegationRepository.findById(id);
+        Optional<Sample> delegation_op= sampleRepository.findById(id);
         if(delegation_op.isPresent()){
-            delegationRepository.deleteById(delegation_op.get().getDelegationId());
+            sampleRepository.deleteById(delegation_op.get().getDelegationId());
             if(deleteTaskByDelegationId(id) == Boolean.TRUE)  return ResponseEntity.status(200).build();
         }
         return ResponseEntity.status(404).build();

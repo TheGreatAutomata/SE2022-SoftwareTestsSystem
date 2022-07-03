@@ -2,16 +2,13 @@ package com.micro.sampleserver.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.micro.commonserver.model.MultipartInputStreamFileResource;
 import com.micro.commonserver.service.MinioService;
 import com.micro.dto.GetSampleResponseDto;
 import com.micro.dto.SampleMessageApplicationRequestDto;
 import com.micro.sampleserver.SampleServerApplication;
 import com.micro.sampleserver.model.Sample;
-import com.micro.sampleserver.model.SampleMessage;
-import com.micro.sampleserver.repository.MongoDBDelegationRepository;
+import com.micro.sampleserver.repository.MongoDBSampleRepository;
 import io.minio.Result;
-import io.minio.errors.*;
 import io.minio.messages.Item;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
@@ -20,10 +17,6 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
-import org.apache.http.entity.ContentType;
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.assertj.core.api.Assertions;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,27 +31,15 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcExtensionsKt;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Optional;
 
 import static com.mongodb.client.model.Filters.eq;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 //import static org.springframework.test.web.servlet.MockMvcExtensionsKt.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -87,7 +68,7 @@ class sampleControllerTest {
     @MockBean
     private MinioService minioService;
     @MockBean
-    private MongoDBDelegationRepository sampleRepository;
+    private MongoDBSampleRepository sampleRepository;
     @MockBean
     private Result<Item> singleFile;
     @MockBean

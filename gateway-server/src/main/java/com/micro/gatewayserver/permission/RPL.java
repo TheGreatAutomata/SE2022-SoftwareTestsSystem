@@ -19,6 +19,8 @@ public class RPL {
     private final String downloadUnsignedNondisclosureAgreementTablePartyB = "/contract/[0-9A-Za-z]+/files/unsignedNondisclosureAgreementTable";
     private final String uploadContractPartyB = "/contract/[0-9A-Za-z]+/files";
 
+    private final String acceptSample = "/sample/accept/.*";
+
     private final String uploadTestScheme="/test/[0-9A-Za-z]+/test-scheme";
 
     private final HashSet<String> MarketPattern = new HashSet<>();
@@ -49,6 +51,7 @@ public class RPL {
         TestPattern.add(findDelegationByUsr);
         TestPattern.add(findDelegationByState);
         TestPattern.add(findDelegationAll);
+        TestPattern.add(acceptSample);
     }
 
 

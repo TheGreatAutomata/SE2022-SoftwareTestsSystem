@@ -1,11 +1,10 @@
-package com.micro.sampleserver.model;
+package com.micro.commonserver.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Document("SampleAcceptModel")

@@ -1,9 +1,7 @@
 package com.micro.sampleserver.mapper;
 
 import com.micro.dto.SampleAcceptDto;
-import com.micro.dto.SampleMessageApplicationRequestDto;
-import com.micro.sampleserver.model.SampleAcceptModel;
-import com.micro.sampleserver.model.SampleMessage;
+import com.micro.commonserver.model.SampleAcceptModel;
 import org.mapstruct.Mapper;
 
 @Mapper
