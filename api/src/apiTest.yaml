@@ -9,6 +9,21 @@ servers:
 paths:
   /test/{id}/test-scheme:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -65,6 +80,21 @@ paths:
 
   /test/{id}/audit-scheme:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -107,6 +137,21 @@ paths:
 
   /test/{id}/test-scheme/audit-table:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -131,6 +176,21 @@ paths:
 
   /test/approve/{id}/test-scheme:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -156,6 +216,21 @@ paths:
 
   /test/{id}/test-scheme-approve-result:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -180,6 +255,21 @@ paths:
 
   /test/{id}/test-doc/test-case:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -237,6 +327,21 @@ paths:
 
   /test/{id}/test-doc/test-record:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -294,6 +399,21 @@ paths:
 
   /test/{id}/test-doc/buglist:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -351,6 +471,21 @@ paths:
 
   /test/{id}/test-doc/doc-evaluation:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -408,6 +543,21 @@ paths:
 
   /test/{id}/test-doc/test-report:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -464,6 +614,21 @@ paths:
 
   /test/{id}/test-doc/report-evaluation:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -505,6 +670,21 @@ paths:
 
   /test/{id}/test-doc/test/report-evaluation:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -529,6 +709,21 @@ paths:
 
   /test/{id}/test-doc/work-evaluation:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -570,6 +765,21 @@ paths:
 
   /test/{id}/test-doc/test/work-evaluation:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -594,6 +804,21 @@ paths:
 
   /test/{id}/test-doc/formal-test-report:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -618,6 +843,21 @@ paths:
 
   /test/prepare/{delegationId}/{projectId}:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: delegationId
         in: path
         required: true
@@ -644,6 +884,21 @@ paths:
 
   /test/{id}/apply-report-evaluation:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -696,6 +951,22 @@ paths:
           description: usr not found
 
   /test/projects/all:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
     get:
       operationId: listAllProjects
       tags:
@@ -714,6 +985,21 @@ paths:
 
   /test/projects/{delegationId}:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: delegationId
         in: path
         required: true
