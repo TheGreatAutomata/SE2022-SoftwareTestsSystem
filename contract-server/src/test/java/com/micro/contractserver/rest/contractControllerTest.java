@@ -4,10 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.micro.commonserver.service.MinioService;
 import com.micro.contractserver.ContractServerApplication;
-import com.micro.contractserver.model.Contract;
-import com.micro.contractserver.model.ContractTable;
-import com.micro.contractserver.model.ContractTableExist;
-import com.micro.contractserver.model.PerformanceTermPartyAResponse;
+import com.micro.contractserver.mapper.ContractFileMapper;
+import com.micro.contractserver.model.*;
 import com.micro.contractserver.repository.MongoDBContractRepository;
 import com.micro.contractserver.service.ContractService;
 import com.micro.dto.*;
@@ -33,8 +31,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,8 +44,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -156,13 +157,6 @@ class contractControllerTest {
         headersWithWrongDelegationId.set("usrRole", "usrRole");
         headersWithWrongDelegationId.set("delegationId", "wrongDelegationId");
 
-        mulFile = new MockMultipartFile(
-                "样品", //文件名
-                "test.jpg", //originalName 相当于上传文件在客户机上的文件名
-                MediaType.TEXT_PLAIN_VALUE, //文件类型
-                "Hello, World!".getBytes() //文件流
-        );
-
     }
 
     String toJson(Object obj) throws JsonProcessingException {
@@ -264,7 +258,7 @@ class contractControllerTest {
         normalResponseDto.setResponseInfo("contract not found");
         content = toJson(normalResponseDto);
 
-        mockMvc.perform(post("/contract/{id}/performanceTerm/partyA", "wrongContractId").contentType("application/json").headers(headers))
+        mockMvc.perform(post("/contract/{id}/performanceTerm/partyA", "wrongContractId").contentType("application/json").headers(headers).content(body))
                 .andExpect(status().isBadRequest());
 
     }
@@ -297,31 +291,216 @@ class contractControllerTest {
     }
 
     @Test
-    void updatePerformanceTermPartyB() {
+    void updatePerformanceTermPartyB() throws Exception {
+
+        Contract contract = new Contract("delegationId", new ContractTable(new ContractTableExist(), null, null));
+        contract.setContractId("contractId");
+
+        when(contractRepository.findByContractId("contractId"))
+                .thenReturn(Optional.of(contract));
+        when(contractRepository.findByContractId("wrongContractId"))
+                .thenReturn(Optional.ofNullable(null));
+
+        PerformanceTermPartyBDto performanceTermPartyBDto = new PerformanceTermPartyBDto();
+        performanceTermPartyBDto.set项目名称("项目名称");
+        performanceTermPartyBDto.set受托方乙方("受托方乙方");
+        performanceTermPartyBDto.set合同履行期限("合同履行期限");
+        performanceTermPartyBDto.set整改限制次数("整改限制次数");
+        performanceTermPartyBDto.set一次整改限制的天数("一次整改限制的天数");
+
+        String body = toJson(performanceTermPartyBDto);
+
+        NormalResponseDto normalResponseDto = new NormalResponseDto();
+        normalResponseDto.setResponseInfo("update successfully");
+        String content = toJson(normalResponseDto);
+
+        mockMvc.perform(put("/contract/{id}/performanceTerm/partyB", "contractId").contentType("application/json").headers(headers).content(body))
+                .andExpect(content().json(content))
+                .andExpect(status().isOk());
+
+        normalResponseDto.setResponseInfo("contract not found");
+        content = toJson(normalResponseDto);
+
+        mockMvc.perform(put("/contract/{id}/performanceTerm/partyB", "wrongContractId").contentType("application/json").headers(headers).content(body))
+                .andExpect(status().isBadRequest());
+
     }
 
     @Test
-    void addContractTablePartyB() {
+    void addContractTablePartyB() throws Exception {
+
+        Contract contract = new Contract("delegationId", new ContractTable(null, null, new ContractTablePartyB()));
+        contract.setContractId("contractId");
+
+        when(contractRepository.findByContractId("contractId"))
+                .thenReturn(Optional.of(contract));
+        when(contractRepository.findByContractId("wrongContractId"))
+                .thenReturn(Optional.ofNullable(null));
+
+        ContractTablePartyBDto contractTablePartyBDto = new ContractTablePartyBDto();
+
+        String body = toJson(contractTablePartyBDto);
+
+        NormalResponseDto normalResponseDto = new NormalResponseDto();
+        normalResponseDto.setResponseInfo("add successfully");
+        String content = toJson(normalResponseDto);
+
+        mockMvc.perform(post("/contract/{id}/contractTable/partyB", "contractId").contentType("application/json").headers(headers).content(body))
+                .andExpect(content().json(content))
+                .andExpect(status().isOk());
+
+        normalResponseDto.setResponseInfo("contract not found");
+        content = toJson(normalResponseDto);
+
+        mockMvc.perform(post("/contract/{id}/contractTable/partyB", "wrongContractId").contentType("application/json").headers(headers).content(body))
+                .andExpect(status().isBadRequest());
+
     }
 
     @Test
-    void getContractTablePartyA() {
+    void getContractTablePartyA() throws Exception {
+
+        Contract contract = new Contract("delegationId", new ContractTable(null, null, new ContractTablePartyB()));
+        contract.setContractId("contractId");
+
+        when(contractRepository.findByContractId("contractId"))
+                .thenReturn(Optional.of(contract));
+        when(contractRepository.findByContractId("wrongContractId"))
+                .thenReturn(Optional.ofNullable(null));
+
+        ContractTablePartyBDto contractTablePartyBDto = new ContractTablePartyBDto();
+
+        String content = toJson(contractTablePartyBDto);
+
+        mockMvc.perform(get("/contract/{id}/contractTable/partyA", "contractId").contentType("application/json").headers(headers))
+                .andExpect(content().json(content))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/contract/{id}/contractTable/partyA", "wrongContractId").contentType("application/json").headers(headers))
+                .andExpect(status().isBadRequest());
+
     }
 
     @Test
-    void addContractTablePartyA() {
+    void addContractTablePartyA() throws Exception {
+
+        Contract contract = new Contract("delegationId", new ContractTable(new ContractTableExist(), null, null));
+        contract.setContractId("contractId");
+
+        when(contractRepository.findByContractId("contractId"))
+                .thenReturn(Optional.of(contract));
+        when(contractRepository.findByContractId("wrongContractId"))
+                .thenReturn(Optional.ofNullable(null));
+
+        ContractTablePartyADto contractTablePartyADto = new ContractTablePartyADto();
+
+        String body = toJson(contractTablePartyADto);
+
+        NormalResponseDto normalResponseDto = new NormalResponseDto();
+        normalResponseDto.setResponseInfo("add successfully");
+        String content = toJson(normalResponseDto);
+
+        mockMvc.perform(post("/contract/{id}/contractTable/partyA", "contractId").contentType("application/json").headers(headers).content(body))
+                .andExpect(content().json(content))
+                .andExpect(status().isOk());
+
+        normalResponseDto.setResponseInfo("contract not found");
+        content = toJson(normalResponseDto);
+
+        mockMvc.perform(post("/contract/{id}/contractTable/partyA", "wrongContractId").contentType("application/json").headers(headers).content(body))
+                .andExpect(status().isBadRequest());
+
     }
 
     @Test
-    void downloadUnsignedContractTablePartyB() {
+    void downloadUnsignedContractTablePartyB() throws Exception {
+
+        minioFileItem fileItem = new minioFileItem();
+
+        when(contractService.getUnsignedContractTableFile("contractId"))
+                .thenReturn(fileItem);
+        when(contractService.getUnsignedContractTableFile("wrongContractId"))
+                .thenReturn(null);
+
+        ContractFileMapper contractFileMapper = new ContractFileMapper();
+
+        SingleFileDto singleFileDto = contractFileMapper.toSingleFileDto(fileItem);
+
+        String content = toJson(singleFileDto);
+
+        mockMvc.perform(get("/contract/{id}/files/unsignedContractTable", "contractId").contentType("application/json").headers(headers))
+                .andExpect(content().json(content))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/contract/{id}/files/unsignedContractTable", "wrongContractId").contentType("application/json").headers(headers))
+                .andExpect(status().isBadRequest());
+
     }
 
     @Test
-    void downloadUnsignedNondisclosureAgreementTablePartyB() {
+    void downloadUnsignedNondisclosureAgreementTablePartyB() throws Exception {
+
+        minioFileItem fileItem = new minioFileItem();
+
+        when(contractService.getUnsignedNondisclosureAgreementTableFile("contractId"))
+                .thenReturn(fileItem);
+        when(contractService.getUnsignedNondisclosureAgreementTableFile("wrongContractId"))
+                .thenReturn(null);
+
+        ContractFileMapper contractFileMapper = new ContractFileMapper();
+
+        SingleFileDto singleFileDto = contractFileMapper.toSingleFileDto(fileItem);
+
+        String content = toJson(singleFileDto);
+
+        mockMvc.perform(get("/contract/{id}/files/unsignedNondisclosureAgreementTable", "contractId").contentType("application/json").headers(headers))
+                .andExpect(content().json(content))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/contract/{id}/files/unsignedNondisclosureAgreementTable", "wrongContractId").contentType("application/json").headers(headers))
+                .andExpect(status().isBadRequest());
+
     }
 
     @Test
-    void uploadContractPartyB() {
+    void uploadContractPartyB() throws Exception {
+
+        Contract contract = new Contract("delegationId", new ContractTable(new ContractTableExist(), null, null));
+        contract.setContractId("contractId");
+
+        when(contractRepository.findByContractId("contractId"))
+                .thenReturn(Optional.of(contract));
+        when(contractRepository.findByContractId("wrongContractId"))
+                .thenReturn(Optional.ofNullable(null));
+
+        mulFile = new MockMultipartFile(
+                "样品", //文件名
+                "test.jpg", //originalName 相当于上传文件在客户机上的文件名
+                MediaType.TEXT_PLAIN_VALUE, //文件类型
+                "Hello, World!".getBytes() //文件流
+        );
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.multipart("/contract/{id}/files","contractId");
+        builder.with(new RequestPostProcessor() {
+            @Override
+            public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+                request.setMethod("POST");
+                return request;
+            }
+        });
+
+        NormalResponseDto normalResponseDto = new NormalResponseDto();
+        normalResponseDto.setResponseInfo("add successfully");
+        String content = toJson(normalResponseDto);
+
+        mockMvc.perform(post("/contract/{id}/files", "contractId").contentType("application/json").headers(headers))
+                .andExpect(content().json(content))
+                .andExpect(status().isOk());
+
+        normalResponseDto.setResponseInfo("contract not found");
+        content = toJson(normalResponseDto);
+
+        mockMvc.perform(post("/contract/{id}/files", "wrongContractId").contentType("application/json").headers(headers))
+                .andExpect(status().isBadRequest());
+
     }
 
     @Test

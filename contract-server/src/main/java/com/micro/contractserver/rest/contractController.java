@@ -209,6 +209,7 @@ public class contractController implements ContractApi {
         if(contract_op.isPresent()) {
             Contract contract = contract_op.get();
             PerformanceTermPartyB performanceTermPartyB = performanceTermPartyBMapper.toObj(performanceTermPartyBDto);
+            contract.getContractTable().getContractTableExist().setProjectName(performanceTermPartyB.get项目名称());
             contract.getContractTable().getContractTableExist().setPartyBName1(performanceTermPartyB.get受托方乙方());
             contract.getContractTable().getContractTableExist().setPerformanceTerm(performanceTermPartyB.get合同履行期限());
             contract.getContractTable().getContractTableExist().setRectificationTimes(performanceTermPartyB.get整改限制次数());
@@ -427,7 +428,7 @@ public class contractController implements ContractApi {
     @Override
     public ResponseEntity<SingleFileDto> downloadSignedContractTable(String usrName, String usrId, String usrRole, String id) {
 
-        System.out.println("download signed contract table file...");
+        System.out.println("download signed contract table file of contract " + id + " ...");
 
         minioFileItem fileItem = contractService.getSignedContractTableFile(id);
         if(fileItem == null) {
@@ -446,7 +447,7 @@ public class contractController implements ContractApi {
     @Override
     public ResponseEntity<SingleFileDto> downloadSignedNondisclosureAgreementTable(String usrName, String usrId, String usrRole, String id) {
 
-        System.out.println("download signed nondisclosure agreement file...");
+        System.out.println("download signed nondisclosure agreement file of contract " + id + " ...");
 
         minioFileItem fileItem = contractService.getSignedNondisclosureAgreementTableFile(id);
         if(fileItem == null) {

@@ -18,7 +18,7 @@ public class SetTestPreparationDelegate implements JavaDelegate {
         this.restTemplate = restTemplate;
     }
 
-    private String TEST_URI = "http://test/prepare/";
+    private String TEST_URI = "http://test-server/test/prepare/";
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
@@ -33,6 +33,7 @@ public class SetTestPreparationDelegate implements JavaDelegate {
         ResponseEntity<Void> result = restTemplate.exchange(TEST_URI + contract.getDelegationId() + "/" + contract.getProjectId(), HttpMethod.PUT, requestEntity, Void.class);
         if(result.getStatusCode() != HttpStatus.OK)
         {
+            System.out.println("!!! set test preparation failed !!!");
             throw new RuntimeException();
         }*/
 

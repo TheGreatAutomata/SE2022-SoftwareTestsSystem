@@ -56,6 +56,10 @@ public class SaveContractFilesDelegate implements JavaDelegate {
                     contract.setSignedNondisclosureAgreementTableFile(fileItem);
                 }
 
+            } else {
+
+                System.out.println("!!! null file is illegal !!!");
+
             }
 
         }
