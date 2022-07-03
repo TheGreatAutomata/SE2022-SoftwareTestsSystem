@@ -1,4 +1,4 @@
-package com.micro.testserver.rest;
+/*package com.micro.testserver.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -698,4 +698,4 @@ class SoftwareTestControllerTest {
     }
 
 
-}
+}*/
