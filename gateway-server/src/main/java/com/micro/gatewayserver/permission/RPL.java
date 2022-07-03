@@ -20,7 +20,6 @@ public class RPL {
     private final String downloadUnsignedContractTablePartyB = "/contract/[0-9A-Za-z]+/files/unsignedContractTable";
     private final String downloadUnsignedNondisclosureAgreementTablePartyB = "/contract/[0-9A-Za-z]+/files/unsignedNondisclosureAgreementTable";
     private final String uploadContractPartyB = "/contract/[0-9A-Za-z]+/files";
-
     private final String get_post_put_TestScheme="/test/[0-9A-Za-z]+/test-scheme";
     private final String get_TestSchemeAuditTable="/test/[0-9A-Za-z]+/test-scheme/audit-table";
     private final String post_put_TestSchemeAuditTable="/test/[0-9A-Za-z]+/audit-scheme";
@@ -37,7 +36,6 @@ public class RPL {
     private final String getProjects="/test/projects";
     private final String getAllProjects="/test/projects/all";
     private final String getProjectByDelegationId="/test/project/[0-9A-Za-z]+";
-
     private final HashSet<String> MarketPattern = new HashSet<>();
     private final HashSet<String> TestPattern = new HashSet<>();
     private final HashSet<String> QLTYPattern = new HashSet<>();
@@ -49,7 +47,6 @@ public class RPL {
         MarketPattern.add(findDelegationByUsr);
         MarketPattern.add(findDelegationByState);
         MarketPattern.add(findDelegationAll);
-
 
         MarketPattern.add(draftPerformanceTermPartyB);
         MarketPattern.add(getPerformanceTermReplyPartyB);
