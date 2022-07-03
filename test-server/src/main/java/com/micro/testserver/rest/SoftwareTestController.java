@@ -11,18 +11,21 @@ import com.micro.testserver.mapper.*;
 import com.micro.testserver.model.*;
 import com.micro.testserver.repository.DelegationRepository;
 import com.micro.testserver.repository.SoftwareTestRepository;
+import com.micro.testserver.repository.TestContractRepo;
 import com.micro.testserver.service.SoftwareTestService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 
 @RestController
@@ -586,27 +589,34 @@ public class SoftwareTestController implements TestApi {
         TestSchemeAuditTableDto schemeAuditTableDto=testSchemeAuditTableMapper.toDto(softwareTest.getSchemeEvaluationTable());
         return new ResponseEntity<>(schemeAuditTableDto,HttpStatus.OK);
     }
+
+    @Autowired
+    TestContractRepo testContractRepo;
+
     @Override
     public ResponseEntity<Void> prepareProject(String usrName, String usrId, String usrRole,String delegationId, String projectId) {
-        Contract c = contractMapper.toObj(restTemplate.getForObject("http://contract-server/contract/delegationId/"+delegationId, ContractDto.class));
-        SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(delegationId);
-        if(c==null||softwareTest==null) {
+        Optional<Contract> c_op = testContractRepo.findByDelegationId(delegationId);
+        Optional<Delegation> delegation_op=delegationRepository.findById(delegationId);
+        if(c_op.isEmpty()||delegation_op.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        Contract c=c_op.get();
+        SoftwareTest softwareTest=new SoftwareTest();
+        softwareTest.setDelegation_id(delegationId);
         softwareTest.setState(SoftwareTestState.TEST_SCHEME);
         softwareTest.setContract(c);
         softwareTest.setProjectId(projectId);
-
         softwareTest.setUsrId(c.getUsrId());
         softwareTest.setUsrName(c.getUsrName());
 
         softwareTestRepository.save(softwareTest);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<TestProjectDto>> listProjects(String usrName, String usrId, String usrRole) {
+    public ResponseEntity<List<TestProjectDto>> listProjects(String usrId, String usrName, String usrRole) {
         List<SoftwareTest> softwareTests=softwareTestRepository.findByUsrId(usrId);
         if(softwareTests.size()==0){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -620,7 +630,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<List<TestProjectDto>> listAllProjects(String usrName, String usrId, String usrRole) {
+    public ResponseEntity<List<TestProjectDto>> listAllProjects(String usrId, String usrName, String usrRole) {
         List<SoftwareTest> softwareTests=softwareTestRepository.findAll();
         if(softwareTests.size()==0){
             return new ResponseEntity<>(HttpStatus.valueOf(400));
