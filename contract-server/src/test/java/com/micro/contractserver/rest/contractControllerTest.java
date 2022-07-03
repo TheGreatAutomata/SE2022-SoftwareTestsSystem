@@ -82,7 +82,8 @@ class contractControllerTest {
     private HttpHeaders headers;
     private HttpHeaders headersWithDelegationId;
     private HttpHeaders headersWithWrongDelegationId;
-    private MockMultipartFile mulFile;
+    private MockMultipartFile signedContractFile;
+    private MockMultipartFile signedNondisclosureAgreementFile;
 
     @BeforeEach
     void setUp() {
@@ -470,15 +471,22 @@ class contractControllerTest {
         when(contractRepository.findByContractId("wrongContractId"))
                 .thenReturn(Optional.ofNullable(null));
 
-        mulFile = new MockMultipartFile(
-                "样品", //文件名
-                "test.jpg", //originalName 相当于上传文件在客户机上的文件名
+        signedContractFile = new MockMultipartFile(
+                "Contract_complete", //文件名
+                "Contract_complete.pdf", //originalName 相当于上传文件在客户机上的文件名
+                MediaType.TEXT_PLAIN_VALUE, //文件类型
+                "Hello, World!".getBytes() //文件流
+        );
+
+        signedNondisclosureAgreementFile = new MockMultipartFile(
+                "NDA_complete", //文件名
+                "NDA_complete.pdf", //originalName 相当于上传文件在客户机上的文件名
                 MediaType.TEXT_PLAIN_VALUE, //文件类型
                 "Hello, World!".getBytes() //文件流
         );
 
         MockHttpServletRequestBuilder builder =
-                MockMvcRequestBuilders.multipart("/contract/{id}/files","contractId");
+                MockMvcRequestBuilders.multipart("/contract/{id}/files","contractId").file(signedContractFile).file(signedNondisclosureAgreementFile).headers(headers);
         builder.with(new RequestPostProcessor() {
             @Override
             public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
@@ -488,27 +496,77 @@ class contractControllerTest {
         });
 
         NormalResponseDto normalResponseDto = new NormalResponseDto();
-        normalResponseDto.setResponseInfo("add successfully");
+        normalResponseDto.setResponseInfo("upload successfully");
         String content = toJson(normalResponseDto);
 
-        mockMvc.perform(post("/contract/{id}/files", "contractId").contentType("application/json").headers(headers))
+        mockMvc.perform(builder)
                 .andExpect(content().json(content))
                 .andExpect(status().isOk());
+
+        builder =
+                MockMvcRequestBuilders.multipart("/contract/{id}/files","wrongContractId").file(signedContractFile).file(signedNondisclosureAgreementFile).headers(headers);
+        builder.with(new RequestPostProcessor() {
+            @Override
+            public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+                request.setMethod("POST");
+                return request;
+            }
+        });
 
         normalResponseDto.setResponseInfo("contract not found");
         content = toJson(normalResponseDto);
 
-        mockMvc.perform(post("/contract/{id}/files", "wrongContractId").contentType("application/json").headers(headers))
+        mockMvc.perform(builder)
                 .andExpect(status().isBadRequest());
 
     }
 
     @Test
-    void downloadSignedContractTable() {
+    void downloadSignedContractTable() throws Exception {
+
+        minioFileItem fileItem = new minioFileItem();
+
+        when(contractService.getSignedContractTableFile("contractId"))
+                .thenReturn(fileItem);
+        when(contractService.getSignedContractTableFile("wrongContractId"))
+                .thenReturn(null);
+
+        ContractFileMapper contractFileMapper = new ContractFileMapper();
+
+        SingleFileDto singleFileDto = contractFileMapper.toSingleFileDto(fileItem);
+
+        String content = toJson(singleFileDto);
+
+        mockMvc.perform(get("/contract/{id}/files/signedContractTable", "contractId").contentType("application/json").headers(headers))
+                .andExpect(content().json(content))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/contract/{id}/files/signedContractTable", "wrongContractId").contentType("application/json").headers(headers))
+                .andExpect(status().isBadRequest());
+
     }
 
     @Test
-    void downloadSignedNondisclosureAgreementTable() {
+    void downloadSignedNondisclosureAgreementTable() throws Exception {
+
+        minioFileItem fileItem = new minioFileItem();
+
+        when(contractService.getSignedNondisclosureAgreementTableFile("contractId"))
+                .thenReturn(fileItem);
+        when(contractService.getSignedNondisclosureAgreementTableFile("wrongContractId"))
+                .thenReturn(null);
+
+        ContractFileMapper contractFileMapper = new ContractFileMapper();
+
+        SingleFileDto singleFileDto = contractFileMapper.toSingleFileDto(fileItem);
+
+        String content = toJson(singleFileDto);
+
+        mockMvc.perform(get("/contract/{id}/files/signedNondisclosureAgreementTable", "contractId").contentType("application/json").headers(headers))
+                .andExpect(content().json(content))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/contract/{id}/files/signedNondisclosureAgreementTable", "wrongContractId").contentType("application/json").headers(headers))
+                .andExpect(status().isBadRequest());
+
     }
 
     @Test
