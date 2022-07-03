@@ -67,9 +67,7 @@ public class RPL {
         MODPattern.add(get_post_put_TestReport);
         MODPattern.add(get_ReportEvaluationTable);
         MODPattern.add(get_WorkEvaluationTable);
-        MODPattern.add(getProjects);
         MODPattern.add(getAllProjects);
-        MODPattern.add(getProjectByDelegationId);
 
         TestPattern.add(auditDelegationTest);
         TestPattern.add(findDelegationByUsr);
