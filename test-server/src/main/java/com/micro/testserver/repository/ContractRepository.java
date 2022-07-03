@@ -7,5 +7,5 @@ import org.springframework.data.mongodb.repository.Query;
 
 public interface ContractRepository extends MongoRepository<Contract,String> {
     @Query("{delegationId: ?0}")
-    public void findByDelegationId(String delegationId);
+    public Contract findByDelegationId(String delegationId);
 }

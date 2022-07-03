@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 @SpringBootApplication
 @Configuration
-public class TestServerApplication {
+public class TestServerApplication{
     public static void main(String args[]){
         SpringApplication.run(TestServerApplication.class,args);
     }

@@ -378,6 +378,17 @@ public class SoftwareTestController implements TestApi {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /*@GetMapping("/test/test/test")
+    public void dkd(){
+        System.out.println("泰斯特");
+        Map<String,Object> variables=new HashMap<>();
+        SoftwareTest softwareTest=new SoftwareTest();
+        softwareTest.setDelegation_id("629d9a7bb90a5669b8f5e2db");
+        variables.put("softwareTest",softwareTest);
+        variables.put("delegationId","629d9a7bb90a5669b8f5e2db");
+        runtimeService.startProcessInstanceByKey("test_audit",variables);
+    }*/
+
     @Override
     public ResponseEntity<Void> putDocDocEvaluation(String usrName, String usrId, String usrRole,String id, DocEvaluationTableDto docEvaluationTableDto) {
         //检查
