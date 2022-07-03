@@ -4,7 +4,7 @@ minio:
   accessKey: minioadmin
   secretKey: minioadmin
   # bucketName: minioTest
-  partSize: 104857600
+  partSize: 0x7fffffff
 server:
   port: 32102
 spring:

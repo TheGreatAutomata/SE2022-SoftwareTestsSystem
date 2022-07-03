@@ -22,9 +22,9 @@ public class ContractTableExist implements Serializable {
     public String rectificationTerm;
     public String partyAName3;
     public String partyBName3;
-    public String partyBDepositBank;
-    public String partyBBankAccountName;
-    public String partyBBankAccountNumber;
+
+    public ContractTableExist() {
+    }
 
     public ContractTableExist(String projectName, String partyBName1, String partyBName2, String partyBName3, String performanceTerm, String rectificationTimes, String rectificationTerm) {
 

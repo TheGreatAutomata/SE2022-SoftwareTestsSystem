@@ -11,6 +11,9 @@ public class NondisclosureAgreementTable implements Serializable {
     public String partyBName;
     public String projectName;
 
+    public NondisclosureAgreementTable() {
+    }
+
     public NondisclosureAgreementTable(String partyAName, String partyBName, String projectName) {
         this.partyAName = partyAName;
         this.partyBName = partyBName;

@@ -2,8 +2,10 @@ package com.micro.contractserver.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class minioFileItem {
+public class minioFileItem implements Serializable {
     public String fileType;
     public String fileName;
     public String fileUri;

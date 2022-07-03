@@ -26,9 +26,9 @@ public class SetDelegationStateDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
-        System.out.println("Set delegation state according to contract state...");
-
         Contract contract = (Contract)delegateExecution.getVariable("contract");
+
+        System.out.println("...Setting delegation state as " + contract.getContractState()  + " according to contract state");
 
         DelegationState delegationState = DelegationState.ERROR;
 
@@ -66,7 +66,7 @@ public class SetDelegationStateDelegate implements JavaDelegate {
                 break;
             }
             default: {
-                System.out.println("contract state is illegal...");
+                System.out.println("!!! contract state is illegal !!!");
                 break;
             }
         }
@@ -98,7 +98,7 @@ public class SetDelegationStateDelegate implements JavaDelegate {
                     break;
                 }
                 default: {
-                    System.out.println("performance term state is illegal...");
+                    System.out.println("!!! performance term state is illegal !!!");
                     break;
                 }
             }
@@ -106,7 +106,7 @@ public class SetDelegationStateDelegate implements JavaDelegate {
 
         delegateExecution.setVariable("contract", contract);
         delegateExecution.setVariable("contractId", contract.getContractId());
-        delegateExecution.setVariable("delegationId", delegationId);
+        delegateExecution.setVariable("delegationId", contract.getDelegationId());
 
     }
 
