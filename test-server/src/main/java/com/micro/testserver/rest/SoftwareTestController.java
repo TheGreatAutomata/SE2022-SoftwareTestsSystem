@@ -631,6 +631,7 @@ public class SoftwareTestController implements TestApi {
 
     @Override
     public ResponseEntity<List<TestProjectDto>> listAllProjects(String usrId, String usrName, String usrRole) {
+        System.out.println("getAll");
         List<SoftwareTest> softwareTests=softwareTestRepository.findAll();
         if(softwareTests.size()==0){
             return new ResponseEntity<>(HttpStatus.valueOf(400));
