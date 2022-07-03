@@ -652,7 +652,6 @@ public class SoftwareTestController implements TestApi {
     public ResponseEntity<TestProjectDto> findProjectByDelegationId(String usrName, String usrId, String usrRole,String delegationId) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(delegationId);
         Optional<Delegation> delegation_op=delegationRepository.findById(softwareTest.getDelegation_id());
-
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

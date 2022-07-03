@@ -884,12 +884,12 @@ paths:
 
   /test/{id}/apply-report-evaluation:
     parameters:
-      - name: usrName
+      - name: usrId
         in: header
         required: true
         schema:
           type: string
-      - name: usrId
+      - name: usrName
         in: header
         required: true
         schema:
@@ -919,12 +919,12 @@ paths:
 
   /test/projects:
     parameters:
-      - name: usrName
+      - name: usrId
         in: header
         required: true
         schema:
           type: string
-      - name: usrId
+      - name: usrName
         in: header
         required: true
         schema:
@@ -952,12 +952,12 @@ paths:
 
   /test/projects/all:
     parameters:
-      - name: usrName
+      - name: usrId
         in: header
         required: true
         schema:
           type: string
-      - name: usrId
+      - name: usrName
         in: header
         required: true
         schema:
@@ -985,12 +985,12 @@ paths:
 
   /test/projects/{delegationId}:
     parameters:
-      - name: usrName
+      - name: usrId
         in: header
         required: true
         schema:
           type: string
-      - name: usrId
+      - name: usrName
         in: header
         required: true
         schema:
