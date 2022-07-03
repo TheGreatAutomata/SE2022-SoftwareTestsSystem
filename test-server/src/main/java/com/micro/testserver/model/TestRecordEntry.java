@@ -22,7 +22,6 @@ public class TestRecordEntry {
     public String 测试用例设计者;
 
     public String 实际结果;
-
     public String 是否与预期结果一致;
 
     public String 相关的bUG编号;

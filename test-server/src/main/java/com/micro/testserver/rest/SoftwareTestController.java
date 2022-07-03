@@ -609,6 +609,7 @@ public class SoftwareTestController implements TestApi {
         softwareTest.setProjectId(projectId);
         softwareTest.setUsrId(c.getUsrId());
         softwareTest.setUsrName(c.getUsrName());
+        softwareTest.set软件名称(delegation_op.get().applicationTable.get软件名称());
 
         softwareTestRepository.save(softwareTest);
 
@@ -623,7 +624,7 @@ public class SoftwareTestController implements TestApi {
         }
         List<TestProjectDto> projectDtos=new ArrayList<>();
         for (SoftwareTest softwareTest:softwareTests){
-            TestProject project=new TestProject(usrId,usrName,softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState());
+            TestProject project=new TestProject(usrId,usrName,softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState(),softwareTest.get软件名称());
             projectDtos.add(testProjectMapper.toDto(project));
         }
         return new ResponseEntity<>(projectDtos,HttpStatus.OK);
@@ -638,7 +639,7 @@ public class SoftwareTestController implements TestApi {
         }
         List<TestProjectDto> projectDtos=new ArrayList<>();
         for(SoftwareTest softwareTest:softwareTests){
-            TestProject project=new TestProject(softwareTest.getUsrId(),softwareTest.getUsrName(),softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState());
+            TestProject project=new TestProject(softwareTest.getUsrId(),softwareTest.getUsrName(),softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState(),softwareTest.get软件名称());
             projectDtos.add(testProjectMapper.toDto(project));
         }
         return new ResponseEntity<>(projectDtos,HttpStatus.OK);
@@ -650,7 +651,7 @@ public class SoftwareTestController implements TestApi {
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        TestProject project=new TestProject(softwareTest.getUsrId(),softwareTest.getUsrName(),softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState());
+        TestProject project=new TestProject(softwareTest.getUsrId(),softwareTest.getUsrName(),softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState(),softwareTest.get软件名称());
         TestProjectDto dto=testProjectMapper.toDto(project);
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }
