@@ -31,6 +31,8 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
         System.out.println("...Generating contract files");
 
+        System.out.println(System.getProperty("user.dir"));
+
         Contract contract = (Contract)delegateExecution.getVariable("contract");
 
         generateContractTableFile(contract.getContractTable(), contract.getContractId());
@@ -154,7 +156,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
             String filename = "Contract_" + contractId;
             String inputPath = "template/";
-            String outputPath = "velocity/generate/";
+            String outputPath = "SE2022-SoftwareTestsSystem/deployment/velocity/generate/";
             // String outputPath = "SE2022-SoftwareTestsSystem/contract-server/src/main/resources/generate/";
 
             // 设置velocity的资源加载器
@@ -315,7 +317,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
             // 设置输入输出路径
             String filename = "NDA_" + contractId;
             String inputPath = "template/";
-            String outputPath = "velocity/generate/";
+            String outputPath = "SE2022-SoftwareTestsSystem/deployment/velocity/generate/";
             // String outputPath = "SE2022-SoftwareTestsSystem/contract-server/src/main/resources/generate/";
 
             // 设置velocity的资源加载器
@@ -395,7 +397,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         }
         else if(this.getClass().getResource("").getProtocol().equals("jar")) {
 
-            String outputPath = "velocity/generate/";
+            String outputPath = "SE2022-SoftwareTestsSystem/deployment/velocity/generate/";
             // String outputPath = "SE2022-SoftwareTestsSystem/contract-server/src/main/resources/generate/";
 
             File contractTableFile = new File(outputPath + "Contract_" + contractId + ".pdf");
@@ -429,7 +431,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         }
         else if(this.getClass().getResource("").getProtocol().equals("jar")) {
 
-            String outputPath = "velocity/generate/";
+            String outputPath = "SE2022-SoftwareTestsSystem/deployment/velocity/generate/";
             // String outputPath = "SE2022-SoftwareTestsSystem/contract-server/src/main/resources/generate/";
 
             Runtime runtime = Runtime.getRuntime();
