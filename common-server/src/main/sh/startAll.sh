@@ -10,7 +10,7 @@ NOW="delegation-server"
 nohup java -jar ./SE2022-SoftwareTestsSystem/${NOW}/target/${NOW}-0.0.1-SNAPSHOT-exec.jar > ${LOGDIR}/${NOW}.txt &
 
 NOW="contract-server"
-nohup java -jar ./deployment/${NOW}-0.0.1-SNAPSHOT-exec.jar > ${LOGDIR}/${NOW}.txt &
+nohup java -jar ./SE2022-SoftwareTestsSystem/deployment/${NOW}-0.0.1-SNAPSHOT-exec.jar > ${LOGDIR}/${NOW}.txt &
 
 NOW="sample-server"
 nohup java -jar ./SE2022-SoftwareTestsSystem/${NOW}/target/${NOW}-0.0.1-SNAPSHOT.jar > ${LOGDIR}/${NOW}.txt &
