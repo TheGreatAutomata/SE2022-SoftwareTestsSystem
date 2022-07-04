@@ -10,13 +10,11 @@ import com.micro.testserver.repository.SampelAcceptModelRepository;
 import com.micro.testserver.repository.SoftwareTestRepository;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 public class GenerateTestReportDelegate implements JavaDelegate {
 
@@ -183,7 +181,7 @@ public class GenerateTestReportDelegate implements JavaDelegate {
         report.set样品状态(sampleAcceptModel.get样品状态());
 
         //样品清单
-        report.set样品清单(String.join(delim,sampleAcceptModel.get样品列表()));
+        report.set样品清单(String.join(delim,sampleAcceptModel.getString样品列表()));
 
         softwareTest.setTestReport(report);
         System.out.println(softwareTestRepository);

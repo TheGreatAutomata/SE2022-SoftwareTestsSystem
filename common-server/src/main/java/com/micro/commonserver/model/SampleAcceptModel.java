@@ -1,6 +1,5 @@
 package com.micro.commonserver.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -23,7 +22,7 @@ public class SampleAcceptModel implements Serializable {
 
     public String 态度;
 
-    public List<String> get样品列表() {
+    public List<String> getString样品列表() {
         List<String> list = new ArrayList<>();
         for(var e: this.样品列表)
             list.add(e.get样品名称());
