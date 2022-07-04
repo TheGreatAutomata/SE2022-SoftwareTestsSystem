@@ -77,7 +77,7 @@ public class sampleController implements SampleApi {
             variables.put("isOk", 1);
             SampleAcceptModel sampleAccept = sampleAcceptModelMapper.toObj(sampleAcceptDto);
             sampleAcceptRepository.save(sampleAccept);
-            state = DelegationState.AUDIT_MARKET_APARTMENT;
+            state = DelegationState.AUDIT_TEST_APARTMENT;
         }
         else
         {

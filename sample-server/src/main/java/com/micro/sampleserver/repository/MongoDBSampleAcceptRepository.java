@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface MongoDBSampleAcceptRepository extends MongoRepository<SampleAcceptModel,String> {
 
-    List<Sample> SampleAcceptModel(String usrId);
+    List<Sample> findAllByDelegationId(String usrId);
 }
