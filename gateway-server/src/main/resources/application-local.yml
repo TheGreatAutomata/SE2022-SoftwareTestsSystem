@@ -11,6 +11,11 @@ spring:
           predicates:
             - Path=/sample/accept/{id},/sample/online/{id},/sample/offline/{id}
             - Method=POST
+        - id: sample-server-put
+          uri: lb://sample-server
+          predicates:
+            - Path=/sample/online/{id},/sample/offline/{id}
+            - Method=put
         - id: sample-server-get
           uri: lb://sample-server
           predicates:
