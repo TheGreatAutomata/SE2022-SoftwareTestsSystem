@@ -9,6 +9,21 @@ servers:
 paths:
   /test/{id}/test-scheme:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -65,6 +80,21 @@ paths:
 
   /test/{id}/audit-scheme:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -107,6 +137,21 @@ paths:
 
   /test/{id}/test-scheme/audit-table:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -131,6 +176,21 @@ paths:
 
   /test/approve/{id}/test-scheme:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -156,6 +216,21 @@ paths:
 
   /test/{id}/test-scheme-approve-result:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -180,6 +255,21 @@ paths:
 
   /test/{id}/test-doc/test-case:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -237,6 +327,21 @@ paths:
 
   /test/{id}/test-doc/test-record:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -294,6 +399,21 @@ paths:
 
   /test/{id}/test-doc/buglist:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -351,6 +471,21 @@ paths:
 
   /test/{id}/test-doc/doc-evaluation:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -408,6 +543,21 @@ paths:
 
   /test/{id}/test-doc/test-report:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -464,6 +614,21 @@ paths:
 
   /test/{id}/test-doc/report-evaluation:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -505,6 +670,21 @@ paths:
 
   /test/{id}/test-doc/test/report-evaluation:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -529,27 +709,27 @@ paths:
 
   /test/{id}/test-doc/work-evaluation:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
         description: The id of delegation
         schema:
           type: string
-    get:
-      operationId: getDoc_workEvaluation
-      tags:
-        - test
-      responses:
-        "200":
-          description: ok
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/workEvaluationTable"
-        "400":
-          description: other errors
-        "404":
-          description: delegation not found
     post:
       operationId: uploadDoc_workEvaluation
       tags:
@@ -583,8 +763,62 @@ paths:
         "404":
           description: delegation not found
 
+  /test/{id}/test-doc/test/work-evaluation:
+    parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of delegation
+        schema:
+          type: string
+    get:
+      operationId: getDoc_workEvaluation
+      tags:
+        - test
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/workEvaluationTable"
+        "400":
+          description: other errors
+        "404":
+          description: delegation not found
+
   /test/{id}/test-doc/formal-test-report:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -609,6 +843,21 @@ paths:
 
   /test/prepare/{delegationId}/{projectId}:
     parameters:
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: delegationId
         in: path
         required: true
@@ -635,6 +884,21 @@ paths:
 
   /test/{id}/apply-report-evaluation:
     parameters:
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -655,12 +919,12 @@ paths:
 
   /test/projects:
     parameters:
-      - name: usrName
+      - name: usrId
         in: header
         required: true
         schema:
           type: string
-      - name: usrId
+      - name: usrName
         in: header
         required: true
         schema:
@@ -687,6 +951,22 @@ paths:
           description: usr not found
 
   /test/projects/all:
+    parameters:
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
     get:
       operationId: listAllProjects
       tags:
@@ -705,6 +985,21 @@ paths:
 
   /test/projects/{delegationId}:
     parameters:
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
       - name: delegationId
         in: path
         required: true
@@ -735,35 +1030,35 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/docModifyRecord"
-        1.1标识:
+        标识:
           type: string
-        1.2系统概述:
+        系统概述:
           type: string
-        1.3文档概述:
+        文档概述:
           type: string
-        1.4基线:
+        基线:
           type: string
-        3.1硬件:
+        硬件:
           type: string
-        3.2软件:
+        软件:
           type: string
-        3.3其他:
+        其他:
           type: string
-        3.4参与组织:
+        参与组织:
           type: string
-        3.5人员:
+        人员:
           type: string
-        4.1总体设计:
+        总体设计:
           type: string
-        4.1.1测试级别:
+        测试级别:
           type: string
-        4.1.2测试类别:
+        测试类别:
           type: string
-        4.1.3一般测试条件:
+        一般测试条件:
           type: string
-        4.2计划执行的测试:
+        计划执行的测试:
           type: string
-        4.3测试用例:
+        测试用例:
           type: string
         测试进度表:
           $ref: "#/components/schemas/testProgressTable"
@@ -1081,6 +1376,18 @@ components:
           type: string
         E-mail:
           type: string
+        测试单位单位地址:
+          type: string
+        测试单位邮政编码:
+          type: string
+        测试单位电话:
+          type: string
+        测试单位传真:
+          type: string
+        测试单位网址:
+          type: string
+        测试单位E-mail:
+          type: string
         硬件环境:
           type: array
           items:
@@ -1303,6 +1610,8 @@ components:
           type: string
         序号:
           type: string
+        测试特性:
+          type: string
         测试用例设计说明:
           type: string
         与本测试用例有关的规约说明:
@@ -1454,4 +1763,18 @@ components:
         contractId:
           type: string
         projectId:
+          type: string
+        state:
+          type: string
+        软件名称:
+          type: string
+
+    singleFile:
+      type: object
+      properties:
+        fileName:
+          type: string
+        fileType:
+          type: string
+        fileUri:
           type: string

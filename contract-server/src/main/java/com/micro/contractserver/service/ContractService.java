@@ -46,6 +46,7 @@ public class ContractService {
     @SneakyThrows
     public boolean creatFile(String contractId, String fileName, String fileType, MultipartFile file) {
 
+        System.out.println(fileType + ": " + fileName);
         if (!Objects.equals(file, null) && !file.isEmpty()) {
 
             Optional<Bucket> contractBucket = minioService.getBucket(contractId);
@@ -63,7 +64,6 @@ public class ContractService {
                 System.out.println("...storing " + fileName + " in the bucket");
                 Map<String, String> mp = new HashMap<>();
                 mp.put("fileType", fileType);
-                //mp.put("User", "jsmith");
                 minioService.setTag(contractId, fileName, mp);
             }
         } else {
@@ -86,6 +86,12 @@ public class ContractService {
             String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
             System.out.println(tag);
 
+        }
+
+        for (Result<Item> f : allFiles) {
+
+            String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
+
             if(tag.equals("Contract_" + contractId)) {
                 return new minioFileItem(tag, f.get().objectName(), minioService.getObjectURL(contractId, f.get().objectName()));
             }
@@ -107,6 +113,12 @@ public class ContractService {
 
             String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
             System.out.println(tag);
+
+        }
+
+        for (Result<Item> f : allFiles) {
+
+            String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
 
             if(tag.equals("NDA_" + contractId)) {
                 return new minioFileItem(tag, f.get().objectName(), minioService.getObjectURL(contractId, f.get().objectName()));
@@ -131,6 +143,12 @@ public class ContractService {
             String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
             System.out.println(tag);
 
+        }
+
+        for (Result<Item> f : allFiles) {
+
+            String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
+
             if(tag.equals("Contract_complete_" + contractId)) {
                 return new minioFileItem(tag, f.get().objectName(), minioService.getObjectURL(contractId, f.get().objectName()));
             }
@@ -152,6 +170,12 @@ public class ContractService {
 
             String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
             System.out.println(tag);
+
+        }
+
+        for (Result<Item> f : allFiles) {
+
+            String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
 
             if(tag.equals("NDA_complete_" + contractId)) {
                 return new minioFileItem(tag, f.get().objectName(), minioService.getObjectURL(contractId, f.get().objectName()));

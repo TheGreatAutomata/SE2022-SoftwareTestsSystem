@@ -11,18 +11,21 @@ import com.micro.testserver.mapper.*;
 import com.micro.testserver.model.*;
 import com.micro.testserver.repository.DelegationRepository;
 import com.micro.testserver.repository.SoftwareTestRepository;
+import com.micro.testserver.repository.TestContractRepo;
 import com.micro.testserver.service.SoftwareTestService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 
 @RestController
@@ -82,7 +85,7 @@ public class SoftwareTestController implements TestApi {
     ContractMapper contractMapper;
 
     @Override
-    public ResponseEntity<Void> uploadTestScheme(String id, TestSchemeDto testSchemeDto) {
+    public ResponseEntity<Void> uploadTestScheme(String usrName, String usrId, String usrRole,String id, TestSchemeDto testSchemeDto) {
         //首先检查是否有这个委托，且委托是否已经进入可以编写测试方案的阶段
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
         if(delegation_op.isEmpty()){
@@ -123,7 +126,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<TestSchemeDto> getTestScheme(String id) {
+    public ResponseEntity<TestSchemeDto> getTestScheme(String usrName, String usrId, String usrRole,String id) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
 
         //压根没有这么个测试
@@ -135,7 +138,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<Void> putTestScheme(String id, TestSchemeDto testSchemeDto) {
+    public ResponseEntity<Void> putTestScheme(String usrName, String usrId, String usrRole,String id, TestSchemeDto testSchemeDto) {
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_apply").variableValueEquals("delegationId",id)!=null){
             Task task=taskService.createTaskQuery().taskName("UploadTestScheme").processDefinitionKey("test_apply").processVariableValueEquals("delegationId",id).singleResult();
             if(task==null){
@@ -166,7 +169,7 @@ public class SoftwareTestController implements TestApi {
     //前有屎山
 
     @Override
-    public ResponseEntity<TestCaseDto> getDocTestCase(String id) {
+    public ResponseEntity<TestCaseDto> getDocTestCase(String usrName, String usrId, String usrRole,String id) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
 
         //压根没有这么个测试
@@ -178,7 +181,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<Void> uploadDocTestcase(String id, TestCaseDto testCaseDto) {
+    public ResponseEntity<Void> uploadDocTestcase(String usrName, String usrId, String usrRole,String id, TestCaseDto testCaseDto) {
         //检测当前有无流程
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_apply").variableValueEquals("delegationId",id)!=null){
             Task task=taskService.createTaskQuery().taskName("UploadTestcase").processDefinitionKey("test_apply").processVariableValueEquals("delegationId",id).singleResult();
@@ -203,7 +206,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<Void> putDocTestcase(String id, TestCaseDto testCaseDto) {
+    public ResponseEntity<Void> putDocTestcase(String usrName, String usrId, String usrRole,String id, TestCaseDto testCaseDto) {
         //检查
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
         //压根没有这么个测试
@@ -222,7 +225,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<TestRecordDto> getDocTestRecord(String id) {
+    public ResponseEntity<TestRecordDto> getDocTestRecord(String usrName, String usrId, String usrRole,String id) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
 
         //压根没有这么个测试
@@ -234,7 +237,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<Void> uploadDocTestRecord(String id, TestRecordDto testRecordDto) {
+    public ResponseEntity<Void> uploadDocTestRecord(String usrName, String usrId, String usrRole,String id, TestRecordDto testRecordDto) {
         //检测当前有无流程
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_apply").variableValueEquals("delegationId",id)!=null){
             Task task=taskService.createTaskQuery().taskName("UploadTestRecord").processDefinitionKey("test_apply").processVariableValueEquals("delegationId",id).singleResult();
@@ -258,7 +261,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<Void> putDocTestRecord(String id, TestRecordDto testRecordDto) {
+    public ResponseEntity<Void> putDocTestRecord(String usrName, String usrId, String usrRole,String id, TestRecordDto testRecordDto) {
         //检查
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
         //压根没有这么个测试
@@ -278,7 +281,7 @@ public class SoftwareTestController implements TestApi {
 
 
     @Override
-    public ResponseEntity<BugListDto> getDocBugList(String id) {
+    public ResponseEntity<BugListDto> getDocBugList(String usrName, String usrId, String usrRole,String id) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
 
         //压根没有这么个测试
@@ -290,7 +293,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<Void> uploadDocBugList(String id, BugListDto bugListDto) {
+    public ResponseEntity<Void> uploadDocBugList(String usrName, String usrId, String usrRole,String id, BugListDto bugListDto) {
         //检测当前有无流程
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_apply").variableValueEquals("delegationId",id)!=null){
             Task task=taskService.createTaskQuery().taskName("UploadBugList").processDefinitionKey("test_apply").processVariableValueEquals("delegationId",id).singleResult();
@@ -315,7 +318,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<Void> putDocBugList(String id, BugListDto bugListDto) {
+    public ResponseEntity<Void> putDocBugList(String usrName, String usrId, String usrRole,String id, BugListDto bugListDto) {
         //检查
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
         //压根没有这么个测试
@@ -334,7 +337,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<DocEvaluationTableDto> getDocDocEvaluation(String id) {
+    public ResponseEntity<DocEvaluationTableDto> getDocDocEvaluation(String usrName, String usrId, String usrRole,String id) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
 
         //压根没有这么个测试
@@ -346,7 +349,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<Void> uploadDocDocEvaluation(String id, DocEvaluationTableDto docEvaluationTableDto) {
+    public ResponseEntity<Void> uploadDocDocEvaluation(String usrName, String usrId, String usrRole,String id, DocEvaluationTableDto docEvaluationTableDto) {
         //检测当前有无流程
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_apply").variableValueEquals("delegationId",id)!=null){
             Task task=taskService.createTaskQuery().taskName("UploadDocEvaluationTable").processDefinitionKey("test_apply").processVariableValueEquals("delegationId",id).singleResult();
@@ -375,8 +378,19 @@ public class SoftwareTestController implements TestApi {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /*@GetMapping("/test/test/test")
+    public void dkd(){
+        System.out.println("泰斯特");
+        Map<String,Object> variables=new HashMap<>();
+        SoftwareTest softwareTest=new SoftwareTest();
+        softwareTest.setDelegation_id("629d9a7bb90a5669b8f5e2db");
+        variables.put("softwareTest",softwareTest);
+        variables.put("delegationId","629d9a7bb90a5669b8f5e2db");
+        runtimeService.startProcessInstanceByKey("test_audit",variables);
+    }*/
+
     @Override
-    public ResponseEntity<Void> putDocDocEvaluation(String id, DocEvaluationTableDto docEvaluationTableDto) {
+    public ResponseEntity<Void> putDocDocEvaluation(String usrName, String usrId, String usrRole,String id, DocEvaluationTableDto docEvaluationTableDto) {
         //检查
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
         //压根没有这么个测试
@@ -395,7 +409,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<TestReportDto> getDocTestReport(String id) {
+    public ResponseEntity<TestReportDto> getDocTestReport(String usrName, String usrId, String usrRole,String id) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
 
         //压根没有这么个测试
@@ -407,7 +421,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<Void> uploadDocTestReport(String id, TestReportDto testReportDto) {
+    public ResponseEntity<Void> uploadDocTestReport(String usrName, String usrId, String usrRole,String id, TestReportDto testReportDto) {
         //检测当前有无流程
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id)!=null){
             Task task=taskService.createTaskQuery().taskName("UploadTestReport").processDefinitionKey("test_apply").processVariableValueEquals("delegationId",id).singleResult();
@@ -432,7 +446,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<TestReportEvaluationTableDto> getDocReportEvaluation(String id) {
+    public ResponseEntity<TestReportEvaluationTableDto> getDocReportEvaluation(String usrName, String usrId, String usrRole,String id) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
 
         //压根没有这么个测试
@@ -444,7 +458,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<Void> uploadDocReportEvaluation(String id, TestReportEvaluationTableDto testReportEvaluationTableDto) {
+    public ResponseEntity<Void> uploadDocReportEvaluation(String usrName, String usrId, String usrRole,String id, TestReportEvaluationTableDto testReportEvaluationTableDto) {
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id).singleResult()!=null){
             Task task=taskService.createTaskQuery().taskName("UploadReportEvaluationTable").processDefinitionKey("test_audit").processVariableValueEquals("delegationId",id).singleResult();
             if(task==null){
@@ -476,7 +490,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<WorkEvaluationTableDto> getDocWorkEvaluation(String id) {
+    public ResponseEntity<WorkEvaluationTableDto> getDocWorkEvaluation(String usrName, String usrId, String usrRole,String id) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
 
         //压根没有这么个测试
@@ -488,7 +502,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<Void> uploadDocWorkEvaluation(String id, WorkEvaluationTableDto workEvaluationTableDto) {
+    public ResponseEntity<Void> uploadDocWorkEvaluation(String usrName, String usrId, String usrRole,String id, WorkEvaluationTableDto workEvaluationTableDto) {
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id)!=null){
             Task task=taskService.createTaskQuery().taskName("UploadWorkEvaluationTable").processDefinitionKey("test_audit").processVariableValueEquals("delegationId",id).singleResult();
             if(task==null){
@@ -520,7 +534,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<Void> putDocApplyReportEvaluation(String id) {
+    public ResponseEntity<Void> putDocApplyReportEvaluation(String usrName, String usrId, String usrRole,String id) {
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id).singleResult()==null){
             //同一时间最多只有一个审核流程
             SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
@@ -542,7 +556,7 @@ public class SoftwareTestController implements TestApi {
     }
 
     @Override
-    public ResponseEntity<Void> uploadTestSchemeAuditTable(String id, TestSchemeAuditTableDto testSchemeAuditTableDto) {
+    public ResponseEntity<Void> uploadTestSchemeAuditTable(String usrName, String usrId, String usrRole,String id, TestSchemeAuditTableDto testSchemeAuditTableDto) {
         //该接口仅仅用于质量部人员上传评审表
         //当然，也需要判断一下委托存不存在
         Optional<Delegation> delegationOptional=delegationRepository.findById(id);
@@ -578,63 +592,81 @@ public class SoftwareTestController implements TestApi {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @Override
-    public ResponseEntity<TestSchemeAuditTableDto> getTestSchemeAuditTable(String id) {
-        return TestApi.super.getTestSchemeAuditTable(id);
+    public ResponseEntity<TestSchemeAuditTableDto> getTestSchemeAuditTable(String usrName, String usrId, String usrRole,String id) {
+        SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
+        if(softwareTest==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        TestSchemeAuditTableDto schemeAuditTableDto=testSchemeAuditTableMapper.toDto(softwareTest.getSchemeEvaluationTable());
+        return new ResponseEntity<>(schemeAuditTableDto,HttpStatus.OK);
     }
+
+    @Autowired
+    TestContractRepo testContractRepo;
+
     @Override
-    public ResponseEntity<Void> prepareProject(String delegationId, String projectId) {
-        Contract c = contractMapper.toObj(restTemplate.getForObject("http://contract-server/contract/delegationId/"+delegationId, ContractDto.class));
-        SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(delegationId);
-        if(c==null||softwareTest==null) {
+    public ResponseEntity<Void> prepareProject(String usrName, String usrId, String usrRole,String delegationId, String projectId) {
+        Optional<Contract> c_op = testContractRepo.findByDelegationId(delegationId);
+        Optional<Delegation> delegation_op=delegationRepository.findById(delegationId);
+        if(c_op.isEmpty()||delegation_op.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        Contract c=c_op.get();
+        SoftwareTest softwareTest=new SoftwareTest();
+        softwareTest.setDelegation_id(delegationId);
         softwareTest.setState(SoftwareTestState.TEST_SCHEME);
         softwareTest.setContract(c);
         softwareTest.setProjectId(projectId);
-
         softwareTest.setUsrId(c.getUsrId());
         softwareTest.setUsrName(c.getUsrName());
+        softwareTest.set软件名称(delegation_op.get().applicationTable.get软件名称());
 
         softwareTestRepository.save(softwareTest);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<TestProjectDto>> listProjects(String usrName, String usrId, String usrRole) {
+    public ResponseEntity<List<TestProjectDto>> listProjects(String usrId, String usrName, String usrRole) {
         List<SoftwareTest> softwareTests=softwareTestRepository.findByUsrId(usrId);
         if(softwareTests.size()==0){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         List<TestProjectDto> projectDtos=new ArrayList<>();
         for (SoftwareTest softwareTest:softwareTests){
-            TestProject project=new TestProject(usrId,usrName,softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState());
+            Optional<Delegation> delegation_op=delegationRepository.findById(softwareTest.getDelegation_id());
+            TestProject project=new TestProject(softwareTest.getUsrId(),softwareTest.getUsrName(),softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState(),delegation_op.get().getApplicationTable().get软件名称());
             projectDtos.add(testProjectMapper.toDto(project));
         }
         return new ResponseEntity<>(projectDtos,HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<TestProjectDto>> listAllProjects() {
+    public ResponseEntity<List<TestProjectDto>> listAllProjects(String usrId, String usrName, String usrRole) {
+        System.out.println("getAll");
         List<SoftwareTest> softwareTests=softwareTestRepository.findAll();
+
         if(softwareTests.size()==0){
             return new ResponseEntity<>(HttpStatus.valueOf(400));
         }
         List<TestProjectDto> projectDtos=new ArrayList<>();
         for(SoftwareTest softwareTest:softwareTests){
-            TestProject project=new TestProject(softwareTest.getUsrId(),softwareTest.getUsrName(),softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState());
+            Optional<Delegation> delegation_op=delegationRepository.findById(softwareTest.getDelegation_id());
+            TestProject project=new TestProject(softwareTest.getUsrId(),softwareTest.getUsrName(),softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState(),delegation_op.get().getApplicationTable().get软件名称());
             projectDtos.add(testProjectMapper.toDto(project));
         }
         return new ResponseEntity<>(projectDtos,HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<TestProjectDto> findProjectByDelegationId(String delegationId) {
+    public ResponseEntity<TestProjectDto> findProjectByDelegationId(String usrName, String usrId, String usrRole,String delegationId) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(delegationId);
+        Optional<Delegation> delegation_op=delegationRepository.findById(softwareTest.getDelegation_id());
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        TestProject project=new TestProject(softwareTest.getUsrId(),softwareTest.getUsrName(),softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState());
+        TestProject project=new TestProject(softwareTest.getUsrId(),softwareTest.getUsrName(),softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState(),delegation_op.get().getApplicationTable().get软件名称());
         TestProjectDto dto=testProjectMapper.toDto(project);
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }

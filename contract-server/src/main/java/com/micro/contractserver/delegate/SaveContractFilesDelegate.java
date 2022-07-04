@@ -17,6 +17,7 @@ import java.util.List;
 
 public class SaveContractFilesDelegate implements JavaDelegate {
 
+
     @Autowired
     public ContractService contractService;
 
@@ -55,6 +56,10 @@ public class SaveContractFilesDelegate implements JavaDelegate {
 
                     contract.setSignedNondisclosureAgreementTableFile(fileItem);
                 }
+
+            } else {
+
+                System.out.println("!!! null file is illegal !!!");
 
             }
 

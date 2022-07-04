@@ -3,8 +3,10 @@ package com.micro.testserver.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class BugListEntry {
+public class BugListEntry implements Serializable {
     public String 问题缺陷简要描述;
 
     public String 对应需求条目;

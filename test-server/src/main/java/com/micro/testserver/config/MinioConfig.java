@@ -1,4 +1,4 @@
-package com.micro.contractserver.config;
+package com.micro.testserver.config;
 
 import com.micro.commonserver.service.MinioService;
 import io.minio.errors.MinioException;

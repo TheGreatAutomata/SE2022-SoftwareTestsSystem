@@ -50,7 +50,6 @@ class SoftwareTestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private SoftwareTestRepository softwareTestRepository;
     @MockBean
@@ -126,7 +125,7 @@ class SoftwareTestControllerTest {
         delegation.setUsrName("great");
 
         TestSchemeDto testSchemeDto=new TestSchemeDto();
-        testSchemeDto.set11标识("新方案");
+        testSchemeDto.set标识("新方案");
 
         String body=toJson(testSchemeDto);
 
@@ -169,7 +168,7 @@ class SoftwareTestControllerTest {
         softwareTest.setState(SoftwareTestState.AUDIT_QUALITY_DENIED);
 
         TestSchemeDto testSchemeDto=new TestSchemeDto();
-        testSchemeDto.set11标识("新方案");
+        testSchemeDto.set标识("新方案");
 
         String body=toJson(testSchemeDto);
 

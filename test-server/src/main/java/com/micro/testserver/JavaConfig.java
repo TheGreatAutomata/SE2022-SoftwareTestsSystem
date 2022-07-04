@@ -172,5 +172,6 @@ public class JavaConfig {
     @Bean
     public ContractMapper contractMapper(){return new ContractMapperImpl();
     }
+
 }
 

@@ -78,19 +78,19 @@ spring:
         - id: test-server-testCase
           uri: lb://test-server
           predicates:
-            - Path=/test/{id}/test-docs/test-case
+            - Path=/test/{id}/test-doc/test-case
             - Method=GET,POST,PUT
 
         - id: test-server-testRecord
           uri: lb://test-server
           predicates:
-            - Path=/test/{id}/test-docs/test-record
+            - Path=/test/{id}/test-doc/test-record
             - Method=GET,POST,PUT
 
         - id: test-server-bugList
           uri: lb://test-server
           predicates:
-            - Path=/test/{id}/test-docs/buglist
+            - Path=/test/{id}/test-doc/buglist
             - Method=GET,POST,PUT
 
         - id: test-server-docEvaluation
@@ -134,6 +134,25 @@ spring:
           predicates:
             - Path=/test/{delegationId}/apply-report-evaluation
             - Method=PUT
+
+        - id: test-server-listProjects
+          uri: lb://test-server
+          predicates:
+            - Path=/test/projects
+            - Method=GET
+
+        - id: test-server-listAllProjects
+          uri: lb://test-server
+          predicates:
+            - Path=/test/projects/all
+            - Method=GET
+
+        - id: test-server-findProjectByDelegationId
+          uri: lb://test-server
+          predicates:
+            - Path=/test/projects/{delegationId}
+            - Method=GET
+
 eureka:
   client:
     serviceUrl:

@@ -143,7 +143,6 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         }
         else if(this.getClass().getResource("").getProtocol().equals("jar")) {
 
-
             Calendar calendar = Calendar.getInstance();
             ContractTableExist contractTableExist = contractTable.getContractTableExist();
             ContractTablePartyA contractTablePartyA = contractTable.getContractTablePartyA();
@@ -156,6 +155,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
             String filename = "Contract_" + contractId;
             String inputPath = "template/";
             String outputPath = "velocity/generate/";
+            // String outputPath = "SE2022-SoftwareTestsSystem/contract-server/src/main/resources/generate/";
 
             // 设置velocity的资源加载器
             Properties properties = new Properties();
@@ -243,8 +243,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         }
 
     }
-
-
+    
     @SneakyThrows
     public void generateNondisclosureAgreementTableFile(NondisclosureAgreementTable nondisclosureAgreementTable, String contractId) {
 
@@ -316,6 +315,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
             String filename = "NDA_" + contractId;
             String inputPath = "template/";
             String outputPath = "velocity/generate/";
+            // String outputPath = "SE2022-SoftwareTestsSystem/contract-server/src/main/resources/generate/";
 
             // 设置velocity的资源加载器
             Properties properties = new Properties();
@@ -395,6 +395,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         else if(this.getClass().getResource("").getProtocol().equals("jar")) {
 
             String outputPath = "velocity/generate/";
+            // String outputPath = "SE2022-SoftwareTestsSystem/contract-server/src/main/resources/generate/";
 
             File contractTableFile = new File(outputPath + "Contract_" + contractId + ".pdf");
             FileInputStream contractTableFileInputStream = new FileInputStream(contractTableFile);
@@ -411,6 +412,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         else {
             System.out.println("!!! run not in file or jar !!!");
         }
+
     }
 
     @SneakyThrows
@@ -428,6 +430,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         else if(this.getClass().getResource("").getProtocol().equals("jar")) {
 
             String outputPath = "velocity/generate/";
+            // String outputPath = "SE2022-SoftwareTestsSystem/contract-server/src/main/resources/generate/";
 
             Runtime runtime = Runtime.getRuntime();
             Process process = runtime.exec("rm " + outputPath + "Contract_" + contractId + ".pdf");
