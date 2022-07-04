@@ -378,6 +378,17 @@ public class SoftwareTestController implements TestApi {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /*@GetMapping("/test/test/test")
+    public void dkd(){
+        System.out.println("泰斯特");
+        Map<String,Object> variables=new HashMap<>();
+        SoftwareTest softwareTest=new SoftwareTest();
+        softwareTest.setDelegation_id("629d9a7bb90a5669b8f5e2db");
+        variables.put("softwareTest",softwareTest);
+        variables.put("delegationId","629d9a7bb90a5669b8f5e2db");
+        runtimeService.startProcessInstanceByKey("test_audit",variables);
+    }*/
+
     @Override
     public ResponseEntity<Void> putDocDocEvaluation(String usrName, String usrId, String usrRole,String id, DocEvaluationTableDto docEvaluationTableDto) {
         //检查
@@ -609,6 +620,7 @@ public class SoftwareTestController implements TestApi {
         softwareTest.setProjectId(projectId);
         softwareTest.setUsrId(c.getUsrId());
         softwareTest.setUsrName(c.getUsrName());
+        softwareTest.set软件名称(delegation_op.get().applicationTable.get软件名称());
 
         softwareTestRepository.save(softwareTest);
 
@@ -623,7 +635,8 @@ public class SoftwareTestController implements TestApi {
         }
         List<TestProjectDto> projectDtos=new ArrayList<>();
         for (SoftwareTest softwareTest:softwareTests){
-            TestProject project=new TestProject(usrId,usrName,softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState());
+            Optional<Delegation> delegation_op=delegationRepository.findById(softwareTest.getDelegation_id());
+            TestProject project=new TestProject(softwareTest.getUsrId(),softwareTest.getUsrName(),softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState(),delegation_op.get().getApplicationTable().get软件名称());
             projectDtos.add(testProjectMapper.toDto(project));
         }
         return new ResponseEntity<>(projectDtos,HttpStatus.OK);
@@ -631,13 +644,16 @@ public class SoftwareTestController implements TestApi {
 
     @Override
     public ResponseEntity<List<TestProjectDto>> listAllProjects(String usrId, String usrName, String usrRole) {
+        System.out.println("getAll");
         List<SoftwareTest> softwareTests=softwareTestRepository.findAll();
+
         if(softwareTests.size()==0){
             return new ResponseEntity<>(HttpStatus.valueOf(400));
         }
         List<TestProjectDto> projectDtos=new ArrayList<>();
         for(SoftwareTest softwareTest:softwareTests){
-            TestProject project=new TestProject(softwareTest.getUsrId(),softwareTest.getUsrName(),softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState());
+            Optional<Delegation> delegation_op=delegationRepository.findById(softwareTest.getDelegation_id());
+            TestProject project=new TestProject(softwareTest.getUsrId(),softwareTest.getUsrName(),softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState(),delegation_op.get().getApplicationTable().get软件名称());
             projectDtos.add(testProjectMapper.toDto(project));
         }
         return new ResponseEntity<>(projectDtos,HttpStatus.OK);
@@ -646,10 +662,11 @@ public class SoftwareTestController implements TestApi {
     @Override
     public ResponseEntity<TestProjectDto> findProjectByDelegationId(String usrName, String usrId, String usrRole,String delegationId) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(delegationId);
+        Optional<Delegation> delegation_op=delegationRepository.findById(softwareTest.getDelegation_id());
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        TestProject project=new TestProject(softwareTest.getUsrId(),softwareTest.getUsrName(),softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState());
+        TestProject project=new TestProject(softwareTest.getUsrId(),softwareTest.getUsrName(),softwareTest.getDelegation_id(),softwareTest.getContract().getContractId(),softwareTest.getProjectId(),softwareTest.getState(),delegation_op.get().getApplicationTable().get软件名称());
         TestProjectDto dto=testProjectMapper.toDto(project);
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }

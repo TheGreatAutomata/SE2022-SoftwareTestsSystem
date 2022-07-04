@@ -45,6 +45,8 @@ public class GenerateTestReportDelegate implements JavaDelegate {
 
         SoftwareTestReport report = new SoftwareTestReport();
 
+        System.out.println(softwareTest.getDelegation_id());
+
         Optional<Delegation> delegationOptional = delegationRepository.findByDelegationId(softwareTest.getDelegation_id());
 
         //Get Delegation
@@ -71,10 +73,9 @@ public class GenerateTestReportDelegate implements JavaDelegate {
         report.set网络环境(delegation.getApplicationTable().运行环境.网络环境);
 
         //Get the Contract
-        Optional<Contract> contractOptional = contractRepository.findById(softwareTest.getDelegation_id());
-        Contract contract = new Contract();
-        if(contractOptional.isPresent()){
-            contract = contractOptional.get();
+        Contract contract  = contractRepository.findByDelegationId(softwareTest.getDelegation_id());
+        if(contract==null){
+            throw new NullPointerException();
         }
 
         //委托单位
@@ -184,6 +185,7 @@ public class GenerateTestReportDelegate implements JavaDelegate {
         //样品清单
         report.set样品清单(String.join(delim,sampleAcceptModel.get样品列表()));
 
+        softwareTest.setTestReport(report);
         System.out.println(softwareTestRepository);
         softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
         softwareTestRepository.save(softwareTest);

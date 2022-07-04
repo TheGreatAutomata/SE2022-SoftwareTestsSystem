@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -45,16 +46,16 @@ public class SoftwareTestReport implements Serializable {
     public String 测试单位传真; // Contract/contractTable/contractTablePartyB/
     public String 测试单位网址; // Contract/contractTable/contractTablePartyB/
     public String 测试单位Email; // Contract/contractTable/contractTablePartyB/
-    public List<TestReportHardwareEnv> 硬件环境 = null; // ? ? ?
-    public List<TestReportSoftwareEnv> 软件环境 = null; // ? ? ?
+    public List<TestReportHardwareEnv> 硬件环境 = new ArrayList<>(); // ? ? ?
+    public List<TestReportSoftwareEnv> 软件环境 = new ArrayList<>(); // ? ? ?
     public String 网络环境; // Delegation/application/Table
-    public List<TestReportTestDependency> 测试依据 = null; // // Delegation/application/Table
-    public List<TestReportReference> 参考资料 = null;
-    public List<TestReportFuncTest> 功能性测试 = null;
-    public List<TestReportEfficiencyTest> 效率测试 = null;
-    public List<TestReportPortabilityTest> 可移植性测试 = null;
-    public List<TestReportUsabilityTest> 易用性测试 = null;
-    public List<TestReportReliabilityTest> 可靠性测试 = null;
-    public List<TestReportMaintainabilityTest> 可维护性测试 = null;
+    public List<TestReportTestDependency> 测试依据 = new ArrayList<>(); // // Delegation/application/Table
+    public List<TestReportReference> 参考资料 = new ArrayList<>();
+    public List<TestReportFuncTest> 功能性测试 = new ArrayList<>();
+    public List<TestReportEfficiencyTest> 效率测试 = new ArrayList<>();
+    public List<TestReportPortabilityTest> 可移植性测试 = new ArrayList<>();
+    public List<TestReportUsabilityTest> 易用性测试 = new ArrayList<>();
+    public List<TestReportReliabilityTest> 可靠性测试 = new ArrayList<>();
+    public List<TestReportMaintainabilityTest> 可维护性测试 = new ArrayList<>();
     public String 测试执行记录;
 }
