@@ -35,6 +35,7 @@ public class RPL {
     private final String put_AuditRequest="/test/[0-9A-Za-z]+/apply-report-evaluation";
     private final String getProjects="/test/projects";
     private final String getAllProjects="/test/projects/all";
+    private final String acceptSample="/sample/accept/.*";
     private final String getProjectByDelegationId="/test/project/[0-9A-Za-z]+";
 
     private final HashSet<String> MarketPattern = new HashSet<>();

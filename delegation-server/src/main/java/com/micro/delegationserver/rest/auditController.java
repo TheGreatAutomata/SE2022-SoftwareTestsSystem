@@ -1,5 +1,7 @@
 package com.micro.delegationserver.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.micro.api.AuditApi;
 import com.micro.delegationserver.model.Delegation;
 import com.micro.commonserver.model.DelegationState;
@@ -7,13 +9,15 @@ import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
 import com.micro.dto.DelegationAuditMarketResultDto;
 import com.micro.dto.DelegationAuditTestResultDto;
+import com.micro.dto.SampleAcceptModelDto;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +36,10 @@ public class auditController implements AuditApi {
     @Autowired
     DelegationRepository delegationRepository;
 
-    //todo:处理没找到id的情况
+    @LoadBalanced
+    private RestTemplate restTemplate;
+
+    private String acceptUri = "http://sample-server/sample/accept/";
     @Override
     public ResponseEntity<Void> auditDelegationByTestEmployees(String usrName, String usrId, String usrRole, String id, DelegationAuditTestResultDto delegationAuditTestResultDto) {
 
@@ -73,11 +80,23 @@ public class auditController implements AuditApi {
         }else{
             return new ResponseEntity<>(HttpStatus.valueOf(401));
         }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-
+        ObjectMapper mapper = new ObjectMapper();
+        SampleAcceptModelDto dto = delegationAuditTestResultDto.get样品检查();
+        HttpEntity<String> request = null;
+        try {
+            request = new HttpEntity<>(mapper.writeValueAsString(dto), headers);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        ResponseEntity<Void> result = restTemplate.postForEntity(acceptUri+id, request, Void.class);
+        if(result.getStatusCode() != HttpStatus.OK)
+        {
+            throw new RuntimeException();
+        }
         taskService.complete(task.getId(), taskVariables);
-
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

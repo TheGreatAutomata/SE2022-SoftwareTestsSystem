@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.micro.commonserver.model.DelegationState;
 import com.micro.commonserver.service.MinioService;
 import com.micro.dto.GetSampleResponseDto;
-import com.micro.dto.SampleAcceptDto;
+import com.micro.dto.SampleAcceptModelDto;
 import com.micro.dto.SampleMessageApplicationRequestDto;
 import com.micro.sampleserver.SampleServerApplication;
 import com.micro.sampleserver.model.Sample;

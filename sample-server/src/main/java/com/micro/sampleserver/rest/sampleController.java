@@ -5,7 +5,7 @@ import com.micro.commonserver.model.DelegationState;
 import com.micro.commonserver.model.MultipartInputStreamFileResource;
 import com.micro.commonserver.service.MinioService;
 import com.micro.dto.GetSampleResponseDto;
-import com.micro.dto.SampleAcceptDto;
+import com.micro.dto.SampleAcceptModelDto;
 import com.micro.dto.SampleMessageApplicationRequestDto;
 import com.micro.sampleserver.mapper.SampleAcceptModelMapper;
 import com.micro.sampleserver.mapper.SampleMessageMapper;
@@ -62,33 +62,25 @@ public class sampleController implements SampleApi {
 
     private String setDelegationUri = "http://delegation-server//delegationServer/private/delegationState/";
     @Override
-    public ResponseEntity<Void> acceptSample(String usrName, String usrId, String usrRole, String id, SampleAcceptDto sampleAcceptDto) {
+    public ResponseEntity<Void> acceptSample(String id, SampleAcceptModelDto sampleAcceptDto) {
         Task task = taskService.createTaskQuery().taskName("acceptSample").processVariableValueEquals("id",id).singleResult();
         if(task == null) {
             return ResponseEntity.status(404).build();
         }
         Map<String, Object> variables = new HashMap<String, Object>();
-        DelegationState state;
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> request = new HttpEntity<>("", headers);
-        if(Objects.equals(sampleAcceptDto.get态度(), "同意"))
-        {
-            variables.put("isOk", 1);
-            SampleAcceptModel sampleAccept = sampleAcceptModelMapper.toObj(sampleAcceptDto);
-            sampleAcceptRepository.save(sampleAccept);
-            state = DelegationState.AUDIT_TEST_APARTMENT;
-        }
-        else
-        {
-            variables.put("isOk", 0);
-            state = DelegationState.WAIT_PUT_SAMPLE;
-        }
-        ResponseEntity<Void> result = restTemplate.postForEntity(setDelegationUri + id + "/" + state, request, Void.class);
-        if(result.getStatusCode() != HttpStatus.OK)
-        {
-            return ResponseEntity.status(400).build();
-        }
+//        DelegationState state;
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        HttpEntity<String> request = new HttpEntity<>("", headers);
+        variables.put("isOk", 1);
+        SampleAcceptModel sampleAccept = sampleAcceptModelMapper.toObj(sampleAcceptDto);
+        sampleAcceptRepository.save(sampleAccept);
+//        state = DelegationState.AUDIT_TEST_APARTMENT;
+//        ResponseEntity<Void> result = restTemplate.postForEntity(setDelegationUri + id + "/" + state, request, Void.class);
+//        if(result.getStatusCode() != HttpStatus.OK)
+//        {
+//            return ResponseEntity.status(400).build();
+//        }
         taskService.complete(task.getId(), variables);
         return ResponseEntity.status(200).build();
     }

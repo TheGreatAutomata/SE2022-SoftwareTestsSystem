@@ -15,7 +15,7 @@ public class SampleAcceptModel implements Serializable {
     @MongoId
     public String delegationId;
 
-    public List<String> 样品列表 = new ArrayList<>();
+    public List<SampleAcceptItem> 样品列表 = null;
 
     public String 样品状态;
 
