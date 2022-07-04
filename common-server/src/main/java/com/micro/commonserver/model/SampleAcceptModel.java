@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document("SampleAcceptModel")
@@ -13,7 +14,7 @@ public class SampleAcceptModel {
     @MongoId
     public String delegationId;
 
-    public List<String> 样品列表 = null;
+    public List<String> 样品列表 = new ArrayList<>();
 
     public String 样品状态;
 

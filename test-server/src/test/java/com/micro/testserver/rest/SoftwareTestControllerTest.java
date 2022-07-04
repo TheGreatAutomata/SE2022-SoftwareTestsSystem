@@ -480,6 +480,7 @@ class SoftwareTestControllerTest {
 
         SoftwareDocEvaluationTableMapper mapper=new SoftwareDocEvaluationTableMapperImpl();
 
+        System.out.println(docEvaluationTable.getDocEvaResults());
         DocEvaluationTableDto docEvaluationTableDto=mapper.toDto(docEvaluationTable);
 
         String body=toJson(docEvaluationTableDto);
