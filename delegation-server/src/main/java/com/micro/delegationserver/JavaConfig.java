@@ -200,10 +200,8 @@ public class JavaConfig {
     @Bean
     public SampleAcceptModelMapper sampleAcceptModelMapper()
     {
-        return new SampleAcceptModelImpl();
+        return new SampleAcceptModelMapperImpl();
     }
-
-
 
     @Bean
     public StartSampleApplicationDelegate startSampleApplicationDelegate()

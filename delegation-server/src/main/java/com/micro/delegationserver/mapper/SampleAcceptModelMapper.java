@@ -16,4 +16,10 @@ public interface SampleAcceptModelMapper {
     public SampleAcceptModel toObj(SampleAcceptModelDto sampleMessageApplicationRequestDto);
 
     public SampleAcceptModelDto toDto(SampleAcceptModel sampleMessage);
+
+//    public default SampleAcceptItem map(SampleAcceptItemDto value)
+//    {
+//        SampleAcceptItem r = new SampleAcceptItem();
+//        r
+//    }
 }

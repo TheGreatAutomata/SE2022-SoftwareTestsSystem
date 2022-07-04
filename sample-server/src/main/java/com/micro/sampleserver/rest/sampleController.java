@@ -5,7 +5,7 @@ import com.micro.commonserver.model.DelegationState;
 import com.micro.commonserver.model.MultipartInputStreamFileResource;
 import com.micro.commonserver.service.MinioService;
 import com.micro.dto.GetSampleResponseDto;
-import com.micro.dto.SampleAcceptDto;
+import com.micro.dto.SampleAcceptModelDto;
 import com.micro.dto.SampleMessageApplicationRequestDto;
 import com.micro.sampleserver.mapper.SampleAcceptModelMapper;
 import com.micro.sampleserver.mapper.SampleMessageMapper;
@@ -62,7 +62,7 @@ public class sampleController implements SampleApi {
 
     private String setDelegationUri = "http://delegation-server//delegationServer/private/delegationState/";
     @Override
-    public ResponseEntity<Void> acceptSample(String usrName, String usrId, String usrRole, String id, SampleAcceptDto sampleAcceptDto) {
+    public ResponseEntity<Void> acceptSample(String id, SampleAcceptModelDto sampleAcceptDto) {
         Task task = taskService.createTaskQuery().taskName("acceptSample").processVariableValueEquals("id",id).singleResult();
         if(task == null) {
             return ResponseEntity.status(404).build();
