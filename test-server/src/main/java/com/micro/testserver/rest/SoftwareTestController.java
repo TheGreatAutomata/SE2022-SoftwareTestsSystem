@@ -434,7 +434,27 @@ public class SoftwareTestController implements TestApi {
             if(softwareTest==null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            softwareTest.setTestReport(softwareTestReportMapper.toObj(testReportDto));
+
+            SoftwareTestReport report=softwareTestReportMapper.toObj(testReportDto);
+            SoftwareTestReport reportToImp=softwareTest.getTestReport();
+
+            reportToImp.set测试类别(report.get测试类别());
+            reportToImp.set报告日期(report.get报告日期());
+            reportToImp.set版本型号(report.get版本型号());
+            reportToImp.set测试开始时间(report.get测试开始时间());
+            reportToImp.set测试结束时间(report.get测试结束时间());
+            reportToImp.set测试结论(report.get测试结论());
+            reportToImp.set主测人(report.get主测人());
+            reportToImp.set主测人日期(report.get主测人日期());
+            reportToImp.set审核人(report.get审核人());
+            reportToImp.set审核人日期(report.get审核人日期());
+            reportToImp.set批准人(report.get批准人());
+            reportToImp.set批准人日期(report.get批准人日期());
+            reportToImp.set测试执行记录(report.get测试执行记录());
+            reportToImp.set测试单位Email(report.get测试单位Email());
+            reportToImp.set测试单位网址(report.get测试单位网址());
+
+            softwareTest.setTestReport(reportToImp);
             softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
 
             softwareTestRepository.save(softwareTest);
