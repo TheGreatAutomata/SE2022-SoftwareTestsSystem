@@ -5,11 +5,12 @@ import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Document("SampleAcceptModel")
 @Data
-public class SampleAcceptModel {
+public class SampleAcceptModel implements Serializable {
     @MongoId
     public String delegationId;
 
@@ -21,4 +22,3 @@ public class SampleAcceptModel {
 
     public String 态度;
 }
-

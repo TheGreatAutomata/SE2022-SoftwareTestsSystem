@@ -1,13 +1,12 @@
 package com.micro.sampleserver.repository;
 import com.micro.sampleserver.model.Sample;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.List;
 
 @Repository
-public interface MongoDBDelegationRepository extends MongoRepository<Sample,String> {
+public interface MongoDBSampleRepository extends MongoRepository<Sample,String> {
 
     List<Sample> findAllByUsrId(String usrId);
     default Optional<Sample> findByDelegationId(String id){

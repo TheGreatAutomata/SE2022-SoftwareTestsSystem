@@ -62,7 +62,14 @@ public class JavaConfig {
         beans.put("saveFileDelegate",saveFileDelegate());
         beans.put("saveMassageDelegate",saveMassageDelegate());
         beans.put("samplePutServer", samplePutServer());
+        beans.put("sampleAcceptModelMapper", sampleAcceptModelMapper());
         springProcessEngineConfiguration.setBeans(beans);
+        springProcessEngineConfiguration.setMailServerHost("smtp.qq.com");
+        springProcessEngineConfiguration.setMailServerPort(465);
+        springProcessEngineConfiguration.setMailServerDefaultFrom("2379594184@qq.com");
+        springProcessEngineConfiguration.setMailServerUsername("2379594184@qq.com");
+        springProcessEngineConfiguration.setMailServerPassword("qiijzfyfucxadhha");
+        springProcessEngineConfiguration.setMailServerUseSSL(true);
         return springProcessEngineConfiguration;
     }
 
@@ -110,6 +117,12 @@ public class JavaConfig {
     public SampleMessageMapper sampleMessageMapper()
     {
         return new SampleMessageMapperImpl();
+    }
+
+    @Bean
+    public SampleAcceptModelMapper sampleAcceptModelMapper()
+    {
+        return new SampleAcceptModelMapperImpl();
     }
 
     @Bean
