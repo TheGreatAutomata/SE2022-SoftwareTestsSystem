@@ -15,11 +15,18 @@ public class SampleAcceptModel implements Serializable {
     @MongoId
     public String delegationId;
 
-    public List<String> 样品列表 = new ArrayList<>();
+    public List<SampleAcceptItem> 样品列表 = null;
 
     public String 样品状态;
 
     public String 来样日期;
 
     public String 态度;
+
+    public List<String> get样品列表() {
+        List<String> list = new ArrayList<>();
+        for(var e: this.样品列表)
+            list.add(e.get样品名称());
+        return list;
+    }
 }

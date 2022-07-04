@@ -881,6 +881,8 @@ components:
           type: string
         材料检查:
           $ref: "#/components/schemas/delegationAuditTestMaterialCheck"
+        样品检查:
+          $ref: "#/components/schemas/sampleAcceptModel"
         确认意见:
           type: string
 
@@ -1141,3 +1143,19 @@ components:
           type: string
         确认信息:
           $ref: "#/components/schemas/offerSignItem"
+    sampleAcceptModel:
+      type: object
+      properties:
+        样品列表:
+          type: array
+          items:
+            $ref: "#/components/schemas/sampleAcceptItem"
+        样品状态:
+          type: string
+        来样日期:
+          type: string
+    sampleAcceptItem:
+      type: object
+      properties:
+        样品名称:
+          type: string
