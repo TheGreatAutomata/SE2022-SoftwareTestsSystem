@@ -1,6 +1,7 @@
 package com.micro.delegationserver.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.micro.commonserver.model.SampleAcceptModel;
 import com.micro.dto.DelegationAuditTestMaterialCheckDto;
 
 import javax.validation.Valid;
@@ -17,4 +18,6 @@ public class DelegationAuditTestResult implements Serializable {
     public DelegationAuditTestMaterialCheck 材料检查;
 
     public String 确认意见;
+
+    public SampleAcceptModel 样品检查;
 }

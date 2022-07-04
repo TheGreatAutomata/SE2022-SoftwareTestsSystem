@@ -1,5 +1,6 @@
 package com.micro.delegationserver;
 
+import com.micro.commonserver.model.SampleAcceptModel;
 import com.micro.delegationserver.delegate.*;
 import com.micro.delegationserver.mapper.*;
 import com.micro.delegationserver.model.DelegationAuditTestResult;
@@ -189,6 +190,20 @@ public class JavaConfig {
     public SaveComplete saveComplete(){
         return new SaveComplete();
     }
+
+    @Bean
+    public SampleAcceptItemMapper sampleAcceptItemMapper()
+    {
+        return new SampleAcceptItemMapperImpl();
+    }
+
+    @Bean
+    public SampleAcceptModelMapper sampleAcceptModelMapper()
+    {
+        return new SampleAcceptModelImpl();
+    }
+
+
 
     @Bean
     public StartSampleApplicationDelegate startSampleApplicationDelegate()
