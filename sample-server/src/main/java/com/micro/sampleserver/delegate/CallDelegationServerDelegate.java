@@ -29,7 +29,7 @@ public class CallDelegationServerDelegate implements JavaDelegate {
         String id = (String) delegateExecution.getVariable("id");
         HttpEntity<String> request = new HttpEntity<>("", headers);
         ResponseEntity<Void> result = restTemplate.postForEntity(DELEGATION_URI+"/applicationFinished/" + id, request, Void.class);
-        if(result.getStatusCode() != HttpStatus.OK)
+        if(result.getStatusCode() != HttpStatus.OK && result.getStatusCode() != HttpStatus.NOT_FOUND)
         {
             throw new RuntimeException();
         }
