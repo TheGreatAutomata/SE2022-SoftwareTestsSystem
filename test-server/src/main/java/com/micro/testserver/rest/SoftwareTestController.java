@@ -183,6 +183,9 @@ public class SoftwareTestController implements TestApi {
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        System.out.println("testRecord");
+        System.out.println(softwareTest.getTestRecord());
+        System.out.println(softwareTestRecordMapper.toDto(softwareTest.getTestRecord()));
         return new ResponseEntity<>(softwareTestRecordMapper.toDto(softwareTest.getTestRecord()),HttpStatus.OK);
     }
     @Override
@@ -230,6 +233,9 @@ public class SoftwareTestController implements TestApi {
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        System.out.println("buglist");
+        System.out.println(softwareTest.getBugList());
+        System.out.println(softwareBugListMapper.toDto(softwareTest.getBugList()));
         return new ResponseEntity<>(softwareBugListMapper.toDto(softwareTest.getBugList()),HttpStatus.OK);
     }
     @Override
