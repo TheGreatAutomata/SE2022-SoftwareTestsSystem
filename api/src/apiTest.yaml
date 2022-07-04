@@ -1777,3 +1777,4 @@ components:
         fileType:
           type: string
         fileUri:
+          type: string
