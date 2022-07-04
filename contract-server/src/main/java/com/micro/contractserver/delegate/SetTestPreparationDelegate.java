@@ -29,6 +29,10 @@ public class SetTestPreparationDelegate implements JavaDelegate {
 
         HttpHeaders headers = new HttpHeaders();
         // headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "xxx");
+        headers.set("usrName", "xxx");
+        headers.set("usrId", "xxx");
+        headers.set("usrRole", "xxx");
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
         ResponseEntity<Void> result = restTemplate.exchange(TEST_URI + contract.getDelegationId() + "/" + contract.getProjectId(), HttpMethod.PUT, requestEntity, Void.class);
         if(result.getStatusCode() != HttpStatus.OK)

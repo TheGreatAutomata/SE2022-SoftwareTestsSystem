@@ -31,8 +31,6 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
         System.out.println("...Generating contract files");
 
-        System.out.println(System.getProperty("user.dir"));
-
         Contract contract = (Contract)delegateExecution.getVariable("contract");
 
         generateContractTableFile(contract.getContractTable(), contract.getContractId());
@@ -414,6 +412,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         else {
             System.out.println("!!! run not in file or jar !!!");
         }
+
     }
 
     @SneakyThrows

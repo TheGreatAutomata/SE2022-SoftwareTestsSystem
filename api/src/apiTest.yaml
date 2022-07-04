@@ -1376,6 +1376,18 @@ components:
           type: string
         E-mail:
           type: string
+        测试单位单位地址:
+          type: string
+        测试单位邮政编码:
+          type: string
+        测试单位电话:
+          type: string
+        测试单位传真:
+          type: string
+        测试单位网址:
+          type: string
+        测试单位E-mail:
+          type: string
         硬件环境:
           type: array
           items:
@@ -1751,4 +1763,14 @@ components:
         contractId:
           type: string
         projectId:
+          type: string
+
+    singleFile:
+      type: object
+      properties:
+        fileName:
+          type: string
+        fileType:
+          type: string
+        fileUri:
           type: string

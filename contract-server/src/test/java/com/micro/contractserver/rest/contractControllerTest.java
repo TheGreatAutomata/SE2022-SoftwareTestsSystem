@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.micro.commonserver.service.MinioService;
 import com.micro.contractserver.ContractServerApplication;
 import com.micro.contractserver.mapper.ContractFileMapper;
+import com.micro.contractserver.mapper.ContractMapper;
+import com.micro.contractserver.mapper.ContractMapperImpl;
 import com.micro.contractserver.model.*;
 import com.micro.contractserver.repository.MongoDBContractRepository;
 import com.micro.contractserver.service.ContractService;
@@ -570,11 +572,51 @@ class contractControllerTest {
     }
 
     @Test
-    void getContractByContractId() {
+    void getContractByContractId() throws Exception {
+
+        Contract contract = new Contract("delegationId", new ContractTable(new ContractTableExist(), null, null));
+        contract.setContractId("contractId");
+
+        when(contractRepository.findByContractId("contractId"))
+                .thenReturn(Optional.of(contract));
+        when(contractRepository.findByContractId("wrongContractId"))
+                .thenReturn(Optional.ofNullable(null));
+
+        ContractMapper contractMapper = new ContractMapperImpl();
+        ContractDto contractDto = contractMapper.toDto(contract);
+
+        String content = toJson(contractDto);
+
+        mockMvc.perform(get("/contract/{id}", "contractId").contentType("application/json").headers(headers))
+                .andExpect(content().json(content))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/contract/{id}", "wrongContractId").contentType("application/json").headers(headers))
+                .andExpect(status().isBadRequest());
+
     }
 
     @Test
-    void getContractByDelegationId() {
+    void getContractByDelegationId() throws Exception {
+
+        Contract contract = new Contract("delegationId", new ContractTable(new ContractTableExist(), null, null));
+        contract.setContractId("contractId");
+
+        when(contractRepository.findByDelegationId("delegationId"))
+                .thenReturn(Optional.of(contract));
+        when(contractRepository.findByDelegationId("wrongDelegationId"))
+                .thenReturn(Optional.ofNullable(null));
+
+        ContractMapper contractMapper = new ContractMapperImpl();
+        ContractDto contractDto = contractMapper.toDto(contract);
+
+        String content = toJson(contractDto);
+
+        mockMvc.perform(get("/contract/delegationId/{id}", "delegationId").contentType("application/json").headers(headers))
+                .andExpect(content().json(content))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/contract/delegationId/{id}", "wrongDelegationId").contentType("application/json").headers(headers))
+                .andExpect(status().isBadRequest());
+
     }
 
 }

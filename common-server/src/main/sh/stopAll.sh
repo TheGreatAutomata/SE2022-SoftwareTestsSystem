@@ -34,12 +34,12 @@ then
 kill -9 $pid
 fi
 
-NOW="test-server"
-pid=$(ps -ef|grep java|grep ${NOW}-0.0.1-SNAPSHOT.jar|awk '{print $2}')
-if [ -n "$pid" ]
-then
-kill -9 $pid
-fi
+#NOW="test-server"
+#pid=$(ps -ef|grep java|grep ${NOW}-0.0.1-SNAPSHOT.jar|awk '{print $2}')
+#if [ -n "$pid" ]
+#then
+#kill -9 $pid
+#fi
 
 NOW="spring-boot-security-jwt"
 pid=$(ps -ef|grep java|grep ${NOW}-0.0.1-SNAPSHOT.jar|awk '{print $2}')

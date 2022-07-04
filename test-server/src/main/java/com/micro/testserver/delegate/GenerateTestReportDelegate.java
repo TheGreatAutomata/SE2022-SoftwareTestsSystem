@@ -84,19 +84,34 @@ public class GenerateTestReportDelegate implements JavaDelegate {
         report.set总委托单位(contract.getContractTable().getContractTableExist().getPartyAName2());
 
         //电话
-        report.set电话(contract.getContractTable().getContractTablePartyA().get电话());
+        report.set电话(delegation.getApplicationTable().get委托单位信息().get电话());
 
         //传真
-        report.set传真(contract.getContractTable().getContractTablePartyA().get传真());
+        report.set传真(delegation.getApplicationTable().get委托单位信息().get传真());
 
         //地址
-        report.set地址(contract.getContractTable().getContractTablePartyA().get通讯地址());
+        report.set地址(delegation.getApplicationTable().get委托单位信息().get地址());
 
         //邮编
-        report.set邮编(contract.getContractTable().getContractTablePartyA().get邮编());
+        report.set邮编(delegation.getApplicationTable().get委托单位信息().get邮编());
 
         //联系人
-        report.set联系人(contract.getContractTable().getContractTablePartyA().get联系人());
+        report.set联系人(delegation.getApplicationTable().get委托单位信息().get联系人());
+
+        //Email
+        report.setEmail(delegation.getApplicationTable().get委托单位信息().getEMail());
+
+        // 测试单位单位地址
+        report.set测试单位单位地址(contract.getContractTable().getContractTablePartyB().get通讯地址());
+
+        // 测试单位邮政编码
+        report.set测试单位邮政编码(contract.getContractTable().getContractTablePartyB().get邮编());
+
+        // 测试单位电话
+        report.set测试单位电话(contract.getContractTable().getContractTablePartyB().get电话());
+
+        // 测试单位传真
+        report.set测试单位传真(contract.getContractTable().getContractTablePartyB().get传真());
 
         //样品名称
         report.set样品名称(softwareTest.getDocEvaluationTable().get软件名称());

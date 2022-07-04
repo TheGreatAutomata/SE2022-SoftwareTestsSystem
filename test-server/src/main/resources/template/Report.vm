@@ -1,0 +1,340 @@
+\documentclass[12pt]{article}%文字大小：小四号，12pt
+
+\usepackage[UTF8]{ctex}
+
+%页面布局
+\usepackage{geometry}
+\geometry{papersize={21cm,29.7cm}}%纸张大小
+\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}% 页边距
+
+%页眉页脚
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{color}
+\pagestyle{fancy}
+% 页眉设置
+%\fancyhead[L]{左页眉}
+\fancyhead[R]{\footnotesize{NST-04-JS007-$!{testYear}}}
+%\fancyhead[C]{中间页眉}
+\renewcommand{\headrulewidth}{0.5pt} % 分隔线宽度0.5磅
+% 页脚设置
+\fancyfoot[L]{\footnotesize{$!{partyBName1}}}
+\fancyfoot[C]{\footnotesize{报告编号：$!{reportID1}}}
+\fancyfoot[R]{\footnotesize{第\ \thepage\ 页，共\ \pageref{LastPage}\ 页}} % 页码(LastPage显示的是上一次编译的页码，故需要编译两次)
+\renewcommand{\footrulewidth}{0.5pt} % 分隔线宽度0.5磅
+
+%\lfoot{}
+%\cfoot{\thepage}
+%\rfoot{}
+%\renewcommand{\headrulewidth}{0.4pt}
+%\renewcommand{\headwidth}{\textwidth}
+%\renewcommand{\footrulewidth}{0pt}
+
+%首行缩进
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}%首行缩进长度
+
+%行间距
+\usepackage{setspace}
+\linespread{1.5}%1.5倍行间距
+%\addtolength{\parskip}{.4em}段间距
+
+%下划线
+\usepackage{ulem}
+\usepackage{CJKulem}
+
+%层级标题
+\usepackage{enumerate}
+\usepackage{enumitem}
+\AddEnumerateCounter{\chinese}{\chinese}{}
+\setitemize{itemsep=2pt,partopsep=0pt,parsep=0pt,topsep=0pt}
+
+%表格
+\usepackage{longtable} %长表格
+\usepackage{multirow} %合并行列
+\usepackage{colortbl} %表格颜色
+\usepackage{xcolor} %表格颜色
+\usepackage{lscape}
+
+\begin{document}
+\thispagestyle{empty}
+\rightline{\textbf{\large{报告编号：$!{reportID2}}}}
+\vspace{1.5cm}
+\begin{center}
+\zihao{-0}
+\textbf{测\hspace{0.5em}试\hspace{0.5em}报\hspace{0.5em}告}
+\end{center}
+\vspace{1.5cm}
+\begin{center}
+\zihao{3}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{rp{10cm}}
+\makebox[5em][s]{\textbf{软\hspace{\fill}件\hspace{\fill}名\hspace{\fill}称：}} &\textbf{$!{softwareName}}\\
+\makebox[5em][s]{\textbf{版\hspace{\fill}本\hspace{\fill}号：}}                 &\textbf{$!{versionNumber1}}\\
+\makebox[5em][s]{\textbf{委\hspace{\fill}托\hspace{\fill}单\hspace{\fill}位：}} &\textbf{$!{partyAName1}}\\
+\makebox[5em][s]{\textbf{测\hspace{\fill}试\hspace{\fill}类\hspace{\fill}别：}} &\textbf{$!{testCategory1}}\\
+\makebox[5em][s]{\textbf{报\hspace{\fill}告\hspace{\fill}日\hspace{\fill}期：}} &\textbf{$!{reportTimeYear}\hspace{0.5em}年\hspace{0.5em}$!{reportTimeMonth}\hspace{0.5em}月\hspace{0.5em}$!{reportTimeDay}\hspace{0.5em}日}\\
+\end{tabular}
+\end{center}
+\vspace{3cm}
+\begin{center}
+\zihao{-1}
+\renewcommand{\arraystretch}{2}
+\textbf{}\\
+\textbf{$!{partyBName2}}\\
+\end{center}
+
+\newpage
+\thispagestyle{empty}
+\begin{center}
+\zihao{3}
+\textbf{声\hspace{1em}明}
+\end{center}
+\vspace{0.5cm}
+\par
+1、本测试报告仅适用于本报告明确指出的委托单位的被测样品及版本。
+\par
+2、本测试报告是本中心对所测样品进行科学、客观测试的结果，为被测样品提供第三方独立、客观、公正的重要判定依据，也为最终用户选择产品提供参考和帮助。
+\par
+3、未经本中心书面批准，不得复制本报告中的内容（全文复制除外），以免误导他人（尤其是用户）对被测样品做出不准确的评价。
+\par
+4、在任何情况下，若需引用本测试报告中的结果或数据都应保持其本来的意义，在使用时务必要保持其完整，不得擅自进行增加、修改、伪造，并应征得本中心同意。
+\par
+5、本测试报告不得拷贝或复制作为广告材料使用。
+\par
+6、当被测样品出现版本更新或其它任何改变时，本测试结果不再适用，涉及到的任何技术、模块（或子系统）甚至整个软件都必须按要求进行必要的备案或重新测试，更不能出现将本测试结果应用于低于被测样品版本的情况。
+\par
+7、本报告无编制人员、审核人员、批准人员（授权签字人）签字无效。
+\par
+8、本报告无本中心章、涂改均无效。
+
+% 正文
+\newpage
+\setcounter{page}{1}
+\begin{center}
+\zihao{2}
+\textbf{测\hspace{0.5em}试\hspace{0.5em}报\hspace{0.5em}告}
+\end{center}
+\begin{center}
+\renewcommand\arraystretch{1.2} %表格行高
+\begin{longtable}{|p{2cm}|p{4.75cm}|p{1cm}|p{2cm}|p{3.75cm}|}
+\hline
+委托单位 &\multicolumn{2}{|p{5.75cm}|}{$!{partyAName2}} &项目编号 &$!{projectID}\\
+\hline
+样品名称 &\multicolumn{2}{|p{5.75cm}|}{$!{sampleName}} &版本/型号 &$!{versionNumber2}\\
+\hline
+来样日期 &\multicolumn{2}{|p{5.75cm}|}{$!{sampleTimeYear}\hspace{0.5em}年\hspace{0.5em}$!{sampleTimeMonth}\hspace{0.5em}月\hspace{0.5em}$!{sampleTimeDay}\hspace{0.5em}日} &测试类型 &$!{testCategory2}\\
+\hline
+测试时间 &\multicolumn{4}{|p{11.5cm}|}{$!{testStartYear}\hspace{0.5em}年\hspace{0.5em}$!{testStartMonth}\hspace{0.5em}月\hspace{0.5em}$!{testStartDay}\hspace{0.5em}日\hspace{1.5em}至\hspace{1.5em}$!{testEndYear}\hspace{0.5em}年\hspace{0.5em}$!{testEndMonth}\hspace{0.5em}月\hspace{0.5em}$!{testEndDay}\hspace{0.5em}日}\\
+\hline
+样品状态 &\multicolumn{4}{|p{11.5cm}|}{$!{sampleStatus}}\\
+\hline
+测试依据 &\multicolumn{4}{|p{11.5cm}|}{$!{testBasis1}}\\
+\hline
+样品清单 &\multicolumn{4}{|p{11.5cm}|}{$!{sampleList}}\\
+\hline
+测试结论 &\multicolumn{4}{|p{11.5cm}|}{$!{testConclusion}}\\
+\hline
+编制人 & &日期 &\multicolumn{2}{|p{5.75cm}|}{\hspace{4em}\hspace{0.5em}年\hspace{0.5em}\hspace{2em}\hspace{0.5em}月\hspace{0.5em}\hspace{2em}\hspace{0.5em}日}\\
+\hline
+审核人 & &日期 &\multicolumn{2}{|p{5.75cm}|}{\hspace{4em}\hspace{0.5em}年\hspace{0.5em}\hspace{2em}\hspace{0.5em}月\hspace{0.5em}\hspace{2em}\hspace{0.5em}日}\\
+\hline
+批准人 & &日期 &\multicolumn{2}{|p{5.75cm}|}{\hspace{4em}\hspace{0.5em}年\hspace{0.5em}\hspace{2em}\hspace{0.5em}月\hspace{0.5em}\hspace{2em}\hspace{0.5em}日}\\
+\hline
+\multicolumn{2}{|p{6.75cm}|}{\textbf{委托单位联系方式}} &\multicolumn{3}{|p{6.75cm}|}{\textbf{测试单位联系方式}}\\
+\hline
+\multicolumn{2}{|p{6.75cm}|}{电话：$!{partyAPhoneNumber}\newline 传真：$!{partyATaxNumber}\newline 地址：$!{partyAAddress}\newline 邮编：$!{partyAPostCode}\newline 联系人：$!{partyALiaison}\newline Email：$!{partyAEmail}\newline} &\multicolumn{3}{|p{6.75cm}|}{单位地址：$!{partyBAddress}\newline 邮政编码：$!{partyBPostCode}\newline 电话：$!{partyBPhoneNumber}\newline 传真：$!{partyBTaxNumber}\newline 网址：$!{partyBWebsite}\newline Email：$!{partyBEmail}\newline}\\
+\hline
+\end{longtable}
+\end{center}
+\newpage
+\noindent
+{\zihao{4} \textbf{1\hspace{1em}测试环境（软件和硬件）}\\}
+\textbf{1.1\hspace{1em}硬件环境}
+\par
+本次测试中使用到的硬件环境如下：
+{
+\zihao{5}
+\begin{longtable}{|p{3cm}|p{4cm}|p{6cm}|p{1cm}|}
+\hline
+\rowcolor{lightgray} \centering \textbf{硬件类别} &\centering \textbf{硬件名称} &\centering \textbf{配置} &\centering \textbf{数量}
+\endfirsthead
+\hline
+\rowcolor{lightgray} \centering \textbf{硬件类别} &\centering \textbf{硬件名称} &\centering \textbf{配置} &\centering \textbf{数量}
+\endhead
+\hline
+#foreach($hardwareItem in $!{hardwareItems})
+$hardwareItem.硬件类别 &$hardwareItem.硬件名称 &$hardwareItem.配置 &$hardwareItem.数量\\
+\hline
+#end
+\end{longtable}
+}
+\noindent
+\textbf{1.2\hspace{1em}软件环境}
+\par
+本次测试中使用到的软件环境如下：
+{
+\zihao{5}
+\begin{longtable}{|p{4cm}|p{7.5cm}|p{3cm}|}
+\hline
+\rowcolor{lightgray} \centering \textbf{软件类别} &\centering \textbf{软件名称} &\centering \textbf{版本}
+\endfirsthead
+\hline
+\rowcolor{lightgray} \centering \textbf{软件类别} &\centering \textbf{软件名称} &\centering \textbf{版本}
+\endhead
+\hline
+#foreach($softwareItem in $!{softwareItems})
+$softwareItem.软件类别 &$softwareItem.软件名称 &$softwareItem.版本\\
+\hline
+#end
+\end{longtable}
+}
+\noindent
+\textbf{1.3\hspace{1em}网络环境}\\
+$!{networkEnvironment}~\\
+~\\
+{\zihao{4} \textbf{2\hspace{1em}测试依据和参考资料}\\}
+\textbf{2.1\hspace{1em}测试依据}
+{
+\zihao{5}
+#if($!{testBasis2.isEmpty()})
+~\\
+#else
+\begin{itemize}
+#foreach($testBasis2Item in $!{testBasis2})
+\item[] •\hspace{1em}$testBasis2Item
+#end
+\end{itemize}
+#end
+}
+~\\
+\textbf{2.2\hspace{1em}参考资料}
+{
+\zihao{5}
+#if($!{referenceMaterial.isEmpty()})
+~\\
+#else
+\begin{itemize}
+#foreach($referenceMaterialItem in $!{referenceMaterial})
+\item[] •\hspace{1em}$referenceMaterialItem
+#end
+\end{itemize}
+#end
+}
+~\\
+{\zihao{4} \textbf{3\hspace{1em}测试内容}\\}
+\textbf{3.1\hspace{1em}功能性测试}
+{
+\zihao{5}
+\begin{longtable}{|p{4cm}|p{8.5cm}|p{2cm}|}
+\hline
+\rowcolor{lightgray} \centering \textbf{功能模块} &\centering \textbf{功能要求} &\centering \textbf{测试结果}
+\endfirsthead
+\hline
+\rowcolor{lightgray} \centering \textbf{功能模块} &\centering \textbf{功能要求} &\centering \textbf{测试结果}
+\endhead
+\hline
+#foreach($functionalityTestItem in $!{functionalityTestItems})
+$functionalityTestItem.功能模块 &$functionalityTestItem.功能要求 &$functionalityTestItem.测试结果\\
+\hline
+#end
+\end{longtable}
+}
+~\\
+\textbf{3.2\hspace{1em}效率测试}
+{
+\zihao{5}
+\begin{longtable}{|p{4cm}|p{8.5cm}|p{2cm}|}
+\hline
+\rowcolor{lightgray} \centering \textbf{测试特性} &\centering \textbf{测试说明} &\centering \textbf{测试结果}
+\endfirsthead
+\hline
+\rowcolor{lightgray} \centering \textbf{测试特性} &\centering \textbf{测试说明} &\centering \textbf{测试结果}
+\endhead
+\hline
+#foreach($efficiencyTestItem in $!{efficiencyTestItems})
+$efficiencyTestItem.测试特性 &$efficiencyTestItem.测试说明 &$efficiencyTestItem.测试结果\\
+\hline
+#end
+\end{longtable}
+}
+~\\
+\textbf{3.3\hspace{1em}可移植性测试}
+{
+\zihao{5}
+\begin{longtable}{|p{4cm}|p{8.5cm}|p{2cm}|}
+\hline
+\rowcolor{lightgray} \centering \textbf{测试特性} &\centering \textbf{测试说明} &\centering \textbf{测试结果}
+\endfirsthead
+\hline
+\rowcolor{lightgray} \centering \textbf{测试特性} &\centering \textbf{测试说明} &\centering \textbf{测试结果}
+\endhead
+\hline
+#foreach($portabilityTestItem in $!{portabilityTestItems})
+    $portabilityTestItem.测试特性 &$portabilityTestItem.测试说明 &$portabilityTestItem.测试结果\\
+\hline
+#end
+\end{longtable}
+}
+~\\
+\textbf{3.4\hspace{1em}易用性测试}
+{
+\zihao{5}
+\begin{longtable}{|p{4cm}|p{8.5cm}|p{2cm}|}
+\hline
+\rowcolor{lightgray} \centering \textbf{测试特性} &\centering \textbf{测试说明} &\centering \textbf{测试结果}
+\endfirsthead
+\hline
+\rowcolor{lightgray} \centering \textbf{测试特性} &\centering \textbf{测试说明} &\centering \textbf{测试结果}
+\endhead
+\hline
+#foreach($accessibilityTestItem in $!{accessibilityTestItems})
+    $accessibilityTestItem.测试特性 &$accessibilityTestItem.测试说明 &$accessibilityTestItem.测试结果\\
+\hline
+#end
+\end{longtable}
+}
+~\\
+\textbf{3.5\hspace{1em}可靠性测试}
+{
+\zihao{5}
+\begin{longtable}{|p{4cm}|p{8.5cm}|p{2cm}|}
+\hline
+\rowcolor{lightgray} \centering \textbf{测试特性} &\centering \textbf{测试说明} &\centering \textbf{测试结果}
+\endfirsthead
+\hline
+\rowcolor{lightgray} \centering \textbf{测试特性} &\centering \textbf{测试说明} &\centering \textbf{测试结果}
+\endhead
+\hline
+#foreach($reliabilityTestItem in $!{reliabilityTestItems})
+    $reliabilityTestItem.测试特性 &$reliabilityTestItem.测试说明 &$reliabilityTestItem.测试结果\\
+\hline
+#end
+\end{longtable}
+}
+~\\
+\textbf{3.6\hspace{1em}可维护性测试}
+{
+\zihao{5}
+\begin{longtable}{|p{4cm}|p{8.5cm}|p{2cm}|}
+\hline
+\rowcolor{lightgray} \centering \textbf{测试特性} &\centering \textbf{测试说明} &\centering \textbf{测试结果}
+\endfirsthead
+\hline
+\rowcolor{lightgray} \centering \textbf{测试特性} &\centering \textbf{测试说明} &\centering \textbf{测试结果}
+\endhead
+\hline
+#foreach($maintainabilityTestItem in $!{maintainabilityTestItems})
+    $maintainabilityTestItem.测试特性 &$maintainabilityTestItem.测试说明 &$maintainabilityTestItem.测试结果\\
+\hline
+#end
+\end{longtable}
+}
+~\\
+{\zihao{4} \textbf{4\hspace{1em}测试执行记录}\\}
+$!{testExecutionRecord}\\
+\begin{center}
+\zihao{2}
+\textbf{以\hspace{0.5em}下\hspace{0.5em}空\hspace{0.5em}白}
+\end{center}
+\end{document}

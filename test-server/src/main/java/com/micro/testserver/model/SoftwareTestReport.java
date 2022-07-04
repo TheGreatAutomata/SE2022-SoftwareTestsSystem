@@ -33,12 +33,18 @@ public class SoftwareTestReport implements Serializable {
     public String 审核人日期;
     public String 批准人;
     public String 批准人日期;
-    public String 电话; // Contract/contractTable/contractTablePartyA/
-    public String 传真; // Contract/contractTable/contractTablePartyA/
-    public String 地址; // Contract/contractTable/contractTablePartyA/
-    public String 邮编; // Contract/contractTable/contractTablePartyA/
-    public String 联系人; // Contract/contractTable/contractTablePartyA/
-    public String eMail;
+    public String 电话; // Delegation/applicationTable/委托单位信息/
+    public String 传真; // Delegation/applicationTable/委托单位信息/
+    public String 地址; // Delegation/applicationTable/委托单位信息/
+    public String 邮编; // Delegation/applicationTable/委托单位信息/
+    public String 联系人; // Delegation/applicationTable/委托单位信息/
+    public String Email; // Delegation/applicationTable/委托单位信息/
+    public String 测试单位单位地址; // Contract/contractTable/contractTablePartyB/
+    public String 测试单位邮政编码; // Contract/contractTable/contractTablePartyB/
+    public String 测试单位电话; // Contract/contractTable/contractTablePartyB/
+    public String 测试单位传真; // Contract/contractTable/contractTablePartyB/
+    public String 测试单位网址; // Contract/contractTable/contractTablePartyB/
+    public String 测试单位Email; // Contract/contractTable/contractTablePartyB/
     public List<TestReportHardwareEnv> 硬件环境 = null; // ? ? ?
     public List<TestReportSoftwareEnv> 软件环境 = null; // ? ? ?
     public String 网络环境; // Delegation/application/Table

@@ -39,14 +39,14 @@ public class GetDelegationDelegate implements JavaDelegate {
         System.out.println("...Getting the existed delegation");
 
         HttpHeaders headers = new HttpHeaders();
-        //headers.setContentType(MediaType.APPLICATION_JSON);
+        // headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "xxx");
         headers.set("usrName", "xxx");
         headers.set("usrId", "xxx");
         headers.set("usrRole", "xxx");
         String delegationId = (String) delegateExecution.getVariable("delegationId");
         // HttpEntity<String> request = new HttpEntity<>("{name:string}", headers);
-        //ResponseEntity<DelegationItemDto> result = restTemplate.getForEntity(DELEGATION_URI + delegationId, DelegationItemDto.class);
+        // ResponseEntity<DelegationItemDto> result = restTemplate.getForEntity(DELEGATION_URI + delegationId, DelegationItemDto.class);
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
         ResponseEntity<DelegationItemDto> result = restTemplate.exchange(DELEGATION_URI + delegationId, HttpMethod.GET, requestEntity, DelegationItemDto.class);
         if(result.getStatusCode() != HttpStatus.OK)
