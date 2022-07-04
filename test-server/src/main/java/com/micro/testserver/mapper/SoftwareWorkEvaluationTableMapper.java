@@ -74,29 +74,29 @@ public interface SoftwareWorkEvaluationTableMapper {
 
         //1-7,8,9 11-26
         dto.setTableItem1(obj.tableItems[1]);
-        dto.setTableItem1(obj.tableItems[2]);
-        dto.setTableItem1(obj.tableItems[3]);
-        dto.setTableItem1(obj.tableItems[4]);
-        dto.setTableItem1(obj.tableItems[5]);
-        dto.setTableItem1(obj.tableItems[6]);
-        dto.setTableItem1(obj.tableItems[7]);
-        dto.setTableItem1(obj.tableItems[9]);
-        dto.setTableItem1(obj.tableItems[11]);
-        dto.setTableItem1(obj.tableItems[12]);
-        dto.setTableItem1(obj.tableItems[13]);
-        dto.setTableItem1(obj.tableItems[14]);
-        dto.setTableItem1(obj.tableItems[15]);
-        dto.setTableItem1(obj.tableItems[16]);
-        dto.setTableItem1(obj.tableItems[17]);
-        dto.setTableItem1(obj.tableItems[18]);
-        dto.setTableItem1(obj.tableItems[19]);
-        dto.setTableItem1(obj.tableItems[20]);
-        dto.setTableItem1(obj.tableItems[21]);
-        dto.setTableItem1(obj.tableItems[22]);
-        dto.setTableItem1(obj.tableItems[23]);
-        dto.setTableItem1(obj.tableItems[24]);
-        dto.setTableItem1(obj.tableItems[25]);
-        dto.setTableItem1(obj.tableItems[26]);
+        dto.setTableItem2(obj.tableItems[2]);
+        dto.setTableItem3(obj.tableItems[3]);
+        dto.setTableItem4(obj.tableItems[4]);
+        dto.setTableItem5(obj.tableItems[5]);
+        dto.setTableItem6(obj.tableItems[6]);
+        dto.setTableItem7(obj.tableItems[7]);
+        dto.setTableItem9(obj.tableItems[9]);
+        dto.setTableItem11(obj.tableItems[11]);
+        dto.setTableItem12(obj.tableItems[12]);
+        dto.setTableItem13(obj.tableItems[13]);
+        dto.setTableItem14(obj.tableItems[14]);
+        dto.setTableItem15(obj.tableItems[15]);
+        dto.setTableItem16(obj.tableItems[16]);
+        dto.setTableItem17(obj.tableItems[17]);
+        dto.setTableItem18(obj.tableItems[18]);
+        dto.setTableItem19(obj.tableItems[19]);
+        dto.setTableItem20(obj.tableItems[20]);
+        dto.setTableItem21(obj.tableItems[21]);
+        dto.setTableItem22(obj.tableItems[22]);
+        dto.setTableItem23(obj.tableItems[23]);
+        dto.setTableItem24(obj.tableItems[24]);
+        dto.setTableItem25(obj.tableItems[25]);
+        dto.setTableItem26(obj.tableItems[26]);
 
         return dto;
     }

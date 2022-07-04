@@ -405,7 +405,7 @@ public class SoftwareTestController implements TestApi {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             SoftwareTestState softwareTestState=softwareTest.getState();
-            if(!softwareTestState.equals(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE)&&!softwareTestState.equals(SoftwareTestState.TEST_REPORT_DENIED)&&!softwareTestState.equals(SoftwareTestState.TEST_DOC_WORK_DENIED)){
+            if(!softwareTestState.equals(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE)){//&&!softwareTestState.equals(SoftwareTestState.TEST_REPORT_DENIED)&&!softwareTestState.equals(SoftwareTestState.TEST_DOC_WORK_DENIED)){
                 return new ResponseEntity<>(HttpStatus.valueOf(400));
             }
             SoftwareTestReport report=softwareTestReportMapper.toObj(testReportDto);
