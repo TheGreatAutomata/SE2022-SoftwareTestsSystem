@@ -47,7 +47,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 class SoftwareTestControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -150,7 +149,6 @@ class SoftwareTestControllerTest {
                         .contentType("application/json")
                         .content(body))
                 .andExpect(status().isOk());
-
     }
     @Test
     void getTestScheme() throws Exception {
@@ -798,10 +796,18 @@ class SoftwareTestControllerTest {
                         .contentType("application/json")
                         .content(body))
                 .andExpect(status().isOk());
+
+        mockMvc.perform(get("/test/{id}/test-scheme/audit-table","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
+                )
+                .andExpect(status().isOk());
     }
 
     @Test
     void getTestSchemeAuditTable() {
+
     }
 
     @Test
@@ -810,4 +816,115 @@ class SoftwareTestControllerTest {
     }
 
 
+    @Test
+    void testUploadTestScheme() {
+    }
+
+    @Test
+    void testGetTestScheme() {
+    }
+
+    @Test
+    void testPutTestScheme() {
+    }
+
+    @Test
+    void testGetDocTestCase() {
+    }
+
+    @Test
+    void testUploadDocTestcase() {
+    }
+
+    @Test
+    void testPutDocTestcase() {
+    }
+
+    @Test
+    void testGetDocTestRecord() {
+    }
+
+    @Test
+    void testUploadDocTestRecord() {
+    }
+
+    @Test
+    void testPutDocTestRecord() {
+    }
+
+    @Test
+    void testGetDocBugList() {
+    }
+
+    @Test
+    void testUploadDocBugList() {
+    }
+
+    @Test
+    void testPutDocBugList() {
+    }
+
+    @Test
+    void testGetDocDocEvaluation() {
+    }
+
+    @Test
+    void testUploadDocDocEvaluation() {
+    }
+
+    @Test
+    void testPutDocDocEvaluation() {
+    }
+
+    @Test
+    void testGetDocTestReport() {
+    }
+
+    @Test
+    void testUploadDocTestReport() {
+    }
+
+    @Test
+    void testGetDocReportEvaluation() {
+    }
+
+    @Test
+    void testUploadDocReportEvaluation() {
+    }
+
+    @Test
+    void testGetDocWorkEvaluation() {
+    }
+
+    @Test
+    void testUploadDocWorkEvaluation() {
+    }
+
+    @Test
+    void testPutDocApplyReportEvaluation() {
+    }
+
+    @Test
+    void testUploadTestSchemeAuditTable() {
+    }
+
+    @Test
+    void testGetTestSchemeAuditTable() {
+    }
+
+    @Test
+    void prepareProject() {
+    }
+
+    @Test
+    void listProjects() {
+    }
+
+    @Test
+    void listAllProjects() {
+    }
+
+    @Test
+    void findProjectByDelegationId() {
+    }
 }
