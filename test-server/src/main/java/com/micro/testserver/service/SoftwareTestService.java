@@ -2,9 +2,9 @@ package com.micro.testserver.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.micro.commonserver.service.MinioService;
-import com.micro.contractserver.model.minioFileItem;
 import com.micro.dto.AllFilesDto;
 import com.micro.dto.SingleFileDto;
+import com.micro.testserver.model.MinioFileItem;
 import com.micro.testserver.model.SoftwareFormalTestReport;
 import com.micro.testserver.model.SoftwareTest;
 import com.micro.testserver.model.SoftwareTestState;
@@ -54,7 +54,7 @@ public class SoftwareTestService {
     }
 
     @SneakyThrows
-    public minioFileItem getReportFile(String projectId) {
+    public MinioFileItem getReportFile(String projectId) {
 
         Iterable<Result<Item>> allFiles = minioService.listObjects(projectId);
         if (allFiles == null) {
@@ -66,7 +66,7 @@ public class SoftwareTestService {
             String tag = minioService.getTags(projectId, f.get().objectName()).get("fileType");
 
             if(tag.equals("Report_" + projectId)) {
-                return new minioFileItem(tag, f.get().objectName(), minioService.getObjectURL(projectId, f.get().objectName()));
+                return new MinioFileItem(tag, f.get().objectName(), minioService.getObjectURL(projectId, f.get().objectName()));
             }
         }
 
