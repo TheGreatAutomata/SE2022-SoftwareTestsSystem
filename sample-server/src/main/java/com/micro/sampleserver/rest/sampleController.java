@@ -92,7 +92,22 @@ public class sampleController implements SampleApi {
         Task task = taskService.createTaskQuery().taskName("putSampleOrCloseSample").processVariableValueEquals("id",id).singleResult();
         if(task == null)
         {
-            return ResponseEntity.status(404).build();
+            task = taskService.createTaskQuery().taskName("acceptSample").processVariableValueEquals("id",id).singleResult();
+            if(task == null)
+            {
+                return ResponseEntity.status(404).build();
+            }
+            Map<String, Object> variables = new HashMap<String, Object>();
+            variables.put("online", 1);
+            variables.put("isOk", 3);
+            variables.put("sampleId", id);
+            try {
+                variables.put("sample", new MultipartInputStreamFileResource(样品.getBytes(), 样品.getOriginalFilename(), 样品.getSize()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            };
+            taskService.complete(task.getId(), variables);
+            return ResponseEntity.status(200).build();
         }
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("finish", 0);
@@ -129,8 +144,20 @@ public class sampleController implements SampleApi {
     public ResponseEntity<Void> changeOfflineSample(String usrName, String usrId, String usrRole, String id, SampleMessageApplicationRequestDto sampleMessageApplicationRequestDto) {
         Task task = taskService.createTaskQuery().taskName("putSampleOrCloseSample").processVariableValueEquals("id",id).singleResult();
         if(task == null) {
-            //application not found
-            return ResponseEntity.status(404).build();
+            task = taskService.createTaskQuery().taskName("acceptSample").processVariableValueEquals("id",id).singleResult();
+            if(task == null)
+            {
+                return ResponseEntity.status(404).build();
+            }
+            Map<String, Object> variables = new HashMap<String, Object>();
+            variables.put("online", 0);
+            variables.put("isOk", 3);
+            variables.put("sampleId", id);
+            variables.put("message", sampleMessageMapper.toObj(sampleMessageApplicationRequestDto));
+            variables.put("usrName", usrName);
+            variables.put("usrId", usrId);
+            taskService.complete(task.getId(), variables);
+            return ResponseEntity.status(200).build();
         }
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("finish", 0);
