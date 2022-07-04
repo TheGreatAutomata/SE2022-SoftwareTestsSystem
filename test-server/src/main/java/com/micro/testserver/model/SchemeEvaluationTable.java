@@ -18,4 +18,13 @@ public class SchemeEvaluationTable implements Serializable {
 
     public SchemeEvaPass[] evaPasses=new SchemeEvaPass[8];
     public SchemeEvaOpinion[] evaOpinions=new SchemeEvaOpinion[5];
+
+    public SchemeEvaluationTable(){
+        for(int i=0;i<8;i++){
+            evaPasses[i]=new SchemeEvaPass();
+        }
+        for (int i=0;i<5;i++) {
+            evaOpinions[i]=new SchemeEvaOpinion();
+        }
+    }
 }

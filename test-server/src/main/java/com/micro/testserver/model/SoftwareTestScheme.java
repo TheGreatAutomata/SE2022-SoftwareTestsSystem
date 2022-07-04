@@ -6,6 +6,7 @@ import com.micro.dto.TestProgressTableDto;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 //测试方案
@@ -15,7 +16,7 @@ public class SoftwareTestScheme implements Serializable {
 
     public String 版本号;
 
-    public List<DocModifyRecord> 文档修改记录 = null;
+    public List<DocModifyRecord> 文档修改记录 = new ArrayList<>();
 
     public String 标识;
 

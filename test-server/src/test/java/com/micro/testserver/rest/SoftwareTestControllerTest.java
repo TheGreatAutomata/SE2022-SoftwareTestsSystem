@@ -108,7 +108,11 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId("123"))
                 .thenReturn(new SoftwareTest());
 
-        mockMvc.perform(get("/test/{id}/test-scheme","123"))
+        mockMvc.perform(get("/test/{id}/test-scheme","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
+                )
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -124,6 +128,9 @@ class SoftwareTestControllerTest {
         delegation.setState(DelegationState.ACCEPTED);
         delegation.setUsrName("great");
 
+        SoftwareTest softwareTest=new SoftwareTest();
+        softwareTest.setDelegation_id(delegation.getDelegationId());
+
         TestSchemeDto testSchemeDto=new TestSchemeDto();
         testSchemeDto.set标识("新方案");
 
@@ -131,8 +138,17 @@ class SoftwareTestControllerTest {
 
         when(delegationRepository.findById("123"))
                 .thenReturn(Optional.of(delegation));
+        when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
+                .thenReturn(softwareTest);
+        when(processInstanceQuery.singleResult())
+                .thenReturn(null);
 
-        mockMvc.perform(post("/test/{id}/test-scheme","123").contentType("application/json").content(body))
+        mockMvc.perform(post("/test/{id}/test-scheme","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
+                        .contentType("application/json")
+                        .content(body))
                 .andExpect(status().isOk());
 
     }
@@ -154,7 +170,11 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId("123"))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(get("/test/{id}/test-scheme","123"))
+        mockMvc.perform(get("/test/{id}/test-scheme","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
+                )
                 .andExpect(content().json(content))
                 .andExpect(status().isOk());
     }
@@ -175,12 +195,22 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(put("/test/{id}/test-scheme","123").contentType("application/json").content(body))
+        mockMvc.perform(put("/test/{id}/test-scheme","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
+                        .contentType("application/json")
+                        .content(body))
                 .andExpect(status().isOk());
 
         softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_ACCEPTED);
 
-        mockMvc.perform(put("/test/{id}/test-scheme","123").contentType("application/json").content(body))
+        mockMvc.perform(put("/test/{id}/test-scheme","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
+                        .contentType("application/json")
+                        .content(body))
                 .andExpect(status().is(400));
     }
 
@@ -202,7 +232,11 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(get("/test/{id}/test-docs/test-case","123"))
+        mockMvc.perform(get("/test/{id}/test-doc/test-case","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
+                )
                 .andExpect(content().json(content))
                 .andExpect(status().isOk());
     }
@@ -225,7 +259,10 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(post("/test/{id}/test-docs/test-case","123")
+        mockMvc.perform(post("/test/{id}/test-doc/test-case","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .contentType("application/json")
                         .content(body))
                 .andExpect(status().isOk());
@@ -251,14 +288,20 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(put("/test/{id}/test-docs/test-case","123")
+        mockMvc.perform(put("/test/{id}/test-doc/test-case","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .contentType("application/json")
                         .content(body))
                 .andExpect(status().isOk());
 
         softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_ACCEPTED);
 
-        mockMvc.perform(put("/test/{id}/test-docs/test-case","123")
+        mockMvc.perform(put("/test/{id}/test-doc/test-case","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .contentType("application/json")
                         .content(body))
                 .andExpect(status().is(400));
@@ -282,7 +325,11 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(get("/test/{id}/test-docs/test-record","123"))
+        mockMvc.perform(get("/test/{id}/test-doc/test-record","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
+                )
                 .andExpect(content().json(content))
                 .andExpect(status().isOk());
     }
@@ -305,7 +352,10 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(post("/test/{id}/test-docs/test-record","123")
+        mockMvc.perform(post("/test/{id}/test-doc/test-record","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .contentType("application/json")
                         .content(body))
                 .andExpect(status().isOk());
@@ -330,14 +380,20 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(put("/test/{id}/test-docs/test-record","123")
+        mockMvc.perform(put("/test/{id}/test-doc/test-record","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .contentType("application/json")
                         .content(body))
                 .andExpect(status().isOk());
 
         softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_ACCEPTED);
 
-        mockMvc.perform(put("/test/{id}/test-docs/test-record","123")
+        mockMvc.perform(put("/test/{id}/test-doc/test-record","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .contentType("application/json")
                         .content(body))
                 .andExpect(status().is(400));
@@ -361,7 +417,11 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(get("/test/{id}/test-docs/buglist","123"))
+        mockMvc.perform(get("/test/{id}/test-doc/buglist","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
+                )
                 .andExpect(content().json(content))
                 .andExpect(status().isOk());
     }
@@ -384,7 +444,10 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(post("/test/{id}/test-docs/buglist","123")
+        mockMvc.perform(post("/test/{id}/test-doc/buglist","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .contentType("application/json")
                         .content(body))
                 .andExpect(status().isOk());
@@ -409,14 +472,17 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(put("/test/{id}/test-docs/buglist","123")
+        mockMvc.perform(put("/test/{id}/test-doc/buglist","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .contentType("application/json")
                         .content(body))
                 .andExpect(status().isOk());
 
         softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_ACCEPTED);
 
-        mockMvc.perform(put("/test/{id}/test-docs/buglist","123")
+        mockMvc.perform(put("/test/{id}/test-doc/buglist","123")
                         .contentType("application/json")
                         .content(body))
                 .andExpect(status().is(400));
@@ -440,7 +506,11 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(get("/test/{id}/test-docs/doc-evaluation","123"))
+        mockMvc.perform(get("/test/{id}/test-doc/doc-evaluation","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
+                )
                 .andExpect(content().json(content))
                 .andExpect(status().isOk());
     }
@@ -463,7 +533,10 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(post("/test/{id}/test-docs/doc-evaluation","123")
+        mockMvc.perform(post("/test/{id}/test-doc/doc-evaluation","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .contentType("application/json")
                         .content(body))
                 .andExpect(status().isOk());
@@ -480,7 +553,6 @@ class SoftwareTestControllerTest {
 
         SoftwareDocEvaluationTableMapper mapper=new SoftwareDocEvaluationTableMapperImpl();
 
-        System.out.println(docEvaluationTable.getDocEvaResults());
         DocEvaluationTableDto docEvaluationTableDto=mapper.toDto(docEvaluationTable);
 
         String body=toJson(docEvaluationTableDto);
@@ -489,15 +561,21 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(put("/test/{id}/test-docs/doc-evaluation","123")
+        mockMvc.perform(put("/test/{id}/test-doc/doc-evaluation","123")
                         .contentType("application/json")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .content(body))
                 .andExpect(status().isOk());
 
         softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_ACCEPTED);
 
-        mockMvc.perform(put("/test/{id}/test-docs/doc-evaluation","123")
+        mockMvc.perform(put("/test/{id}/test-doc/doc-evaluation","123")
                         .contentType("application/json")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .content(body))
                 .andExpect(status().is(400));
     }
@@ -520,7 +598,11 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(get("/test/{id}/test-docs/test-report","123"))
+        mockMvc.perform(get("/test/{id}/test-doc/test-report","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
+                )
                 .andExpect(content().json(content))
                 .andExpect(status().isOk());
     }
@@ -543,7 +625,10 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(post("/test/{id}/test-docs/test-report","123")
+        mockMvc.perform(post("/test/{id}/test-doc/test-report","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .contentType("application/json")
                         .content(body))
                 .andExpect(status().isOk());
@@ -567,7 +652,11 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(get("/test/{id}/test-doc/test/report-evalutaion","123"))
+        mockMvc.perform(get("/test/{id}/test-doc/test/report-evaluation","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
+                )
                 .andExpect(content().json(content))
                 .andExpect(status().isOk());
     }
@@ -590,7 +679,10 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(post("/test/{id}/test-docs/report-evaluation","123")
+        mockMvc.perform(post("/test/{id}/test-doc/report-evaluation","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .contentType("application/json")
                         .content(body))
                 .andExpect(status().isOk());
@@ -614,7 +706,11 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(get("/test/{id}/test-docs/work-evaluation","123"))
+        mockMvc.perform(get("/test/{id}/test-doc/test/work-evaluation","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
+                )
                 .andExpect(content().json(content))
                 .andExpect(status().isOk());
     }
@@ -625,6 +721,7 @@ class SoftwareTestControllerTest {
 
         SoftwareWorkEvaluationTable workEvaluationTable=new SoftwareWorkEvaluationTable();
         workEvaluationTable.set预计完成时间("工作评估");
+        workEvaluationTable.set市场部审核意见("批准签发");
 
         softwareTest.setWorkEvaluationTable(workEvaluationTable);
 
@@ -637,7 +734,10 @@ class SoftwareTestControllerTest {
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
-        mockMvc.perform(post("/test/{id}/test-docs/work-evaluation","123")
+        mockMvc.perform(post("/test/{id}/test-doc/work-evaluation","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .contentType("application/json")
                         .content(body))
                 .andExpect(status().isOk());
@@ -655,11 +755,17 @@ class SoftwareTestControllerTest {
                 .thenReturn(null);
 
         mockMvc.perform(put("/test/{id}/apply-report-evaluation","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .contentType("application/json"))
                 .andExpect(status().isOk());
 
         softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_ACCEPTED);
         mockMvc.perform(put("/test/{id}/apply-report-evaluation","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .contentType("application/json"))
                 .andExpect(status().is(400));
     }
@@ -669,6 +775,8 @@ class SoftwareTestControllerTest {
         SoftwareTest softwareTest=new SoftwareTest();
 
         SchemeEvaluationTable schemeEvaluationTable=new SchemeEvaluationTable();
+
+        schemeEvaluationTable.set确认意见("通过");
 
         softwareTest.setSchemeEvaluationTable(schemeEvaluationTable);
 
@@ -684,6 +792,9 @@ class SoftwareTestControllerTest {
                 .thenReturn(Optional.of(new Delegation()));
 
         mockMvc.perform(post("/test/{id}/audit-scheme","123")
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
                         .contentType("application/json")
                         .content(body))
                 .andExpect(status().isOk());

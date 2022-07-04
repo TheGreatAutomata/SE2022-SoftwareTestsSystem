@@ -1,6 +1,5 @@
 package com.micro.testserver.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -26,7 +25,7 @@ public class TestRecordEntry implements Serializable {
     public String 实际结果;
     public String 是否与预期结果一致;
 
-    public String 相关的bUG编号;
+    public String 相关的BUG编号;
 
     public String 用例执行者;
 

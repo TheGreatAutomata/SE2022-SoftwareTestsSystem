@@ -75,7 +75,7 @@ public class RPL {
         TestPattern.add(findDelegationByState);
         TestPattern.add(findDelegationAll);
 
-        TestPattern.add(acceptSample);
+        //TestPattern.add(acceptSample);
 
         TestPattern.add(put_AuditRequest);
 

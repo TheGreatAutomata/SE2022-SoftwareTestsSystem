@@ -617,7 +617,9 @@ public class SoftwareTestController implements TestApi {
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        System.out.println(softwareTest.getSchemeEvaluationTable());
         TestSchemeAuditTableDto schemeAuditTableDto=testSchemeAuditTableMapper.toDto(softwareTest.getSchemeEvaluationTable());
+        System.out.println(schemeAuditTableDto);
         return new ResponseEntity<>(schemeAuditTableDto,HttpStatus.OK);
     }
 

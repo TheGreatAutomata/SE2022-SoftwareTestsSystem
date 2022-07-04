@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -14,5 +15,5 @@ public class DelegationFunctionTable implements Serializable {
 
     public String 版本号;
 
-    public List<SoftwareFunctionProject> 功能项目列表 = null;
+    public List<SoftwareFunctionProject> 功能项目列表 = new ArrayList<>();
 }

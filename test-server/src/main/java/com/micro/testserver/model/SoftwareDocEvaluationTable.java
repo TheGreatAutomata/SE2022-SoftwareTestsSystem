@@ -13,4 +13,10 @@ public class SoftwareDocEvaluationTable implements Serializable {
     public String 评审完成时间;
     public DocEvaResult[] docEvaResults=new DocEvaResult[36];
     public String 检查人;
+
+    public SoftwareDocEvaluationTable(){
+        for(int i=0;i<36;i++){
+            docEvaResults[i]=new DocEvaResult();
+        }
+    }
 }

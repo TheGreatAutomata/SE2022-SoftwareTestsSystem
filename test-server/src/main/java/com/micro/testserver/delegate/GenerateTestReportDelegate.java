@@ -187,7 +187,7 @@ public class GenerateTestReportDelegate implements JavaDelegate {
 
         softwareTest.setTestReport(report);
         System.out.println(softwareTestRepository);
-        softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
+        //softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
         softwareTestRepository.save(softwareTest);
     }
 }
