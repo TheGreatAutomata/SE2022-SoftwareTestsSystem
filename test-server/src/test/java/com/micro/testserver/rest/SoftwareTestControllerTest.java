@@ -1,4 +1,4 @@
-/*package com.micro.testserver.rest;
+package com.micro.testserver.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -125,7 +125,7 @@ class SoftwareTestControllerTest {
         delegation.setUsrName("great");
 
         TestSchemeDto testSchemeDto=new TestSchemeDto();
-        testSchemeDto.set11标识("新方案");
+        testSchemeDto.set标识("新方案");
 
         String body=toJson(testSchemeDto);
 
@@ -168,7 +168,7 @@ class SoftwareTestControllerTest {
         softwareTest.setState(SoftwareTestState.AUDIT_QUALITY_DENIED);
 
         TestSchemeDto testSchemeDto=new TestSchemeDto();
-        testSchemeDto.set11标识("新方案");
+        testSchemeDto.set标识("新方案");
 
         String body=toJson(testSchemeDto);
 
@@ -698,4 +698,4 @@ class SoftwareTestControllerTest {
     }
 
 
-}*/
+}
