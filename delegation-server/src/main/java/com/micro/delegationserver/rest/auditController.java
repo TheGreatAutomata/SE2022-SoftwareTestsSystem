@@ -40,6 +40,10 @@ public class auditController implements AuditApi {
     private RestTemplate restTemplate;
 
     private String acceptUri = "http://sample-server/sample/accept/";
+    @Autowired
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
     @Override
     public ResponseEntity<Void> auditDelegationByTestEmployees(String usrName, String usrId, String usrRole, String id, DelegationAuditTestResultDto delegationAuditTestResultDto) {
 

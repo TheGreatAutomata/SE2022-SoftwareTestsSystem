@@ -74,6 +74,8 @@ public class sampleController implements SampleApi {
 //        HttpEntity<String> request = new HttpEntity<>("", headers);
         variables.put("isOk", 1);
         SampleAcceptModel sampleAccept = sampleAcceptModelMapper.toObj(sampleAcceptDto);
+        sampleAccept.set态度("同意");
+        sampleAccept.setDelegationId(id);
         sampleAcceptRepository.save(sampleAccept);
 //        state = DelegationState.AUDIT_TEST_APARTMENT;
 //        ResponseEntity<Void> result = restTemplate.postForEntity(setDelegationUri + id + "/" + state, request, Void.class);
