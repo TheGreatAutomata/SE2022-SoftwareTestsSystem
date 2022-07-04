@@ -70,7 +70,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/sampleAcceptDto"
+              $ref: "#/components/schemas/sampleAccept"
       responses:
         '201':
           description: created
@@ -266,7 +266,7 @@ components:
           type: string
         uri:
           type: string
-    sampleAcceptDto:
+    sampleAccept:
       type: object
       properties:
         样品列表:
@@ -276,4 +276,6 @@ components:
         样品状态:
           type: string
         来样日期:
+          type: string
+        态度:
           type: string

@@ -9,7 +9,7 @@ spring:
         - id: sample-server-post
           uri: lb://sample-server
           predicates:
-            - Path=/sample/online/{id},/sample/offline/{id}
+            - Path=/sample/accept/{id},/sample/online/{id},/sample/offline/{id}
             - Method=POST
         - id: sample-server-get
           uri: lb://sample-server
