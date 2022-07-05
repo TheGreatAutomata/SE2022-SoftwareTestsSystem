@@ -7,6 +7,9 @@ public enum DelegationState {
     UPLOAD_FILES,//已经填写功能表，等待文件
 
     UPLOAD_SAMPLE,//已经上传手册，等待样品
+
+//    AUDIT_SAMPLE,//样品已经上传，等待验收
+//    WAIT_PUT_SAMPLE,//样品验收失败，要put样品
     AUDIT_TEST_APARTMENT,//已经上传文件，等待测试部审核
 
     AUDIT_TEST_APARTMENT_DENIED,//测试部拒绝S

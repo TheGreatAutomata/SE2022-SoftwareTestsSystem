@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 public class SoftwareTestReport implements Serializable {
     public String 报告编号;
+
     public String 软件名称; // Test-SoftwareDocEvaluationTable
     public String 版本号; // Test-SoftwareDocEvaluationTable
     public String 总委托单位; // ? ? ? Contract/contractTable/contractTableExist/partyAName2

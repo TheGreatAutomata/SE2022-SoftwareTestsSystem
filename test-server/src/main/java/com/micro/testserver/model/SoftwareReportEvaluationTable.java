@@ -14,4 +14,10 @@ public class SoftwareReportEvaluationTable implements Serializable {
     public String 检查人;
     public String 日期;
     public String 确认意见;
+
+    public SoftwareReportEvaluationTable(){
+        for(int i=0;i<14;i++){
+            tableItems[i]=false;
+        }
+    }
 }

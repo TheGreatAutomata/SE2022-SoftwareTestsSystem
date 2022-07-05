@@ -9,8 +9,13 @@ spring:
         - id: sample-server-post
           uri: lb://sample-server
           predicates:
-            - Path=/sample/online/{id},/sample/offline/{id}
+            - Path=/sample/accept/{id},/sample/online/{id},/sample/offline/{id}
             - Method=POST
+        - id: sample-server-put
+          uri: lb://sample-server
+          predicates:
+            - Path=/sample/online/{id},/sample/offline/{id}
+            - Method=put
         - id: sample-server-get
           uri: lb://sample-server
           predicates:
@@ -127,7 +132,13 @@ spring:
           uri: lb://test-server
           predicates:
             - Path=/test/{id}/test-doc/work-evaluation
-            - Method=GET,POST,PUT
+            - Method=POST,PUT
+
+        - id: test-server-getWorkEvaluation
+          uri: lb://test-server
+          predicates:
+            - Path=/test/{id}/test-doc/test/work-evaluation
+            - Method=GET
 
         - id: test-server-applyEvaluation
           uri: lb://test-server

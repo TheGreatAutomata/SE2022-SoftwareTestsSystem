@@ -2,16 +2,16 @@ package com.micro.sampleserver.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.micro.commonserver.model.MultipartInputStreamFileResource;
+import com.micro.commonserver.model.DelegationState;
 import com.micro.commonserver.service.MinioService;
 import com.micro.dto.GetSampleResponseDto;
+import com.micro.dto.SampleAcceptModelDto;
 import com.micro.dto.SampleMessageApplicationRequestDto;
 import com.micro.sampleserver.SampleServerApplication;
 import com.micro.sampleserver.model.Sample;
-import com.micro.sampleserver.model.SampleMessage;
-import com.micro.sampleserver.repository.MongoDBDelegationRepository;
+import com.micro.sampleserver.repository.MongoDBSampleAcceptRepository;
+import com.micro.sampleserver.repository.MongoDBSampleRepository;
 import io.minio.Result;
-import io.minio.errors.*;
 import io.minio.messages.Item;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
@@ -20,10 +20,6 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
-import org.apache.http.entity.ContentType;
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.assertj.core.api.Assertions;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,34 +29,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcExtensionsKt;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Optional;
+import java.util.*;
 
 import static com.mongodb.client.model.Filters.eq;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 //import static org.springframework.test.web.servlet.MockMvcExtensionsKt.put;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -87,11 +72,15 @@ class sampleControllerTest {
     @MockBean
     private MinioService minioService;
     @MockBean
-    private MongoDBDelegationRepository sampleRepository;
+    private MongoDBSampleRepository sampleRepository;
     @MockBean
     private Result<Item> singleFile;
     @MockBean
     private Item singleItem;
+    @MockBean
+    private RestTemplate restTemplate;
+    @MockBean
+    private MongoDBSampleAcceptRepository sampleAcceptRepository;
     private HttpHeaders headers;
     private MockMultipartFile mulFile;
     @BeforeEach
@@ -187,6 +176,25 @@ class sampleControllerTest {
 
         mockMvc.perform(builder)
                 .andExpect(status().isOk());
+    }
+
+    private String setDelegationUri = "http://delegation-server//delegationServer/private/delegationState/";
+    @Test
+    void acceptSample() throws Exception
+    {
+//        SampleAcceptDto sampleAcceptDto = new SampleAcceptDto();
+//        sampleAcceptDto.set态度("同意");
+//        Map<String, Object> variables = new HashMap<String, Object>();
+//        variables.put("isOk", 1);
+//        DelegationState state = DelegationState.AUDIT_TEST_APARTMENT;
+//        HttpEntity<String> request = new HttpEntity<>("", headers);
+//        String body = toJson(sampleAcceptDto);
+//        when(restTemplate.postForEntity(setDelegationUri + "sampleId" + "/" + state, request, Void.class))
+//                .thenReturn(ResponseEntity.status(200).build());
+//        mockMvc.perform(post("/sample/accept/{id}", "sampleId").contentType("application/json").headers(headers).content(body))
+//                .andExpect(status().isOk());
+
+
     }
 
     @Test

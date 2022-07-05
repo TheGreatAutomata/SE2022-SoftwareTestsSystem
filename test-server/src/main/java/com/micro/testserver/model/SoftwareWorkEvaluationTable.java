@@ -25,4 +25,10 @@ public class SoftwareWorkEvaluationTable implements Serializable {
 
     //tableItems的实际数量小于27个，只是最大下标是26
     public Boolean[] tableItems=new Boolean[27];
+
+    public SoftwareWorkEvaluationTable(){
+        for(int i=-0;i<27;i++){
+            tableItems[i]=false;
+        }
+    }
 }

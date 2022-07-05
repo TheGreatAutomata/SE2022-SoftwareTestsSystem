@@ -35,7 +35,9 @@ public class RPL {
     private final String put_AuditRequest="/test/[0-9A-Za-z]+/apply-report-evaluation";
     private final String getProjects="/test/projects";
     private final String getAllProjects="/test/projects/all";
+    private final String acceptSample="/sample/accept/.*";
     private final String getProjectByDelegationId="/test/project/[0-9A-Za-z]+";
+
     private final HashSet<String> MarketPattern = new HashSet<>();
     private final HashSet<String> TestPattern = new HashSet<>();
     private final HashSet<String> QLTYPattern = new HashSet<>();
@@ -73,11 +75,15 @@ public class RPL {
         TestPattern.add(findDelegationByUsr);
         TestPattern.add(findDelegationByState);
         TestPattern.add(findDelegationAll);
+
+        //TestPattern.add(acceptSample);
+
         TestPattern.add(put_AuditRequest);
 
         QLTYPattern.add(post_put_TestSchemeAuditTable);
         QLTYPattern.add(post_put_ReportEvaluationTable);
         QLTYPattern.add(post_put_WorkEvaluationTable);
+
     }
 
 

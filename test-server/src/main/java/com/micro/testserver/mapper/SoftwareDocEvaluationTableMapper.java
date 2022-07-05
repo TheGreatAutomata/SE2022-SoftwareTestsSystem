@@ -170,6 +170,7 @@ public interface SoftwareDocEvaluationTableMapper {
             return null;
         }
         DocEvaluationTableDto dto=new DocEvaluationTableDto();
+
         dto.set检查人(obj.get检查人());
         dto.set版本号(obj.get版本号());
         dto.set评审人(obj.get评审人());
