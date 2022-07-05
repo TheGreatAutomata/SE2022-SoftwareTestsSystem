@@ -361,6 +361,7 @@ public class SoftwareTestController implements TestApi {
         //检测当前有无流程
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id)!=null){
             Task task=taskService.createTaskQuery().taskName("UploadTestReport").processDefinitionKey("test_audit").processVariableValueEquals("delegationId",id).singleResult();
+            System.out.println(task);
             if(task==null){
                 return new ResponseEntity<>(HttpStatus.valueOf(400));
             }
