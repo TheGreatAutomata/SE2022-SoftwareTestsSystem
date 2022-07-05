@@ -34,6 +34,14 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
     @Autowired
     MinioService minioService;
 
+    public static void main(String args[]) {
+
+        String str1 = new String("");
+
+        String[] str2 = str1.split("T")[0].split("-");
+
+    }
+
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
@@ -112,7 +120,6 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
             context.put("testEndYear", testEndTime[0]);
             context.put("testEndMonth", testEndTime[1].replaceFirst("^0*", ""));
             context.put("testEndDay", testEndTime[2].replaceFirst("^0*", ""));
-            context.put("sampleStatus", report.get样品状态());
             context.put("testBasis1", report.get总测试依据());
             context.put("sampleList", report.get样品清单());
             context.put("testConclusion", report.get测试结论());
@@ -271,21 +278,25 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
             Process process = runtime.exec("xelatex -output-directory=" + outputPath + " " + outputPath + filename + ".tex");
             File file = new File(outputPath + filename + ".pdf");
             while (!file.exists()) {
+                System.out.println("!!! pdf1 not exist !!!");
                 Thread.sleep(100);
             }
             process = runtime.exec("mv " + outputPath + filename + ".pdf " + outputPath + filename + "_old.pdf");
             file = new File(outputPath + filename + "_old.pdf");
             while (!file.exists()) {
+                System.out.println("!!! pdf1_old not exist !!!");
                 Thread.sleep(100);
             }
             process = runtime.exec("xelatex -output-directory=" + outputPath + " " + outputPath + filename + ".tex"); // 须执行两次，否则无法获得总页码
             file = new File(outputPath + filename + ".pdf");
             while (!file.exists()) {
+                System.out.println("!!! pdf2 not exist !!!");
                 Thread.sleep(100);
             }
 
             // 删除中间生成文件
-            process = runtime.exec("rm " + outputPath + filename + "_old.pdf " + outputPath + filename + ".tex " + outputPath + filename + ".aux " + outputPath + filename + ".log " + outputPath + "texput.log");
+            // process = runtime.exec("rm " + outputPath + filename + "_old.pdf " + outputPath + filename + ".tex " + outputPath + filename + ".aux " + outputPath + filename + ".log " + outputPath + "texput.log");
+            process = runtime.exec("rm " + outputPath + filename + "_old.pdf " + outputPath + filename + ".tex " + outputPath + filename + ".aux");
 
         }
         else {
@@ -353,6 +364,12 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
             File reportFile = new File(outputPath + "Report_" + projectId + ".pdf");
             FileInputStream reportFileInputStream = new FileInputStream(reportFile);
             MultipartFile reportMultipartFile = new MockMultipartFile(reportFile.getName(), reportFile.getName(), ContentType.APPLICATION_OCTET_STREAM.toString(), reportFileInputStream);
+
+            if(!reportFile.exists()) {
+                System.out.println("report file not generate!!!");
+            }
+
+            System.out.println(reportMultipartFile.getOriginalFilename());
 
             creatFile(projectId, reportMultipartFile.getOriginalFilename(), "Report_" + projectId, reportMultipartFile);
 
