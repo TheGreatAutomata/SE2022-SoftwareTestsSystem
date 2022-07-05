@@ -498,9 +498,11 @@ public class SoftwareTestController implements TestApi {
     }
     @Override
     public ResponseEntity<Void> uploadDocWorkEvaluation(String usrName, String usrId, String usrRole,String id, WorkEvaluationTableDto workEvaluationTableDto) {
-        if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id)!=null){
+        if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id).singleResult()!=null){
+            System.out.println(0.5);
             Task task=taskService.createTaskQuery().taskName("UploadWorkEvaluationTable").processDefinitionKey("test_audit").processVariableValueEquals("delegationId",id).singleResult();
             if(task==null){
+                System.out.println(1);
                 return new ResponseEntity<>(HttpStatus.valueOf(400));
             }
             SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
@@ -514,30 +516,32 @@ public class SoftwareTestController implements TestApi {
             if(accepted){
                 softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_ACCEPTED);
             }else{
-                System.out.println("work denied");
                 softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_DENIED);
             }
+            System.out.println(2);
             softwareTestRepository.save(softwareTest);
             runtimeService.setVariable(task.getExecutionId(),"softwareTest",softwareTest);
             taskService.complete(task.getId());
             return new ResponseEntity<>(HttpStatus.OK);
-        } else if (runtimeService.createProcessInstanceQuery().processDefinitionKey("test_reaudit").variableValueEquals("delegationId",id)!=null) {
+        } else if (runtimeService.createProcessInstanceQuery().processDefinitionKey("test_reaudit").variableValueEquals("delegationId",id).singleResult()!=null) {
             Task task=taskService.createTaskQuery().taskName("UploadWorkEvaluationTable").processDefinitionKey("test_reaudit").processVariableValueEquals("delegationId",id).singleResult();
             if(task==null){
+                System.out.println(3);
                 return new ResponseEntity<>(HttpStatus.valueOf(400));
             }
             SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
             //压根没有这么个测试
             if(softwareTest==null){
+                System.out.println(4);
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
+            System.out.println(5);
             softwareTest.setWorkEvaluationTable(softwareWorkEvaluationTableMapper.toObj(workEvaluationTableDto));
             //审核结果
             boolean accepted=workEvaluationTableDto.get市场部审核意见().equals("批准签发");
             if(accepted){
                 softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_ACCEPTED);
             }else{
-                System.out.println("work denied1");
                 softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_DENIED);
             }
             softwareTestRepository.save(softwareTest);
