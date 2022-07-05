@@ -191,9 +191,6 @@ public class SoftwareTestController implements TestApi {
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println("testRecord");
-        System.out.println(softwareTest.getTestRecord());
-        System.out.println(softwareTestRecordMapper.toDto(softwareTest.getTestRecord()));
         return new ResponseEntity<>(softwareTestRecordMapper.toDto(softwareTest.getTestRecord()),HttpStatus.OK);
     }
     @Override
@@ -389,6 +386,7 @@ public class SoftwareTestController implements TestApi {
             softwareTest.setTestReport(reportToImp);
             softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
             softwareTestRepository.save(softwareTest);
+            runtimeService.setVariable(task.getExecutionId(),"softwareTest",softwareTest);
             taskService.complete(task.getId());
             return new ResponseEntity<>(HttpStatus.OK);
         }
