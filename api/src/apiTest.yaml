@@ -1019,6 +1019,42 @@ paths:
         '400':
           description: other errors
 
+  /test/{delegationId}/latexReport:
+    parameters:
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: delegationId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: findLatexReportByDelegationId
+      tags:
+        - test
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/softwareSingleFile"
+        '400':
+          description: other errors
+
 components:
   schemas:
     testScheme:
@@ -1769,7 +1805,7 @@ components:
         软件名称:
           type: string
 
-    singleFile:
+    softwareSingleFile:
       type: object
       properties:
         fileName:

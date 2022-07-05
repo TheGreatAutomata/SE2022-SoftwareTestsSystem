@@ -173,5 +173,8 @@ public class JavaConfig {
     public ContractMapper contractMapper(){return new ContractMapperImpl();
     }
 
+    @Bean
+    public SoftwareReportMinioItemMapper softwareReportMinioItemMapper(){return new SoftwareReportMinioItemMapperImpl();}
+
 }
 
