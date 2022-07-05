@@ -79,25 +79,11 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
             VelocityContext context = new VelocityContext();
 
             // velocity容器变量数据准备
-
             SoftwareTestReport report = softwareTest.getTestReport();
-
-            Calendar calendar = Calendar.getInstance();
             String[] reportTime = report.get报告日期().split("T")[0].split("-");
             String[] sampleTime = report.get来样日期().split("T")[0].split("-");
             String[] testStartTime = report.get测试开始时间().split("T")[0].split("-");
             String[] testEndTime = report.get测试结束时间().split("T")[0].split("-");
-
-            List<TestReportHardwareEnv> testReportHardwareEnvList = report.get硬件环境();
-            List<TestReportSoftwareEnv> testReportSoftwareEnvList = report.get软件环境();
-            List<TestReportTestDependency> testReportTestDependencyList = report.get测试依据();
-            List<TestReportReference> testReportReferenceList = report.get参考资料();
-            List<TestReportFuncTest> testReportFuncTestList = report.get功能性测试();
-            List<TestReportEfficiencyTest> testReportEfficiencyTestList = report.get效率测试();
-            List<TestReportPortabilityTest> testReportPortabilityTestList = report.get可移植性测试();
-            List<TestReportUsabilityTest> testReportUsabilityTestList = report.get易用性测试();
-            List<TestReportReliabilityTest> testReportReliabilityTestList = report.get可靠性测试();
-            List<TestReportMaintainabilityTest> testReportMaintainabilityTestList = report.get可维护性测试();
 
             // velocity容器变量数据填充
             context.put("testYear", reportTime[0]);
@@ -109,23 +95,23 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
             context.put("partyAName1", report.get总委托单位());
             context.put("testCategory1", report.get测试类别());
             context.put("reportTimeYear", reportTime[0]);
-            context.put("reportTimeMonth", reportTime[1]);
-            context.put("reportTimeDay", reportTime[2]);
+            context.put("reportTimeMonth", reportTime[1].replaceFirst("^0*", ""));
+            context.put("reportTimeDay", reportTime[2].replaceFirst("^0*", ""));
             context.put("partyBName2", softwareTest.getContract().getContractTable().getContractTableExist().getPartyBName1());
             context.put("partyAName2", report.get委托单位());
             context.put("projectID", projectId);
             context.put("sampleName", report.get样品名称());
             context.put("versionNumber2", report.get版本型号());
             context.put("sampleTimeYear", sampleTime[0]);
-            context.put("sampleTimeMonth", sampleTime[1]);
-            context.put("sampleTimeDay", sampleTime[2]);
+            context.put("sampleTimeMonth", sampleTime[1].replaceFirst("^0*", ""));
+            context.put("sampleTimeDay", sampleTime[2].replaceFirst("^0*", ""));
             context.put("testCategory2", report.get测试类型());
             context.put("testStartYear", testStartTime[0]);
-            context.put("testStartMonth", testStartTime[1]);
-            context.put("testStartDay", testStartTime[2]);
+            context.put("testStartMonth", testStartTime[1].replaceFirst("^0*", ""));
+            context.put("testStartDay", testStartTime[2].replaceFirst("^0*", ""));
             context.put("testEndYear", testEndTime[0]);
-            context.put("testEndMonth", testEndTime[1]);
-            context.put("testEndDay", testEndTime[2]);
+            context.put("testEndMonth", testEndTime[1].replaceFirst("^0*", ""));
+            context.put("testEndDay", testEndTime[2].replaceFirst("^0*", ""));
             context.put("sampleStatus", report.get样品状态());
             context.put("testBasis1", report.get总测试依据());
             context.put("sampleList", report.get样品清单());
@@ -210,25 +196,11 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
             VelocityContext context = new VelocityContext();
 
             // velocity容器变量数据准备
-
             SoftwareTestReport report = softwareTest.getTestReport();
-
-            Calendar calendar = Calendar.getInstance();
             String[] reportTime = report.get报告日期().split("T")[0].split("-");
             String[] sampleTime = report.get来样日期().split("T")[0].split("-");
             String[] testStartTime = report.get测试开始时间().split("T")[0].split("-");
             String[] testEndTime = report.get测试结束时间().split("T")[0].split("-");
-
-            List<TestReportHardwareEnv> testReportHardwareEnvList = report.get硬件环境();
-            List<TestReportSoftwareEnv> testReportSoftwareEnvList = report.get软件环境();
-            List<TestReportTestDependency> testReportTestDependencyList = report.get测试依据();
-            List<TestReportReference> testReportReferenceList = report.get参考资料();
-            List<TestReportFuncTest> testReportFuncTestList = report.get功能性测试();
-            List<TestReportEfficiencyTest> testReportEfficiencyTestList = report.get效率测试();
-            List<TestReportPortabilityTest> testReportPortabilityTestList = report.get可移植性测试();
-            List<TestReportUsabilityTest> testReportUsabilityTestList = report.get易用性测试();
-            List<TestReportReliabilityTest> testReportReliabilityTestList = report.get可靠性测试();
-            List<TestReportMaintainabilityTest> testReportMaintainabilityTestList = report.get可维护性测试();
 
             // velocity容器变量数据填充
             context.put("testYear", reportTime[0]);
@@ -240,23 +212,23 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
             context.put("partyAName1", report.get总委托单位());
             context.put("testCategory1", report.get测试类别());
             context.put("reportTimeYear", reportTime[0]);
-            context.put("reportTimeMonth", reportTime[1]);
-            context.put("reportTimeDay", reportTime[2]);
+            context.put("reportTimeMonth", reportTime[1].replaceFirst("^0*", ""));
+            context.put("reportTimeDay", reportTime[2].replaceFirst("^0*", ""));
             context.put("partyBName2", softwareTest.getContract().getContractTable().getContractTableExist().getPartyBName1());
             context.put("partyAName2", report.get委托单位());
             context.put("projectID", projectId);
             context.put("sampleName", report.get样品名称());
             context.put("versionNumber2", report.get版本型号());
             context.put("sampleTimeYear", sampleTime[0]);
-            context.put("sampleTimeMonth", sampleTime[1]);
-            context.put("sampleTimeDay", sampleTime[2]);
+            context.put("sampleTimeMonth", sampleTime[1].replaceFirst("^0*", ""));
+            context.put("sampleTimeDay", sampleTime[2].replaceFirst("^0*", ""));
             context.put("testCategory2", report.get测试类型());
             context.put("testStartYear", testStartTime[0]);
-            context.put("testStartMonth", testStartTime[1]);
-            context.put("testStartDay", testStartTime[2]);
+            context.put("testStartMonth", testStartTime[1].replaceFirst("^0*", ""));
+            context.put("testStartDay", testStartTime[2].replaceFirst("^0*", ""));
             context.put("testEndYear", testEndTime[0]);
-            context.put("testEndMonth", testEndTime[1]);
-            context.put("testEndDay", testEndTime[2]);
+            context.put("testEndMonth", testEndTime[1].replaceFirst("^0*", ""));
+            context.put("testEndDay", testEndTime[2].replaceFirst("^0*", ""));
             context.put("sampleStatus", report.get样品状态());
             context.put("testBasis1", report.get总测试依据());
             context.put("sampleList", report.get样品清单());
@@ -317,7 +289,7 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
 
         }
         else {
-            System.out.println("!!! run not in file or jar !!!");
+            System.out.println("!!! run not in file or in jar !!!");
         }
 
     }
@@ -352,6 +324,7 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
                 mp.put("fileType", fileType);
                 minioService.setTag(projectId, fileName, mp);
             }
+
         } else {
             System.out.println("!!! file is null !!!");
         }
@@ -385,7 +358,7 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
 
         }
         else {
-            System.out.println("!!! run not in file or jar !!!");
+            System.out.println("!!! run not in file or in jar !!!");
         }
 
     }
@@ -410,7 +383,7 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
 
         }
         else {
-            System.out.println("!!! run not in file or jar !!!");
+            System.out.println("!!! run not in file or in jar !!!");
         }
     }
 

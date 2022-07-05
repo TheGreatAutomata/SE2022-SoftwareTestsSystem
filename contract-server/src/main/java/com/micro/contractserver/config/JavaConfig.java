@@ -111,10 +111,10 @@ public class JavaConfig {
         return processEngine().getRepositoryService();
     }
 
-    @Bean
+    /*@Bean
     public NumberService NumberService() {
         return new NumberService();
-    }
+    }*/
 
     @Bean
     public SetDelegationContractIdDelegate setDelegationContractIdDelegate() {
