@@ -80,10 +80,7 @@ public class SoftwareTestController implements TestApi {
         //if(!delegationState.equals(DelegationState.ACCEPTED)){
         //    return new ResponseEntity<>(HttpStatus.valueOf(400));
         //}
-        System.out.println("csfa");
-        System.out.println(testSchemeDto);
         SoftwareTestScheme scheme=testSchemeMapper.toObj(testSchemeDto);
-        System.out.println(scheme);
         //已经有流程了
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_apply").variableValueEquals("delegationId",delegation.getDelegationId()).singleResult()!=null){
             return new ResponseEntity<>(HttpStatus.valueOf(400));
@@ -97,7 +94,6 @@ public class SoftwareTestController implements TestApi {
         softwareTest.setState(SoftwareTestState.AUDIT_QUALITY);
         Map<String,Object> variables=new HashMap<>();
         variables.put("delegationId",delegation.getDelegationId());
-        System.out.println(softwareTest);
         softwareTestRepository.save(softwareTest);
         runtimeService.startProcessInstanceByKey("test_apply",variables);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -109,10 +105,6 @@ public class SoftwareTestController implements TestApi {
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println("get");
-        System.out.println(softwareTest);
-        System.out.println(softwareTest.getScheme());
-        System.out.println(testSchemeMapper.toDto(softwareTest.getScheme()));
         return new ResponseEntity<>(testSchemeMapper.toDto(softwareTest.getScheme()),HttpStatus.OK);
     }
     @Override
@@ -241,9 +233,6 @@ public class SoftwareTestController implements TestApi {
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println("buglist");
-        System.out.println(softwareTest.getBugList());
-        System.out.println(softwareBugListMapper.toDto(softwareTest.getBugList()));
         return new ResponseEntity<>(softwareBugListMapper.toDto(softwareTest.getBugList()),HttpStatus.OK);
     }
     @Override
@@ -353,17 +342,13 @@ public class SoftwareTestController implements TestApi {
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println(softwareTest.getTestReport());
         return new ResponseEntity<>(softwareTestReportMapper.toDto(softwareTest.getTestReport()),HttpStatus.OK);
     }
     @Override
     public ResponseEntity<Void> uploadDocTestReport(String usrName, String usrId, String usrRole,String id, TestReportDto testReportDto) {
-        System.out.println("测试报告重填开始");
         //检测当前有无流程
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id)!=null){
             Task task=taskService.createTaskQuery().taskName("UploadTestReport").processDefinitionKey("test_audit").processVariableValueEquals("delegationId",id).singleResult();
-            System.out.println("测试报告重填");
-            System.out.println(task);
             if(task==null){
                 return new ResponseEntity<>(HttpStatus.valueOf(400));
             }
@@ -438,8 +423,6 @@ public class SoftwareTestController implements TestApi {
             reportToImp.set参考资料(report.get参考资料());
             softwareTest.setTestReport(reportToImp);
             softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
-            System.out.println("TestReport");
-            System.out.println(softwareTest);
             softwareTestRepository.save(softwareTest);
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -528,19 +511,15 @@ public class SoftwareTestController implements TestApi {
             softwareTest.setWorkEvaluationTable(softwareWorkEvaluationTableMapper.toObj(workEvaluationTableDto));
             //审核结果
             boolean accepted=workEvaluationTableDto.get市场部审核意见().equals("批准签发");
-            System.out.println("工作检查");
-            System.out.println(accepted);
             if(accepted){
                 softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_ACCEPTED);
             }else{
+                System.out.println("work denied");
                 softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_DENIED);
             }
-            System.out.println(0);
             softwareTestRepository.save(softwareTest);
-            System.out.println(1);
             runtimeService.setVariable(task.getExecutionId(),"softwareTest",softwareTest);
             taskService.complete(task.getId());
-            System.out.println(2);
             return new ResponseEntity<>(HttpStatus.OK);
         } else if (runtimeService.createProcessInstanceQuery().processDefinitionKey("test_reaudit").variableValueEquals("delegationId",id)!=null) {
             Task task=taskService.createTaskQuery().taskName("UploadWorkEvaluationTable").processDefinitionKey("test_reaudit").processVariableValueEquals("delegationId",id).singleResult();
@@ -555,19 +534,15 @@ public class SoftwareTestController implements TestApi {
             softwareTest.setWorkEvaluationTable(softwareWorkEvaluationTableMapper.toObj(workEvaluationTableDto));
             //审核结果
             boolean accepted=workEvaluationTableDto.get市场部审核意见().equals("批准签发");
-            System.out.println("工作检查");
-            System.out.println(accepted);
             if(accepted){
                 softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_ACCEPTED);
             }else{
+                System.out.println("work denied1");
                 softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_DENIED);
             }
-            System.out.println(0);
             softwareTestRepository.save(softwareTest);
-            System.out.println(1);
             runtimeService.setVariable(task.getExecutionId(),"softwareTest",softwareTest);
             taskService.complete(task.getId());
-            System.out.println(2);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -581,7 +556,7 @@ public class SoftwareTestController implements TestApi {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             //必须在被拒绝后才能主动开启审核流程
-            if(!softwareTest.getState().equals(SoftwareTestState.TEST_REPORT_DENIED) && !softwareTest.getState().equals(SoftwareTestState.TEST_DOC_WORK_DENIED)){
+            if(!softwareTest.getState().equals(SoftwareTestState.TEST_REPORT_DENIED) && !softwareTest.getState().equals(SoftwareTestState.TEST_DOC_WORK_DENIED) && !softwareTest.getState().equals(SoftwareTestState.TEST_DOC_WORK_DENIED)){
                 return new ResponseEntity<>(HttpStatus.valueOf(400));
             }
             SoftwareTestReport report=softwareTestReportMapper.toObj(testReportDto);
@@ -609,7 +584,7 @@ public class SoftwareTestController implements TestApi {
             softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
             System.out.println("REAUDIT");
             System.out.println(softwareTest);
-
+            softwareTestRepository.save(softwareTest);
             Map<String,Object> variables=new HashMap<>();
             variables.put("softwareTest",softwareTest);
             variables.put("delegationId",id);
@@ -654,9 +629,7 @@ public class SoftwareTestController implements TestApi {
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println(softwareTest.getSchemeEvaluationTable());
         TestSchemeAuditTableDto schemeAuditTableDto=testSchemeAuditTableMapper.toDto(softwareTest.getSchemeEvaluationTable());
-        System.out.println(schemeAuditTableDto);
         return new ResponseEntity<>(schemeAuditTableDto,HttpStatus.OK);
     }
     @Autowired
@@ -696,7 +669,6 @@ public class SoftwareTestController implements TestApi {
     }
     @Override
     public ResponseEntity<List<TestProjectDto>> listAllProjects(String usrId, String usrName, String usrRole) {
-        System.out.println("getAll");
         List<SoftwareTest> softwareTests=softwareTestRepository.findAll();
         if(softwareTests.size()==0){
             return new ResponseEntity<>(HttpStatus.valueOf(400));
