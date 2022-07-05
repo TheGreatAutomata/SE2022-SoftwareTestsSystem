@@ -36,7 +36,9 @@ public class UserServiceTest {
         user.setRoles(roles);
         user.setEmail("955@gmail.com");
         userRepository.save(user);
-        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+        when(userRepository
+                .findByUsername(user.getUsername()))
+                .thenReturn(Optional.of(user));
         assertNotNull(userRepository.findByUsername("test").get().getUsername());
     }
 }
