@@ -368,6 +368,7 @@ public class SoftwareTestController implements TestApi {
             }
             SoftwareTestReport report=softwareTestReportMapper.toObj(testReportDto);
             SoftwareTestReport reportToImp=softwareTest.getTestReport();
+            reportToImp.set报告编号(report.get报告编号());
             reportToImp.set测试类别(report.get测试类别());
             reportToImp.set报告日期(report.get报告日期());
             reportToImp.set版本型号(report.get版本型号());
@@ -383,6 +384,10 @@ public class SoftwareTestController implements TestApi {
             reportToImp.set测试执行记录(report.get测试执行记录());
             reportToImp.set测试单位Email(report.get测试单位Email());
             reportToImp.set测试单位网址(report.get测试单位网址());
+            reportToImp.set硬件环境(report.get硬件环境());
+            reportToImp.set软件环境(report.get软件环境());
+
+
             softwareTest.setTestReport(reportToImp);
             softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
             softwareTestRepository.save(softwareTest);
@@ -408,6 +413,7 @@ public class SoftwareTestController implements TestApi {
             }
             SoftwareTestReport report=softwareTestReportMapper.toObj(testReportDto);
             SoftwareTestReport reportToImp=softwareTest.getTestReport();
+            reportToImp.set报告编号(report.get报告编号());
             reportToImp.set测试类别(report.get测试类别());
             reportToImp.set报告日期(report.get报告日期());
             reportToImp.set版本型号(report.get版本型号());
@@ -423,8 +429,13 @@ public class SoftwareTestController implements TestApi {
             reportToImp.set测试执行记录(report.get测试执行记录());
             reportToImp.set测试单位Email(report.get测试单位Email());
             reportToImp.set测试单位网址(report.get测试单位网址());
+            reportToImp.set硬件环境(report.get硬件环境());
+            reportToImp.set软件环境(report.get软件环境());
+            reportToImp.set参考资料(report.get参考资料());
             softwareTest.setTestReport(reportToImp);
             softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
+            System.out.println("TestReport");
+            System.out.println(softwareTest);
             softwareTestRepository.save(softwareTest);
             return new ResponseEntity<>(HttpStatus.OK);
         }

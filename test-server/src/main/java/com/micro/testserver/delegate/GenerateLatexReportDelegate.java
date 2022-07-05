@@ -5,7 +5,6 @@ import com.micro.testserver.repository.SoftwareTestRepository;
 import com.micro.commonserver.service.MinioService;
 import io.minio.Result;
 import io.minio.StatObjectResponse;
-import io.minio.messages.Bucket;
 import io.minio.messages.Item;
 import lombok.SneakyThrows;
 import org.activiti.engine.delegate.DelegateExecution;

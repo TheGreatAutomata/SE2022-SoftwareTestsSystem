@@ -183,6 +183,9 @@ public class GenerateTestReportDelegate implements JavaDelegate {
         //样品清单
         report.set样品清单(String.join(delim,sampleAcceptModel.getString样品列表()));
 
+        //来样日期
+        report.set来样日期(sampleAcceptModel.get来样日期());
+
         softwareTest.setTestReport(report);
         System.out.println(softwareTestRepository);
         //softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);

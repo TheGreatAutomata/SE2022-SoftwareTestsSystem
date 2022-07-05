@@ -1374,7 +1374,7 @@ components:
           type: string
         联系人:
           type: string
-        E-mail:
+        Email:
           type: string
         测试单位单位地址:
           type: string
@@ -1386,7 +1386,7 @@ components:
           type: string
         测试单位网址:
           type: string
-        测试单位E-mail:
+        测试单位Email:
           type: string
         硬件环境:
           type: array
