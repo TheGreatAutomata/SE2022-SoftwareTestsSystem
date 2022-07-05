@@ -2,6 +2,7 @@ package com.micro.delegationserver.rest;
 
 
 import com.micro.commonserver.model.DelegationState;
+import com.micro.commonserver.service.MinioService;
 import com.micro.delegationserver.mapper.DelegationApplicationTableMapper;
 import com.micro.delegationserver.mapper.DelegationFileListMapper;
 import com.micro.delegationserver.mapper.DelegationFunctionTableMapper;
@@ -63,6 +64,9 @@ public class delegationController implements DelegationApi{
 
     @Autowired
     DelegationRepository delegationRepository;
+
+    @Autowired
+    MinioService minioService;
     @Autowired
     DelegationFilesMapper delegationFilesMapper;
 
@@ -72,6 +76,10 @@ public class delegationController implements DelegationApi{
     @LoadBalanced
     private RestTemplate restTemplate;
 
+    @Autowired
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     @Override
     public ResponseEntity<String> creatDelegation(String usrName, String usrId, String usrRole, CreatDelegationRequestDto creatDelegationRequestDto) {
@@ -261,6 +269,16 @@ public class delegationController implements DelegationApi{
 
     private String sampleDeleteUri = "http://sample-server/sample/";
 
+    public Boolean deleteTaskByDelegationId(String id)
+    {
+        Task task = taskService.createTaskQuery().processDefinitionKey("delegation_apply").processVariableValueEquals("delegationId",id).singleResult();
+        if(task != null){
+            runtimeService.deleteProcessInstance(task.getExecutionId(),"delegation is deleted");
+            return Boolean.TRUE;
+        }
+        else return Boolean.FALSE;
+    }
+
     @Override
     public ResponseEntity<Void> deleteDelegation(String usrName, String usrId, String usrRole, String id) {
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
@@ -272,15 +290,31 @@ public class delegationController implements DelegationApi{
             if(!tasks.isEmpty()){
                 runtimeService.deleteProcessInstance(tasks.get(0).getExecutionId(),"delegation has been deleted");
             }
+            String fileBucket = "delega" + id;
+            if(minioService.hasBucket(fileBucket))
+            {
+                try {
+                    minioService.removeBucket(fileBucket);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> request = new HttpEntity<>("", headers);
+            headers.set("Authorization", "xxx");
+            headers.set("usrName", "xxx");
+            headers.set("usrId", "xxx");
+            headers.set("usrRole", "xxx");
+            HttpEntity<String> request = new HttpEntity<>("body", headers);
             String methodUri = "offline";
             if(Objects.equals(preMethod, "在线上传"))
             {
                 methodUri = "online";
             }
-            ResponseEntity<Void> result = restTemplate.postForEntity(sampleDeleteUri+methodUri+"/" + id, request, Void.class);
+
+            ResponseEntity<Void> result = restTemplate.exchange(
+                    sampleDeleteUri+methodUri+"/" + id, HttpMethod.DELETE, request, Void.class);
+//            ResponseEntity<Void> result = restTemplate.deleteForEntity(sampleDeleteUri+methodUri+"/" + id, request, Void.class);
             if(result.getStatusCode() != HttpStatus.OK)
             {
                 throw new RuntimeException();

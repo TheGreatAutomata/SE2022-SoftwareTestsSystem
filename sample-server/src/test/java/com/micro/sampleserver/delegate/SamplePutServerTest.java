@@ -40,7 +40,7 @@ class SamplePutServerTest {
                 .thenReturn(null);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        request = new HttpEntity<>("", headers);
+        request = new HttpEntity<>("body", headers);
     }
 
     @Test
