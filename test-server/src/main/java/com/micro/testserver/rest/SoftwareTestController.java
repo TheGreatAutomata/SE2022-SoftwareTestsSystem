@@ -64,6 +64,9 @@ public class SoftwareTestController implements TestApi {
     TestProjectMapper testProjectMapper;
     @Autowired
     ContractMapper contractMapper;
+    @Autowired
+    SoftwareReportMinioItemMapper softwareReportMinioItemMapper;
+
     @Override
     public ResponseEntity<Void> uploadTestScheme(String usrName, String usrId, String usrRole,String id, TestSchemeDto testSchemeDto) {
         //首先检查是否有这个委托，且委托是否已经进入可以编写测试方案的阶段
@@ -77,10 +80,7 @@ public class SoftwareTestController implements TestApi {
         //if(!delegationState.equals(DelegationState.ACCEPTED)){
         //    return new ResponseEntity<>(HttpStatus.valueOf(400));
         //}
-        System.out.println("csfa");
-        System.out.println(testSchemeDto);
         SoftwareTestScheme scheme=testSchemeMapper.toObj(testSchemeDto);
-        System.out.println(scheme);
         //已经有流程了
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_apply").variableValueEquals("delegationId",delegation.getDelegationId()).singleResult()!=null){
             return new ResponseEntity<>(HttpStatus.valueOf(400));
@@ -94,7 +94,6 @@ public class SoftwareTestController implements TestApi {
         softwareTest.setState(SoftwareTestState.AUDIT_QUALITY);
         Map<String,Object> variables=new HashMap<>();
         variables.put("delegationId",delegation.getDelegationId());
-        System.out.println(softwareTest);
         softwareTestRepository.save(softwareTest);
         runtimeService.startProcessInstanceByKey("test_apply",variables);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -106,10 +105,6 @@ public class SoftwareTestController implements TestApi {
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println("get");
-        System.out.println(softwareTest);
-        System.out.println(softwareTest.getScheme());
-        System.out.println(testSchemeMapper.toDto(softwareTest.getScheme()));
         return new ResponseEntity<>(testSchemeMapper.toDto(softwareTest.getScheme()),HttpStatus.OK);
     }
     @Override
@@ -191,9 +186,6 @@ public class SoftwareTestController implements TestApi {
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println("testRecord");
-        System.out.println(softwareTest.getTestRecord());
-        System.out.println(softwareTestRecordMapper.toDto(softwareTest.getTestRecord()));
         return new ResponseEntity<>(softwareTestRecordMapper.toDto(softwareTest.getTestRecord()),HttpStatus.OK);
     }
     @Override
@@ -241,9 +233,6 @@ public class SoftwareTestController implements TestApi {
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println("buglist");
-        System.out.println(softwareTest.getBugList());
-        System.out.println(softwareBugListMapper.toDto(softwareTest.getBugList()));
         return new ResponseEntity<>(softwareBugListMapper.toDto(softwareTest.getBugList()),HttpStatus.OK);
     }
     @Override
@@ -353,7 +342,6 @@ public class SoftwareTestController implements TestApi {
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println(softwareTest.getTestReport());
         return new ResponseEntity<>(softwareTestReportMapper.toDto(softwareTest.getTestReport()),HttpStatus.OK);
     }
     @Override
@@ -371,6 +359,7 @@ public class SoftwareTestController implements TestApi {
             }
             SoftwareTestReport report=softwareTestReportMapper.toObj(testReportDto);
             SoftwareTestReport reportToImp=softwareTest.getTestReport();
+            reportToImp.set报告编号(report.get报告编号());
             reportToImp.set测试类别(report.get测试类别());
             reportToImp.set报告日期(report.get报告日期());
             reportToImp.set版本型号(report.get版本型号());
@@ -386,9 +375,12 @@ public class SoftwareTestController implements TestApi {
             reportToImp.set测试执行记录(report.get测试执行记录());
             reportToImp.set测试单位Email(report.get测试单位Email());
             reportToImp.set测试单位网址(report.get测试单位网址());
+            reportToImp.set硬件环境(report.get硬件环境());
+            reportToImp.set软件环境(report.get软件环境());
             softwareTest.setTestReport(reportToImp);
             softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
             softwareTestRepository.save(softwareTest);
+            runtimeService.setVariable(task.getExecutionId(),"softwareTest",softwareTest);
             taskService.complete(task.getId());
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -405,11 +397,12 @@ public class SoftwareTestController implements TestApi {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             SoftwareTestState softwareTestState=softwareTest.getState();
-            if(!softwareTestState.equals(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE)){//&&!softwareTestState.equals(SoftwareTestState.TEST_REPORT_DENIED)&&!softwareTestState.equals(SoftwareTestState.TEST_DOC_WORK_DENIED)){
+            if(!softwareTestState.equals(SoftwareTestState.TEST_DOC_TEST_REPORT)){//&&!softwareTestState.equals(SoftwareTestState.TEST_REPORT_DENIED)&&!softwareTestState.equals(SoftwareTestState.TEST_DOC_WORK_DENIED)){
                 return new ResponseEntity<>(HttpStatus.valueOf(400));
             }
             SoftwareTestReport report=softwareTestReportMapper.toObj(testReportDto);
             SoftwareTestReport reportToImp=softwareTest.getTestReport();
+            reportToImp.set报告编号(report.get报告编号());
             reportToImp.set测试类别(report.get测试类别());
             reportToImp.set报告日期(report.get报告日期());
             reportToImp.set版本型号(report.get版本型号());
@@ -425,6 +418,9 @@ public class SoftwareTestController implements TestApi {
             reportToImp.set测试执行记录(report.get测试执行记录());
             reportToImp.set测试单位Email(report.get测试单位Email());
             reportToImp.set测试单位网址(report.get测试单位网址());
+            reportToImp.set硬件环境(report.get硬件环境());
+            reportToImp.set软件环境(report.get软件环境());
+            reportToImp.set参考资料(report.get参考资料());
             softwareTest.setTestReport(reportToImp);
             softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
             softwareTestRepository.save(softwareTest);
@@ -466,6 +462,28 @@ public class SoftwareTestController implements TestApi {
             softwareTestRepository.save(softwareTest);
             taskService.complete(task.getId());
             return new ResponseEntity<>(HttpStatus.OK);
+        } else if (runtimeService.createProcessInstanceQuery().processDefinitionKey("test_reaudit").variableValueEquals("delegationId",id).singleResult()!=null) {
+            Task task=taskService.createTaskQuery().taskName("UploadReportEvaluationTable").processDefinitionKey("test_reaudit").processVariableValueEquals("delegationId",id).singleResult();
+            if(task==null){
+                return new ResponseEntity<>(HttpStatus.valueOf(400));
+            }
+            SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
+            //压根没有这么个测试
+            if(softwareTest==null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            softwareTest.setReportEvaluationTable(softwareReportEvaluationMapper.toObj(testReportEvaluationTableDto));
+            //审核结果
+            boolean accepted=testReportEvaluationTableDto.get确认意见().equals("通过");
+            if(accepted){
+                softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_EVALUATION_TABLE);
+            }else{
+                softwareTest.setState(SoftwareTestState.TEST_REPORT_DENIED);
+            }
+            runtimeService.setVariable(task.getExecutionId(),"accepted",accepted);
+            softwareTestRepository.save(softwareTest);
+            taskService.complete(task.getId());
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -480,9 +498,11 @@ public class SoftwareTestController implements TestApi {
     }
     @Override
     public ResponseEntity<Void> uploadDocWorkEvaluation(String usrName, String usrId, String usrRole,String id, WorkEvaluationTableDto workEvaluationTableDto) {
-        if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id)!=null){
+        if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id).singleResult()!=null){
+            System.out.println(0.5);
             Task task=taskService.createTaskQuery().taskName("UploadWorkEvaluationTable").processDefinitionKey("test_audit").processVariableValueEquals("delegationId",id).singleResult();
             if(task==null){
+                System.out.println(1);
                 return new ResponseEntity<>(HttpStatus.valueOf(400));
             }
             SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
@@ -491,7 +511,32 @@ public class SoftwareTestController implements TestApi {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             softwareTest.setWorkEvaluationTable(softwareWorkEvaluationTableMapper.toObj(workEvaluationTableDto));
-            softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
+            //审核结果
+            boolean accepted=workEvaluationTableDto.get市场部审核意见().equals("批准签发");
+            if(accepted){
+                softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_ACCEPTED);
+            }else{
+                softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_DENIED);
+            }
+            System.out.println(2);
+            softwareTestRepository.save(softwareTest);
+            runtimeService.setVariable(task.getExecutionId(),"softwareTest",softwareTest);
+            taskService.complete(task.getId());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else if (runtimeService.createProcessInstanceQuery().processDefinitionKey("test_reaudit").variableValueEquals("delegationId",id).singleResult()!=null) {
+            Task task=taskService.createTaskQuery().taskName("UploadWorkEvaluationTable").processDefinitionKey("test_reaudit").processVariableValueEquals("delegationId",id).singleResult();
+            if(task==null){
+                System.out.println(3);
+                return new ResponseEntity<>(HttpStatus.valueOf(400));
+            }
+            SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
+            //压根没有这么个测试
+            if(softwareTest==null){
+                System.out.println(4);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            System.out.println(5);
+            softwareTest.setWorkEvaluationTable(softwareWorkEvaluationTableMapper.toObj(workEvaluationTableDto));
             //审核结果
             boolean accepted=workEvaluationTableDto.get市场部审核意见().equals("批准签发");
             if(accepted){
@@ -500,13 +545,14 @@ public class SoftwareTestController implements TestApi {
                 softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_DENIED);
             }
             softwareTestRepository.save(softwareTest);
+            runtimeService.setVariable(task.getExecutionId(),"softwareTest",softwareTest);
             taskService.complete(task.getId());
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     @Override
-    public ResponseEntity<Void> putDocApplyReportEvaluation(String usrName, String usrId, String usrRole,String id) {
+    public ResponseEntity<Void> putDocApplyReportEvaluation(String usrName, String usrId, String usrRole,String id,TestReportDto testReportDto) {
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id).singleResult()==null){
             //同一时间最多只有一个审核流程
             SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
@@ -514,13 +560,39 @@ public class SoftwareTestController implements TestApi {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             //必须在被拒绝后才能主动开启审核流程
-            if(!softwareTest.getState().equals(SoftwareTestState.TEST_REPORT_DENIED) && !softwareTest.getState().equals(SoftwareTestState.TEST_DOC_WORK_DENIED)){
+            if(!softwareTest.getState().equals(SoftwareTestState.TEST_REPORT_DENIED) && !softwareTest.getState().equals(SoftwareTestState.TEST_DOC_WORK_DENIED) && !softwareTest.getState().equals(SoftwareTestState.TEST_DOC_WORK_DENIED)){
                 return new ResponseEntity<>(HttpStatus.valueOf(400));
             }
+            SoftwareTestReport report=softwareTestReportMapper.toObj(testReportDto);
+            SoftwareTestReport reportToImp=softwareTest.getTestReport();
+            reportToImp.set报告编号(report.get报告编号());
+            reportToImp.set测试类别(report.get测试类别());
+            reportToImp.set报告日期(report.get报告日期());
+            reportToImp.set版本型号(report.get版本型号());
+            reportToImp.set测试开始时间(report.get测试开始时间());
+            reportToImp.set测试结束时间(report.get测试结束时间());
+            reportToImp.set测试结论(report.get测试结论());
+            reportToImp.set主测人(report.get主测人());
+            reportToImp.set主测人日期(report.get主测人日期());
+            reportToImp.set审核人(report.get审核人());
+            reportToImp.set审核人日期(report.get审核人日期());
+            reportToImp.set批准人(report.get批准人());
+            reportToImp.set批准人日期(report.get批准人日期());
+            reportToImp.set测试执行记录(report.get测试执行记录());
+            reportToImp.set测试单位Email(report.get测试单位Email());
+            reportToImp.set测试单位网址(report.get测试单位网址());
+            reportToImp.set硬件环境(report.get硬件环境());
+            reportToImp.set软件环境(report.get软件环境());
+            reportToImp.set参考资料(report.get参考资料());
+            softwareTest.setTestReport(reportToImp);
+            softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
+            System.out.println("REAUDIT");
+            System.out.println(softwareTest);
+            softwareTestRepository.save(softwareTest);
             Map<String,Object> variables=new HashMap<>();
             variables.put("softwareTest",softwareTest);
             variables.put("delegationId",id);
-            runtimeService.startProcessInstanceByKey("test_audit",variables);
+            runtimeService.startProcessInstanceByKey("test_reaudit",variables);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -561,9 +633,7 @@ public class SoftwareTestController implements TestApi {
         if(softwareTest==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println(softwareTest.getSchemeEvaluationTable());
         TestSchemeAuditTableDto schemeAuditTableDto=testSchemeAuditTableMapper.toDto(softwareTest.getSchemeEvaluationTable());
-        System.out.println(schemeAuditTableDto);
         return new ResponseEntity<>(schemeAuditTableDto,HttpStatus.OK);
     }
     @Autowired
@@ -603,7 +673,6 @@ public class SoftwareTestController implements TestApi {
     }
     @Override
     public ResponseEntity<List<TestProjectDto>> listAllProjects(String usrId, String usrName, String usrRole) {
-        System.out.println("getAll");
         List<SoftwareTest> softwareTests=softwareTestRepository.findAll();
         if(softwareTests.size()==0){
             return new ResponseEntity<>(HttpStatus.valueOf(400));
@@ -627,6 +696,19 @@ public class SoftwareTestController implements TestApi {
         TestProjectDto dto=testProjectMapper.toDto(project);
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<SoftwareSingleFileDto> findLatexReportByDelegationId(String usrId, String usrName, String usrRole, String delegationId) {
+        Optional<Delegation> delegationOptional=delegationRepository.findById(delegationId);
+        if(delegationOptional.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Delegation delegation=delegationOptional.get();
+        MinioFileItem item=softwareTestService.getReportFile(delegation.getProjectId());
+        SoftwareSingleFileDto dto= softwareReportMinioItemMapper.toDto(item);
+        return new ResponseEntity<>(dto,HttpStatus.OK);
+    }
+
     /*@GetMapping("/new/test")
     public void getContractTest(){
         Contract c = restTemplate.getForObject("http://contract-server/contract/", Contract.class);

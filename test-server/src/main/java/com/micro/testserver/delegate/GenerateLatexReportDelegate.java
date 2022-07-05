@@ -5,7 +5,6 @@ import com.micro.testserver.repository.SoftwareTestRepository;
 import com.micro.commonserver.service.MinioService;
 import io.minio.Result;
 import io.minio.StatObjectResponse;
-import io.minio.messages.Bucket;
 import io.minio.messages.Item;
 import lombok.SneakyThrows;
 import org.activiti.engine.delegate.DelegateExecution;
@@ -59,11 +58,8 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
 
         // deleteReportFile(softwareTest.getProjectId());
 
-        softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
         softwareTestRepository.save(softwareTest);
-
         delegateExecution.setVariable("softwareTest",softwareTest);
-
     }
 
     @SneakyThrows
