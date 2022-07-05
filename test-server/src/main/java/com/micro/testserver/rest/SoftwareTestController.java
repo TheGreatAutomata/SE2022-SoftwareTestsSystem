@@ -358,9 +358,11 @@ public class SoftwareTestController implements TestApi {
     }
     @Override
     public ResponseEntity<Void> uploadDocTestReport(String usrName, String usrId, String usrRole,String id, TestReportDto testReportDto) {
+        System.out.println("测试报告重填开始");
         //检测当前有无流程
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id)!=null){
             Task task=taskService.createTaskQuery().taskName("UploadTestReport").processDefinitionKey("test_audit").processVariableValueEquals("delegationId",id).singleResult();
+            System.out.println("测试报告重填");
             System.out.println(task);
             if(task==null){
                 return new ResponseEntity<>(HttpStatus.valueOf(400));
@@ -390,8 +392,6 @@ public class SoftwareTestController implements TestApi {
             reportToImp.set测试单位网址(report.get测试单位网址());
             reportToImp.set硬件环境(report.get硬件环境());
             reportToImp.set软件环境(report.get软件环境());
-
-
             softwareTest.setTestReport(reportToImp);
             softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
             softwareTestRepository.save(softwareTest);
@@ -412,7 +412,7 @@ public class SoftwareTestController implements TestApi {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             SoftwareTestState softwareTestState=softwareTest.getState();
-            if(!softwareTestState.equals(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE)){//&&!softwareTestState.equals(SoftwareTestState.TEST_REPORT_DENIED)&&!softwareTestState.equals(SoftwareTestState.TEST_DOC_WORK_DENIED)){
+            if(!softwareTestState.equals(SoftwareTestState.TEST_DOC_TEST_REPORT)){//&&!softwareTestState.equals(SoftwareTestState.TEST_REPORT_DENIED)&&!softwareTestState.equals(SoftwareTestState.TEST_DOC_WORK_DENIED)){
                 return new ResponseEntity<>(HttpStatus.valueOf(400));
             }
             SoftwareTestReport report=softwareTestReportMapper.toObj(testReportDto);
@@ -479,6 +479,28 @@ public class SoftwareTestController implements TestApi {
             softwareTestRepository.save(softwareTest);
             taskService.complete(task.getId());
             return new ResponseEntity<>(HttpStatus.OK);
+        } else if (runtimeService.createProcessInstanceQuery().processDefinitionKey("test_reaudit").variableValueEquals("delegationId",id).singleResult()!=null) {
+            Task task=taskService.createTaskQuery().taskName("UploadReportEvaluationTable").processDefinitionKey("test_reaudit").processVariableValueEquals("delegationId",id).singleResult();
+            if(task==null){
+                return new ResponseEntity<>(HttpStatus.valueOf(400));
+            }
+            SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
+            //压根没有这么个测试
+            if(softwareTest==null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            softwareTest.setReportEvaluationTable(softwareReportEvaluationMapper.toObj(testReportEvaluationTableDto));
+            //审核结果
+            boolean accepted=testReportEvaluationTableDto.get确认意见().equals("通过");
+            if(accepted){
+                softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_EVALUATION_TABLE);
+            }else{
+                softwareTest.setState(SoftwareTestState.TEST_REPORT_DENIED);
+            }
+            runtimeService.setVariable(task.getExecutionId(),"accepted",accepted);
+            softwareTestRepository.save(softwareTest);
+            taskService.complete(task.getId());
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -520,11 +542,38 @@ public class SoftwareTestController implements TestApi {
             taskService.complete(task.getId());
             System.out.println(2);
             return new ResponseEntity<>(HttpStatus.OK);
+        } else if (runtimeService.createProcessInstanceQuery().processDefinitionKey("test_reaudit").variableValueEquals("delegationId",id)!=null) {
+            Task task=taskService.createTaskQuery().taskName("UploadWorkEvaluationTable").processDefinitionKey("test_reaudit").processVariableValueEquals("delegationId",id).singleResult();
+            if(task==null){
+                return new ResponseEntity<>(HttpStatus.valueOf(400));
+            }
+            SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
+            //压根没有这么个测试
+            if(softwareTest==null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            softwareTest.setWorkEvaluationTable(softwareWorkEvaluationTableMapper.toObj(workEvaluationTableDto));
+            //审核结果
+            boolean accepted=workEvaluationTableDto.get市场部审核意见().equals("批准签发");
+            System.out.println("工作检查");
+            System.out.println(accepted);
+            if(accepted){
+                softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_ACCEPTED);
+            }else{
+                softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_DENIED);
+            }
+            System.out.println(0);
+            softwareTestRepository.save(softwareTest);
+            System.out.println(1);
+            runtimeService.setVariable(task.getExecutionId(),"softwareTest",softwareTest);
+            taskService.complete(task.getId());
+            System.out.println(2);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     @Override
-    public ResponseEntity<Void> putDocApplyReportEvaluation(String usrName, String usrId, String usrRole,String id) {
+    public ResponseEntity<Void> putDocApplyReportEvaluation(String usrName, String usrId, String usrRole,String id,TestReportDto testReportDto) {
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id).singleResult()==null){
             //同一时间最多只有一个审核流程
             SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
@@ -535,11 +584,36 @@ public class SoftwareTestController implements TestApi {
             if(!softwareTest.getState().equals(SoftwareTestState.TEST_REPORT_DENIED) && !softwareTest.getState().equals(SoftwareTestState.TEST_DOC_WORK_DENIED)){
                 return new ResponseEntity<>(HttpStatus.valueOf(400));
             }
+            SoftwareTestReport report=softwareTestReportMapper.toObj(testReportDto);
+            SoftwareTestReport reportToImp=softwareTest.getTestReport();
+            reportToImp.set报告编号(report.get报告编号());
+            reportToImp.set测试类别(report.get测试类别());
+            reportToImp.set报告日期(report.get报告日期());
+            reportToImp.set版本型号(report.get版本型号());
+            reportToImp.set测试开始时间(report.get测试开始时间());
+            reportToImp.set测试结束时间(report.get测试结束时间());
+            reportToImp.set测试结论(report.get测试结论());
+            reportToImp.set主测人(report.get主测人());
+            reportToImp.set主测人日期(report.get主测人日期());
+            reportToImp.set审核人(report.get审核人());
+            reportToImp.set审核人日期(report.get审核人日期());
+            reportToImp.set批准人(report.get批准人());
+            reportToImp.set批准人日期(report.get批准人日期());
+            reportToImp.set测试执行记录(report.get测试执行记录());
+            reportToImp.set测试单位Email(report.get测试单位Email());
+            reportToImp.set测试单位网址(report.get测试单位网址());
+            reportToImp.set硬件环境(report.get硬件环境());
+            reportToImp.set软件环境(report.get软件环境());
+            reportToImp.set参考资料(report.get参考资料());
+            softwareTest.setTestReport(reportToImp);
             softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
+            System.out.println("REAUDIT");
+            System.out.println(softwareTest);
+
             Map<String,Object> variables=new HashMap<>();
             variables.put("softwareTest",softwareTest);
             variables.put("delegationId",id);
-            runtimeService.startProcessInstanceByKey("test_audit",variables);
+            runtimeService.startProcessInstanceByKey("test_reaudit",variables);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

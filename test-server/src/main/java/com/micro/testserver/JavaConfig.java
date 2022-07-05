@@ -54,9 +54,11 @@ public class JavaConfig {
         springProcessEngineConfiguration.setTransactionManager(transactionManager());
         springProcessEngineConfiguration.setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
 
-        Resource[] resources=new Resource[2];
+        Resource[] resources=new Resource[3];
         resources[0]=new ClassPathResource("processes/test_apply.bpmn20.xml");
         resources[1]=new ClassPathResource("processes/test_audit.bpmn20.xml");
+        resources[2]=new ClassPathResource("processes/test_reaudit.bpmn20.xml");
+
 
         springProcessEngineConfiguration.setDeploymentResources(resources);
         springProcessEngineConfiguration.setDeploymentMode("single-resource");

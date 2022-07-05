@@ -909,6 +909,11 @@ paths:
       operationId: putDoc_applyReportEvaluation
       tags:
         - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testReport"
       responses:
         "200":
           description: ok
