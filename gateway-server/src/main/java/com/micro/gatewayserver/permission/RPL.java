@@ -56,6 +56,7 @@ public class RPL {
         MarketPattern.add(downloadUnsignedContractTablePartyB);
         MarketPattern.add(downloadUnsignedNondisclosureAgreementTablePartyB);
         MarketPattern.add(uploadContractPartyB);
+        MarketPattern.add(post_put_WorkEvaluationTable);
 
         MODPattern.add(findDelegationByState);
         MODPattern.add(findDelegationByUsr);
@@ -82,7 +83,6 @@ public class RPL {
 
         QLTYPattern.add(post_put_TestSchemeAuditTable);
         QLTYPattern.add(post_put_ReportEvaluationTable);
-        QLTYPattern.add(post_put_WorkEvaluationTable);
 
     }
 
