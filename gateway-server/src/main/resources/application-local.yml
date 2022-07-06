@@ -164,6 +164,12 @@ spring:
             - Path=/test/projects/{delegationId}
             - Method=GET
 
+        - id: test-server-findLatexByDelegationId
+          uri: lb://test-server
+          predicates:
+            - Path=/test/{delegationId}/latexReport
+            - Method=GET
+
 eureka:
   client:
     serviceUrl:

@@ -700,7 +700,9 @@ public class SoftwareTestController implements TestApi {
     @Override
     public ResponseEntity<SoftwareSingleFileDto> findLatexReportByDelegationId(String usrId, String usrName, String usrRole, String delegationId) {
         Optional<Delegation> delegationOptional=delegationRepository.findById(delegationId);
+        System.out.println("打印报告");
         if(delegationOptional.isEmpty()){
+            System.out.println("委托不存在");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Delegation delegation=delegationOptional.get();

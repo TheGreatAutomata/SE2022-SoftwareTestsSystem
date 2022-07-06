@@ -38,6 +38,8 @@ public class RPL {
     private final String acceptSample="/sample/accept/.*";
     private final String getProjectByDelegationId="/test/project/[0-9A-Za-z]+";
 
+    private final String getLatexReportByDelegationId="/test/[0-9A-Za-z]+/latexReport";
+
     private final HashSet<String> MarketPattern = new HashSet<>();
     private final HashSet<String> TestPattern = new HashSet<>();
     private final HashSet<String> QLTYPattern = new HashSet<>();
