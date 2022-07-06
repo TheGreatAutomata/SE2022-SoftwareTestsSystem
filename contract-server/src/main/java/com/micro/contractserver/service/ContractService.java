@@ -1,6 +1,5 @@
 package com.micro.contractserver.service;
 
-import com.micro.contractserver.mapper.ContractTablePartyBMapper;
 import com.micro.contractserver.mapper.PerformanceTermPartyBMapper;
 import com.micro.contractserver.model.*;
 import com.micro.contractserver.repository.MongoDBContractRepository;
@@ -27,9 +26,6 @@ public class ContractService {
 
     @Autowired
     MongoDBContractRepository contractRepository;
-
-    @Autowired
-    ContractTablePartyBMapper contractTablePartyBMapper;
 
     @Autowired
     PerformanceTermPartyBMapper performanceTermPartyBMapper;
