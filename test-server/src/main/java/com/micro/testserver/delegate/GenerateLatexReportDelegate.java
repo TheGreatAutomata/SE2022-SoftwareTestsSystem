@@ -186,6 +186,7 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
             context.put("testEndYear", testEndTime[0].replace("%", "\\%"));
             context.put("testEndMonth", testEndTime[1].replaceFirst("^0*", "").replace("%", "\\%"));
             context.put("testEndDay", testEndTime[2].replaceFirst("^0*", "").replace("%", "\\%"));
+            context.put("sampleStatus", report.get样品状态().replace("%", "\\%"));
             context.put("testBasis1", report.get总测试依据().replace("%", "\\%"));
             context.put("sampleList", report.get样品清单().replace("%", "\\%"));
             context.put("testConclusion", report.get测试结论().replace("%", "\\%"));
@@ -302,6 +303,7 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
             context.put("testEndYear", testEndTime[0].replace("%", "\\%"));
             context.put("testEndMonth", testEndTime[1].replaceFirst("^0*", "").replace("%", "\\%"));
             context.put("testEndDay", testEndTime[2].replaceFirst("^0*", "").replace("%", "\\%"));
+            context.put("sampleStatus", report.get样品状态().replace("%", "\\%"));
             context.put("testBasis1", report.get总测试依据().replace("%", "\\%"));
             context.put("sampleList", report.get样品清单().replace("%", "\\%"));
             context.put("testConclusion", report.get测试结论().replace("%", "\\%"));
@@ -360,8 +362,7 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
             }
 
             // 删除中间生成文件
-            // process = runtime.exec("rm " + outputPath + filename + "_old.pdf " + outputPath + filename + ".tex " + outputPath + filename + ".aux " + outputPath + filename + ".log " + outputPath + "texput.log");
-            // process = runtime.exec("rm " + outputPath + filename + "_old.pdf " + outputPath + filename + ".tex " + outputPath + filename + ".aux");
+            process = runtime.exec("rm " + outputPath + filename + "_old.pdf " + outputPath + filename + ".tex " + outputPath + filename + ".aux " + outputPath + filename + ".log " + outputPath + "texput.log");
 
         }
         else {
@@ -433,8 +434,6 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
             if(!reportFile.exists()) {
                 System.out.println("report file not generate!!!");
             }
-
-            System.out.println(reportMultipartFile.getOriginalFilename());
 
             creatFile(projectId, reportMultipartFile.getOriginalFilename(), "Report_" + projectId, reportMultipartFile);
 
