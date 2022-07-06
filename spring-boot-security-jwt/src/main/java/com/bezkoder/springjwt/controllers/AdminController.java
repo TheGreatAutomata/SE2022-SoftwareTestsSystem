@@ -4,6 +4,7 @@ import com.bezkoder.springjwt.models.ERole;
 import com.bezkoder.springjwt.models.Role;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.payload.request.DeleteRequest;
+import com.bezkoder.springjwt.payload.request.ModifyPasswordRequest;
 import com.bezkoder.springjwt.payload.request.SignupRequest;
 import com.bezkoder.springjwt.payload.response.MessageResponse;
 import com.bezkoder.springjwt.repository.RoleRepository;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -103,17 +105,39 @@ public class AdminController {
     @PostMapping("delete/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@Valid @RequestBody DeleteRequest deleteRequest){
-        if (!userRepository.existsById(deleteRequest.getUserId())) {
+        if (!userRepository.existsById(deleteRequest.getId())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
-        if (!deleteRequest.getUserId().equals(deleteRequest.getConfirmUserId())) {
+        if (!deleteRequest.getId().equals(deleteRequest.getConfirmed())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: The two inputs are different!"));
         }
-        userRepository.deleteById(deleteRequest.getUserId());
+        userRepository.deleteById(deleteRequest.getId());
         return ResponseEntity.ok(new MessageResponse("User deleted successfully!"));
+    }
+
+    @PostMapping("modify/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> modifyPassWord(@Valid @RequestBody ModifyPasswordRequest modifyPasswordRequest){
+        if (!modifyPasswordRequest.getNewpassword().equals(modifyPasswordRequest.getConfirmpassword())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: The two inputs are different!"));
+        }
+        Optional<User> userOptional = userRepository.findByUsername(modifyPasswordRequest.getUsername());
+        if(userOptional.isEmpty()){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: User doesnt exist"));
+        }
+        User user = userOptional.get();
+        user.setPassword(encoder.encode(modifyPasswordRequest.getConfirmpassword()));
+        userRepository.save(user);
+        return ResponseEntity.ok(
+                new MessageResponse("User deleted successfully!")
+        );
     }
 }
