@@ -16,7 +16,7 @@ public class SaveContractDelegate implements JavaDelegate {
 
         Contract currentContract = (Contract)delegateExecution.getVariable("contract");
 
-        System.out.println("...Saving the contract " + currentContract.getContractId());
+        // System.out.println("...Saving the contract " + currentContract.getContractId());
 
         contractRepository.save(currentContract); // TODO: 判断合同状态 updateservice
 

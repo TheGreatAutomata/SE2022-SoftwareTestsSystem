@@ -42,12 +42,12 @@ public class ContractService {
     @SneakyThrows
     public boolean creatFile(String contractId, String fileName, String fileType, MultipartFile file) {
 
-        System.out.println(fileType + ": " + fileName);
+        // System.out.println(fileType + ": " + fileName);
         if (!Objects.equals(file, null) && !file.isEmpty()) {
 
             Optional<Bucket> contractBucket = minioService.getBucket(contractId);
             if (contractBucket.isEmpty()) {
-                System.out.println("...creating a new bucket");
+                // System.out.println("...creating a new bucket");
                 minioService.createBucket(contractId);
                 //contractBucket = minioService.getBucket(contractId);
             }
@@ -57,13 +57,13 @@ public class ContractService {
                 return false;
             } catch (Exception e) {
                 minioService.putObject(contractId, fileName, file);
-                System.out.println("...storing " + fileName + " in the bucket");
+                // System.out.println("...storing " + fileName + " in the bucket");
                 Map<String, String> mp = new HashMap<>();
                 mp.put("fileType", fileType);
                 minioService.setTag(contractId, fileName, mp);
             }
         } else {
-            System.out.println("!!! file is null !!!");
+            // System.out.println("!!! file is null !!!");
         }
 
         return true;
@@ -80,7 +80,7 @@ public class ContractService {
         for (Result<Item> f : allFiles) {
 
             String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
-            System.out.println(tag);
+            // System.out.println(tag);
 
         }
 
@@ -108,7 +108,7 @@ public class ContractService {
         for (Result<Item> f : allFiles) {
 
             String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
-            System.out.println(tag);
+            // System.out.println(tag);
 
         }
 
@@ -137,7 +137,7 @@ public class ContractService {
         for (Result<Item> f : allFiles) {
 
             String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
-            System.out.println(tag);
+            // System.out.println(tag);
 
         }
 
@@ -165,7 +165,7 @@ public class ContractService {
         for (Result<Item> f : allFiles) {
 
             String tag = minioService.getTags(contractId, f.get().objectName()).get("fileType");
-            System.out.println(tag);
+            // System.out.println(tag);
 
         }
 

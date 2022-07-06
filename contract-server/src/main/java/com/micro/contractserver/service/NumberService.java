@@ -151,7 +151,7 @@ public class NumberService {
             numFinal += String.valueOf(userI[i]);
         }
 
-        System.out.println(numFinal);
+        // System.out.println(numFinal);
 
         return numFinal;
     }
