@@ -23,7 +23,7 @@ public class SetDelegationContractIdDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
-        System.out.println("...Setting contract id for the existed delegation");
+        // System.out.println("...Setting contract id for the existed delegation");
 
         Contract contract = (Contract)delegateExecution.getVariable("contract");
 

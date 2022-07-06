@@ -23,7 +23,7 @@ public class SetTestPreparationDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
-        System.out.println("...Setting preparation for the test");
+        // System.out.println("...Setting preparation for the test");
 
         Contract contract = (Contract)delegateExecution.getVariable("contract");
 
@@ -37,7 +37,7 @@ public class SetTestPreparationDelegate implements JavaDelegate {
         ResponseEntity<Void> result = restTemplate.exchange(TEST_URI + contract.getDelegationId() + "/" + contract.getProjectId(), HttpMethod.PUT, requestEntity, Void.class);
         if(result.getStatusCode() != HttpStatus.OK)
         {
-            System.out.println("!!! set test preparation failed !!!");
+            // System.out.println("!!! set test preparation failed !!!");
             throw new RuntimeException();
         }
 

@@ -28,7 +28,7 @@ public class SaveContractFilesDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
-        System.out.println("...Saving the signed contract files");
+        // System.out.println("...Saving the signed contract files");
 
         Contract contract = (Contract)delegateExecution.getVariable("contract");
         String contractId = (String) delegateExecution.getVariable("contractId");
@@ -46,20 +46,20 @@ public class SaveContractFilesDelegate implements JavaDelegate {
                 if(s.equals("Contract_complete_" + contractId)) {
                     minioFileItem fileItem = contractService.getSignedContractTableFile(contractId);
 
-                    System.out.println("...Setting signed contract file for contract");
+                    // System.out.println("...Setting signed contract file for contract");
 
                     contract.setSignedContractTableFile(fileItem);
                 } else {
                     minioFileItem fileItem = contractService.getSignedNondisclosureAgreementTableFile(contractId);
 
-                    System.out.println("...Setting signed non-disclosure agreement file for contract");
+                    // System.out.println("...Setting signed non-disclosure agreement file for contract");
 
                     contract.setSignedNondisclosureAgreementTableFile(fileItem);
                 }
 
             } else {
 
-                System.out.println("!!! null file is illegal !!!");
+                // System.out.println("!!! null file is illegal !!!");
 
             }
 

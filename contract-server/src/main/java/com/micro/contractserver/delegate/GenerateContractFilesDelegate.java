@@ -29,7 +29,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
-        System.out.println("...Generating contract files");
+        // System.out.println("...Generating contract files");
 
         Contract contract = (Contract)delegateExecution.getVariable("contract");
 
@@ -38,7 +38,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
         saveUnsignedContractFiles(contract.getContractId());
 
-        //deleteUnsignedContractFiles(contract.getContractId());
+        deleteUnsignedContractFiles(contract.getContractId());
 
         delegateExecution.setVariable("contract", contract);
         delegateExecution.setVariable("contractId", contract.getContractId());
@@ -62,6 +62,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
             String filename = "Contract_" + contractId;
             String inputPath = "template/";
             String outputPath = "contract-server/src/main/resources/generate/";
+            // String outputPath = "src/main/resources/generate/";
 
             // 设置velocity的资源加载器
             Properties prop = new Properties();
@@ -74,37 +75,37 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
             VelocityContext context = new VelocityContext();
 
             context.put("testYear", calendar.get(Calendar.YEAR));
-            context.put("projectName", contractTableExist.getProjectName());
-            context.put("partyAName1", contractTableExist.getPartyAName1());
-            context.put("partyBName1", contractTableExist.getPartyBName1());
-            context.put("partyAName2", contractTableExist.getPartyAName2());
-            context.put("partyBName2", contractTableExist.getPartyBName2());
+            context.put("projectName", contractTableExist.getProjectName().replace("%", "\\%"));
+            context.put("partyAName1", contractTableExist.getPartyAName1().replace("%", "\\%"));
+            context.put("partyBName1", contractTableExist.getPartyBName1().replace("%", "\\%"));
+            context.put("partyAName2", contractTableExist.getPartyAName2().replace("%", "\\%"));
+            context.put("partyBName2", contractTableExist.getPartyBName2().replace("%", "\\%"));
             context.put("softwareName", contractTableExist.getSoftwareName());
-            context.put("softwareQualityCharacteristic", contractTableExist.getSoftwareQualityCharacteristic());
-            context.put("paymentInChinese", contractTableExist.getPaymentInChinese());
-            context.put("paymentInArabic", contractTableExist.getPaymentInArabic());
-            context.put("performanceTerm", contractTableExist.getPerformanceTerm());
-            context.put("rectificationTimes", contractTableExist.getRectificationTimes());
-            context.put("rectificationTerm", contractTableExist.getRectificationTerm());
-            context.put("partyAName3", contractTableExist.getPartyAName3());
-            context.put("partyARepresentative", contractTablePartyA.get授权代表());
-            context.put("partyALiaison", contractTablePartyA.get联系人());
-            context.put("partyAPostalAddress", contractTablePartyA.get通讯地址());
-            context.put("partyAPhoneNumber", contractTablePartyA.get电话());
-            context.put("partyAFaxNumber", contractTablePartyA.get传真());
-            context.put("partyADepositBank", contractTablePartyA.get开户银行());
-            context.put("partyABankAccountNumber", contractTablePartyA.get账号());
-            context.put("partyAPostalCode", contractTablePartyA.get邮编());
-            context.put("partyBName3", contractTableExist.getPartyBName3());
-            context.put("partyBRepresentative", contractTablePartyB.get授权代表());
-            context.put("partyBLiaison", contractTablePartyB.get联系人());
-            context.put("partyBPostalAddress", contractTablePartyB.get通讯地址());
-            context.put("partyBPostalCode", contractTablePartyB.get邮编());
-            context.put("partyBPhoneNumber", contractTablePartyB.get电话());
-            context.put("partyBFaxNumber", contractTablePartyB.get传真());
-            context.put("partyBDepositBank", contractTablePartyB.get开户银行());
-            context.put("partyBBankAccountName", contractTablePartyB.get户名());
-            context.put("partyBBankAccountNumber", contractTablePartyB.get账号());
+            context.put("softwareQualityCharacteristic", contractTableExist.getSoftwareQualityCharacteristic().replace("%", "\\%"));
+            context.put("paymentInChinese", contractTableExist.getPaymentInChinese().replace("%", "\\%"));
+            context.put("paymentInArabic", contractTableExist.getPaymentInArabic().replace("%", "\\%"));
+            context.put("performanceTerm", contractTableExist.getPerformanceTerm().replace("%", "\\%"));
+            context.put("rectificationTimes", contractTableExist.getRectificationTimes().replace("%", "\\%"));
+            context.put("rectificationTerm", contractTableExist.getRectificationTerm().replace("%", "\\%"));
+            context.put("partyAName3", contractTableExist.getPartyAName3().replace("%", "\\%"));
+            context.put("partyARepresentative", contractTablePartyA.get授权代表().replace("%", "\\%"));
+            context.put("partyALiaison", contractTablePartyA.get联系人().replace("%", "\\%"));
+            context.put("partyAPostalAddress", contractTablePartyA.get通讯地址().replace("%", "\\%"));
+            context.put("partyAPhoneNumber", contractTablePartyA.get电话().replace("%", "\\%"));
+            context.put("partyAFaxNumber", contractTablePartyA.get传真().replace("%", "\\%"));
+            context.put("partyADepositBank", contractTablePartyA.get开户银行().replace("%", "\\%"));
+            context.put("partyABankAccountNumber", contractTablePartyA.get账号().replace("%", "\\%"));
+            context.put("partyAPostalCode", contractTablePartyA.get邮编().replace("%", "\\%"));
+            context.put("partyBName3", contractTableExist.getPartyBName3().replace("%", "\\%"));
+            context.put("partyBRepresentative", contractTablePartyB.get授权代表().replace("%", "\\%"));
+            context.put("partyBLiaison", contractTablePartyB.get联系人().replace("%", "\\%"));
+            context.put("partyBPostalAddress", contractTablePartyB.get通讯地址().replace("%", "\\%"));
+            context.put("partyBPostalCode", contractTablePartyB.get邮编().replace("%", "\\%"));
+            context.put("partyBPhoneNumber", contractTablePartyB.get电话().replace("%", "\\%"));
+            context.put("partyBFaxNumber", contractTablePartyB.get传真().replace("%", "\\%"));
+            context.put("partyBDepositBank", contractTablePartyB.get开户银行().replace("%", "\\%"));
+            context.put("partyBBankAccountName", contractTablePartyB.get户名().replace("%", "\\%"));
+            context.put("partyBBankAccountNumber", contractTablePartyB.get账号().replace("%", "\\%"));
 
             // 加载velocity模板文件
             Template template = Velocity.getTemplate(inputPath + "Contract.vm", "utf-8");
@@ -121,19 +122,19 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
             Process process = runtime.exec("xelatex -output-directory=" + outputPath + " " + outputPath + filename + ".tex");
             File file = new File(outputPath + filename + ".pdf");
             while (!file.exists()) {
-                System.out.println("!!! pdf1 not exist !!!");
+                // System.out.println("!!! pdf1 not exist !!!");
                 Thread.sleep(100);
             }
             process = runtime.exec("mv " + outputPath + filename + ".pdf " + outputPath + filename + "_old.pdf");
             file = new File(outputPath + filename + "_old.pdf");
             while (!file.exists()) {
-                System.out.println("!!! pdf1_old not exist !!!");
+                // System.out.println("!!! pdf1_old not exist !!!");
                 Thread.sleep(100);
             }
             process = runtime.exec("xelatex -output-directory=" + outputPath + " " + outputPath + filename + ".tex"); // 须执行两次，否则无法获得总页码
             file = new File(outputPath + filename + ".pdf");
             while (!file.exists()) {
-                System.out.println("!!! pdf2 not exist !!!");
+                // System.out.println("!!! pdf2 not exist !!!");
                 Thread.sleep(100);
             }
 
@@ -173,37 +174,37 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
             VelocityContext context = new VelocityContext();
 
             context.put("testYear", calendar.get(Calendar.YEAR));
-            context.put("projectName", contractTableExist.getProjectName());
-            context.put("partyAName1", contractTableExist.getPartyAName1());
-            context.put("partyBName1", contractTableExist.getPartyBName1());
-            context.put("partyAName2", contractTableExist.getPartyAName2());
-            context.put("partyBName2", contractTableExist.getPartyBName2());
+            context.put("projectName", contractTableExist.getProjectName().replace("%", "\\%"));
+            context.put("partyAName1", contractTableExist.getPartyAName1().replace("%", "\\%"));
+            context.put("partyBName1", contractTableExist.getPartyBName1().replace("%", "\\%"));
+            context.put("partyAName2", contractTableExist.getPartyAName2().replace("%", "\\%"));
+            context.put("partyBName2", contractTableExist.getPartyBName2().replace("%", "\\%"));
             context.put("softwareName", contractTableExist.getSoftwareName());
-            context.put("softwareQualityCharacteristic", contractTableExist.getSoftwareQualityCharacteristic());
-            context.put("paymentInChinese", contractTableExist.getPaymentInChinese());
-            context.put("paymentInArabic", contractTableExist.getPaymentInArabic());
-            context.put("performanceTerm", contractTableExist.getPerformanceTerm());
-            context.put("rectificationTimes", contractTableExist.getRectificationTimes());
-            context.put("rectificationTerm", contractTableExist.getRectificationTerm());
-            context.put("partyAName3", contractTableExist.getPartyAName3());
-            context.put("partyARepresentative", contractTablePartyA.get授权代表());
-            context.put("partyALiaison", contractTablePartyA.get联系人());
-            context.put("partyAPostalAddress", contractTablePartyA.get通讯地址());
-            context.put("partyAPhoneNumber", contractTablePartyA.get电话());
-            context.put("partyAFaxNumber", contractTablePartyA.get传真());
-            context.put("partyADepositBank", contractTablePartyA.get开户银行());
-            context.put("partyABankAccountNumber", contractTablePartyA.get账号());
-            context.put("partyAPostalCode", contractTablePartyA.get邮编());
-            context.put("partyBName3", contractTableExist.getPartyBName3());
-            context.put("partyBRepresentative", contractTablePartyB.get授权代表());
-            context.put("partyBLiaison", contractTablePartyB.get联系人());
-            context.put("partyBPostalAddress", contractTablePartyB.get通讯地址());
-            context.put("partyBPostalCode", contractTablePartyB.get邮编());
-            context.put("partyBPhoneNumber", contractTablePartyB.get电话());
-            context.put("partyBFaxNumber", contractTablePartyB.get传真());
-            context.put("partyBDepositBank", contractTablePartyB.get开户银行());
-            context.put("partyBBankAccountName", contractTablePartyB.get户名());
-            context.put("partyBBankAccountNumber", contractTablePartyB.get账号());
+            context.put("softwareQualityCharacteristic", contractTableExist.getSoftwareQualityCharacteristic().replace("%", "\\%"));
+            context.put("paymentInChinese", contractTableExist.getPaymentInChinese().replace("%", "\\%"));
+            context.put("paymentInArabic", contractTableExist.getPaymentInArabic().replace("%", "\\%"));
+            context.put("performanceTerm", contractTableExist.getPerformanceTerm().replace("%", "\\%"));
+            context.put("rectificationTimes", contractTableExist.getRectificationTimes().replace("%", "\\%"));
+            context.put("rectificationTerm", contractTableExist.getRectificationTerm().replace("%", "\\%"));
+            context.put("partyAName3", contractTableExist.getPartyAName3().replace("%", "\\%"));
+            context.put("partyARepresentative", contractTablePartyA.get授权代表().replace("%", "\\%"));
+            context.put("partyALiaison", contractTablePartyA.get联系人().replace("%", "\\%"));
+            context.put("partyAPostalAddress", contractTablePartyA.get通讯地址().replace("%", "\\%"));
+            context.put("partyAPhoneNumber", contractTablePartyA.get电话().replace("%", "\\%"));
+            context.put("partyAFaxNumber", contractTablePartyA.get传真().replace("%", "\\%"));
+            context.put("partyADepositBank", contractTablePartyA.get开户银行().replace("%", "\\%"));
+            context.put("partyABankAccountNumber", contractTablePartyA.get账号().replace("%", "\\%"));
+            context.put("partyAPostalCode", contractTablePartyA.get邮编().replace("%", "\\%"));
+            context.put("partyBName3", contractTableExist.getPartyBName3().replace("%", "\\%"));
+            context.put("partyBRepresentative", contractTablePartyB.get授权代表().replace("%", "\\%"));
+            context.put("partyBLiaison", contractTablePartyB.get联系人().replace("%", "\\%"));
+            context.put("partyBPostalAddress", contractTablePartyB.get通讯地址().replace("%", "\\%"));
+            context.put("partyBPostalCode", contractTablePartyB.get邮编().replace("%", "\\%"));
+            context.put("partyBPhoneNumber", contractTablePartyB.get电话().replace("%", "\\%"));
+            context.put("partyBFaxNumber", contractTablePartyB.get传真().replace("%", "\\%"));
+            context.put("partyBDepositBank", contractTablePartyB.get开户银行().replace("%", "\\%"));
+            context.put("partyBBankAccountName", contractTablePartyB.get户名().replace("%", "\\%"));
+            context.put("partyBBankAccountNumber", contractTablePartyB.get账号().replace("%", "\\%"));
 
             // 加载velocity模板文件
             // 合并数据到模板
@@ -218,19 +219,19 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
             Process process = runtime.exec("xelatex -output-directory=" + outputPath + " " + outputPath + filename + ".tex");
             File file = new File(outputPath + filename + ".pdf");
             while (!file.exists()) {
-                System.out.println("!!! pdf1 not exist !!!");
+                // System.out.println("!!! pdf1 not exist !!!");
                 Thread.sleep(100);
             }
             process = runtime.exec("mv " + outputPath + filename + ".pdf " + outputPath + filename + "_old.pdf");
             file = new File(outputPath + filename + "_old.pdf");
             while (!file.exists()) {
-                System.out.println("!!! pdf1_old not exist !!!");
+                // System.out.println("!!! pdf1_old not exist !!!");
                 Thread.sleep(100);
             }
             process = runtime.exec("xelatex -output-directory=" + outputPath + " " + outputPath + filename + ".tex"); // 须执行两次，否则无法获得总页码
             file = new File(outputPath + filename + ".pdf");
             while (!file.exists()) {
-                System.out.println("!!! pdf2 not exist !!!");
+                // System.out.println("!!! pdf2 not exist !!!");
                 Thread.sleep(100);
             }
 
@@ -239,7 +240,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
         }
         else {
-            System.out.println("!!! run not in file or jar !!!");
+            // System.out.println("!!! run not in file or jar !!!");
         }
 
     }
@@ -258,6 +259,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
             String filename = "NDA_" + contractId;
             String inputPath = "template/";
             String outputPath = "contract-server/src/main/resources/generate/";
+            // String outputPath = "src/main/resources/generate/";
 
             // 设置velocity的资源加载器
             Properties prop = new Properties();
@@ -271,9 +273,9 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
             // velocity容器变量数据填充
             context.put("testYear", calendar.get(Calendar.YEAR));
-            context.put("partyAName", nondisclosureAgreementTable.getPartyAName());
-            context.put("partyBName", nondisclosureAgreementTable.getPartyBName());
-            context.put("projectName", nondisclosureAgreementTable.getProjectName());
+            context.put("partyAName", nondisclosureAgreementTable.getPartyAName().replace("%", "\\%"));
+            context.put("partyBName", nondisclosureAgreementTable.getPartyBName().replace("%", "\\%"));
+            context.put("projectName", nondisclosureAgreementTable.getProjectName().replace("%", "\\%"));
 
             // 加载velocity模板文件
             Template template = Velocity.getTemplate(inputPath + "NDA.vm", "utf-8");
@@ -334,9 +336,9 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
             // velocity容器变量数据填充
             context.put("testYear", calendar.get(Calendar.YEAR));
-            context.put("partyAName", nondisclosureAgreementTable.getPartyAName());
-            context.put("partyBName", nondisclosureAgreementTable.getPartyBName());
-            context.put("projectName", nondisclosureAgreementTable.getProjectName());
+            context.put("partyAName", nondisclosureAgreementTable.getPartyAName().replace("%", "\\%"));
+            context.put("partyBName", nondisclosureAgreementTable.getPartyBName().replace("%", "\\%"));
+            context.put("projectName", nondisclosureAgreementTable.getProjectName().replace("%", "\\%"));
 
             // 加载velocity模板文件
             // 合并数据到模板
@@ -369,7 +371,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
         }
         else {
-            System.out.println("!!! run not in file or jar !!!");
+            // System.out.println("!!! run not in file or jar !!!");
         }
     }
 
@@ -379,6 +381,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         if(this.getClass().getResource("").getProtocol().equals("file")) {
 
             String outputPath = "contract-server/src/main/resources/generate/";
+            // String outputPath = "src/main/resources/generate/";
 
             File contractTableFile = new File(outputPath + "Contract_" + contractId + ".pdf");
             FileInputStream contractTableFileInputStream = new FileInputStream(contractTableFile);
@@ -410,7 +413,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
         }
         else {
-            System.out.println("!!! run not in file or jar !!!");
+            // System.out.println("!!! run not in file or jar !!!");
         }
 
     }
@@ -421,6 +424,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         if(this.getClass().getResource("").getProtocol().equals("file")) {
 
             String outputPath = "contract-server/src/main/resources/generate/";
+            // String outputPath = "src/main/resources/generate/";
 
             Runtime runtime = Runtime.getRuntime();
             Process process = runtime.exec("rm " + outputPath + "Contract_" + contractId + ".pdf");
@@ -438,7 +442,7 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
         }
         else {
-            System.out.println("!!! run not in file or jar !!!");
+            // System.out.println("!!! run not in file or jar !!!");
         }
 
     }

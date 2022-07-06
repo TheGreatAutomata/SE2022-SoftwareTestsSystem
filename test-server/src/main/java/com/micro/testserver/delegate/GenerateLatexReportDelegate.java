@@ -71,7 +71,7 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
 
         saveReportFile(softwareTest.getProjectId());
 
-        // deleteReportFile(softwareTest.getProjectId());
+        deleteReportFile(softwareTest.getProjectId());
 
         softwareTestRepository.save(softwareTest);
         delegateExecution.setVariable("softwareTest",softwareTest);

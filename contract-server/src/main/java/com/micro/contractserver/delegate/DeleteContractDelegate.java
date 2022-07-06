@@ -17,7 +17,7 @@ public class DeleteContractDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
-        System.out.println("...Deleting the contract");
+        // System.out.println("...Deleting the contract");
 
         String contractId = (String)delegateExecution.getVariable("contractId");
 
