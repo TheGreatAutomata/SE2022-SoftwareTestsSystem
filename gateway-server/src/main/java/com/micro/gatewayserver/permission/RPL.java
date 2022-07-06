@@ -111,4 +111,140 @@ public class RPL {
         }
         return EROLE.ROLE_USER;
     }
+
+    public String getAuditDelegationTest() {
+        return auditDelegationTest;
+    }
+
+    public String getAuditDelegationMarket() {
+        return auditDelegationMarket;
+    }
+
+    public String getOfferDelegation() {
+        return offerDelegation;
+    }
+
+    public String getCompleteDelegation() {
+        return completeDelegation;
+    }
+
+    public String getFindDelegationByUsr() {
+        return findDelegationByUsr;
+    }
+
+    public String getFindDelegationByState() {
+        return findDelegationByState;
+    }
+
+    public String getFindDelegationAll() {
+        return findDelegationAll;
+    }
+
+    public String getDraftPerformanceTermPartyB() {
+        return draftPerformanceTermPartyB;
+    }
+
+    public String getGetPerformanceTermReplyPartyB() {
+        return getPerformanceTermReplyPartyB;
+    }
+
+    public String getAddContractTablePartyB() {
+        return addContractTablePartyB;
+    }
+
+    public String getDownloadUnsignedContractTablePartyB() {
+        return downloadUnsignedContractTablePartyB;
+    }
+
+    public String getDownloadUnsignedNondisclosureAgreementTablePartyB() {
+        return downloadUnsignedNondisclosureAgreementTablePartyB;
+    }
+
+    public String getUploadContractPartyB() {
+        return uploadContractPartyB;
+    }
+
+    public String getGet_post_put_TestScheme() {
+        return get_post_put_TestScheme;
+    }
+
+    public String getGet_TestSchemeAuditTable() {
+        return get_TestSchemeAuditTable;
+    }
+
+    public String getPost_put_TestSchemeAuditTable() {
+        return post_put_TestSchemeAuditTable;
+    }
+
+    public String getGet_post_put_TestCase() {
+        return get_post_put_TestCase;
+    }
+
+    public String getGet_post_put_TestRecord() {
+        return get_post_put_TestRecord;
+    }
+
+    public String getGet_post_put_BugList() {
+        return get_post_put_BugList;
+    }
+
+    public String getGet_post_put_DocEvaluationTable() {
+        return get_post_put_DocEvaluationTable;
+    }
+
+    public String getGet_post_put_TestReport() {
+        return get_post_put_TestReport;
+    }
+
+    public String getGet_ReportEvaluationTable() {
+        return get_ReportEvaluationTable;
+    }
+
+    public String getPost_put_ReportEvaluationTable() {
+        return post_put_ReportEvaluationTable;
+    }
+
+    public String getPost_put_WorkEvaluationTable() {
+        return post_put_WorkEvaluationTable;
+    }
+
+    public String getGet_WorkEvaluationTable() {
+        return get_WorkEvaluationTable;
+    }
+
+    public String getPut_AuditRequest() {
+        return put_AuditRequest;
+    }
+
+    public String getGetProjects() {
+        return getProjects;
+    }
+
+    public String getGetAllProjects() {
+        return getAllProjects;
+    }
+
+    public String getAcceptSample() {
+        return acceptSample;
+    }
+
+    public String getGetProjectByDelegationId() {
+        return getProjectByDelegationId;
+    }
+
+    public HashSet<String> getMarketPattern() {
+        return MarketPattern;
+    }
+
+    public HashSet<String> getTestPattern() {
+        return TestPattern;
+    }
+
+    public HashSet<String> getQLTYPattern() {
+        return QLTYPattern;
+    }
+
+    public HashSet<String> getMODPattern() {
+        return MODPattern;
+    }
 }
