@@ -521,6 +521,7 @@ public class SoftwareTestController implements TestApi {
             System.out.println(2);
             softwareTestRepository.save(softwareTest);
             runtimeService.setVariable(task.getExecutionId(),"softwareTest",softwareTest);
+            runtimeService.setVariable(task.getExecutionId(),"workAccepted",accepted);
             taskService.complete(task.getId());
             return new ResponseEntity<>(HttpStatus.OK);
         } else if (runtimeService.createProcessInstanceQuery().processDefinitionKey("test_reaudit").variableValueEquals("delegationId",id).singleResult()!=null) {
@@ -546,6 +547,7 @@ public class SoftwareTestController implements TestApi {
             }
             softwareTestRepository.save(softwareTest);
             runtimeService.setVariable(task.getExecutionId(),"softwareTest",softwareTest);
+            runtimeService.setVariable(task.getExecutionId(),"workAccepted",accepted);
             taskService.complete(task.getId());
             return new ResponseEntity<>(HttpStatus.OK);
         }

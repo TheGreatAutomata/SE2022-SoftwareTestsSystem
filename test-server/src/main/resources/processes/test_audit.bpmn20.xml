@@ -24,8 +24,16 @@
     <serviceTask id="sid-54c6e25e-abb6-48d1-9948-c680c6b3cc3f" activiti:exclusive="true" name="GenerateLatexReport" activiti:delegateExpression="${generateLatexReportDelegate}">
       <documentation>生成Latex格式的测试报告</documentation>
     </serviceTask>
-    <sequenceFlow id="sid-fa703f81-0066-4887-ab24-b19751480097" sourceRef="sid-625f801a-1fb0-457a-bbe5-f2f4997be457" targetRef="sid-54c6e25e-abb6-48d1-9948-c680c6b3cc3f"/>
     <sequenceFlow id="sid-4d760bd9-21f9-4666-ac3f-3f4c75ea6026" sourceRef="sid-54c6e25e-abb6-48d1-9948-c680c6b3cc3f" targetRef="sid-ab34be22-6bae-442a-bb4a-8dbbdc8631c9"/>
+    <endEvent id="sid-fc84063f-472a-4c33-a364-d9b785e9b4c1"/>
+    <exclusiveGateway id="sid-cf4a3d1d-16ba-413b-bdbd-dee141d77a53"/>
+    <sequenceFlow id="sid-c3978755-b5db-4fec-bc2b-d4d18ca7f699" sourceRef="sid-625f801a-1fb0-457a-bbe5-f2f4997be457" targetRef="sid-cf4a3d1d-16ba-413b-bdbd-dee141d77a53"/>
+    <sequenceFlow id="sid-d25a960d-eb4a-42f5-8b4e-f92120aa7b58" sourceRef="sid-cf4a3d1d-16ba-413b-bdbd-dee141d77a53" targetRef="sid-54c6e25e-abb6-48d1-9948-c680c6b3cc3f">
+      <conditionExpression xsi:type="tFormalExpression">{workAccepted==true}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-14197ad7-374d-498d-a606-e695161e512b" sourceRef="sid-cf4a3d1d-16ba-413b-bdbd-dee141d77a53" targetRef="sid-fc84063f-472a-4c33-a364-d9b785e9b4c1">
+      <conditionExpression xsi:type="tFormalExpression">${workAccepted==false}</conditionExpression>
+    </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_test_audit">
     <bpmndi:BPMNPlane bpmnElement="test_audit" id="BPMNPlane_test_audit">
@@ -78,15 +86,29 @@
         <omgdi:waypoint x="410.0" y="25.0"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="shape-9a56942d-ca23-422b-8472-d4ce70dd3da6" bpmnElement="sid-54c6e25e-abb6-48d1-9948-c680c6b3cc3f">
-        <omgdc:Bounds x="995.0" y="-15.921495" width="100.0" height="80.0"/>
+        <omgdc:Bounds x="1040.0" y="-15.000002" width="100.0" height="80.0"/>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="edge-66ce6e1a-b24d-4a26-a71c-47c3492d2d62" bpmnElement="sid-fa703f81-0066-4887-ab24-b19751480097">
-        <omgdi:waypoint x="815.0" y="65.0"/>
-        <omgdi:waypoint x="1045.0" y="64.07851"/>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="edge-c820a0e3-c39b-4470-9db2-213f27fc81f2" bpmnElement="sid-4d760bd9-21f9-4666-ac3f-3f4c75ea6026">
-        <omgdi:waypoint x="1095.0" y="24.078505"/>
+        <omgdi:waypoint x="1140.0" y="24.999998"/>
         <omgdi:waypoint x="1250.0" y="24.999998"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-23eb302c-e8af-4cf6-84f5-a3ab59296c7e" bpmnElement="sid-fc84063f-472a-4c33-a364-d9b785e9b4c1">
+        <omgdc:Bounds x="955.0" y="125.00001" width="30.0" height="30.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape-17356650-80e2-4826-a007-376066e331d9" bpmnElement="sid-cf4a3d1d-16ba-413b-bdbd-dee141d77a53">
+        <omgdc:Bounds x="950.0" y="4.999996" width="40.0" height="40.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-bc15b1ad-649a-437f-91eb-d8a55c11f8fa" bpmnElement="sid-c3978755-b5db-4fec-bc2b-d4d18ca7f699">
+        <omgdi:waypoint x="865.0" y="24.999998"/>
+        <omgdi:waypoint x="950.0" y="24.999996"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge-f557d20d-b5d0-43d8-b5f3-8bd6a709104b" bpmnElement="sid-d25a960d-eb4a-42f5-8b4e-f92120aa7b58">
+        <omgdi:waypoint x="990.0" y="24.999996"/>
+        <omgdi:waypoint x="1040.0" y="24.999998"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge-883a56d5-d16d-4766-995c-cea4ee7e8569" bpmnElement="sid-14197ad7-374d-498d-a606-e695161e512b">
+        <omgdi:waypoint x="970.0" y="44.999996"/>
+        <omgdi:waypoint x="970.0" y="125.0"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
