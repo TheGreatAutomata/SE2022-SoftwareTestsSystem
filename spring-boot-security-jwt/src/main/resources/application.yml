@@ -13,7 +13,8 @@ spring:
         name: spring-boot-spring-security-jwt-authentication
     datasource:
         password: goodman
-        url: jdbc:mysql://210.28.133.13:21252/testUsrDb?useSSL=false&allowPublicKeyRetrieval=True&autoReconnect=true
+        #url: jdbc:mysql://210.28.133.13:21252/testUsrDb?useSSL=false&allowPublicKeyRetrieval=True&autoReconnect=true
+        url: jdbc:mysql://localhost:32002/testUsrDb?useSSL=false&allowPublicKeyRetrieval=True&autoReconnect=true
         username: saul
     jpa:
         hibernate:
