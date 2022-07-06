@@ -258,7 +258,7 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
             Properties properties = new Properties();
             properties.setProperty("resource.loader", "class");
             properties.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-            properties.setProperty("jar.resource.loader.path", "jar:file:/root/deployment/contract-server-0.0.1-SNAPSHOT.jar");
+            properties.setProperty("jar.resource.loader.path", "jar:file:/root/deployment/test-server-0.0.1-SNAPSHOT.jar");
             properties.put("input.encoding", "UTF-8");
             properties.put("output.encoding", "UTF-8");
 
