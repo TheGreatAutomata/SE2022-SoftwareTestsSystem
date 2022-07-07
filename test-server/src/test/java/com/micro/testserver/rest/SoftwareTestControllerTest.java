@@ -99,7 +99,6 @@ class SoftwareTestControllerTest {
                 .thenReturn(list);
         when(taskEntity.getExecutionId())
                 .thenReturn("123");
-
     }
 
     @Test
