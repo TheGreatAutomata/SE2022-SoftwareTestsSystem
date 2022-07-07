@@ -29,11 +29,11 @@ public class TestServerApplication implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-        String id = "62c42f9d6d7d8d0908e26a03";
+        String id = "62c5d254140d8a454c38b57e";
         List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId", id).list();
         System.out.println(list);
         System.out.println(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId", id).singleResult()!=null);
-        List<Task> tasks = taskService.createTaskQuery().taskName("UploadWorkEvaluationTable").processDefinitionKey("test_reaudit").processVariableValueEquals("delegationId", id).list();
+        List<Task> tasks = taskService.createTaskQuery().taskName("UploadWorkEvaluationTable").processDefinitionKey("test_audit").processVariableValueEquals("delegationId", id).list();
         System.out.println(tasks);
     }
 }

@@ -357,6 +357,8 @@ public class SoftwareTestController implements TestApi {
             if(softwareTest==null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
+            System.out.println("uploadTestReport");
+            System.out.println(testReportDto);
             SoftwareTestReport report=softwareTestReportMapper.toObj(testReportDto);
             SoftwareTestReport reportToImp=softwareTest.getTestReport();
             reportToImp.set报告编号(report.get报告编号());
@@ -377,8 +379,10 @@ public class SoftwareTestController implements TestApi {
             reportToImp.set测试单位网址(report.get测试单位网址());
             reportToImp.set硬件环境(report.get硬件环境());
             reportToImp.set软件环境(report.get软件环境());
+            reportToImp.set参考资料(report.get参考资料());
             softwareTest.setTestReport(reportToImp);
             softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
+            System.out.println(softwareTest);
             softwareTestRepository.save(softwareTest);
             runtimeService.setVariable(task.getExecutionId(),"softwareTest",softwareTest);
             taskService.complete(task.getId());
@@ -521,7 +525,14 @@ public class SoftwareTestController implements TestApi {
             System.out.println(2);
             softwareTestRepository.save(softwareTest);
             runtimeService.setVariable(task.getExecutionId(),"softwareTest",softwareTest);
-            runtimeService.setVariable(task.getExecutionId(),"workAccepted",accepted);
+
+            int acceptSymbol=0;
+            if(accepted){
+                acceptSymbol=1;
+            }
+
+            System.out.println(softwareTest);
+            runtimeService.setVariable(task.getExecutionId(),"workAccepted",acceptSymbol);
             taskService.complete(task.getId());
             return new ResponseEntity<>(HttpStatus.OK);
         } else if (runtimeService.createProcessInstanceQuery().processDefinitionKey("test_reaudit").variableValueEquals("delegationId",id).singleResult()!=null) {
@@ -545,9 +556,17 @@ public class SoftwareTestController implements TestApi {
             }else{
                 softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_DENIED);
             }
+
+            int acceptSymbol=0;
+            if(accepted){
+                acceptSymbol=1;
+            }
+
+            System.out.println("重填工作检查表");
+            System.out.println(softwareTest);
             softwareTestRepository.save(softwareTest);
             runtimeService.setVariable(task.getExecutionId(),"softwareTest",softwareTest);
-            runtimeService.setVariable(task.getExecutionId(),"workAccepted",accepted);
+            runtimeService.setVariable(task.getExecutionId(),"workAccepted",acceptSymbol);
             taskService.complete(task.getId());
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -565,30 +584,50 @@ public class SoftwareTestController implements TestApi {
             if(!softwareTest.getState().equals(SoftwareTestState.TEST_REPORT_DENIED) && !softwareTest.getState().equals(SoftwareTestState.TEST_DOC_WORK_DENIED) && !softwareTest.getState().equals(SoftwareTestState.TEST_DOC_WORK_DENIED)){
                 return new ResponseEntity<>(HttpStatus.valueOf(400));
             }
+            System.out.println("REAUDIT");
+            System.out.println(testReportDto);
             SoftwareTestReport report=softwareTestReportMapper.toObj(testReportDto);
             SoftwareTestReport reportToImp=softwareTest.getTestReport();
-            reportToImp.set报告编号(report.get报告编号());
-            reportToImp.set测试类别(report.get测试类别());
-            reportToImp.set报告日期(report.get报告日期());
-            reportToImp.set版本型号(report.get版本型号());
-            reportToImp.set测试开始时间(report.get测试开始时间());
-            reportToImp.set测试结束时间(report.get测试结束时间());
-            reportToImp.set测试结论(report.get测试结论());
-            reportToImp.set主测人(report.get主测人());
-            reportToImp.set主测人日期(report.get主测人日期());
-            reportToImp.set审核人(report.get审核人());
-            reportToImp.set审核人日期(report.get审核人日期());
-            reportToImp.set批准人(report.get批准人());
-            reportToImp.set批准人日期(report.get批准人日期());
-            reportToImp.set测试执行记录(report.get测试执行记录());
-            reportToImp.set测试单位Email(report.get测试单位Email());
-            reportToImp.set测试单位网址(report.get测试单位网址());
-            reportToImp.set硬件环境(report.get硬件环境());
-            reportToImp.set软件环境(report.get软件环境());
-            reportToImp.set参考资料(report.get参考资料());
+            if(report.get报告编号()!=null)
+                reportToImp.set报告编号(report.get报告编号());
+            if(report.get测试类别()!=null)
+                reportToImp.set测试类别(report.get测试类别());
+            if(report.get报告日期()!=null)
+                reportToImp.set报告日期(report.get报告日期());
+            if(report.get版本型号()!=null)
+                reportToImp.set版本型号(report.get版本型号());
+            if(report.get测试开始时间()!=null)
+                reportToImp.set测试开始时间(report.get测试开始时间());
+            if(report.get测试结束时间()!=null)
+                reportToImp.set测试结束时间(report.get测试结束时间());
+            if(report.get测试结论()!=null)
+                reportToImp.set测试结论(report.get测试结论());
+            if(report.get主测人()!=null)
+                reportToImp.set主测人(report.get主测人());
+            if(report.get主测人日期()!=null)
+                reportToImp.set主测人日期(report.get主测人日期());
+            if(report.get审核人()!=null)
+                reportToImp.set审核人(report.get审核人());
+            if(report.get审核人日期()!=null)
+                reportToImp.set审核人日期(report.get审核人日期());
+            if(report.get批准人()!=null)
+                reportToImp.set批准人(report.get批准人());
+            if(report.get批准人日期()!=null)
+                reportToImp.set批准人日期(report.get批准人日期());
+            if(report.get测试执行记录()!=null)
+                reportToImp.set测试执行记录(report.get测试执行记录());
+            if(report.get测试单位Email()!=null)
+                reportToImp.set测试单位Email(report.get测试单位Email());
+            if(report.get测试单位网址()!=null)
+                reportToImp.set测试单位网址(report.get测试单位网址());
+            if(report.get硬件环境()!=null)
+                reportToImp.set硬件环境(report.get硬件环境());
+            if(report.get软件环境()!=null)
+                reportToImp.set软件环境(report.get软件环境());
+            if(report.get参考资料()!=null)
+                reportToImp.set参考资料(report.get参考资料());
             softwareTest.setTestReport(reportToImp);
             softwareTest.setState(SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE);
-            System.out.println("REAUDIT");
             System.out.println(softwareTest);
             softwareTestRepository.save(softwareTest);
             Map<String,Object> variables=new HashMap<>();

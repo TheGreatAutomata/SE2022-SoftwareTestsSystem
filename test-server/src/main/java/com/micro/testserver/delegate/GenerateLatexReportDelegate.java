@@ -54,6 +54,29 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
 
     private List<String> testBasis2List = new ArrayList<>();
 
+    void init(){
+        accessibilityTestItemList = new ArrayList<>();
+
+        efficiencyTestItemList = new ArrayList<>();
+
+        functionalityTestItemList = new ArrayList<>();
+
+        hardwareItemList = new ArrayList<>();
+
+        maintainabilityTestItemList = new ArrayList<>();
+
+        portabilityTestItemList = new ArrayList<>();
+
+        reliabilityTestItemList = new ArrayList<>();
+
+        softwareItemList = new ArrayList<>();
+
+        referenceMaterialList = new ArrayList<>();
+
+        testBasis2List = new ArrayList<>();
+
+    }
+
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
@@ -64,6 +87,10 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
 
             return;
         }
+
+        init();
+        System.out.println("生成报告中");
+        System.out.println(softwareTest);
 
         transformData(softwareTest.getTestReport());
 
@@ -271,6 +298,8 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
 
             // velocity容器变量数据准备
             SoftwareTestReport report = softwareTest.getTestReport();
+
+            System.out.println(report.get报告日期());
             String[] reportTime = report.get报告日期().split("T")[0].split("-");
             String[] sampleTime = report.get来样日期().split("T")[0].split("-");
             String[] testStartTime = report.get测试开始时间().split("T")[0].split("-");

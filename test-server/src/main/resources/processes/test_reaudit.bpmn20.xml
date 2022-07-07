@@ -23,10 +23,10 @@
     <exclusiveGateway id="sid-e3d29aca-70c2-4fe4-b143-b831173efcc6"/>
     <sequenceFlow id="sid-5e0a710c-cbce-4b11-88dd-fc9a19132289" sourceRef="sid-625f801a-1fb0-457a-bbe5-f2f4997be457" targetRef="sid-e3d29aca-70c2-4fe4-b143-b831173efcc6"/>
     <sequenceFlow id="sid-448d6e11-e21b-42fd-bae0-6c0ecb44f11a" sourceRef="sid-e3d29aca-70c2-4fe4-b143-b831173efcc6" targetRef="sid-54c6e25e-abb6-48d1-9948-c680c6b3cc3f">
-      <conditionExpression xsi:type="tFormalExpression">${workAccepted==true}</conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression">${workAccepted==1}</conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="sid-cc4a5217-c53a-4a05-a12c-e2597fb4a092" sourceRef="sid-e3d29aca-70c2-4fe4-b143-b831173efcc6" targetRef="sid-154dbe4e-c4b6-4179-b05f-6d1e35d68961">
-      <conditionExpression xsi:type="tFormalExpression">${workAccepted==false}</conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression">${workAccepted==0}</conditionExpression>
     </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_test_reaudit">
