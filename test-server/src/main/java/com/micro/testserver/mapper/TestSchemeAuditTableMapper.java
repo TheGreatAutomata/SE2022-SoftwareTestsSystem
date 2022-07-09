@@ -91,11 +91,11 @@ public interface TestSchemeAuditTableMapper {
         }
         TestSchemeAuditTableDto dto=new TestSchemeAuditTableDto();
 
-        obj.set确认意见(dto.get确认意见());
-        obj.set测试类别(dto.get测试类别());
-        obj.set软件名称(dto.get软件名称());
-        obj.set版本号(dto.get版本号());
-        obj.set项目编号(dto.get项目编号());
+        dto.set确认意见(obj.get确认意见());
+        dto.set测试类别(obj.get测试类别());
+        dto.set软件名称(obj.get软件名称());
+        dto.set版本号(obj.get版本号());
+        dto.set项目编号(obj.get项目编号());
 
         //01234567
         dto.setPass0(obj.evaPasses[0].pass);

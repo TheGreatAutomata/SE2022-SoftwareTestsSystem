@@ -4,9 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.micro.commonserver.service.MinioService;
 import com.micro.contractserver.ContractServerApplication;
-import com.micro.contractserver.mapper.ContractFileMapper;
-import com.micro.contractserver.mapper.ContractMapper;
-import com.micro.contractserver.mapper.ContractMapperImpl;
+import com.micro.contractserver.mapper.*;
 import com.micro.contractserver.model.*;
 import com.micro.contractserver.repository.MongoDBContractRepository;
 import com.micro.contractserver.service.ContractService;
@@ -183,9 +181,12 @@ class contractControllerTest {
         when(contractService.constructFromPerformanceTermPartyBDto("delegationId", performanceTermPartyBDto))
                 .thenReturn(contract);
 
+        NormalResponseMapper normalResponseMapper = new NormalResponseMapperImpl();
+        NormalResponse normalResponse = new NormalResponse();
+        normalResponse.setResponseInfo("contractId");
 
-        NormalResponseDto normalResponseDto = new NormalResponseDto();
-        normalResponseDto.setResponseInfo("contractId");
+        NormalResponseDto normalResponseDto = normalResponseMapper.toDto(normalResponse);
+
         String content = toJson(normalResponseDto);
 
         mockMvc.perform(post("/contract/performanceTerm/partyB").contentType("application/json").headers(headersWithDelegationId).content(body))
@@ -211,17 +212,24 @@ class contractControllerTest {
         when(contractRepository.findByDelegationId("wrongDelegationId"))
                 .thenReturn(Optional.ofNullable(null));
 
-        PerformanceTermPartyAResponseDto performanceTermPartyAResponseDto = new PerformanceTermPartyAResponseDto();
-        performanceTermPartyAResponseDto.setContractId("contractId");
+        PerformanceTermPartyB performanceTermPartyB = new PerformanceTermPartyB();
+        performanceTermPartyB.set项目名称("projectName");
+        performanceTermPartyB.set受托方乙方("partyBName1");
+        performanceTermPartyB.set合同履行期限("performanceTerm");
+        performanceTermPartyB.set整改限制次数("rectificationTimes");
+        performanceTermPartyB.set一次整改限制的天数("rectificationTerm");
 
-        PerformanceTermPartyBDto performanceTermPartyBDto = new PerformanceTermPartyBDto();
-        performanceTermPartyBDto.set项目名称("projectName");
-        performanceTermPartyBDto.set受托方乙方("partyBName1");
-        performanceTermPartyBDto.set合同履行期限("performanceTerm");
-        performanceTermPartyBDto.set整改限制次数("rectificationTimes");
-        performanceTermPartyBDto.set一次整改限制的天数("rectificationTerm");
+        PerformanceTermPartyAResponseMapper performanceTermPartyAResponseMapper = new PerformanceTermPartyAResponseMapperImpl();
 
-        performanceTermPartyAResponseDto.set履行期限受托方部分(performanceTermPartyBDto);
+        PerformanceTermPartyAResponse performanceTermPartyAResponse = new PerformanceTermPartyAResponse();
+        performanceTermPartyAResponse.setContractId("contractId");
+        performanceTermPartyAResponse.set履行期限受托方部分(performanceTermPartyB);
+
+        PerformanceTermPartyAResponseDto performanceTermPartyAResponseDto = performanceTermPartyAResponseMapper.toDto(performanceTermPartyAResponse);
+
+        PerformanceTermPartyBMapper performanceTermPartyBMapper = new PerformanceTermPartyBMapperImpl();
+
+        PerformanceTermPartyBDto performanceTermPartyBDto = performanceTermPartyBMapper.toDto(performanceTermPartyB);
 
         String content = toJson(performanceTermPartyAResponseDto);
 
@@ -250,15 +258,21 @@ class contractControllerTest {
 
         String body = toJson(performanceTermPartyADto);
 
-        NormalResponseDto normalResponseDto = new NormalResponseDto();
-        normalResponseDto.setResponseInfo("reply successfully");
+        NormalResponseMapper normalResponseMapper = new NormalResponseMapperImpl();
+        NormalResponse normalResponse = new NormalResponse();
+        normalResponse.setResponseInfo("reply successfully");
+
+        NormalResponseDto normalResponseDto = normalResponseMapper.toDto(normalResponse);
+
         String content = toJson(normalResponseDto);
 
         mockMvc.perform(post("/contract/{id}/performanceTerm/partyA", "contractId").contentType("application/json").headers(headers).content(body))
                 .andExpect(content().json(content))
                 .andExpect(status().isOk());
 
-        normalResponseDto.setResponseInfo("contract not found");
+        normalResponse.setResponseInfo("contract not found");
+        normalResponseDto = normalResponseMapper.toDto(normalResponse);
+
         content = toJson(normalResponseDto);
 
         mockMvc.perform(post("/contract/{id}/performanceTerm/partyA", "wrongContractId").contentType("application/json").headers(headers).content(body))
@@ -279,9 +293,13 @@ class contractControllerTest {
         when(contractRepository.findByContractId("wrongContractId"))
                 .thenReturn(Optional.ofNullable(null));
 
-        PerformanceTermPartyADto performanceTermPartyADto = new PerformanceTermPartyADto();
-        performanceTermPartyADto.set态度("PerformanceTermState");
-        performanceTermPartyADto.set意见("PerformanceTermSuggestion");
+        PerformanceTermPartyA performanceTermPartyA = new PerformanceTermPartyA();
+        performanceTermPartyA.set态度("PerformanceTermState");
+        performanceTermPartyA.set意见("PerformanceTermSuggestion");
+
+        PerformanceTermPartyAMapper performanceTermPartyAMapper = new PerformanceTermPartyAMapperImpl();
+
+        PerformanceTermPartyADto performanceTermPartyADto = performanceTermPartyAMapper.toDto(performanceTermPartyA);
 
         String content = toJson(performanceTermPartyADto);
 
@@ -313,15 +331,21 @@ class contractControllerTest {
 
         String body = toJson(performanceTermPartyBDto);
 
-        NormalResponseDto normalResponseDto = new NormalResponseDto();
-        normalResponseDto.setResponseInfo("update successfully");
+        NormalResponseMapper normalResponseMapper = new NormalResponseMapperImpl();
+        NormalResponse normalResponse = new NormalResponse();
+        normalResponse.setResponseInfo("update successfully");
+
+        NormalResponseDto normalResponseDto = normalResponseMapper.toDto(normalResponse);
+
         String content = toJson(normalResponseDto);
 
         mockMvc.perform(put("/contract/{id}/performanceTerm/partyB", "contractId").contentType("application/json").headers(headers).content(body))
                 .andExpect(content().json(content))
                 .andExpect(status().isOk());
 
-        normalResponseDto.setResponseInfo("contract not found");
+        normalResponse.setResponseInfo("contract not found");
+        normalResponseDto = normalResponseMapper.toDto(normalResponse);
+
         content = toJson(normalResponseDto);
 
         mockMvc.perform(put("/contract/{id}/performanceTerm/partyB", "wrongContractId").contentType("application/json").headers(headers).content(body))
@@ -340,19 +364,29 @@ class contractControllerTest {
         when(contractRepository.findByContractId("wrongContractId"))
                 .thenReturn(Optional.ofNullable(null));
 
-        ContractTablePartyBDto contractTablePartyBDto = new ContractTablePartyBDto();
+        ContractTablePartyB contractTablePartyB = new ContractTablePartyB();
+
+        ContractTablePartyBMapper contractTablePartyBMapper = new ContractTablePartyBMapperImpl();
+
+        ContractTablePartyBDto contractTablePartyBDto = contractTablePartyBMapper.toDto(contractTablePartyB);
 
         String body = toJson(contractTablePartyBDto);
 
-        NormalResponseDto normalResponseDto = new NormalResponseDto();
-        normalResponseDto.setResponseInfo("add successfully");
+        NormalResponseMapper normalResponseMapper = new NormalResponseMapperImpl();
+        NormalResponse normalResponse = new NormalResponse();
+        normalResponse.setResponseInfo("add successfully");
+
+        NormalResponseDto normalResponseDto = normalResponseMapper.toDto(normalResponse);
+
         String content = toJson(normalResponseDto);
 
         mockMvc.perform(post("/contract/{id}/contractTable/partyB", "contractId").contentType("application/json").headers(headers).content(body))
                 .andExpect(content().json(content))
                 .andExpect(status().isOk());
 
-        normalResponseDto.setResponseInfo("contract not found");
+        normalResponse.setResponseInfo("contract not found");
+        normalResponseDto = normalResponseMapper.toDto(normalResponse);
+
         content = toJson(normalResponseDto);
 
         mockMvc.perform(post("/contract/{id}/contractTable/partyB", "wrongContractId").contentType("application/json").headers(headers).content(body))
@@ -371,7 +405,11 @@ class contractControllerTest {
         when(contractRepository.findByContractId("wrongContractId"))
                 .thenReturn(Optional.ofNullable(null));
 
-        ContractTablePartyBDto contractTablePartyBDto = new ContractTablePartyBDto();
+        ContractTablePartyB contractTablePartyB = new ContractTablePartyB();
+
+        ContractTablePartyBMapper contractTablePartyBMapper = new ContractTablePartyBMapperImpl();
+
+        ContractTablePartyBDto contractTablePartyBDto = contractTablePartyBMapper.toDto(contractTablePartyB);
 
         String content = toJson(contractTablePartyBDto);
 
@@ -394,19 +432,29 @@ class contractControllerTest {
         when(contractRepository.findByContractId("wrongContractId"))
                 .thenReturn(Optional.ofNullable(null));
 
-        ContractTablePartyADto contractTablePartyADto = new ContractTablePartyADto();
+        ContractTablePartyA contractTablePartyA = new ContractTablePartyA();
+
+        ContractTablePartyAMapper contractTablePartyAMapper = new ContractTablePartyAMapperImpl();
+
+        ContractTablePartyADto contractTablePartyADto = contractTablePartyAMapper.toDto(contractTablePartyA);
 
         String body = toJson(contractTablePartyADto);
 
-        NormalResponseDto normalResponseDto = new NormalResponseDto();
-        normalResponseDto.setResponseInfo("add successfully");
+        NormalResponseMapper normalResponseMapper = new NormalResponseMapperImpl();
+        NormalResponse normalResponse = new NormalResponse();
+        normalResponse.setResponseInfo("add successfully");
+
+        NormalResponseDto normalResponseDto = normalResponseMapper.toDto(normalResponse);
+
         String content = toJson(normalResponseDto);
 
         mockMvc.perform(post("/contract/{id}/contractTable/partyA", "contractId").contentType("application/json").headers(headers).content(body))
                 .andExpect(content().json(content))
                 .andExpect(status().isOk());
 
-        normalResponseDto.setResponseInfo("contract not found");
+        normalResponse.setResponseInfo("contract not found");
+        normalResponseDto = normalResponseMapper.toDto(normalResponse);
+
         content = toJson(normalResponseDto);
 
         mockMvc.perform(post("/contract/{id}/contractTable/partyA", "wrongContractId").contentType("application/json").headers(headers).content(body))
@@ -497,8 +545,12 @@ class contractControllerTest {
             }
         });
 
-        NormalResponseDto normalResponseDto = new NormalResponseDto();
-        normalResponseDto.setResponseInfo("upload successfully");
+        NormalResponseMapper normalResponseMapper = new NormalResponseMapperImpl();
+        NormalResponse normalResponse = new NormalResponse();
+        normalResponse.setResponseInfo("upload successfully");
+
+        NormalResponseDto normalResponseDto = normalResponseMapper.toDto(normalResponse);
+
         String content = toJson(normalResponseDto);
 
         mockMvc.perform(builder)
@@ -515,7 +567,9 @@ class contractControllerTest {
             }
         });
 
-        normalResponseDto.setResponseInfo("contract not found");
+        normalResponse.setResponseInfo("contract not found");
+        normalResponseDto = normalResponseMapper.toDto(normalResponse);
+
         content = toJson(normalResponseDto);
 
         mockMvc.perform(builder)

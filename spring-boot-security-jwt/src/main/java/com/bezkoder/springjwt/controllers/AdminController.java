@@ -3,6 +3,8 @@ package com.bezkoder.springjwt.controllers;
 import com.bezkoder.springjwt.models.ERole;
 import com.bezkoder.springjwt.models.Role;
 import com.bezkoder.springjwt.models.User;
+import com.bezkoder.springjwt.payload.request.DeleteRequest;
+import com.bezkoder.springjwt.payload.request.ModifyPasswordRequest;
 import com.bezkoder.springjwt.payload.request.SignupRequest;
 import com.bezkoder.springjwt.payload.response.MessageResponse;
 import com.bezkoder.springjwt.repository.RoleRepository;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -55,34 +58,40 @@ public class AdminController {
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
         if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+            Role userRole = roleRepository
+                    .findByName(ERole.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
                     case "mod":
-                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+                        Role modRole = roleRepository
+                                .findByName(ERole.ROLE_MODERATOR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(modRole);
                         break;
                     case "mod_test":
-                        Role modTestRole = roleRepository.findByName(ERole.ROLE_MODTEST)
+                        Role modTestRole = roleRepository
+                                .findByName(ERole.ROLE_MODTEST)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(modTestRole);
                         break;
                     case "mod_market":
-                        Role modMarketRole = roleRepository.findByName(ERole.ROLE_MODMARKET)
+                        Role modMarketRole = roleRepository
+                                .findByName(ERole.ROLE_MODMARKET)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(modMarketRole);
                         break;
                     case "mod_qlty":
-                        Role modQLTYROLE = roleRepository.findByName(ERole.ROLE_MODQLTY)
+                        Role modQLTYROLE = roleRepository
+                                .findByName(ERole.ROLE_MODQLTY)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(modQLTYROLE);
                         break;
                     default:
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                        Role userRole = roleRepository
+                                .findByName(ERole.ROLE_USER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(userRole);
                 }
@@ -91,5 +100,44 @@ public class AdminController {
         user.setRoles(roles);
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    @PostMapping("delete/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteUser(@Valid @RequestBody DeleteRequest deleteRequest){
+        if (!userRepository.existsById(deleteRequest.getId())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
+        }
+        if (!deleteRequest.getId().equals(deleteRequest.getConfirmed())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: The two inputs are different!"));
+        }
+        userRepository.deleteById(deleteRequest.getId());
+        return ResponseEntity.ok(new MessageResponse("User deleted successfully!"));
+    }
+
+    @PostMapping("modify/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> modifyPassWord(@Valid @RequestBody ModifyPasswordRequest modifyPasswordRequest){
+        if (!modifyPasswordRequest.getNewpassword().equals(modifyPasswordRequest.getConfirmpassword())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: The two inputs are different!"));
+        }
+        Optional<User> userOptional = userRepository.findByUsername(modifyPasswordRequest.getUsername());
+        if(userOptional.isEmpty()){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: User doesnt exist"));
+        }
+        User user = userOptional.get();
+        user.setPassword(encoder.encode(modifyPasswordRequest.getConfirmpassword()));
+        userRepository.save(user);
+        return ResponseEntity.ok(
+                new MessageResponse("User deleted successfully!")
+        );
     }
 }

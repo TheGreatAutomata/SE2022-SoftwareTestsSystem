@@ -1,10 +1,7 @@
 package com.micro.testserver.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.micro.dto.*;
 import lombok.Data;
 
-import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +37,8 @@ public class SoftwareTestReport implements Serializable {
     public String 地址; // Delegation/applicationTable/委托单位信息/
     public String 邮编; // Delegation/applicationTable/委托单位信息/
     public String 联系人; // Delegation/applicationTable/委托单位信息/
-    public String Email; // Delegation/applicationTable/委托单位信息/
+
+    public String email; // Delegation/applicationTable/委托单位信息/
     public String 测试单位单位地址; // Contract/contractTable/contractTablePartyB/
     public String 测试单位邮政编码; // Contract/contractTable/contractTablePartyB/
     public String 测试单位电话; // Contract/contractTable/contractTablePartyB/

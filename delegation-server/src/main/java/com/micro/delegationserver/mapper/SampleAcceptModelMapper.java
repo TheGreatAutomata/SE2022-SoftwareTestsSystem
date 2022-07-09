@@ -11,7 +11,6 @@ import java.util.Collection;
 @Mapper
 public interface SampleAcceptModelMapper {
     public Collection<SampleAcceptModelDto> toDtos(Collection<SampleAcceptModel> runtimeEnvironments);
-
     public Collection<SampleAcceptModel> toObjs(Collection<SampleAcceptModelDto> runtimeEnvironmentDtos);
     public SampleAcceptModel toObj(SampleAcceptModelDto sampleMessageApplicationRequestDto);
 

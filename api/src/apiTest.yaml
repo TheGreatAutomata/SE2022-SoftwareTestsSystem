@@ -909,6 +909,11 @@ paths:
       operationId: putDoc_applyReportEvaluation
       tags:
         - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testReport"
       responses:
         "200":
           description: ok
@@ -1016,6 +1021,42 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/testProject"
+        '400':
+          description: other errors
+
+  /test/{delegationId}/latexReport:
+    parameters:
+      - name: usrId
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrName
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: usrRole
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: delegationId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: findLatexReportByDelegationId
+      tags:
+        - test
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/softwareSingleFile"
         '400':
           description: other errors
 
@@ -1374,7 +1415,7 @@ components:
           type: string
         联系人:
           type: string
-        E-mail:
+        Email:
           type: string
         测试单位单位地址:
           type: string
@@ -1386,7 +1427,7 @@ components:
           type: string
         测试单位网址:
           type: string
-        测试单位E-mail:
+        测试单位Email:
           type: string
         硬件环境:
           type: array
@@ -1769,7 +1810,7 @@ components:
         软件名称:
           type: string
 
-    singleFile:
+    softwareSingleFile:
       type: object
       properties:
         fileName:

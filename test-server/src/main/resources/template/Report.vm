@@ -164,7 +164,7 @@
 \endhead
 \hline
 #foreach($hardwareItem in $!{hardwareItems})
-$hardwareItem.硬件类别 &$hardwareItem.硬件名称 &$hardwareItem.配置 &$hardwareItem.数量\\
+    $hardwareItem.category &$hardwareItem.name &$hardwareItem.configuration &$hardwareItem.amount\\
 \hline
 #end
 \end{longtable}
@@ -184,7 +184,7 @@ $hardwareItem.硬件类别 &$hardwareItem.硬件名称 &$hardwareItem.配置 &$h
 \endhead
 \hline
 #foreach($softwareItem in $!{softwareItems})
-$softwareItem.软件类别 &$softwareItem.软件名称 &$softwareItem.版本\\
+    $softwareItem.category &$softwareItem.name &$softwareItem.version\\
 \hline
 #end
 \end{longtable}
@@ -201,9 +201,9 @@ $!{networkEnvironment}~\\
 ~\\
 #else
 \begin{itemize}
-#foreach($testBasis2Item in $!{testBasis2})
-\item[] •\hspace{1em}$testBasis2Item
-#end
+    #foreach($testBasis2Item in $!{testBasis2})
+    \item[] •\hspace{1em}$testBasis2Item
+    #end
 \end{itemize}
 #end
 }
@@ -215,9 +215,9 @@ $!{networkEnvironment}~\\
 ~\\
 #else
 \begin{itemize}
-#foreach($referenceMaterialItem in $!{referenceMaterial})
-\item[] •\hspace{1em}$referenceMaterialItem
-#end
+    #foreach($referenceMaterialItem in $!{referenceMaterial})
+    \item[] •\hspace{1em}$referenceMaterialItem
+    #end
 \end{itemize}
 #end
 }
@@ -235,7 +235,7 @@ $!{networkEnvironment}~\\
 \endhead
 \hline
 #foreach($functionalityTestItem in $!{functionalityTestItems})
-$functionalityTestItem.功能模块 &$functionalityTestItem.功能要求 &$functionalityTestItem.测试结果\\
+    $functionalityTestItem.module &$functionalityTestItem.requirement &$functionalityTestItem.result\\
 \hline
 #end
 \end{longtable}
@@ -253,7 +253,7 @@ $functionalityTestItem.功能模块 &$functionalityTestItem.功能要求 &$funct
 \endhead
 \hline
 #foreach($efficiencyTestItem in $!{efficiencyTestItems})
-$efficiencyTestItem.测试特性 &$efficiencyTestItem.测试说明 &$efficiencyTestItem.测试结果\\
+    $efficiencyTestItem.testFeature &$efficiencyTestItem.testDescription &$efficiencyTestItem.testResult\\
 \hline
 #end
 \end{longtable}
@@ -271,7 +271,7 @@ $efficiencyTestItem.测试特性 &$efficiencyTestItem.测试说明 &$efficiencyT
 \endhead
 \hline
 #foreach($portabilityTestItem in $!{portabilityTestItems})
-    $portabilityTestItem.测试特性 &$portabilityTestItem.测试说明 &$portabilityTestItem.测试结果\\
+    $portabilityTestItem.testFeature &$portabilityTestItem.testDescription &$portabilityTestItem.testResult\\
 \hline
 #end
 \end{longtable}
@@ -289,7 +289,7 @@ $efficiencyTestItem.测试特性 &$efficiencyTestItem.测试说明 &$efficiencyT
 \endhead
 \hline
 #foreach($accessibilityTestItem in $!{accessibilityTestItems})
-    $accessibilityTestItem.测试特性 &$accessibilityTestItem.测试说明 &$accessibilityTestItem.测试结果\\
+    $accessibilityTestItem.testFeature &$accessibilityTestItem.testDescription &$accessibilityTestItem.testResult\\
 \hline
 #end
 \end{longtable}
@@ -307,7 +307,7 @@ $efficiencyTestItem.测试特性 &$efficiencyTestItem.测试说明 &$efficiencyT
 \endhead
 \hline
 #foreach($reliabilityTestItem in $!{reliabilityTestItems})
-    $reliabilityTestItem.测试特性 &$reliabilityTestItem.测试说明 &$reliabilityTestItem.测试结果\\
+    $reliabilityTestItem.testFeature &$reliabilityTestItem.testDescription &$reliabilityTestItem.testResult\\
 \hline
 #end
 \end{longtable}
@@ -325,7 +325,7 @@ $efficiencyTestItem.测试特性 &$efficiencyTestItem.测试说明 &$efficiencyT
 \endhead
 \hline
 #foreach($maintainabilityTestItem in $!{maintainabilityTestItems})
-    $maintainabilityTestItem.测试特性 &$maintainabilityTestItem.测试说明 &$maintainabilityTestItem.测试结果\\
+    $maintainabilityTestItem.testFeature &$maintainabilityTestItem.testDescription &$maintainabilityTestItem.testResult\\
 \hline
 #end
 \end{longtable}
