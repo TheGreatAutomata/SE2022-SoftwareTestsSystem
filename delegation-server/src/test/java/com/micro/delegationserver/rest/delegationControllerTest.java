@@ -220,13 +220,6 @@ class delegationControllerTest {
     void createDelegationFile() {
     }
 
-    @Test
-    void listDelegationFile() {
-    }
-
-    @Test
-    void deleteDelegation() {
-    }
 
     @Test
     void updateFunctionTable() throws Exception {

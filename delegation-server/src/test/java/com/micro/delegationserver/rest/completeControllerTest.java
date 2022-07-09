@@ -10,6 +10,7 @@ import com.micro.delegationserver.mapper.DelegationItemMapper;
 import com.micro.delegationserver.model.*;
 import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
+import com.micro.dto.InlineObjectDto;
 import io.minio.Result;
 import io.minio.messages.Item;
 import org.activiti.engine.RuntimeService;
@@ -39,16 +40,16 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.intThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = DelegationServerApplication.class)
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-class delegationsControllerTest {
+class completeControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -99,7 +100,7 @@ class delegationsControllerTest {
     private Delegation getInitDelegation()
     {
         Delegation delegation = new Delegation();
-        delegation.setState(DelegationState.QUOTATION_USER_APPLICATION);
+        delegation.setState(DelegationState.TEST_MARKET_APPLICATION);
         DelegationFunctionTable delegationFunctionTable = new DelegationFunctionTable();
         delegation.setFunctionTable(delegationFunctionTable);
         OfferTableUnion offerTableUnion = new OfferTableUnion();
@@ -124,7 +125,7 @@ class delegationsControllerTest {
         badDelegationId = "badDelegationId";
 
         Delegation delegation = new Delegation();
-        delegation.setState(DelegationState.QUOTATION_USER_APPLICATION);
+        delegation.setState(DelegationState.TEST_MARKET_APPLICATION);
         DelegationFunctionTable delegationFunctionTable = new DelegationFunctionTable();
         delegation.setFunctionTable(delegationFunctionTable);
         OfferTableUnion offerTableUnion = new OfferTableUnion();
@@ -188,13 +189,36 @@ class delegationsControllerTest {
         when(delegationRepository.findAll())
                 .thenReturn(dList);
     }
-//new ArrayList<>(delegationItemMapper.toDtos(delegations)
 
-    private String listDelegationUri = "/delegations";
+    private String completeUri = "/complete/delegation/{id}";
+
     @Test
-    void listDelegations() throws Exception {
-        String body = "body";
-        mockMvc.perform(get(listDelegationUri)
+    void completeDelegationIdPostNotFound() throws Exception {
+        when(taskQuery.singleResult())
+                .thenReturn(null);
+        InlineObjectDto inlineObjectDto = new InlineObjectDto();
+        inlineObjectDto.setId(goodDelegationId);
+        String body = toJson(inlineObjectDto);
+        mockMvc.perform(post(completeUri, goodDelegationId)
+                        .header("usrId","")
+                        .header("usrName","")
+                        .header("usrRole","")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body)
+                )
+                .andExpect(
+                        status().isNotFound()
+                );
+    }
+
+    @Test
+    void completeDelegationIdPostOk() throws Exception {
+        when(taskQuery.singleResult())
+                .thenReturn(taskEntity);
+        InlineObjectDto inlineObjectDto = new InlineObjectDto();
+        inlineObjectDto.setId(goodDelegationId);
+        String body = toJson(inlineObjectDto);
+        mockMvc.perform(post(completeUri, goodDelegationId)
                         .header("usrId","")
                         .header("usrName","")
                         .header("usrRole","")
@@ -204,42 +228,5 @@ class delegationsControllerTest {
                 .andExpect(
                         status().isOk()
                 );
-    }
-
-    private String getAllDelegationsByUsrUri = "/delegations/usrId/{id}";
-    @Test
-    void getAllDelegationsByUsr() throws Exception {
-        String body = "body";
-        mockMvc.perform(get(getAllDelegationsByUsrUri, "delegationId")
-                        .header("usrId","")
-                        .header("usrName","")
-                        .header("usrRole","")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body)
-                )
-                .andExpect(
-                        status().isOk()
-                );
-    }
-
-    private String getAllDelegationsByStateUri = "/delegations/state/{id}";
-    @Test
-    void getAllDelegationsByState() throws Exception {
-        String body = "body";
-        mockMvc.perform(get(getAllDelegationsByStateUri, DelegationState.UPLOAD_SAMPLE)
-                        .header("usrId","")
-                        .header("usrName","")
-                        .header("usrRole","")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body)
-                )
-                .andExpect(
-                        status().isOk()
-                );
-    }
-
-    private String getAllDelegationsUri = "/delegations/all";
-    @Test
-    void getAllDelegations() throws Exception {
     }
 }
