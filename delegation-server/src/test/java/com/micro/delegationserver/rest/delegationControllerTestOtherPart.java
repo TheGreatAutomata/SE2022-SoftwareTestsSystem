@@ -6,9 +6,6 @@ import com.micro.commonserver.model.DelegationState;
 import com.micro.commonserver.service.MinioService;
 import com.micro.delegationserver.DelegationServerApplication;
 import com.micro.delegationserver.mapper.DelegationFilesMapper;
-import com.micro.delegationserver.mapper.OfferConfirmationMapper;
-import com.micro.delegationserver.mapper.OfferTableMapper;
-import com.micro.delegationserver.mapper.ProjectOfferItemMapper;
 import com.micro.delegationserver.model.Delegation;
 import com.micro.delegationserver.model.DelegationFunctionTable;
 import com.micro.delegationserver.model.OfferTableUnion;
@@ -33,7 +30,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -47,17 +43,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = DelegationServerApplication.class)
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-class delegationControllerTest {
+class delegationControllerTestOtherPart {
     @Autowired
     private MockMvc mockMvc;
 
