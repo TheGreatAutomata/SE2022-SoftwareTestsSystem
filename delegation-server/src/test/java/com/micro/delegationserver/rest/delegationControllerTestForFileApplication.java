@@ -6,10 +6,7 @@ import com.micro.commonserver.model.DelegationState;
 import com.micro.commonserver.service.MinioService;
 import com.micro.delegationserver.DelegationServerApplication;
 import com.micro.delegationserver.mapper.DelegationFilesMapper;
-import com.micro.delegationserver.model.Delegation;
-import com.micro.delegationserver.model.DelegationFunctionTable;
-import com.micro.delegationserver.model.OfferTableUnion;
-import com.micro.delegationserver.model.minioFileItem;
+import com.micro.delegationserver.model.*;
 import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
 import io.minio.Result;
@@ -30,28 +27,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = DelegationServerApplication.class)
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-class delegationControllerTestOtherPart {
+class delegationControllerTestForFileApplication {
     @Autowired
     private MockMvc mockMvc;
 
@@ -82,6 +79,9 @@ class delegationControllerTestOtherPart {
     Optional<Delegation> delegation_op;
 
     @MockBean
+    private RestTemplate restTemplate;
+
+    @MockBean
     private Result<Item> singleFile;
 
     @MockBean
@@ -101,6 +101,11 @@ class delegationControllerTestOtherPart {
         delegation.setFunctionTable(delegationFunctionTable);
         OfferTableUnion offerTableUnion = new OfferTableUnion();
         delegation.setOfferTableUnion(offerTableUnion);
+        DelegationApplicationTable delegationApplicationTable = new DelegationApplicationTable();
+        SampleAndQuantity sampleAndQuantity = new SampleAndQuantity();
+        sampleAndQuantity.set软件介质("在线上传");
+        delegationApplicationTable.set样品和数量(sampleAndQuantity);
+        delegation.setApplicationTable(delegationApplicationTable);
         return delegation;
     }
 
@@ -114,7 +119,19 @@ class delegationControllerTestOtherPart {
     {
         goodDelegationId = "goodDelegationId";
         badDelegationId = "badDelegationId";
-        Delegation delegation = getInitDelegation();
+
+        Delegation delegation = new Delegation();
+        delegation.setState(DelegationState.QUOTATION_USER_APPLICATION);
+        DelegationFunctionTable delegationFunctionTable = new DelegationFunctionTable();
+        delegation.setFunctionTable(delegationFunctionTable);
+        OfferTableUnion offerTableUnion = new OfferTableUnion();
+        delegation.setOfferTableUnion(offerTableUnion);
+        DelegationApplicationTable delegationApplicationTable = new DelegationApplicationTable();
+        SampleAndQuantity sampleAndQuantity = new SampleAndQuantity();
+        sampleAndQuantity.set软件介质("在线上传");
+        delegationApplicationTable.set样品和数量(sampleAndQuantity);
+        delegation.setApplicationTable(delegationApplicationTable);
+
         delegation_op = Optional.of(delegation);
         when(delegationRepository.findById(eq(goodDelegationId)))
                 .thenReturn(delegation_op);
@@ -156,6 +173,8 @@ class delegationControllerTestOtherPart {
         when(taskQuery.list())
                 .thenReturn(list);
         when(taskEntity.getId())
+                .thenReturn(goodDelegationId);
+        when(taskEntity.getExecutionId())
                 .thenReturn(goodDelegationId);
     }
 
@@ -330,10 +349,5 @@ class delegationControllerTestOtherPart {
         mockMvc.perform(MockMvcRequestBuilders.get(listDelegationFileUri, badDelegationId).contentType("application/json").headers(headers).content(""))
                 .andExpect(status().isOk());
     }
-
-    @Test
-    void deleteDelegation()
-    {
-
-    }
+    
 }
