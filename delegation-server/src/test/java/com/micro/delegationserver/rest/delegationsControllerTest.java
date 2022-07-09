@@ -169,5 +169,5 @@ class delegationsControllerTest {
         when(taskEntity.getExecutionId())
                 .thenReturn(goodDelegationId);
     }
-    
+
 }
