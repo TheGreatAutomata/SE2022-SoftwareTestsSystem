@@ -182,23 +182,30 @@ class sampleControllerTest {
     @Test
     void acceptSample() throws Exception
     {
-//        SampleAcceptDto sampleAcceptDto = new SampleAcceptDto();
-//        sampleAcceptDto.set态度("同意");
-//        Map<String, Object> variables = new HashMap<String, Object>();
-//        variables.put("isOk", 1);
-//        DelegationState state = DelegationState.AUDIT_TEST_APARTMENT;
-//        HttpEntity<String> request = new HttpEntity<>("", headers);
-//        String body = toJson(sampleAcceptDto);
-//        when(restTemplate.postForEntity(setDelegationUri + "sampleId" + "/" + state, request, Void.class))
-//                .thenReturn(ResponseEntity.status(200).build());
-//        mockMvc.perform(post("/sample/accept/{id}", "sampleId").contentType("application/json").headers(headers).content(body))
-//                .andExpect(status().isOk());
-
-
+        SampleAcceptModelDto sampleAcceptDto = new SampleAcceptModelDto();
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("isOk", 1);
+        DelegationState state = DelegationState.AUDIT_TEST_APARTMENT;
+        HttpEntity<String> request = new HttpEntity<>("", headers);
+        String body = toJson(sampleAcceptDto);
+        when(restTemplate.postForEntity(setDelegationUri + "sampleId" + "/" + state, request, Void.class))
+                .thenReturn(ResponseEntity.status(200).build());
+        mockMvc.perform(post("/sample/accept/{id}", "sampleId").contentType("application/json").headers(headers).content(body))
+                .andExpect(status().isOk());
     }
 
     @Test
     void changeOfflineSample() throws Exception
+    {
+        SampleMessageApplicationRequestDto dto = new SampleMessageApplicationRequestDto();
+        dto.set备注("hello world");
+        String body = toJson(dto);
+        mockMvc.perform(put("/sample/offline/{id}", "sampleId").contentType("application/json").headers(headers).content(body))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void changeOfflineSampleAhead() throws Exception
     {
         SampleMessageApplicationRequestDto dto = new SampleMessageApplicationRequestDto();
         dto.set备注("hello world");

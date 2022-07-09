@@ -9,10 +9,13 @@ import com.micro.delegationserver.mapper.OfferConfirmationMapper;
 import com.micro.delegationserver.mapper.OfferTableMapper;
 import com.micro.delegationserver.mapper.ProjectOfferItemMapper;
 import com.micro.delegationserver.model.Delegation;
+import com.micro.delegationserver.model.DelegationFunctionTable;
 import com.micro.delegationserver.model.OfferTableUnion;
 import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
+import com.micro.dto.OfferReplyRequestDto;
 import com.micro.dto.OfferRequestDto;
+import com.micro.dto.OfferSignItemDto;
 import com.micro.dto.OfferTableDto;
 import io.minio.Result;
 import io.minio.messages.Item;
@@ -102,6 +105,10 @@ class offerControllerTest {
     {
         Delegation delegation = new Delegation();
         delegation.setState(DelegationState.QUOTATION_USER_APPLICATION);
+        DelegationFunctionTable delegationFunctionTable = new DelegationFunctionTable();
+        delegation.setFunctionTable(delegationFunctionTable);
+        OfferTableUnion offerTableUnion = new OfferTableUnion();
+        delegation.setOfferTableUnion(offerTableUnion);
         return delegation;
     }
 
@@ -224,7 +231,7 @@ class offerControllerTest {
         variables.put("delegation",delegation);
         String body = toJson(offerRequestDto);
         mockMvc.perform(post(createOfferUri, goodDelegationId).contentType("application/json").headers(headers).content(body))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
         verify(runtimeService, times(1)).startProcessInstanceByKey("delegation_offer", variables);
     }
 
@@ -247,7 +254,34 @@ class offerControllerTest {
 
     private String replyOfferUri = "/offer/reply/delegation/{id}";
     @Test
-    void replyOffer() throws Exception {
+    void replyOfferNotFound() throws Exception {
+        when(taskQuery.singleResult())
+                .thenReturn(null);
+        OfferReplyRequestDto dto = new OfferReplyRequestDto();
+        dto.set态度("state");
+        OfferSignItemDto offerSignItemDto = new OfferSignItemDto();
+        offerSignItemDto.set委托人签字("name");
+        offerSignItemDto.set日期("data");
+        dto.set确认信息(offerSignItemDto);
+        dto.set附加信息("information");
+        String body = toJson(dto);
+        mockMvc.perform(post(replyOfferUri, badDelegationId).contentType("application/json").headers(headers).content(body))
+                .andExpect(status().isNotFound());
+    }
 
+    @Test
+    void replyOfferOk() throws Exception {
+        when(taskQuery.singleResult())
+                .thenReturn(taskEntity);
+        OfferReplyRequestDto dto = new OfferReplyRequestDto();
+        dto.set态度("state");
+        OfferSignItemDto offerSignItemDto = new OfferSignItemDto();
+        offerSignItemDto.set委托人签字("name");
+        offerSignItemDto.set日期("data");
+        dto.set确认信息(offerSignItemDto);
+        dto.set附加信息("information");
+        String body = toJson(dto);
+        mockMvc.perform(post(replyOfferUri, goodDelegationId).contentType("application/json").headers(headers).content(body))
+                .andExpect(status().isOk());
     }
 }
