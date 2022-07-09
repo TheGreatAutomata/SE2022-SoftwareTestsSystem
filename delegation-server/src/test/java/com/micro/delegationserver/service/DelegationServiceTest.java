@@ -1,14 +1,14 @@
-package com.micro.delegationserver.rest;
+package com.micro.delegationserver.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.micro.commonserver.model.DelegationState;
 import com.micro.commonserver.service.MinioService;
-import com.micro.delegationserver.DelegationServerApplication;
+import com.micro.delegationserver.mapper.DelegationApplicationTableMapper;
+import com.micro.delegationserver.mapper.DelegationAuditTestResultMapper;
 import com.micro.delegationserver.mapper.DelegationFilesMapper;
 import com.micro.delegationserver.model.*;
 import com.micro.delegationserver.repository.DelegationRepository;
-import com.micro.delegationserver.service.DelegationService;
 import io.minio.Result;
 import io.minio.messages.Item;
 import org.activiti.engine.RuntimeService;
@@ -19,41 +19,41 @@ import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.*;
-import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = DelegationServerApplication.class)
+@SpringBootTest(classes = DelegationService.class)
 @ExtendWith(MockitoExtension.class)
-@AutoConfigureMockMvc
-class delegationControllerTestForDelete {
-    @Autowired
-    private MockMvc mockMvc;
+class DelegationServiceTest {
+    @MockBean
+    DelegationAuditTestResultMapper delegationAuditTestResultMapper;
 
     @Autowired
+    DelegationService delegationService;
+
+    @MockBean
+    MinioService minioServce;
+
+    @MockBean
+    DelegationRepository delegationRepository;
+    @MockBean
+    DelegationApplicationTableMapper delegationApplicationTableMapper;
+    @MockBean
     private DelegationFilesMapper delegationFilesMapper;
     @MockBean
     private TaskService taskService;
@@ -67,15 +67,6 @@ class delegationControllerTestForDelete {
     private ProcessInstanceQuery processInstanceQuery;
     @MockBean
     private ProcessInstance processInstance;
-
-    @MockBean
-    private MinioService minioService;
-
-    @MockBean
-    DelegationRepository delegationRepository;
-
-    @MockBean
-    public DelegationService delegationService;
 
     Optional<Delegation> delegation_op;
 
@@ -93,8 +84,6 @@ class delegationControllerTestForDelete {
     private String badDelegationId;
 
     private HttpHeaders headers;
-
-    private MockMultipartFile mulFile;
 
     private Delegation getInitDelegation()
     {
@@ -116,6 +105,8 @@ class delegationControllerTestForDelete {
         ObjectMapper objectMapper=new ObjectMapper();
         return objectMapper.writeValueAsString(obj);
     }
+
+    private MockMultipartFile mulFile;
 
     @BeforeEach
     void init()
@@ -186,7 +177,7 @@ class delegationControllerTestForDelete {
                 "Hello, World!".getBytes() //文件流
         );
         Iterable<Result<Item>> fileList = Arrays.asList(singleFile);
-        when(minioService.listObjects(Mockito.anyString()))
+        when(minioServce.listObjects(Mockito.anyString()))
                 .thenReturn(fileList);
         try {
             when(singleFile.get())
@@ -197,81 +188,42 @@ class delegationControllerTestForDelete {
         when(singleItem.objectName())
                 .thenReturn("fileName");
         try {
-            when(minioService.getObjectURL(Mockito.anyString(), Mockito.anyString()))
+            when(minioServce.getObjectURL(Mockito.anyString(), Mockito.anyString()))
                     .thenReturn("http://goodUri");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private String deleteDelegationId = "/delegation/{id}";
     @Test
-    void deleteDelegationNotFound() throws Exception {
-        when(delegationRepository.findById(eq(goodDelegationId)))
-                .thenReturn(delegation_op);
-        when(delegationRepository.findById(eq(badDelegationId)))
-                .thenReturn(Optional.ofNullable(null));
-        mockMvc.perform(MockMvcRequestBuilders.delete(deleteDelegationId, badDelegationId).contentType("application/json").headers(headers).content(""))
-                .andExpect(status().isNotFound());
+    void creatFileOk()
+    {
+        Assert.assertEquals(delegationService.creatFile(goodDelegationId, "usr", mulFile, "pdf"), false);
     }
 
     @Test
-    void deleteDelegationOk() throws Exception {
-        when(delegationRepository.findById(eq(goodDelegationId)))
-                .thenReturn(delegation_op);
-        when(delegationRepository.findById(eq(badDelegationId)))
-                .thenReturn(Optional.ofNullable(null));
-/*        when(runtimeService.deleteProcessInstance(Mockito.anyString(), Mockito.anyString()))
-                .thenReturn();*/
-        ArrayList<Task> list=new ArrayList<>();
-//        list.add(taskEntity);
-        when(taskQuery.list())
-                .thenReturn(list);
-        when(minioService.hasBucket(Mockito.anyString()))
-                .thenReturn(true);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "xxx");
-        headers.set("usrName", "xxx");
-        headers.set("usrId", "xxx");
-        headers.set("usrRole", "xxx");
-        HttpEntity<String> request = new HttpEntity<>("body", headers);
-        ResponseEntity<Void> result = new ResponseEntity<>(HttpStatus.OK);
-        when(restTemplate.exchange(Mockito.anyString(), eq(HttpMethod.DELETE), eq(request), eq(Void.class)))
-                .thenReturn(result);
-        mockMvc.perform(MockMvcRequestBuilders.delete(deleteDelegationId, goodDelegationId).contentType("application/json").headers(headers).content(""))
-                .andExpect(status().isOk());
-        verify(runtimeService, times(0)).deleteProcessInstance(Mockito.anyString(), Mockito.anyString());
-        verify(minioService, times(1)).removeBucket(Mockito.anyString());
+    void creatFileNoFile()
+    {
+        Assert.assertEquals(delegationService.creatFile(goodDelegationId, "usr", null, "pdf"), true);
     }
 
     @Test
-    void deleteDelegationDelete() throws Exception {
-        when(delegationRepository.findById(eq(goodDelegationId)))
-                .thenReturn(delegation_op);
-        when(delegationRepository.findById(eq(badDelegationId)))
-                .thenReturn(Optional.ofNullable(null));
-/*        when(runtimeService.deleteProcessInstance(Mockito.anyString(), Mockito.anyString()))
-                .thenReturn();*/
-        ArrayList<Task> list=new ArrayList<>();
-        list.add(taskEntity);
-        when(taskQuery.list())
-                .thenReturn(list);
-        when(minioService.hasBucket(Mockito.anyString()))
-                .thenReturn(true);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "xxx");
-        headers.set("usrName", "xxx");
-        headers.set("usrId", "xxx");
-        headers.set("usrRole", "xxx");
-        HttpEntity<String> request = new HttpEntity<>("body", headers);
-        ResponseEntity<Void> result = new ResponseEntity<>(HttpStatus.OK);
-        when(restTemplate.exchange(Mockito.anyString(), eq(HttpMethod.DELETE), eq(request), eq(Void.class)))
-                .thenReturn(result);
-        mockMvc.perform(MockMvcRequestBuilders.delete(deleteDelegationId, goodDelegationId).contentType("application/json").headers(headers).content(""))
-                .andExpect(status().isOk());
-        verify(runtimeService, times(1)).deleteProcessInstance(Mockito.anyString(), Mockito.anyString());
-        verify(minioService, times(1)).removeBucket(Mockito.anyString());
+    void getAllFiles()
+    {
+        Map<String, String> mp = new HashMap<>();
+        mp.put("fileType", "fileType");
+        when(minioServce.getTags(Mockito.anyString(), Mockito.anyString()))
+                .thenReturn(mp);
+        List<minioFileItem> fileList = delegationService.getAllFiles(goodDelegationId);
+        Assert.assertNotNull(fileList);
+    }
+
+    @Test
+    void getAllFilesNull()
+    {
+        when(minioServce.listObjects(Mockito.anyString()))
+                .thenReturn(null);
+        List<minioFileItem> fileList = delegationService.getAllFiles(goodDelegationId);
+        Assert.assertNull(fileList);
     }
 }
