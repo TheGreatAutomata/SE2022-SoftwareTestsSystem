@@ -24,6 +24,10 @@ public class AcceptApplicationDelegate implements JavaDelegate {
 
     private String closeSampleUri = "http://sample-server/sampleServer/private/closeSample/";
 
+    /**
+     * 结束委托流程
+     * @param delegateExecution
+     */
     @Override
     public void execute(DelegateExecution delegateExecution) {
 //        System.out.println("Save the delegation.");

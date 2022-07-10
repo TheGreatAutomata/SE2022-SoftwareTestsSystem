@@ -12,6 +12,10 @@ public class SaveOfferDelegate  implements JavaDelegate {
     @Autowired
     MongoTemplate mongoTemplate;
 
+    /**
+     * 保存报价
+     * @param delegateExecution
+     */
     @Override
     public void execute(DelegateExecution delegateExecution) {
         Delegation delegation = (Delegation) delegateExecution.getVariable("delegation");

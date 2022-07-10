@@ -20,6 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class SaveFileDelegate implements JavaDelegate {
     @Autowired
     MinioService minioService;
+
+    /**
+     * 保存文件
+     * @param delegateExecution
+     */
     @SneakyThrows
     @Override
     public void execute(DelegateExecution delegateExecution) {

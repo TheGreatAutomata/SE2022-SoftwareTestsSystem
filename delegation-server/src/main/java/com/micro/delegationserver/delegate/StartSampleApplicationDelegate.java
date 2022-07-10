@@ -23,6 +23,10 @@ public class StartSampleApplicationDelegate implements JavaDelegate {
         this.restTemplate = restTemplate;
     }
 
+    /**
+     * 开启样品提交流程
+     * @param delegateExecution
+     */
     @Override
     public void execute(DelegateExecution delegateExecution) {
         HttpHeaders headers = new HttpHeaders();

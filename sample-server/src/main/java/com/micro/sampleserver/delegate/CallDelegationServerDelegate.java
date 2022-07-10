@@ -22,6 +22,11 @@ public class CallDelegationServerDelegate implements JavaDelegate {
         this.restTemplate = restTemplate;
     }
     private String DELEGATION_URI = "http://delegation-server/delegationServer/private";
+
+    /**
+     * 结束样品流程
+     * @param delegateExecution
+     */
     @Override
     public void execute(DelegateExecution delegateExecution) {
         HttpHeaders headers = new HttpHeaders();

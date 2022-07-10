@@ -9,6 +9,11 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 public class SaveComplete implements JavaDelegate {
     @Autowired
     MongoTemplate mongoTemplate;
+
+    /**
+     * 完成文件流程
+     * @param delegateExecution
+     */
     @Override
     public void execute(DelegateExecution delegateExecution) {
         Delegation delegation = (Delegation) delegateExecution.getVariable("delegation");
