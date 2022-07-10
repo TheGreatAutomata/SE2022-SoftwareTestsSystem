@@ -1,6 +1,7 @@
 package com.micro.testserver.service;
 
 import com.micro.dto.SingleFileDto;
+import com.micro.testserver.model.SoftwareTestState;
 import com.netflix.discovery.converters.Auto;
 import org.apache.catalina.LifecycleState;
 import org.junit.jupiter.api.AfterEach;
@@ -68,5 +69,6 @@ class SoftwareTestServiceTest {
 
     @Test
     void checkModifiable() {
+        assertFalse(softwareTestService.checkModifiable(SoftwareTestState.TEST_DOC_TEST_CASE, SoftwareTestState.TEST_DOC_TEST_CASE));
     }
 }

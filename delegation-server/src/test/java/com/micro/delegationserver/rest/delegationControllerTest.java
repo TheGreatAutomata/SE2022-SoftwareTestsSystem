@@ -4,16 +4,23 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.micro.commonserver.model.DelegationState;
 import com.micro.delegationserver.DelegationServerApplication;
+import com.micro.delegationserver.delegate.UpdateApplicationDelegate;
+import com.micro.delegationserver.delegate.UpdateDelegationDelegate;
 import com.micro.delegationserver.mapper.DelegationFunctionTableMapper;
 import com.micro.delegationserver.model.Delegation;
 import com.micro.delegationserver.repository.DelegationRepository;
 import com.micro.delegationserver.service.DelegationService;
 import com.micro.delegationserver.service.update.UpdateTableService;
+import com.micro.delegationserver.service.update.applicationTable.UpdateApplicationTableDelegation_AFTER_APPLY;
+import com.micro.delegationserver.service.update.applicationTable.UpdateApplicationTableDelegation_UPLOAD_FUNCTION_TABLE;
 import com.micro.delegationserver.service.update.applicationTable.UpdateApplicationTableResult;
+import com.micro.delegationserver.service.update.functionTable.UpdateFunctionTableDelegation_AFTER_APPLY;
+import com.micro.delegationserver.service.update.functionTable.UpdateFunctionTableDelegation_UPLOAD_FILES;
 import com.micro.delegationserver.service.update.functionTable.UpdateFunctionTableResult;
 import com.micro.dto.*;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
@@ -22,12 +29,16 @@ import org.activiti.engine.task.TaskQuery;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.convert.MongoConverter;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +51,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.data.mongodb.util.BsonUtils.toJson;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -75,6 +87,12 @@ class delegationControllerTest {
 
     @MockBean
     DelegationRepository delegationRepository;
+
+    @MockBean
+    UpdateApplicationDelegate updateApplicationDelegate;
+
+    @MockBean
+    UpdateDelegationDelegate updateDelegationDelegate;
 
     Delegation testDelegation;
 
@@ -228,12 +246,39 @@ class delegationControllerTest {
     void deleteDelegation() {
     }
 
+    @MockBean
+    DelegateExecution delegateExecution;
+
+    @MockBean
+    MongoTemplate mongoTemplate;
+
+    @MockBean
+    MongoConverter mongoConverter;
+
+    @MockBean
+    GridFsTemplate gridFsTemplate;
+
+    @MockBean
+    UpdateApplicationTableDelegation_UPLOAD_FUNCTION_TABLE function_table;
+
+    @MockBean
+    UpdateApplicationTableDelegation_AFTER_APPLY after_apply;
+
+    @MockBean
+    UpdateFunctionTableDelegation_UPLOAD_FILES upload_files;
+
+    @MockBean
+    UpdateFunctionTableDelegation_AFTER_APPLY func_after_apply;
+
     @Test
     void updateFunctionTable() throws Exception {
         UpdateFunctionTableResult result=new UpdateFunctionTableResult();
         result.setHttpStatus(HttpStatus.OK);
+        testDelegation.setState(DelegationState.AUDIT_MARKET_APARTMENT_FURTHER);
         when(updateTableService.updateFunctionTable(Mockito.anyString(),Mockito.any(DelegationFunctionTableDto.class)))
                 .thenReturn(result);
+        when(delegateExecution.getVariable(Mockito.anyString()))
+                .thenReturn(testDelegation);
         String body=toJson(new DelegationFunctionTableDto());
         mockMvc.perform(put("/delegation/{id}/functionTable","123")
                         .header("usrId","")
