@@ -149,7 +149,7 @@ class sampleControllerTest {
         headers.set("usrRole", "");
         headers.set("Authorization", "");
         mulFile = new MockMultipartFile(
-                "file", //文件名
+                "样品", //文件名
                 "test.jpg", //originalName 相当于上传文件在客户机上的文件名
                 MediaType.TEXT_PLAIN_VALUE, //文件类型
                 "Hello, World!".getBytes() //文件流

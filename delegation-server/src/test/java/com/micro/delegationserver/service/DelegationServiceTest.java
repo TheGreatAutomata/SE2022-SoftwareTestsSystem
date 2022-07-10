@@ -9,6 +9,9 @@ import com.micro.delegationserver.mapper.DelegationAuditTestResultMapper;
 import com.micro.delegationserver.mapper.DelegationFilesMapper;
 import com.micro.delegationserver.model.*;
 import com.micro.delegationserver.repository.DelegationRepository;
+import com.micro.dto.CreatDelegationRequestDto;
+import com.micro.dto.DelegationAuditMarketResultDto;
+import com.micro.dto.DelegationAuditTestResultDto;
 import io.minio.Result;
 import io.minio.messages.Item;
 import org.activiti.engine.RuntimeService;
@@ -18,6 +21,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -35,6 +39,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.*;
 
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = DelegationService.class)
@@ -225,5 +230,28 @@ class DelegationServiceTest {
                 .thenReturn(null);
         List<minioFileItem> fileList = delegationService.getAllFiles(goodDelegationId);
         Assert.assertNull(fileList);
+    }
+
+    @Test
+    void saveDelegationAuditTestResult() {
+        when(delegationRepository.findById(Mockito.anyString()))
+                .thenReturn(Optional.of(new Delegation()));
+        delegationService.saveDelegationAuditTestResult("123",new DelegationAuditTestResultDto());
+
+        verify(delegationRepository).save(Mockito.any(Delegation.class));
+    }
+
+    @Test
+    void saveDelegationAuditMarketResult() {
+        when(delegationRepository.findById(Mockito.anyString()))
+                .thenReturn(Optional.of(new Delegation()));
+        delegationService.saveDelegationAuditMarketResult("123","ok");
+        verify(delegationRepository).save(Mockito.any(Delegation.class));
+    }
+
+    @Test
+    void constructFromRequestDto() {
+        Delegation delegation=delegationService.constructFromRequestDto(new CreatDelegationRequestDto(),"123","123");
+        Assert.assertEquals(delegation.getUsrBelonged(),"123");
     }
 }
