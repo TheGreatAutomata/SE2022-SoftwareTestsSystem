@@ -43,8 +43,6 @@ public class DelegationService {
     @Autowired
     DelegationAuditTestResultMapper delegationAuditTestResultMapper;
 
-
-
 //    @Transactional
 //    public void startApplicationProcess() {
 //        runtimeService.startProcessInstanceByKey("delegationApplication");

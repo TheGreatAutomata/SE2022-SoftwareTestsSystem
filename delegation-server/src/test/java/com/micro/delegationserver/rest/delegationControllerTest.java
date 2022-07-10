@@ -238,13 +238,6 @@ class delegationControllerTest {
     void createDelegationFile() {
     }
 
-    @Test
-    void listDelegationFile() {
-    }
-
-    @Test
-    void deleteDelegation() {
-    }
 
     @MockBean
     DelegateExecution delegateExecution;

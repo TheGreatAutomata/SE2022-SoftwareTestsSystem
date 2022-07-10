@@ -110,15 +110,15 @@
         <omgdi:waypoint x="270.0" y="45.0"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="shape-9f62b5fc-58e0-4f30-9fc6-892162206481" bpmnElement="sid-07a52d9e-9e86-4d8a-8e51-46b346f3f416">
-        <omgdc:Bounds x="380.0" y="-50.0" width="100.0" height="80.0"/>
+        <omgdc:Bounds x="395.0" y="-60.0" width="100.0" height="80.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="edge-14f10908-2695-45d9-a576-55ad5ac803e7" bpmnElement="sid-7bda0807-f550-4038-83ce-4c62b08c5709">
         <omgdi:waypoint x="370.0" y="-50.0"/>
-        <omgdi:waypoint x="380.0" y="-30.0"/>
+        <omgdi:waypoint x="395.0" y="-40.0"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="edge-753c1ca2-b20d-47ae-a05a-54562c148c7e" bpmnElement="sid-17fab105-a5d3-4447-bd2e-5d48c4e7ddd6">
         <omgdi:waypoint x="370.0" y="25.0"/>
-        <omgdi:waypoint x="380.0" y="10.0"/>
+        <omgdi:waypoint x="395.0" y="0.0"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="shape-10e6f069-118e-4165-80cf-7e237626d4c1" bpmnElement="sid-b7bace9a-0963-480b-83a7-62844ab32191">
         <omgdc:Bounds x="665.0" y="15.0" width="100.0" height="80.0"/>
@@ -168,7 +168,7 @@
         <omgdc:Bounds x="531.3213" y="-160.0" width="100.0" height="80.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="edge-cdbab399-9fcf-4866-91bc-a40343df33d2" bpmnElement="sid-96483e45-8f6b-4f7f-be0e-b5ecbf2aeb7a">
-        <omgdi:waypoint x="480.0" y="-30.0"/>
+        <omgdi:waypoint x="495.0" y="-40.0"/>
         <omgdi:waypoint x="531.3213" y="-100.0"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="shape-8f0748f1-a466-48a4-a53b-814a14e954ad" bpmnElement="sid-a3b866b0-3a10-4b1c-b7cc-4139d625f05d">

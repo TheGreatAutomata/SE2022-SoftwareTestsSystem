@@ -33,7 +33,7 @@ public class AcceptApplicationDelegate implements JavaDelegate {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String id = (String) delegateExecution.getVariable("delegationId");
-        HttpEntity<String> request = new HttpEntity<>("", headers);
+        HttpEntity<String> request = new HttpEntity<>("body", headers);
         ResponseEntity<Void> result = restTemplate.postForEntity(closeSampleUri+id, request, Void.class);
         if(result.getStatusCode() != HttpStatus.OK)
         {

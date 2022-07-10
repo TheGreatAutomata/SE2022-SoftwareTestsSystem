@@ -40,12 +40,12 @@ class SamplePutServerTest {
                 .thenReturn(null);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        request = new HttpEntity<>("", headers);
+        request = new HttpEntity<>("body", headers);
     }
 
     @Test
     void executeOffline() {
-        when(delegateExecution.getVariable("isOnline"))
+        when(delegateExecution.getVariable("online"))
                 .thenReturn(0);
         when(restTemplate.postForEntity(DELEGATION_URI+"/applicationFinished/sampleId", request, Void.class))
                 .thenReturn(ResponseEntity.status(200).build());
@@ -60,7 +60,7 @@ class SamplePutServerTest {
 
     @Test
     void executeOnline() {
-        when(delegateExecution.getVariable("isOnline"))
+        when(delegateExecution.getVariable("online"))
                 .thenReturn(1);
         String uriMethod = "online";
         String id = "sampleId";

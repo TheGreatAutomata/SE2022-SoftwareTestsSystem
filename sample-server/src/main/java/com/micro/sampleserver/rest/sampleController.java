@@ -228,23 +228,50 @@ public class sampleController implements SampleApi {
     @Override
     public ResponseEntity<Void> deleteOfflineSample(String usrName, String usrId, String usrRole, String id) {
 
-        Optional<Sample> delegation_op= sampleRepository.findById(id);
-        if(delegation_op.isPresent()){
-            sampleRepository.deleteById(delegation_op.get().getDelegationId());
-            if(deleteTaskByDelegationId(id) == Boolean.TRUE)  return ResponseEntity.status(200).build();
+//        Optional<Sample> delegation_op= sampleRepository.findById(id);
+//        if(delegation_op.isPresent()){
+//            sampleRepository.deleteById(delegation_op.get().getDelegationId());
+//            if(deleteTaskByDelegationId(id) == Boolean.TRUE)  return ResponseEntity.status(200).build();
+//        }
+//        return ResponseEntity.status(404).build();
+        if(deleteTaskByDelegationId(id) == Boolean.TRUE)
+        {
+            Optional<Sample> delegation_op= sampleRepository.findById(id);
+            if(delegation_op.isPresent())
+            {
+                sampleRepository.deleteById(delegation_op.get().getDelegationId());
+                return ResponseEntity.status(200).build();
+            }
+            else
+            {
+                return ResponseEntity.status(200).build();
+            }
         }
-        return ResponseEntity.status(404).build();
+        else
+        {
+            return ResponseEntity.status(200).build();
+        }
     }
 
     @Override
     public ResponseEntity<Void> deleteOnlineSample(String usrName, String usrId, String usrRole, String id) {
 
-        String sampleId = "sample" + id;
-        try {
-            minioServce.removeBucket(sampleId);
+        if(deleteTaskByDelegationId(id) == Boolean.TRUE)
+        {
+            String sampleId = "sample" + id;
+            try {
+                if(minioServce.hasBucket(sampleId))
+                {
+                    minioServce.removeBucket(sampleId);
+                }
+                return ResponseEntity.status(200).build();
+            } catch (Exception e) {
+                return ResponseEntity.status(404).build();
+            }
+        }
+        else
+        {
             return ResponseEntity.status(200).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(404).build();
         }
     }
 }
