@@ -189,7 +189,7 @@ paths:
       responses:
         '200':
           description: changed
-        '404':S
+        '404':
           description: id not found
 
   /sample/{id}:
