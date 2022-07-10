@@ -67,6 +67,15 @@ public class SoftwareTestController implements TestApi {
     @Autowired
     SoftwareReportMinioItemMapper softwareReportMinioItemMapper;
 
+    /**
+     * @param usrName       (required)
+     * @param usrId         (required)
+     * @param usrRole       (required)
+     * @param id            The id of delegation (required)
+     * @param testSchemeDto (optional)
+     * 上传测试方案
+     * @return
+     */
     @Override
     public ResponseEntity<Void> uploadTestScheme(String usrName, String usrId, String usrRole,String id, TestSchemeDto testSchemeDto) {
         //首先检查是否有这个委托，且委托是否已经进入可以编写测试方案的阶段
@@ -98,6 +107,15 @@ public class SoftwareTestController implements TestApi {
         runtimeService.startProcessInstanceByKey("test_apply",variables);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    /**
+     * @param usrName (required)
+     * @param usrId   (required)
+     * @param usrRole (required)
+     * @param id      The id of delegation (required)
+     * 获取测试方案
+     * @return
+     */
     @Override
     public ResponseEntity<TestSchemeDto> getTestScheme(String usrName, String usrId, String usrRole,String id) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
@@ -107,6 +125,16 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(testSchemeMapper.toDto(softwareTest.getScheme()),HttpStatus.OK);
     }
+
+    /**
+     * @param usrName       (required)
+     * @param usrId         (required)
+     * @param usrRole       (required)
+     * @param id            The id of delegation (required)
+     * @param testSchemeDto (optional)
+     * 修改测试方案
+     * @return
+     */
     @Override
     public ResponseEntity<Void> putTestScheme(String usrName, String usrId, String usrRole,String id, TestSchemeDto testSchemeDto) {
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_apply").variableValueEquals("delegationId",id)!=null){
@@ -131,6 +159,15 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(HttpStatus.valueOf(400));
     }
+
+    /**
+     * @param usrName (required)
+     * @param usrId   (required)
+     * @param usrRole (required)
+     * @param id      The id of delegation (required)
+     * 获取测试用例
+     * @return
+     */
     //前有屎山
     @Override
     public ResponseEntity<TestCaseDto> getDocTestCase(String usrName, String usrId, String usrRole,String id) {
@@ -141,6 +178,16 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(softwareTestCaseMapper.toDto(softwareTest.getTestCase()),HttpStatus.OK);
     }
+
+    /**
+     * @param usrName     (required)
+     * @param usrId       (required)
+     * @param usrRole     (required)
+     * @param id          The id of delegation (required)
+     * @param testCaseDto (optional)
+     * 上传测试用例
+     * @return
+     */
     @Override
     public ResponseEntity<Void> uploadDocTestcase(String usrName, String usrId, String usrRole,String id, TestCaseDto testCaseDto) {
         //检测当前有无流程
@@ -162,6 +209,16 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    /**
+     * @param usrName     (required)
+     * @param usrId       (required)
+     * @param usrRole     (required)
+     * @param id          The id of delegation (required)
+     * @param testCaseDto (optional)
+     * 修改测试用例
+     * @return
+     */
     @Override
     public ResponseEntity<Void> putDocTestcase(String usrName, String usrId, String usrRole,String id, TestCaseDto testCaseDto) {
         //检查
@@ -179,6 +236,15 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(HttpStatus.valueOf(400));
     }
+
+    /**
+     * @param usrName (required)
+     * @param usrId   (required)
+     * @param usrRole (required)
+     * @param id      The id of delegation (required)
+     * 获取测试记录
+     * @return
+     */
     @Override
     public ResponseEntity<TestRecordDto> getDocTestRecord(String usrName, String usrId, String usrRole,String id) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
@@ -188,6 +254,16 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(softwareTestRecordMapper.toDto(softwareTest.getTestRecord()),HttpStatus.OK);
     }
+
+    /**
+     * @param usrName       (required)
+     * @param usrId         (required)
+     * @param usrRole       (required)
+     * @param id            The id of delegation (required)
+     * @param testRecordDto (optional)
+     * 上传测试记录
+     * @return
+     */
     @Override
     public ResponseEntity<Void> uploadDocTestRecord(String usrName, String usrId, String usrRole,String id, TestRecordDto testRecordDto) {
         //检测当前有无流程
@@ -209,6 +285,16 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    /**
+     * @param usrName       (required)
+     * @param usrId         (required)
+     * @param usrRole       (required)
+     * @param id            The id of delegation (required)
+     * @param testRecordDto (optional)
+     * 修改测试记录
+     * @return
+     */
     @Override
     public ResponseEntity<Void> putDocTestRecord(String usrName, String usrId, String usrRole,String id, TestRecordDto testRecordDto) {
         //检查
@@ -226,6 +312,15 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(HttpStatus.valueOf(400));
     }
+
+    /**
+     * @param usrName (required)
+     * @param usrId   (required)
+     * @param usrRole (required)
+     * @param id      The id of delegation (required)
+     * 获取问题清单
+     * @return
+     */
     @Override
     public ResponseEntity<BugListDto> getDocBugList(String usrName, String usrId, String usrRole,String id) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
@@ -235,6 +330,16 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(softwareBugListMapper.toDto(softwareTest.getBugList()),HttpStatus.OK);
     }
+
+    /**
+     * @param usrName    (required)
+     * @param usrId      (required)
+     * @param usrRole    (required)
+     * @param id         The id of delegation (required)
+     * @param bugListDto (optional)
+     * 上传问题清单
+     * @return
+     */
     @Override
     public ResponseEntity<Void> uploadDocBugList(String usrName, String usrId, String usrRole,String id, BugListDto bugListDto) {
         //检测当前有无流程
@@ -256,6 +361,16 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    /**
+     * @param usrName    (required)
+     * @param usrId      (required)
+     * @param usrRole    (required)
+     * @param id         The id of delegation (required)
+     * @param bugListDto (optional)
+     * 修改问题清单
+     * @return
+     */
     @Override
     public ResponseEntity<Void> putDocBugList(String usrName, String usrId, String usrRole,String id, BugListDto bugListDto) {
         //检查
@@ -273,6 +388,15 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(HttpStatus.valueOf(400));
     }
+
+    /**
+     * @param usrName (required)
+     * @param usrId   (required)
+     * @param usrRole (required)
+     * @param id      The id of delegation (required)
+     * 获得软件文档评审表
+     * @return
+     */
     @Override
     public ResponseEntity<DocEvaluationTableDto> getDocDocEvaluation(String usrName, String usrId, String usrRole,String id) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
@@ -282,6 +406,16 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(softwareDocEvaluationTableMapper.toDto(softwareTest.getDocEvaluationTable()),HttpStatus.OK);
     }
+
+    /**
+     * @param usrName               (required)
+     * @param usrId                 (required)
+     * @param usrRole               (required)
+     * @param id                    The id of delegation (required)
+     * @param docEvaluationTableDto (optional)
+     * 上传软件文档评审表
+     * @return
+     */
     @Override
     public ResponseEntity<Void> uploadDocDocEvaluation(String usrName, String usrId, String usrRole,String id, DocEvaluationTableDto docEvaluationTableDto) {
         //检测当前有无流程
@@ -308,6 +442,16 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    /**
+     * @param usrName               (required)
+     * @param usrId                 (required)
+     * @param usrRole               (required)
+     * @param id                    The id of delegation (required)
+     * @param docEvaluationTableDto (optional)
+     * 修改软件文档评审表
+     * @return
+     */
     /*@GetMapping("/test/test/test")
     public void dkd(){
         System.out.println("泰斯特");
@@ -335,6 +479,15 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(HttpStatus.valueOf(400));
     }
+
+    /**
+     * @param usrName (required)
+     * @param usrId   (required)
+     * @param usrRole (required)
+     * @param id      The id of delegation (required)
+     * 获取软件测试报告
+     * @return
+     */
     @Override
     public ResponseEntity<TestReportDto> getDocTestReport(String usrName, String usrId, String usrRole,String id) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
@@ -344,6 +497,16 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(softwareTestReportMapper.toDto(softwareTest.getTestReport()),HttpStatus.OK);
     }
+
+    /**
+     * @param usrName       (required)
+     * @param usrId         (required)
+     * @param usrRole       (required)
+     * @param id            The id of delegation (required)
+     * @param testReportDto (optional)
+     * 上传软件测试报告
+     * @return
+     */
     @Override
     public ResponseEntity<Void> uploadDocTestReport(String usrName, String usrId, String usrRole,String id, TestReportDto testReportDto) {
         //检测当前有无流程
@@ -391,6 +554,15 @@ public class SoftwareTestController implements TestApi {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * @param usrName       (required)
+     * @param usrId         (required)
+     * @param usrRole       (required)
+     * @param id            The id of delegation (required)
+     * @param testReportDto (optional)
+     * 修改软件测试报告
+     * @return
+     */
     @Override
     public ResponseEntity<Void> putDocTestReport(String usrName, String usrId, String usrRole, String id, TestReportDto testReportDto) {
         //检测当前有无流程
@@ -433,6 +605,14 @@ public class SoftwareTestController implements TestApi {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * @param usrName (required)
+     * @param usrId   (required)
+     * @param usrRole (required)
+     * @param id      The id of delegation (required)
+     * 获取软件报告检查表
+     * @return
+     */
     @Override
     public ResponseEntity<TestReportEvaluationTableDto> getDocReportEvaluation(String usrName, String usrId, String usrRole,String id) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
@@ -442,6 +622,16 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(softwareReportEvaluationMapper.toDto(softwareTest.getReportEvaluationTable()),HttpStatus.OK);
     }
+
+    /**
+     * @param usrName                      (required)
+     * @param usrId                        (required)
+     * @param usrRole                      (required)
+     * @param id                           The id of delegation (required)
+     * @param testReportEvaluationTableDto (optional)
+     * 上传软件报告检查表
+     * @return
+     */
     @Override
     public ResponseEntity<Void> uploadDocReportEvaluation(String usrName, String usrId, String usrRole,String id, TestReportEvaluationTableDto testReportEvaluationTableDto) {
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id).singleResult()!=null){
@@ -491,6 +681,15 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    /**
+     * @param usrName (required)
+     * @param usrId   (required)
+     * @param usrRole (required)
+     * @param id      The id of delegation (required)
+     * 获取工作检查表
+     * @return
+     */
     @Override
     public ResponseEntity<WorkEvaluationTableDto> getDocWorkEvaluation(String usrName, String usrId, String usrRole,String id) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
@@ -500,6 +699,16 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(softwareWorkEvaluationTableMapper.toDto(softwareTest.getWorkEvaluationTable()),HttpStatus.OK);
     }
+
+    /**
+     * @param usrName                (required)
+     * @param usrId                  (required)
+     * @param usrRole                (required)
+     * @param id                     The id of delegation (required)
+     * @param workEvaluationTableDto (optional)
+     * 上传工作检查表
+     * @return
+     */
     @Override
     public ResponseEntity<Void> uploadDocWorkEvaluation(String usrName, String usrId, String usrRole,String id, WorkEvaluationTableDto workEvaluationTableDto) {
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id).singleResult()!=null){
@@ -572,6 +781,16 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    /**
+     * @param usrName       (required)
+     * @param usrId         (required)
+     * @param usrRole       (required)
+     * @param id            The id of delegation (required)
+     * @param testReportDto (optional)
+     * 修改工作检查表
+     * @return
+     */
     @Override
     public ResponseEntity<Void> putDocApplyReportEvaluation(String usrName, String usrId, String usrRole,String id,TestReportDto testReportDto) {
         if(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId",id).singleResult()==null){
@@ -638,6 +857,16 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    /**
+     * @param usrName                 (required)
+     * @param usrId                   (required)
+     * @param usrRole                 (required)
+     * @param id                      The id of delegation (required)
+     * @param testSchemeAuditTableDto (optional)
+     * 上传测试方案评审表
+     * @return
+     */
     @Override
     public ResponseEntity<Void> uploadTestSchemeAuditTable(String usrName, String usrId, String usrRole,String id, TestSchemeAuditTableDto testSchemeAuditTableDto) {
         //该接口仅仅用于质量部人员上传评审表
@@ -668,6 +897,15 @@ public class SoftwareTestController implements TestApi {
         taskService.complete(task.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    /**
+     * @param usrName (required)
+     * @param usrId   (required)
+     * @param usrRole (required)
+     * @param id      The id of delegation (required)
+     * 获取测试方案评审表
+     * @return
+     */
     @Override
     public ResponseEntity<TestSchemeAuditTableDto> getTestSchemeAuditTable(String usrName, String usrId, String usrRole,String id) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(id);
@@ -679,6 +917,16 @@ public class SoftwareTestController implements TestApi {
     }
     @Autowired
     TestContractRepo testContractRepo;
+
+    /**
+     * @param usrName      (required)
+     * @param usrId        (required)
+     * @param usrRole      (required)
+     * @param delegationId The id of delegation (required)
+     * @param projectId    The id of project (required)
+     * 准备测试
+     * @return
+     */
     @Override
     public ResponseEntity<Void> prepareProject(String usrName, String usrId, String usrRole,String delegationId, String projectId) {
         Optional<Contract> c_op = testContractRepo.findByDelegationId(delegationId);
@@ -698,6 +946,14 @@ public class SoftwareTestController implements TestApi {
         softwareTestRepository.save(softwareTest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    /**
+     * @param usrId   (required)
+     * @param usrName (required)
+     * @param usrRole (required)
+     * 获取当前用户的所有项目
+     * @return
+     */
     @Override
     public ResponseEntity<List<TestProjectDto>> listProjects(String usrId, String usrName, String usrRole) {
         List<SoftwareTest> softwareTests=softwareTestRepository.findByUsrId(usrId);
@@ -712,6 +968,14 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(projectDtos,HttpStatus.OK);
     }
+
+    /**
+     * @param usrId   (required)
+     * @param usrName (required)
+     * @param usrRole (required)
+     *  获取所有项目
+     * @return
+     */
     @Override
     public ResponseEntity<List<TestProjectDto>> listAllProjects(String usrId, String usrName, String usrRole) {
         List<SoftwareTest> softwareTests=softwareTestRepository.findAll();
@@ -726,6 +990,15 @@ public class SoftwareTestController implements TestApi {
         }
         return new ResponseEntity<>(projectDtos,HttpStatus.OK);
     }
+
+    /**
+     * @param usrName      (required)
+     * @param usrId        (required)
+     * @param usrRole      (required)
+     * @param delegationId (required)
+     * 根据委托id获取项目
+     * @return
+     */
     @Override
     public ResponseEntity<TestProjectDto> findProjectByDelegationId(String usrName, String usrId, String usrRole,String delegationId) {
         SoftwareTest softwareTest=softwareTestRepository.findByDelegationId(delegationId);
@@ -738,6 +1011,14 @@ public class SoftwareTestController implements TestApi {
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }
 
+    /**
+     * @param usrId        (required)
+     * @param usrName      (required)
+     * @param usrRole      (required)
+     * @param delegationId (required)
+     * 获取PDF报告
+     * @return
+     */
     @Override
     public ResponseEntity<SoftwareSingleFileDto> findLatexReportByDelegationId(String usrId, String usrName, String usrRole, String delegationId) {
         Optional<Delegation> delegationOptional=delegationRepository.findById(delegationId);

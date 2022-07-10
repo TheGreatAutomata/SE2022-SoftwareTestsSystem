@@ -84,6 +84,14 @@ public class delegationController implements DelegationApi{
         this.restTemplate = restTemplate;
     }
 
+    /**
+     * @param usrName                   (required)
+     * @param usrId                     (required)
+     * @param usrRole                   (required)
+     * @param creatDelegationRequestDto (required)
+     * 创建委托
+     * @return
+     */
     @Override
     public ResponseEntity<String> creatDelegation(String usrName, String usrId, String usrRole, CreatDelegationRequestDto creatDelegationRequestDto) {
         Map<String, Object> variables = new HashMap<String, Object>();
@@ -106,7 +114,13 @@ public class delegationController implements DelegationApi{
     @Autowired
     UpdateTableService updateTableService;
 
-    //TODO: 处理异常情况，例如没找到委托
+
+    /**
+     * @param id                            The id of delegation (required)
+     * @param delegationApplicationTableDto (required)
+     * 上传委托申请表
+     * @return
+     */
     @Override
     public ResponseEntity<Void> updateApplicationTable(String id, DelegationApplicationTableDto delegationApplicationTableDto) {
         System.out.println("Updating...");
@@ -120,6 +134,12 @@ public class delegationController implements DelegationApi{
         return new ResponseEntity<>(result.getHttpStatus());
     }
 
+    /**
+     * @param id                    The id of delegation (required)
+     * @param delegationFileListDto (required)
+     * 上传文件列表
+     * @return
+     */
     @Override
     public ResponseEntity<Void> updatefileListTable(String id, DelegationFileListDto delegationFileListDto) {
         Optional<Delegation> delegation_op=delegationRepository.findById(id);
@@ -154,6 +174,14 @@ public class delegationController implements DelegationApi{
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * @param usrName (required)
+     * @param usrId   (required)
+     * @param usrRole (required)
+     * @param id      The id of delegation (required)
+     * 获取委托
+     * @return
+     */
     @Override
     public ResponseEntity<DelegationItemDto> findDelegation(String usrName, String usrId, String usrRole, String id) {
         DelegationItemDto delegationItemDto=new DelegationItemDto();
@@ -327,6 +355,15 @@ public class delegationController implements DelegationApi{
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * @param id                         (required)
+     * @param usrName                    (required)
+     * @param usrId                      (required)
+     * @param usrRole                    (required)
+     * @param delegationFunctionTableDto (required)
+     * 上传功能表
+     * @return
+     */
     @Override
     public ResponseEntity<Void> updateFunctionTable(String id, String usrName, String usrId, String usrRole, DelegationFunctionTableDto delegationFunctionTableDto) {
         System.out.println("Updating...");

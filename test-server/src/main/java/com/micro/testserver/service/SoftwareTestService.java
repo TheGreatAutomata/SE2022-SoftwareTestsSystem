@@ -49,6 +49,12 @@ public class SoftwareTestService {
         }
     }
 
+    /**
+     * @param softwareTestState
+     * @param target
+     * 检查测试表单是否可修改
+     * @return
+     */
     public boolean checkModifiable(SoftwareTestState softwareTestState,SoftwareTestState target){
         return (softwareTestState.ordinal()>target.ordinal() && softwareTestState.ordinal()<SoftwareTestState.TEST_DOC_TEST_REPORT_EVALUATION_TABLE.ordinal()) || softwareTestState.equals(SoftwareTestState.TEST_REPORT_DENIED) || softwareTestState.equals(SoftwareTestState.TEST_DOC_WORK_DENIED);
     }
