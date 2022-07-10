@@ -24,9 +24,6 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.util.*;
 
-/**
- * 生成Latex格式的测试报告
- */
 public class GenerateLatexReportDelegate implements JavaDelegate {
     @Autowired
     SoftwareTestRepository softwareTestRepository;
@@ -77,6 +74,10 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
 
     }
 
+    /**
+     * 利用模板生成tex文件，再转为pdf，并存储至数据库
+     * @param delegateExecution
+     */
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
@@ -104,6 +105,10 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
         delegateExecution.setVariable("softwareTest",softwareTest);
     }
 
+    /**
+     * 进行数据格式转化，为生成tex文件做准备
+     * @param report
+     */
     public void transformData(SoftwareTestReport report) {
 
         List<TestReportHardwareEnv> testReportHardwareEnvList = report.get硬件环境();
@@ -159,6 +164,11 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
 
     }
 
+    /**
+     * 利用模板生成测试报告tex文件，再转为pdf
+     * @param softwareTest
+     * @param projectId
+     */
     @SneakyThrows
     public void generateReportFile(SoftwareTest softwareTest, String projectId) {
 
@@ -400,6 +410,14 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
 
     }
 
+    /**
+     * 创建指定文件至数据库
+     * @param projectId
+     * @param fileName
+     * @param fileType
+     * @param file
+     * @return boolean
+     */
     @SneakyThrows
     public boolean creatFile(String projectId, String fileName, String fileType, MultipartFile file) {
 
@@ -438,6 +456,10 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
         return true;
     }
 
+    /**
+     * 将测试报告文件保存至数据库
+     * @param projectId
+     */
     @SneakyThrows
     public void saveReportFile(String projectId) {
 
@@ -473,6 +495,10 @@ public class GenerateLatexReportDelegate implements JavaDelegate {
 
     }
 
+    /**
+     * 删除本地生成的测试报告文件
+     * @param projectId
+     */
     @SneakyThrows
     public void deleteReportFile(String projectId) {
 

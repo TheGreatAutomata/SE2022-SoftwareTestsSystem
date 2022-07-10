@@ -39,6 +39,14 @@ public class ContractService {
 
     }
 
+    /**
+     * 创建指定文件至数据库
+     * @param contractId
+     * @param fileName
+     * @param fileType
+     * @param file
+     * @return boolean
+     */
     @SneakyThrows
     public boolean creatFile(String contractId, String fileName, String fileType, MultipartFile file) {
 
@@ -69,6 +77,11 @@ public class ContractService {
         return true;
     }
 
+    /**
+     * 获取未签订的测试合同文件
+     * @param contractId
+     * @return minioFileItem
+     */
     @SneakyThrows
     public minioFileItem getUnsignedContractTableFile(String contractId) {
 
@@ -97,6 +110,11 @@ public class ContractService {
 
     }
 
+    /**
+     * 获取未签订的保密协议文件文件
+     * @param contractId
+     * @return minioFileItem
+     */
     @SneakyThrows
     public minioFileItem getUnsignedNondisclosureAgreementTableFile(String contractId) {
 
@@ -126,6 +144,11 @@ public class ContractService {
 
     }
 
+    /**
+     * 获取已签订的测试合同文件
+     * @param contractId
+     * @return minioFileItem
+     */
     @SneakyThrows
     public minioFileItem getSignedContractTableFile(String contractId) {
 
@@ -154,6 +177,11 @@ public class ContractService {
 
     }
 
+    /**
+     * 获取已签订的保密协议文件
+     * @param contractId
+     * @return minioFileItem
+     */
     @SneakyThrows
     public minioFileItem getSignedNondisclosureAgreementTableFile(String contractId) {
 

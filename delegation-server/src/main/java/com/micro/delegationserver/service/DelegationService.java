@@ -58,7 +58,14 @@ public class DelegationService {
 //        return taskService.createTaskQuery().taskAssignee(assignee).list();
 //    }
 
-
+    /**
+     * 创建指定文件
+     * @param delegationId
+     * @param fileName
+     * @param file
+     * @param fileType
+     * @return boolean
+     */
     @SneakyThrows
     public boolean creatFile(String delegationId, String fileName, MultipartFile file, String fileType)
     {
@@ -118,6 +125,11 @@ public class DelegationService {
         return delegation;
     }
 
+    /**
+     * 获取bucket全部文件
+     * @param delegationId
+     * @return
+     */
     @SneakyThrows
     public List<minioFileItem> getAllFiles(String delegationId)
     {

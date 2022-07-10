@@ -21,6 +21,10 @@ public class SamplePutServer implements JavaDelegate {
     }
     private String DELEGATION_URI = "http://delegation-server/delegationServer/private";
 
+    /**
+     * 修改样品
+     * @param delegateExecution
+     */
     @Override
     public void execute(DelegateExecution delegateExecution) {
         Map<String, Object> variables = delegateExecution.getVariables();

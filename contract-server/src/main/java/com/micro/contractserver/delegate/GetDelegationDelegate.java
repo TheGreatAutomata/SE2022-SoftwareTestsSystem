@@ -33,6 +33,10 @@ public class GetDelegationDelegate implements JavaDelegate {
         this.numberService = numberService;
     }
 
+    /**
+     * 获取对应委托的相关信息
+     * @param delegateExecution
+     */
     @Override
     public void execute(DelegateExecution delegateExecution) {
 

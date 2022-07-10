@@ -11,6 +11,11 @@ public class SaveContractDelegate implements JavaDelegate {
     @Autowired
     MongoDBContractRepository contractRepository;
 
+
+    /**
+     * 保存合同至数据库
+     * @param delegateExecution
+     */
     @Override
     public void execute(DelegateExecution delegateExecution) {
 

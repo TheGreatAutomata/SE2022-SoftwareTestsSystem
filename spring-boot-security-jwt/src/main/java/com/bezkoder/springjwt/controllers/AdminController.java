@@ -38,6 +38,12 @@ public class AdminController {
     JwtUtils jwtUtils;
 
 
+    /**
+     * Register mod response entity.
+     *
+     * @param signUpRequest the sign up request
+     * @return the response entity
+     */
     @PostMapping("/register/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> registerMod(@Valid @RequestBody SignupRequest signUpRequest) {
@@ -102,6 +108,12 @@ public class AdminController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
+    /**
+     * Delete user response entity.
+     *
+     * @param deleteRequest the delete request
+     * @return the response entity
+     */
     @PostMapping("delete/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@Valid @RequestBody DeleteRequest deleteRequest){
@@ -119,6 +131,12 @@ public class AdminController {
         return ResponseEntity.ok(new MessageResponse("User deleted successfully!"));
     }
 
+    /**
+     * Modify pass word response entity.
+     *
+     * @param modifyPasswordRequest the modify password request
+     * @return the response entity
+     */
     @PostMapping("modify/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> modifyPassWord(@Valid @RequestBody ModifyPasswordRequest modifyPasswordRequest){

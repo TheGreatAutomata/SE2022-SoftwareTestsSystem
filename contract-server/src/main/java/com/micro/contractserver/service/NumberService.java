@@ -18,7 +18,11 @@ public class NumberService {
         max_value = 9999999999999.99D;
     }
 
-    // 金额转中文
+    /**
+     * 金额转中文
+     * @param v
+     * @return String
+     */
     public String moneyToChinese(double v) {
         String prefix = "";
         if(v < 0) {
@@ -63,7 +67,11 @@ public class NumberService {
         return prefix + rs;
     }
 
-    // 数量转中文
+    /**
+     * 数量转中文
+     * @param v
+     * @return String
+     */
     public String slToChinese(double v) {
         String prefix = "";
         if(v < 0) {
@@ -105,6 +113,11 @@ public class NumberService {
         return prefix + rs;
     }
 
+    /**
+     * 字符串数量转中文
+     * @param userInput
+     * @return String
+     */
     public String transFormation(String userInput) {
         //1.定义一个匹配数组
         char[] capitaLization = {'零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'};

@@ -18,6 +18,10 @@ public class SaveFilesDelegate implements JavaDelegate {
     @Autowired
     public DelegationService delegationService;
 
+    /**
+     * 保存文件
+     * @param delegateExecution
+     */
     @SneakyThrows
     @Override
     public void execute(DelegateExecution delegateExecution) {

@@ -20,6 +20,10 @@ public class SetDelegationContractIdDelegate implements JavaDelegate {
 
     private String DELEGATION_URI = "http://delegation-server/delegationServer/private/contractId/";
 
+    /**
+     * 设置对应委托的合同编号
+     * @param delegateExecution
+     */
     @Override
     public void execute(DelegateExecution delegateExecution) {
 

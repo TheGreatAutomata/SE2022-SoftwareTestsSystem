@@ -22,7 +22,10 @@ public class SetDelegationStateDelegate implements JavaDelegate {
 
     private String DELEGATION_URI = "http://delegation-server/delegationServer/private/delegationState/";
 
-
+    /**
+     * 更新对应委托的状态
+     * @param delegateExecution
+     */
     @Override
     public void execute(DelegateExecution delegateExecution) {
 

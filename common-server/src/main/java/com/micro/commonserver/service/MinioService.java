@@ -90,6 +90,13 @@ public class MinioService {
         return objectWriteResponse.object();
     }
 
+    /**
+     * 设置bucket的标识
+     * @param bucketName
+     * @param objectName
+     * @param mp
+     * @return boolean
+     */
     @SneakyThrows
     public boolean setTag(String bucketName, String objectName, Map<String, String>mp)
     {
@@ -98,6 +105,12 @@ public class MinioService {
         return true;
     }
 
+    /**
+     * 获取bucket的标识
+     * @param bucketName
+     * @param objectName
+     * @return Map<String, String>
+     */
     @SneakyThrows
     public Map<String, String> getTags(String bucketName, String objectName)
     {
@@ -108,6 +121,12 @@ public class MinioService {
         else return null;
     }
 
+    /**
+     *
+     * @param bucketName
+     * @deprecated
+     * @return boolean
+     */
     @SneakyThrows
     public boolean hasBucket(String bucketName)
     {
@@ -129,6 +148,11 @@ public class MinioService {
 
     }
 
+    /**
+     * 获取全部文件
+     * @param bucketName
+     * @return all objects
+     */
     @SneakyThrows
     public Iterable<Result<Item>> listObjects(String bucketName)
     {
