@@ -26,6 +26,10 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
     @Autowired
     public ContractService contractService;
 
+    /**
+     * 利用模板生成tex文件，再转为pdf，并存储至数据库
+     * @param delegateExecution
+     */
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
@@ -45,6 +49,11 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
     }
 
+    /**
+     * 利用模板生成测试合同tex文件，再转为pdf
+     * @param contractTable
+     * @param contractId
+     */
     @SneakyThrows
     public void generateContractTableFile(ContractTable contractTable, String contractId) {
 
@@ -244,7 +253,12 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         }
 
     }
-    
+
+    /**
+     * 利用模板生成保密协议tex文件，再转为pdf
+     * @param nondisclosureAgreementTable
+     * @param contractId
+     */
     @SneakyThrows
     public void generateNondisclosureAgreementTableFile(NondisclosureAgreementTable nondisclosureAgreementTable, String contractId) {
 
@@ -375,6 +389,10 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
         }
     }
 
+    /**
+     * 将合同文件保存至数据库
+     * @param contractId
+     */
     @SneakyThrows
     public void saveUnsignedContractFiles(String contractId) {
 
@@ -418,6 +436,10 @@ public class GenerateContractFilesDelegate implements JavaDelegate {
 
     }
 
+    /**
+     * 删除本地生成的合同文件
+     * @param contractId
+     */
     @SneakyThrows
     public void deleteUnsignedContractFiles(String contractId) {
 

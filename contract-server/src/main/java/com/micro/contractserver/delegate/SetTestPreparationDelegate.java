@@ -20,6 +20,10 @@ public class SetTestPreparationDelegate implements JavaDelegate {
 
     private String TEST_URI = "http://test-server/test/prepare/";
 
+    /**
+     * 为对应测试项目的提供相关信息
+     * @param delegateExecution
+     */
     @Override
     public void execute(DelegateExecution delegateExecution) {
 

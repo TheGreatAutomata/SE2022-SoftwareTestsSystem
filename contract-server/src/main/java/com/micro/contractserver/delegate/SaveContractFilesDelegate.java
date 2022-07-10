@@ -24,6 +24,10 @@ public class SaveContractFilesDelegate implements JavaDelegate {
     @Autowired
     MongoDBContractRepository contractRepository;
 
+    /**
+     * 保存已签订的合同文件至数据库
+     * @param delegateExecution
+     */
     @SneakyThrows
     @Override
     public void execute(DelegateExecution delegateExecution) {

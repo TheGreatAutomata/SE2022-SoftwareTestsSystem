@@ -14,6 +14,10 @@ public class DeleteContractDelegate implements JavaDelegate {
     @Autowired
     MongoDBContractRepository contractRepository;
 
+    /**
+     * 删除合同，结束合同流程
+     * @param delegateExecution
+     */
     @Override
     public void execute(DelegateExecution delegateExecution) {
 
