@@ -109,7 +109,7 @@ public class MinioService {
      * 获取bucket的标识
      * @param bucketName
      * @param objectName
-     * @return Map<String, String>
+     * @return Map
      */
     @SneakyThrows
     public Map<String, String> getTags(String bucketName, String objectName)
