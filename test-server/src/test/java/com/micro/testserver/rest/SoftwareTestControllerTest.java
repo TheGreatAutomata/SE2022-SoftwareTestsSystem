@@ -745,17 +745,23 @@ class SoftwareTestControllerTest {
         SoftwareTest softwareTest=new SoftwareTest();
 
         softwareTest.setState(SoftwareTestState.TEST_REPORT_DENIED);
+        softwareTest.setTestReport(new SoftwareTestReport());
+
         when(softwareTestRepository.findByDelegationId(Mockito.anyString()))
                 .thenReturn(softwareTest);
 
         when(processInstanceQuery.singleResult())
                 .thenReturn(null);
 
+        String body=toJson(new TestReportDto());
+
         mockMvc.perform(put("/test/{id}/apply-report-evaluation","123")
                         .header("usrId","")
                         .header("usrName","")
                         .header("usrRole","")
-                        .contentType("application/json"))
+                        .contentType("application/json")
+                        .content(body)
+                )
                 .andExpect(status().isOk());
 
         softwareTest.setState(SoftwareTestState.TEST_DOC_WORK_ACCEPTED);

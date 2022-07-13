@@ -16,7 +16,7 @@ import java.util.List;
 @EnableDiscoveryClient
 @SpringBootApplication
 @Configuration
-public class TestServerApplication implements CommandLineRunner{
+public class TestServerApplication {
     public static void main(String args[]){
         SpringApplication.run(TestServerApplication.class,args);
     }
@@ -27,13 +27,4 @@ public class TestServerApplication implements CommandLineRunner{
     @Autowired
     TaskService taskService;
 
-    @Override
-    public void run(String... args) throws Exception {
-        String id = "62c5d254140d8a454c38b57e";
-        List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId", id).list();
-        System.out.println(list);
-        System.out.println(runtimeService.createProcessInstanceQuery().processDefinitionKey("test_audit").variableValueEquals("delegationId", id).singleResult()!=null);
-        List<Task> tasks = taskService.createTaskQuery().taskName("UploadWorkEvaluationTable").processDefinitionKey("test_audit").processVariableValueEquals("delegationId", id).list();
-        System.out.println(tasks);
-    }
 }
